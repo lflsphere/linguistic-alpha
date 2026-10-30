@@ -1,0 +1,64 @@
+# Default research configuration. Override with: la <stage> --config configs/my_run.yaml
+# Every path is relative to the repo root unless absolute.
+
+paths:
+  raw: data/raw              # WRDS exports (parquet/CSV), one file per source table
+  interim: data/interim      # cleaned / linked tables
+  processed: data/processed  # event panel, features, model table
+  external: data/external    # Loughran-McDonald dictionary, labeled Q&A samples
+  legacy_panel: ../Data/panel.xlsx   # notebook output, used only for audit/regression checks
+
+wrds:
+  username_env: WRDS_USERNAME   # never hard-code credentials
+  start_year: 2010              # pull 2 extra years before sample.start for F4 + MOM history
+  end_year: 2026
+
+sample:
+  start: "2012-01-01"
+  end: "2024-12-31"             # CRSP daily ends 2024-12-31 on our subscription
+  universe: sp500_historical    # crsp.msp500list membership on the call date
+  exclude_gics_industries: ["352010"]   # Biotechnology (meeting 10/23)
+  min_prior_return_days: 60
+
+split:
+  # Scope doc says 2012-2023 build / 2024-2026 holdout; with CRSP ending 2024-12-31
+  # the holdout is effectively 2024 only. Revisit once CRSP is refreshed.
+  build_end: "2023-12-31"
+  holdout_start: "2024-01-01"
+  walk_forward:
+    train_quarters: 8
+    test_quarters: 2
+    embargo_trading_days: 20    # target window length, avoids overlap leakage
+
+events:
+  market_close_et: "16:00"      # calls at/after this (America/New_York) -> Day 0 = next session
+  missing_call_time: next_session   # conservative: assume after close when time unknown
+
+targets:
+  benchmark: sp500              # sp500 (crsp.dsi) | ff4 (robustness)
+  car_windows:
+    car_2_20: [2, 20]           # primary
+    car_2_5: [2, 5]
+    car_2_60: [2, 60]
+  min_window_coverage: 0.8
+  vol_post_window: [2, 20]
+  vol_pre_window: [-60, -5]
+
+controls:
+  sue_scaler: price             # price (scope doc) | stdev (legacy notebook) -- keep both columns
+  ibes_unadjusted: true         # statsumu_epsus / actu_epsus, avoids split-rounding
+  mom_window_months: [-12, -2]
+  include: [sue, size, bm, mom, car_0_1, vol_pre, n_analysts, dispersion]
+
+features:
+  # Level-1 families from the research framework; each lists its Level-2 measures.
+  communication_state: [tone_prepared, tone_answers, tone_gap, uncertainty, hedging]
+  interaction_quality: [qa_relevance, evasiveness, non_answer_rate]
+  consistency: [d_tone, d_uncertainty, d_evasiveness, novelty, div_qa_prepared, div_press_release]
+  history_calls: 4              # F4 baseline: mean of previous N calls
+  history_min_calls: 4
+
+models:
+  model_a: controls
+  model_b: controls + features
+  fixed_effects: [industry, quarter]
