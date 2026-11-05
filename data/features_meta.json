@@ -1,0 +1,16 @@
+{
+  "built_at": "2026-11-05T23:29:32+00:00",
+  "panel_sha256": "6113bfa06e622ecbb40892a4e43e377af7de1d69b4316ff21db7ed81cd9d1d12",
+  "n_events": 179,
+  "n_pairs": 2891,
+  "lexicon_source": "MasterDictionary.csv",
+  "embedding_backend": "st",
+  "embedding_model": "sentence-transformers/multi-qa-MiniLM-L6-cos-v1",
+  "embedding_fit_corpus": "pre-trained (no fit on this sample)",
+  "finbert": false,
+  "label_classifiers": {},
+  "sue_variant_default": "SUE_TS",
+  "qa_truncated_calls": 47,
+  "prep_truncated_calls": 12,
+  "lowprec_events": 40
+}

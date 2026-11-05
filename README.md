@@ -43,7 +43,7 @@ the legacy notebook ([docs/data_audit.md](docs/data_audit.md)).
 ## Setup
 
 ```bash
-uv venv && uv pip install -e '.[dev,wrds]'          # add ,wrds / ,models / ,nlp extras as needed
+uv venv && uv pip install -e '.[dev,wrds]' pandas numpy scipy scikit-learn statsmodels matplotlib sentence-transformers xgboost transformers torch         # add ,wrds / ,models / ,nlp extras as needed
 export WRDS_USERNAME=<your_wrds_user>          # only for `la pull`
 source .venv/bin/activate                      # Activate virtual environment
 ```
@@ -55,8 +55,19 @@ la pull                      # optional: WRDS -> data/raw (or drop web-UI export
 la transcripts               # raw CIQ components -> data/interim
 la transcripts --legacy      # same, from ../Data/panel.xlsx (lossy, see audit)
 la events | targets | controls | features | model | evaluate   # specified, not yet built
-python scripts/audit_legacy_panel.py
+.venv/bin/python scripts/audit_legacy_panel.py
 pytest
+```
+
+### Research scripts
+
+```bash
+.venv/bin/python scripts/01_build_features.py          # add --finbert for the alternative tone measure
+.venv/bin/python scripts/02_validate.py                # then label data/qa_label_sample.csv, save as data/qa_labels.csv, rerun 01 and 02
+.venv/bin/python scripts/03_cross_section.py           # robustness: --sample highprec, --delayed, --cluster year, --sue SUE_IBES, --fe firm
+.venv/bin/python scripts/04_oos.py --freeze            # add --models ols,enet,xgb to include XGBoost
+.venv/bin/python scripts/05_backtest_holdout.py        # dev-period backtest
+.venv/bin/python scripts/05_backtest_holdout.py --stage holdout
 ```
 
 ## Layout
