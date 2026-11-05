@@ -43,8 +43,9 @@ the legacy notebook ([docs/data_audit.md](docs/data_audit.md)).
 ## Setup
 
 ```bash
-uv venv && uv pip install -e '.[dev]'          # add ,wrds / ,models / ,nlp extras as needed
-export WRDS_USERNAME=<your_wrds_user>           # only for `la pull`
+uv venv && uv pip install -e '.[dev,wrds]'          # add ,wrds / ,models / ,nlp extras as needed
+export WRDS_USERNAME=<your_wrds_user>          # only for `la pull`
+source .venv/bin/activate                      # Activate virtual environment
 ```
 
 ## Usage
