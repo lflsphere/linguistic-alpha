@@ -1,0 +1,254 @@
+Microsoft Corporation, Q2 2010 Earnings Call, Jan-28-2010
+TONE_P=0.41 TONE_Q=0.53 UNC=4.12 HEDGE=4.81 EVADE=0.532 NONANS=0.11 NOVEL=nan
+====================================================================================================
+PREPARED REMARKS (raw)
+Thank you, Barb, and thanks everyone for joining us this afternoon. Let me begin by welcoming Peter Klein to
+his first earnings call as Microsoft's Chief Financial Officer. Also joining us today are Frank Brod, Chief
+Accounting Officer; and John Seethoff, Deputy General Counsel. Today, Peter will start with takeaways from the
+second quarter of our 2010 fiscal year. Then I'll get into the details of the quarter before handing it back
+to Peter who will discuss our business outlook. After that, we'll take your questions. We filed our Form 10-Q
+this afternoon. In addition, we posted our quarterly financial summary slide deck, which is intended to follow
+the flow of our prepared remarks, as well as provide a reconciliation of differences between GAAP and non-GAAP
+financial measures. You can find these documents at the Investor Relations website at www.microsoft.com/msft.
+Today's call will be webcast live and recorded. If you ask a question, it will be included in our live
+transmission, any future use of the recording and in the transcript, which will be posted on our website. You
+can replay the call and view the transcript at the Microsoft Investor Relations website until January 28,
+2011. This conference call is protected by copyright law and international treaties. Unauthorized reproduction
+or distribution of this call or any portion of it, without expressed written permission of Microsoft, may
+result in civil and criminal penalties. We will be making statements during this call that are forward-
+looking. These statements are based on current expectations and assumptions that are subject to risks and
+uncertainties. Actual results could materially differ because of factors discussed in today's earnings press
+release and the comments made during this conference call and in the Risk Factors section of our Form 10-K,
+Form 10-Q and other reports and filings with the Securities and Exchange Commission. We do not undertake any
+duty to update any forward-looking statements. Okay, Peter, it's all yours.  Thanks, Bill, and good afternoon,
+everyone. It's a pleasure to be joining you for my first earnings call. I've met with many of you over the
+last two months and during my prior role with the Microsoft, and I look forward to spending time with many
+more of you in the months ahead. Over the course of my career, both inside and outside of Microsoft, in good
+economies and bad, I have learned that there are a few constants that persistently translate to success:
+Working with great people and relentlessly focusing on creating value for customers, employees and
+shareholders. I'm delighted I have the opportunity to do that in my new role, building on our current momentum
+and driving future growth. Now let me share some thoughts on our second quarter results. We reported record
+revenue and a record profit. These results were driven in large part by strong consumer demand for Windows 7
+and PCs. While consumer demand remains healthy, we have not seen a return of enterprise-spending growth.
+Meanwhile, our ongoing work in managing expenses and aligning our cost structure to the highest priorities
+have enabled us to drive earnings growth ahead of revenue growth. We also returned $4.8 billion of cash to
+investors through dividends and stock repurchases. As we have previously discussed, we are just starting our
+strongest product cycle ever. This quarter was highlighted by the successful launches of Windows 7, Windows
+Server 2008 R2 and Exchange 2010 [Microsoft Exchange Server 2010]. We released Office 2010, the Beta, and
+introduced more Bing innovations this quarter. Bing has now gained market share each month since its launch.
+We also announced upcoming releases of two very important and compelling offerings that will drive growth into
+the future: Windows Azure and Natal [Project Natal]. Azure is our cloud platform, which is providing
+developers, partners and our customers a smooth transition to the cloud with tools and processes they already
+know. Natal, which is based on our natural user interface work, will energize this generation's gaming and
+entertainment experience starting this coming holiday season. So in summary, I'm very pleased with our
+progress this quarter. We have momentum with products and market, we have an exciting pipeline of new products
+and we delivered strong financial results. I'll now hand the call back to Bill to give you some additional
+details on the quarter, and then come back and provide some thoughts on our outlook.  Thanks, Peter. I'll
+start with the company overview and then go through revenue performance for each of our business units. I will
+then review the rest of the income statement. Please keep in mind that all growth comparisons relate to the
+corresponding quarter of last year, unless I specify otherwise. As Peter mentioned, we had an exceptional
+quarter with record revenue and profit. Overall, revenue grew 14% to just over $19 billion, primarily driven
+by strong Windows 7 consumer demand. Net income and earnings per share were $6.7 billion and $0.74,
+respectively. Excluding the $1.7 billion of revenue recognized from the Windows 7 upgrade program and Windows
+7 licenses sold in advance of general availability, revenue grew 4%. Foreign exchange did not have a
+significant impact on revenue during the quarter. Our product billing mix in the second quarter was roughly
+the same as last year with 30% annuity, 30% OEM and 25% license-only with the balance coming from our other
+businesses. Now let me dive deeper into the overall revenue mix. Geographically, emerging markets grew mid-
+teen while mature markets grew single digits. In terms of segments, consumer demands continue to be the driver
+of growth. While we saw a stabilization in the business segment, as Peter mentioned, we have not seen a return
+of enterprise-spending growth today. Enterprise Agreement sales cycles have lengthened and multi-year annuity
+revenue was flat year-over-year. Unearned revenue was $12.5 billion, down sli
+====================================================================================================
+Q&A PAIRS
+
+[pair 0 | REL=0.500 | REL_JAC=0.099 | NONANS_RULE=0]
+Q: My question is around average selling prices. If you look at the average selling prices in the quarter, they
+improved sequentially and obviously, you're seeing both mix help that in the consumer side. But as we get a
+little bit deeper into the corporate upgrade cycle, you're going to see a lot higher dollar value. How should
+we be thinking about average selling prices? Should we see steady sequential improvement there, or some of the
+puts and takes around where you're seeing growth in the PC market going to offset that?
+A: Obviously, the biggest driver of the ASPs will be the business PC refresh and the growth in that. And the
+timing of that remains uncertain. We maintain our general view, which we've had, that, that will start to
+occur this year and occur gradually over the next couple of years. So what that does, that obviously has an
+impact on our average selling prices. What we saw this quarter, on the consumer side, with a great adoption of
+Home Premium, as well as Windows 7 on netbooks, which is driving that upsell that Bill talked about, for those
+two things combined will be the drivers and it just really depends on the macro.
+
+[pair 1 | REL=0.188 | REL_JAC=0.040 | NONANS_RULE=0]
+Q: And do you think you saw a one-time spike there, or do you think that premium mix can remain at that high
+level?
+A: No, we think as we said in the guidance, revenues are going to be in line with PCs. There's some headwinds
+from emerging markets and consumers, so we'll have to offset that with the ASPs and other thing and attach.
+
+[pair 2 | REL=0.321 | REL_JAC=0.043 | NONANS_RULE=1]
+Q: Can I ask a question on the cost side? So there still seems to be some debate on the street as to how tighter
+reign you'll keep on costs, even though you guys have done a phenomenal job thus far. So I know you're not
+guiding for fiscal '11 on this call, but could you maybe just philosophically talk a little bit about the
+growth rate? I think you've messaged a low-single-digit inflation type rate. And then just on the COGS side,
+flat for this year is a great outcome. But for next year, as Azure and so on kicks in, I'm assuming we should
+assume gross margin continues to come down.
+A: Yes, obviously, it's too early to talk about FY '11. We're working through that planning process right now and
+as soon as we get through that, I'll certainly get out and talk to everybody about that. Let me hit the
+operating costs. We are executing against our plan very effectively. So I've been focused on, even before
+taking this role, working with Chris and the leadership team on that, and feel great that we've got a
+thoughtful plan that we've come up with and we're doing what we said in executing against that. A big part of
+that is prioritization in making sure the resources are allocated to the high return area. And that will be
+the approach that we take when we build our FY '11 plan absolutely. So that approach stays the same.
+
+[pair 3 | REL=0.301 | REL_JAC=0.034 | NONANS_RULE=1]
+Q: And on the COGS side and assumption at Azure will continue to drive that down?
+A: I think the multiple dynamics on the COGS side is it's too early to get into that FY '11. There are puts and
+takes in the online services, traffic acquisition costs offset by improvements we make across the board
+whether that's Xbox 360 consoles and some of our operations as well. So we'll just have to get through the
+planning process on that.
+
+[pair 4 | REL=0.650 | REL_JAC=0.089 | NONANS_RULE=0]
+Q: On the Enterprise Agreements, I think Bill, you mentioned the sales cycles lengthened and your flat year-over-
+year. Peter, can you just elaborate in terms of what you expect for the second half of the fiscal year on
+Enterprise Agreements? And I would think considering the robustness of the product cycle that that would start
+to trend back up.
+A: Yes, that is the hope. Certainly of the Enterprise Agreement renewals, it is starting to take longer but we're
+getting them done, the sales cycle is just elongating. The good news is, we're getting them done maybe not in
+the quarter that they expire, but when we get them done we're not dropping products off of them. And in most
+cases, we're actually adding new products on to the EA   and so we feel great about the trajectory there. And
+I tend to agree with you that as the enterprise spend does pick up, given our product pipeline we feel very
+well positioned from an Enterprise Agreement perspective.
+
+[pair 5 | REL=0.349 | REL_JAC=0.125 | NONANS_RULE=0]
+Q: I was wondering if you could help us think about the trends in deferred revenue? Obviously that's going to be
+a big driver of your fiscal '11 growth. And in particular, last year was obviously a challenging year for
+enterprise spending and you're saying that enterprise spending isn't coming back. So would it be fair for us
+to think about your sequential deferred trends for the remainder of fiscal '10 being more in line with what
+you had in the back half of your fiscal year '09 just so we can help shape our models for the upcoming season?
+A: Well, it's hard to say. A lot of that's going to depend on the shape of enterprise spend and business spend.
+Obviously, we're...
+
+[pair 6 | REL=0.606 | REL_JAC=0.111 | NONANS_RULE=0]
+Q: Well, based on how you think spend is going to come out? Based on your views about enterprise spending not
+coming back anytime soon?
+A: I think it's largely -- the thing that I can say is, we have the great product pipeline. We don't have a
+visibility into exactly what business spend will be. So we're just going to have to work through that over the
+next couple of quarters. The only thing we can control as we've been saying is the product. We feel like we're
+executing against those and we'll keep working the Enterprise Agreements as we can.
+
+[pair 7 | REL=0.328 | REL_JAC=0.026 | NONANS_RULE=0]
+Q: So does that mean it would be unreasonable to assume? I mean, last year, I would imagine it was a difficult
+closing environment as well, so is it a measure of conservatism with kind of seasonal growth rates like you
+had last year and deferred the prudent in your view versus expecting an uptick?
+A: I would just encourage anybody to think their view, the different views of what enterprise spend is going to
+be. You'll just have to apply your view of that. I don't think we're going to give guidance on that, Heather.
+Can we move to the next question.
+
+[pair 8 | REL=0.513 | REL_JAC=0.075 | NONANS_RULE=0]
+Q: Peter, just wondering there's a lot that's been written about how you could deploy Windows 7 on the consumer
+side or on the business side, on existing hardware without having to upgrade. I'm just curious on the consumer
+side and on the business side. What are you hearing? Can you give us some anecdotal data or revenue that
+you're seeing from so-called shrink-wrap purchases on the consumer side and maybe on the business side as
+well? The threshold, you don't need to buy a brand new PC but I guess, you could deploy Windows 7 on existing
+hardware. What are you seeing on the business and consumer market in regards to that?
+A: On the consumer side, we had a very good retail quarter about $500 million, which is a little bit more than we
+expected. So that dynamic that you highlighted is actually happening. People are going to retail and buying
+shrink-wrapped Windows to put on their PCs. On the business side anecdotally, a lot of interest. Businesses
+are incredibly enthusiastic about deploying. And so we'll hope to see that flow through over the coming year.
+So in both cases, a lot of positive momentum as you indicate.
+
+[pair 9 | REL=0.609 | REL_JAC=0.067 | NONANS_RULE=0]
+Q: Following up on the consumer question, a year ago netbooks were a huge concern. And it sounds like on the
+year-over-year basis, they didn't really change as a percentage and maybe there was some pricing changes on
+Windows 7. Is the dilutive impact of netbooks stabilized or start to change anyway?
+A: Yes. I would definitely say it's stabilized. The mix has stayed stable, our attach   is very high over 90%,
+and as Bill said, over 50% percentage of that is Windows 7. And so what we're finding is, people want Windows
+7 on all devices and all form factors. And that's really what's been driving the quarter and the success of
+Windows 7. And we've worked closely with all of our OEM partners to deliver the broadest range of devices,
+PCs, notebooks, whatever you have. Whether it's netbook or a laptop or notebook or a desktop, Windows 7 is on
+them. So that's very positive for us.
+
+[pair 10 | REL=0.510 | REL_JAC=0.039 | NONANS_RULE=0]
+Q: Peter, a couple of weeks ago, you guys announced a bit of a reorg   in the E&D   segment. Could you maybe help
+us understand how some of those moves can help you close the gap in those businesses, especially in the mobile
+side in some of the devices going forward?
+A: Yes, they don't change the strategy that we have in both those businesses. And in E&D, if you need to separate
+mobile from the entertainment side of the Xbox side. The Xbox is in a very good position right now. We've got
+a great installed base of engaged users. We've got the Xbox Live asset, we've got Natal coming out, we're
+working through the profitability on the console costs. So a ton of momentum and a really exciting year coming
+up. On the Mobile side, our strategy remains the same. As we've been saying from a product perspective, we're
+working very hard on the next version of Windows Mobile, as Bill indicated, we'll be talking more about that
+in Barcelona in a few weeks. But I wouldn't think of the organization changes that's fundamentally changing
+the strategy. It just puts us in a better position to continue to execute against what we're doing.
+
+[pair 11 | REL=0.444 | REL_JAC=0.102 | NONANS_RULE=0]
+Q: Just on the operating expense side, if I back into sort of just the midpoint of your guidance, it basically
+implies that a year-over-year increase in OpEx in the second half of about 10.9%, give or take, versus the
+obviously the decline in the first half. And I understand that we're starting to anniversary some of the
+headcount reductions. But I just want to give a sense for what's driving that increase, sort of what line
+items or initiatives?
+A: Yes, so the biggest ones are the ones that I've talked about. There's the Yahoo! integration expenses which is
+a one-time new expense that we didn't have last year. And then given the increase to the revenues that we'll
+see over the recessionary levels that we saw last time, there's just some variable sales costs to go along
+with that and those drive year-over-year increases and those are the two biggest things. And obviously, we've
+been aware of those that's been included in our plan and our guidance that we've had for the last several
+quarters.
+
+[pair 12 | REL=0.668 | REL_JAC=0.074 | NONANS_RULE=0]
+Q: Peter, it looks like the OEM license unit growth on the OS is about 5% to 7% greater than the PC unit growth.
+With the launch of this, is that Delta   was like 8% to 10%. And I'm just curious because there was some
+decent reviews on Vista when it came out, but there's really -- there were some questions at that point and in
+the end, it really looks like Windows 7 is going to be much greater success for you. I'm just curious if you
+think you can see some more, I guess, I know there's a lot of things that affect that, but inventory build in
+the launch of a new OS seems to have a big effect. And where the inventories are today, do you think you can
+see even more benefit in the following quarter?
+A: Well, two things. Inventories, they are about a normal level. So we feel pretty good in all the checks we've
+done on sell-through, inventories at normal level. In terms of the comparison to Vista, it's a different world
+now, right? We have some headwinds that we may not have had then in terms of the mix, the sort of segment mix
+that Bill talked about in terms of consumer and emerging market which is really some headwind. And so if you
+break it out that granularly, and you look at the attach in inventory gains of 10%, half of that being
+attached, that's a good result. And as I mentioned before, for us to continue to grow in line with the PC
+market given those headwinds of the segment mix, we're going to continue to have do better on attach and
+inventory and some of the upsell as well.
+
+[pair 13 | REL=0.525 | REL_JAC=0.206 | NONANS_RULE=0]
+Q: Peter, by when can we expect market share gain by being also translating into revenue growth acceleration? And
+any update on the timing of regulative approval for Microsoft-Yahoo! deal?
+A: No update. We're still waiting for regulatory approval and we're still hopeful we will close that deal early
+this year. It's a long-term process. We're continuing to gain share. What we really need to do is get the
+Yahoo! deal done, get that integrated, start to get the benefits of scale. So this is something you would
+expect to see in 2011 and beyond.
+
+[pair 14 | REL=0.666 | REL_JAC=0.035 | NONANS_RULE=0]
+Q: Just turning to the enterprise adoption cycle around Win 7  , can you give us any sense in terms of what
+you're seeing when you talk to corporates out there? I know you guys don't want to pre-announce Service Pack
+1, but any kind of visibility in terms of how you think the adoption cycle might play out over the course of
+this year would be useful.
+A: Yes, it's hard to say exactly how we will plan. I will tell you that the activity and the conversation,
+there's nothing about waiting for Service Packs for sure. Everybody is really super excited about Windows 7
+right now, so there's a ton of activity. How that will play out in deployment cycles remains to be seen and
+people are working through that. But I would say there's way more business activity now than in previous
+launches.
+
+[pair 15 | REL=0.559 | REL_JAC=0.108 | NONANS_RULE=0]
+Q: It looks like you bought back almost $4 billion in stock this quarter, is that right? And then Peter, can you
+just tell us what your philosophy is going forward on repurchases and dividends.
+A: Yes, it was about $3.6 billion, so you're about -- my philosophy over the long term can be very consistent
+with what we've been doing. We had a target amount of cash, the appropriate cash, that we think we need to
+have. And then, the operating cash flow after capital and acquisitions will be, over the long term,
+distributed back to shareholders in the form of dividends and share repurchases. So exactly same consistent
+philosophy we've had over the last several years.
+
+[pair 16 | REL=0.429 | REL_JAC=0.042 | NONANS_RULE=0]
+Q: The guidance on the Entertainment and Devices division is roughly flat. Can you walk us through some of the
+puts and takes, particularly as we get into later stages of the product cycle and the macro of them?
+A: Yes, so the puts and takes are -- you should think about there's some whole generation of gaming. We've got
+Natal coming out this year, so you should think of it beyond the rest of the fiscal year. And then, how we go
+up and down depends on timing of software titles. We have industry-leading attach, there's a big difference on
+timing when we have first-party titles versus third-party titles. So I would consider what we're doing
+excellent growth and then it gets sort of reenergized with Natal as we head to holiday next year.
+
+[pair 17 | REL=0.257 | REL_JAC=0.036 | NONANS_RULE=0]
+Q: So maybe roughly flat for the calendar year or roughly flat for the fiscal year?
+A: That was the fiscal year, we haven't talked about FY '11 yet. So that will wrap up the Q&A portion of today's
+earnings call. Remember that you can access this call on the Microsoft Investor Relations website at
+microsoft.com/msft. Please keep in mind that we will be at a number of conferences in the next couple of
+months, including Mobile World Congress in February. In addition, Bob Muglia, President of Server & Tools,
+will present at the Goldman Sachs Conference in February; and Peter will deliver a keynote speech at the
+Morgan Stanley Conference in March. Please contact us if you need additional details. We hope to see you
+there. Thanks again for joining us today.

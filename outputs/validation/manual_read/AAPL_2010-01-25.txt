@@ -1,0 +1,442 @@
+Apple Inc., Q1 2010 Earnings Call, Jan-25-2010
+TONE_P=0.90 TONE_Q=0.10 UNC=3.77 HEDGE=8.39 EVADE=0.491 NONANS=0.06 NOVEL=nan
+====================================================================================================
+PREPARED REMARKS (raw)
+Thank you. Good afternoon and thanks to everyone for joining us. Speaking today is Apple's CFO, Peter
+Oppenheimer; and he'll be joined by Apple's COO, Tim Cook; and Treasurer, Gary Wipfler for the Q&A session
+with the analysts.  Please note that some of the information you'll hear during our discussion today will
+consist of forward-looking statements, including without limitation, those regarding revenue, gross margin,
+operating expenses, other income and expense, stock-based compensation expense, taxes, earnings per share and
+future products. Actual results or trends could differ materially from our forecast. For more information,
+please refer to the risk factors discussed in Apple's Form 10-K for 2009 and the Form 10-Q for the first
+quarter of fiscal 2010 filed earlier today. Apple assumes no obligation to update any forward-looking
+statements or information which speak as of their respective dates. With that I'd like to turn the call over
+to Peter Oppenheimer for introductory remarks.  Thank you, Nancy. Thank you for joining us. We're thrilled to
+report our best quarter ever. We posted Apple's highest quarterly revenue and earnings and set new records in
+sales of Macs and iPhones. We're shipping the best products in our history and customers love them. Today, we
+are reporting our current results as well as all historical comparisons under the new accounting principles we
+discussed with you on our last earnings conference call, which I'll explain in detail after going through the
+highlights of our record-breaking December quarter. Revenue for the quarter was $15.68 billion, growing 32%
+over the prior December quarter's results and surpassing a previous quarterly record by almost $3.5 billion.
+Operating margin was Apple's highest ever at 2.73 billion representing 30.1% of revenue. Net income was $3.38
+billion, up 50% over the year-ago quarter and was almost 850 million higher than our previous quarterly
+record. Earnings per share were $3.67.  Turning to the details of our results. I'd like to begin with our Mac
+products and services. We generated record Mac sales of 3.36 million, beating our previous record set in the
+September quarter by over 300,000. Quarterly Mac sales grew 33% year-over-year and this compares extremely
+favorably to IDC's latest public estimate of 17% growth for the market overall in the December quarter. We are
+extremely proud of this result and believe our Mac hardware and software are providing outstanding innovation
+and value that our customers really love. Response to the new iMacs introduced in October was very strong,
+contributing to 70% year-over-year growth in desktop sales. Customers are thrilled with the iMac's tremendous
+new features, including enhanced performance, the widescreen LED display, wireless keyboard and new Magic
+mouse. Portable sales were also robust during the quarter, increasing 18% year-over-year, based on strong
+sales of both MacBook and MacBook Pro. We experienced very strong demand following the October launch of the
+new MacBook, which features a new durable unibody design, brilliant LED display, glass Multi-Touch trackpad
+and enhanced performance. The new iMac and MacBook launches showed very strong results in or education
+business during the quarter. Overall, Mac sales through our U.S. education channel increased 16% year-over-
+year, as we set new December quarter records from both K-12 and higher channels. We began and ended the
+quarter with between three and four weeks of Mac channel inventory.  Now I'll turn to our music products. We
+sold almost 21 million iPods compared to 22.7 million in the year-ago quarter. As expected, sales of our
+traditional iPods declined year-over-year, but the very strong 55% year-over-year growth in sales of iPod
+Touch resulted in an overall iPod ASP increase of 9% and revenue growth of 1%. Our share of the U.S. market
+for MP3 players remains at over 70% based on the latest monthly data published by NPD and iPod was the top-
+selling MP3 player and continued to gain share internationally year-over-year in most countries we track based
+the latest data published by GfK. The iTunes Store delivered a record-breaking quarter, with strong sales of
+music, video and apps. iTunes has the world's largest online music catalog with a selection of 11 million
+songs. iTunes also features over 8,000 Hollywood films, including 2000 HD videos, 10,000 music videos and over
+50,000 TV episodes. The App Store continues to be an unparalleled success with more than 3 billion downloads
+to date by iPhone and iPod Touch users in 77 countries. We ended the quarter within our target range of four
+to six weeks of iPod channel inventory on a look-forward basis. I'd now like to turn to the iPhone. We are
+thrilled to have sold over 8.7 million iPhones during the quarter, which is a new company record and an
+increase of 100% over the prior December quarter. This compares extremely favorably to KAnalysis latest
+published estimate of 35% growth for the smartphone music [ph] overall in December quarter. Recognized revenue
+from iPhone handset sales, accessory sales and carrier payments was $5.58 billion during the quarter, compared
+to $2.94 billion in the year-ago quarter. The sales value of the 8.7 million iPhones sold in the quarter was
+over 5.4 billion resulting in an ASP of about $620 [ph] . We added 70 new carriers during the quarter
+including Canada Bell in TELUS, Orange in the UK, China Unicom and KTF of South Korea. We now have iPhone
+distribution in 86 countries and we are very pleased with the international growth we achieved as we've both
+countries and carriers. We experienced very strong year-over-year growth in a number of major markets,
+including Japan, Australia, the U.K., France and Germany. Satisfaction and demand for iPhone in the corporate
+environment remains strong. In fact, business customers have ranked iPhone the number one smartphone in J.D.
+Power's Customer Satisfaction Survey for the second year in a row. And we have c
+====================================================================================================
+Q&A PAIRS
+
+[pair 0 | REL=0.765 | REL_JAC=0.075 | NONANS_RULE=0]
+Q: The Mac was impressive 33% growth third quarter consecutive consolidated   Mac growth rate and   a combination
+of new products and better economy, but before the slowdown, Macs were growing at 41% in June of 2008. Besides
+the law of large numbers, is there any reason to think that the Mac growth rate won't continue in these just-
+reported ranges?
+A: Hi, Gene, it's Tim. We're thrilled to see the Mac at the 33% growth rate. It is about two times the market.
+And so I wouldn't want to predict what will occur in the future. As you know, we don't do that other than to
+give guidance. But I would point out that some of the markets that we're in, the Mac growth was absolutely
+spectacular. As an example, Italy, France, Switzerland and Spain all grew at 40% or higher. Australia was up
+over 70%, China was up almost 100%. And so we've got -- there's some markets out there that we're doing
+extremely well and we'll just have to see where it takes us. But we believe that we're shipping the best
+products that we've ever shipped before and are very confident about the pipeline.
+
+[pair 1 | REL=0.731 | REL_JAC=0.033 | NONANS_RULE=0]
+Q: And just one quick follow-up question, regarding AT&T, 40% of your iPhone units are in AT&T buyer/residents.
+Obviously, AT&T has had a lot of bad press here recently and obviously that impacts your brand. Can you remind
+us what the benefits and the virtues of sticking with a single carrier in the U.S. are?
+A: First of all, AT&T is a great partner. We've been working with them since, really since well before we
+announced the first iPhone to get it out. And I think it's important to remember that they had more mobile
+broadband usage than any other carrier in the world. And in the vast majority of locations, we think that
+iPhone customers are having a great experience from the research that we've done. As you know, AT&T has
+acknowledged that they're having some issues in a few cities and they have very detailed plans to address
+these. We have personally reviewed these plans and we have very high confidence that they'll make significant
+progress towards fixing them.
+
+[pair 2 | REL=0.683 | REL_JAC=0.058 | NONANS_RULE=0]
+Q: Peter, I wanted to ask you about gross margin. I know that you've switched over the accounting, but it looked
+like under the prior accounting method, your gross margin would've been somewhere north of 37%, which is well
+above the 34% that you guided to on the last call. And I was hoping that you could, as you usually do, give us
+a sense of the puts and takes on gross margin during the December quarter? And for the March quarter as well.
+A: As you know, we're reporting our results for the December quarter today under the new accounting principles.
+And the guidance that we provided, as you said, Rich, was under the historic principles. So the two are not
+comparable. But let me try and help, and actually I like to first start with revenue. Our actual revenue of
+15.68 billion exceeded the guidance that we gave under the old accounting principles by over 4 billion. And
+roughly half of that was attributed to the performance of the business, we set records for Mac and iPhone
+shipments, had a great iTunes quarter -- and by the way, iPod Touch up very strongly, 55%. And the accounting
+change accounted for the other half of the 4 billion. We focused our attention on converting to the new
+accounting, which was really complex and I'm so proud of how hard the finance team and the systems teams
+worked to accomplish this so quickly after the FASB amended the standard. So we didn't spend as much time
+really diving into the gross margin. But I can tell you that the December quarter gross margin of 40.9 was a
+bit better than we expected heading into the quarter due to three factors. The first is, we did experience a
+better commodity environment then we had anticipated. Second, we had better warranty performance and lower
+freight and duty cost than we had anticipated. Second, we had better warranty performance and lower freight
+and duty costs than we planned. And we did benefit from the higher revenue and leveraged some of our fixed
+cost. As we go forward to the March quarter, I would expect gross margin to be about 39%, down a little bit
+sequentially as a result of three factors, all about equal in size. The first is we do expect the higher
+component environment and some other cost in the March quarter, relative to what we saw in December. Second,
+we'll have a very typical seasonal decline in revenue and so we won't have as much leverage on our fixed cost
+and we won't the benefit of a couple of small one-time items that we had in the December quarter, not
+repeating. And then finally, the U.S. dollar has strengthened here in the new calendar year from where we were
+in the December quarter. And that's having an impact as well.
+
+[pair 3 | REL=0.502 | REL_JAC=0.081 | NONANS_RULE=0]
+Q: Peter, if I could ask a quick follow-up, could you elaborate on which component prices you expect to be up in
+the March quarter?
+A: Hey, Rich, this is Tim. For this quarter compared to last quarter, we're continuing to see that the market is
+very constrained in VRAM. And we do expect that, that will drive prices higher sequentially. For the vast
+majority of the other commodities, it appears to us that the excess inventories that causes prices to fall
+last year have been depleted and are more in a supply-demand balance. The one exception to that is the 3.5
+inch drive, which it will be supply constrained.
+
+[pair 4 | REL=0.305 | REL_JAC=0.000 | NONANS_RULE=0]
+Q: First of all, just a clarification. Did the guidance you gave include any impacts from unannounced products
+this quarter?
+A: Bill, I think you're maybe alluding to our event on Wednesday. And I don't have anything to share with you
+today, so please stay tuned.
+
+[pair 5 | REL=0.693 | REL_JAC=0.111 | NONANS_RULE=0]
+Q: And then off of that, now that the iPhone business has been around for several years, can you guys provide us
+some color on how should we should think about March quarter seasonality and also can you give us an update on
+how we should think about channel inventory within the iPhone business?
+A: First of all the channel inventory question. We ended the quarter with approximately 2.7 million units in the
+channel. I would remind you that, that includes demos and also includes in transit inventories that have been
+invoiced to carrier. And so we probably count that in a more conservative manner than others might. In terms
+of seasonal, I think Peter will comment on that. Maybe, Bill, I'll talk about all three of our product areas.
+For Mac, we would expect to see a sequential decline, which is very typical in the March quarter from the
+December holiday quarter. For iPod, we certainly would expect to see the same. And given that our expectations
+in traditional iPod sales will decrease over time, the sequential decline may be a little bigger than we've
+seen in prior years. And we don't have a lot of experience with iPhone, but certainly gaining some. And given
+that the quarter ended after Christmas, we would expect to see a sequential decline in the March quarter from
+December, which is we think a very seasonal.
+
+[pair 6 | REL=0.522 | REL_JAC=0.078 | NONANS_RULE=0]
+Q: Peter, your free cash flow is $5.88 in the quarter if I calculated it right and higher than EPS. Do you see
+any dynamics that would change the way you're generating free cash flow versus earnings and do you think that,
+that will remain the case over the long term?
+A: Well, the cash generation in the quarter was very, very strong. GAAP earnings under the new accounting, which
+have a very small deferral for iPhone and Apple TV, were just under 3.4 billion and our cash increased by 5.8
+billion. And our cash flow from operations, about equal to our total cash generation. And it really speaks to
+the power of our business model and our asset management. And Ben, to answer your question, I don't see that
+changing. We're very, very good with our receivables and our inventory and management, and with payables as
+well. We've been operating on a cash conversion cycle in a range of about a negative 40 days for as many years
+as I can remember. And I'm not looking to see that change.
+
+[pair 7 | REL=0.416 | REL_JAC=0.039 | NONANS_RULE=1]
+Q: And with regard to the iPhone, could you talk a little bit more about China? In particular, did that meet your
+expectations in the quarter? And how is that looking into this year, and do you think you'll add more partners
+over time in that area as well? iPhone related, obviously.
+A: We typically do not disclose units by country but given the visibility of this one, I'll do so. We started
+selling in China, as you know, at the very end of October, beginning in November. Earlier this month, we had
+cumulatively activated over 200,000 units, crossing the 200,000 unit mark. We ramped the point of sales across
+that period of time to end at about 1,500 by the end of Q1. And we are very, very focused on the quality of
+the point of sales and the customer experience. And so we would prefer to move slow because we're building the
+brand for the long-term and we're very much focused on the long-term in that market because we think there's
+significant potential there. I wouldn't want to forecast where sales will go and what we may or may not do
+from a partner point of view, but we're very happy with working with China Unicom. They're an excellent
+partner for us and I am thrilled that we are underway and have got about two and a half months of experience
+under our belt.
+
+[pair 8 | REL=0.630 | REL_JAC=0.118 | NONANS_RULE=0]
+Q: First, can you just comment on your comfort level with iPhone inventory? You mentioned you expect iPhones to
+be seasonally down, but channel inventory was up. I know you were kind of below where you want inventory to be
+last quarter, so perhaps you could just clarify, is four to six weeks the right number? Are you bright in the
+middle of that? How do we think about iPhone channel inventory?
+A: Toni, it's Tim, you're correct, channel inventory grew by about 230,000 units from the beginning to the end of
+the quarter to around the $2.7 million level. We are completely comfortable with it. We could have sold a lot
+more and elected not to because we're managing inventories very tightly. I'm not putting a target of four to
+six weeks up there on iPhone, we do have that target on iPod as you know, and we have a target on the Mac of
+four to five. We ended under the Mac number and ended within the iPod number despite, although we did pull the
+inventory on the iPod down from beginning to end of the quarter by about 150,000 units. On the phone  , we
+obviously had expansion through the quarter in terms of the number of carriers that we're dealing with, within
+some existing countries and also launched some larger countries like China and Korea and really needed more
+inventory than we started with. But I feel totally comfortable with it.
+
+[pair 9 | REL=0.394 | REL_JAC=0.031 | NONANS_RULE=0]
+Q: Any update on litigation? Obviously, relatively high-profile suit from Nokia? And can you, a, give us an
+update at all? Or equally importantly, can you confirm that there's no potential material risk to Apple's
+financial from litigation expense or settling patent infringement losses going forward?
+A: Toni, as you know, we've had a long-standing practice of not commenting on pending litigation.
+
+[pair 10 | REL=0.606 | REL_JAC=0.104 | NONANS_RULE=0]
+Q: Finally, on the gross margin side, I think your guiding on your new GAAP basis for gross margins to be down
+from 40% last year to 39% this year. How do we think through that, given the iPhone gross margins are 60%,
+iPhone is just for 100%, year-over-year growth is going to be very strong. So you're going to have a huge mix
+shift to iPhone. How do we just reconcile the notion on a year-over-year basis that overall company gross
+margin should be going down given that mix shift?
+A: Toni, it's Peter. As I've commented before, it's very difficult for us to talk about gross margin on a year-
+over-year basis because we're in different product cycles, different commodity cycles, currency mix can be
+different and other factors as well. And I do see our gross margin coming down a bit on a sequential basis
+from where we ended the December quarter and I can go back through that if you want but answer that and
+Richard's question.
+
+[pair 11 | REL=0.628 | REL_JAC=0.034 | NONANS_RULE=0]
+Q: I have a two-part question. The iPhone application approval process has come under constant criticism for
+delays and reportedly arbitrary guidelines for acceptance. First, is the problem the model itself or Apple
+acts as the gatekeeper for the implementation of the model? And second, have you received any feedback from
+iPhone owners who shop at the store? Would they also prefer an alternative?
+A: Charlie, it's Tim. I think it's important to keep this in some perspective that we have over 100,000 apps on
+the store. And that over 90% of the apps that we've had, have been approved within 14 days of the submission.
+We created the approval process to really make sure that it protected consumer privacy, safeguard children
+from inappropriate content and to avoid apps that degrade the core experience of the phone. Some types of
+content, such as pornography are rejected out right. Some things like graphic combat scenes and action games
+might be approved, but with appropriate age ratings. Most of the rejections however are actually bugs in the
+code itself and this is protecting the customer and the developer to a great extent because they don't want
+customers who are unhappy with the apps. So I think what you have here is something that -- the noise on it
+occasionally may be much higher than reality with over 90% approved within 14 days, I think this is pretty
+good.
+
+[pair 12 | REL=0.125 | REL_JAC=0.000 | NONANS_RULE=0]
+Q: On the second question, have you got any feedback from the iPhone owners who buy at the stores? And are they
+comfortable and are they happy with it?
+A: I have not and in the research that I've seen from our team, I don't see it in the research.
+
+[pair 13 | REL=0.405 | REL_JAC=0.000 | NONANS_RULE=0]
+Q: In view of the fact that you did indicate in your release and I think probably everybody except maybe some
+folks on the moon know that you're going to be unveiling something exciting soon. How do you feel maybe, Tim,
+about sort of new product category opportunities ahead? Do you feel that, can you see things that are as large
+an opportunity for Apple, as has been the iPhone, the iPod, the Mac? Or is that perhaps setting expectations
+too high?
+A: Mike, I wouldn't want to take away your joy of surprise on Wednesday when you see our latest creation, so I'll
+just delay that for Wednesday.
+
+[pair 14 | REL=-0.082 | REL_JAC=0.043 | NONANS_RULE=0]
+Q: And when we see your latest creation, will you perhaps give us visibility to things like whether it's in your
+guidance or not? And so on and so forth to help us understand a little bit better, of how to think about how
+things will unfold from an analyst point and investor point of view?
+A: Mike, it's Peter. Stay tuned.
+
+[pair 15 | REL=0.413 | REL_JAC=0.075 | NONANS_RULE=0]
+Q: I want to revisit the discussion on China and emerging markets from a broader perspective because these
+regions often share characteristics that are very different than the mature markets where you've had lots of
+success, particularly the percentage of customers that purchase phone service at a prepaid basis, lower
+average income levels, et cetera. So if you think about those barriers, is it appropriate to rollout iPhone
+and other products and pricing and distribution, in a homogenous or a global way? Or might you down the road,
+have to look at it on a country-by-country or region-by-region basis?
+A: Katie, it's Tim. We have just really got going in China. I really like what I see so far. It's -- although the
+average income is not nearly as high as perhaps the United States and some other Western European markets,
+there is a significant size middle class in -- up there. And so, I think it's somewhat a -- I think to do a
+real deep analysis, you really have to look, not just at the averages, but at the distribution of income
+within these countries. We have been selling in Brazil for a while and we are learning about Brazil as well.
+The Brazilian economy is different than the Chinese economy because the duties are very significant, and the
+taxes are very significant there, which tends to compound the price. But we are very focused on these markets
+and in fact, if you look at greater China last quarter, which is China, Hong Kong and Taiwan, our revenues
+tripled year-over-year in that geography, which is I think phenomenal by any measure. And so we have a
+tremendous focus on it. As was alluded to you earlier in the call, 58% of our revenue last quarter was from
+outside United States. And it's clear as you can look at our numbers, our growth rates are much higher outside
+the U.S. And so we realized that we must do well in these markets to continue to grow.
+
+[pair 16 | REL=0.604 | REL_JAC=0.061 | NONANS_RULE=0]
+Q: And then just Peter, as a follow-up, you mentioned the plans for store openings in 2010, but what are your
+expectations for non-retail store CapEx? And if it's growing, what type of projects should we think about?
+A: We expect our CapEx in fiscal '10 to be about $1.9 billion, that's unchanged from what we told you a quarter
+ago. About $400 million of it is in retail and about $1.5 billion not in retail. The areas that we are focused
+on that exclude retail are of course our facilities and infrastructure and some of our systems areas and
+manufacturing.
+
+[pair 17 | REL=0.501 | REL_JAC=0.083 | NONANS_RULE=1]
+Q: Just on the App Store, can you provide some more color regarding what you're hearing from developers and
+customers? What you're seeing in terms of any changes of paid versus free apps? And I think you gave a 3
+billion download number probably not giving any update, but just how have you seen the success of the App
+Store?
+A: Shannon, it's Peter. For competitive reasons, we don't want to share much of the answers to much of the
+question that you asked, so I'm sorry. But again, it's for competitive reasons. What I will share with you is
+that we are way ahead of our competitors with over 100,000 apps on our store that dwarfs anybody that we're
+competing with. We've provided just many, many great applications with our developers to customers, it's
+helping us with both the iPhone and iPod touch and it was one of the key reasons why iTunes set a record in
+the quarter.
+
+[pair 18 | REL=0.566 | REL_JAC=0.062 | NONANS_RULE=0]
+Q: And then just a follow-up question, perhaps you could talk a little bit about -- you made a comment that your
+corporate clients that are looking at the iPhone has more than doubled. Our people writing specific apps? Is
+there any anecdotal evidence that the iPhone sales within corporate are helping to drive overall Mac
+acceptance in the office environment? Just anything you can give us in terms of sort of your corporate
+strategy.
+A: I think it's early, Shannon, to comment on the halo from the iPhone to the Mac. As you know, we did feel
+strongly that that did exist with the iPod. On a corporate basis, the iPhone really saw a significant
+acceleration of acceptance and exploration after we announced the iPhone 3GS and associated operating system
+in the mid-part of the year. And as I think Peter mentioned in some of his opening comments, 70% now of the
+Fortune 100 are actively piloting or deploying it. If you look internationally, about 50% of the FT 100 is
+doing the same. And so there are some -- those are some pretty staggering numbers when you think about the
+time period that we've been in the business, it's only two and a half years and several of the requests from
+enterprises really implemented in the June, July timeframe. And so we feel great about what's happening there.
+
+[pair 19 | REL=0.419 | REL_JAC=0.035 | NONANS_RULE=0]
+Q: For the iPhone, have you ever seen any change in the financial model when you moved beyond the first carrier
+in some of the more mature markets where you've had exclusive agreements in the past?
+A: David, it's Tim. Primarily what we've seen in the countries that we have done this in is that the sales are
+largely incremental as we add carriers. As you know, we've added carriers in the U.K. I think when our market
+share comes up there, you'll see a significant change. We've added carriers in France and I'm pleased to say
+that the latest GfK numbers for market share in France is over 60% for the October, November timeframe. We've
+added carriers in the Scandinavian countries and saw market share increases, I think we will see the same in
+Canada, when we get the market share numbers for Canada. And so that's what we've seen so far. However, we've
+also selected in most cases, we've selected countries that we thought that would happen in. And so I don't
+want to imply that that would happen in every market or that we are headed that way in every market.
+
+[pair 20 | REL=0.696 | REL_JAC=0.061 | NONANS_RULE=0]
+Q: Is there something you're doing specifically either on the sales side or in the technical support side to
+drive higher corporate growth in the iPhone segment?
+A: Well, we've done a tremendous amount on the product side itself by implementing tons of features in the latest
+OS for iPhone that several of our enterprise customers had desired. Secondly, we've added sales staff to
+assist the carrier staff in selling the iPhone in several of the major geographies. And so, yes, this is a key
+focus of ours.
+
+[pair 21 | REL=0.524 | REL_JAC=0.083 | NONANS_RULE=0]
+Q: Two quick questions, one on the longer-term strategy. Can you give us an update in terms of the recent
+acquisitions of Lala and Quattro? How should investors think about Apple's longer-term strategy? Will it be
+only content and device driven? Or could we see more of a services type flavor longer term?  Any help there
+would be greatly appreciated. And then Peter on the tax rate, just given the increasing contribution to growth
+from international, can we think about tax rate having the downward pressures to go into the back half of this
+year?
+A: Mark, it's Peter. I'll start with your second question first. We did have a lower tax rate for the first
+quarter and your tax rate is really the one part of the guidance where under GAAP, it's annual. So at this
+point, we expect our tax rate to be about 29% for fiscal '10. And when I last spoke with you in October, we
+had expected it to be 30. So yes, it's down a point and it's down a point because of a higher mix of foreign
+earnings. And so if foreign earnings were to grow beyond what we have thought about for the year, then our tax
+rate may very well be lower. In terms of our Quattro and Lala acquisition. We acquired Quattro because we
+wanted to offer a seamless way for our developers to make more money on their apps, especially those that are
+providing free apps. And we occasionally acquire small companies from time-to-time for their technology and
+talent and that's why we do it.
+
+[pair 22 | REL=0.417 | REL_JAC=0.053 | NONANS_RULE=0]
+Q: We've seen a number of industry revenue forecast for applications and just given kind of the expected growth,
+explosive growth there. I'm just wondering if that's still a breakeven-ish type of business as you look
+forward over the next couple of years? And then secondly, I have a question on the cash. As the economy starts
+to improve or hopefully and we move away from cash preservation, can you just talk about uses of cash? Because
+it seems like you can fund the M&A and then some solely from cash flow. In particular, I'm just curious about
+the company's appetite for share repurchases, dividends, et cetera.
+A: We told you our philosophy on cash, I don't have a change in that philosophy to share with you today, but
+nothing is forever. Regarding the App Store and the iTunes Store, we're running those a bit over break even
+and that hasn't changed and we are very excited to be providing our developers with just a fabulous
+opportunity and we think that's helping us a lot with the iPhone and the iPod touch platform.
+
+[pair 23 | REL=0.553 | REL_JAC=0.094 | NONANS_RULE=0]
+Q: But as the revenue starts to ramp there, are there any kind of fixed cost that would grow with it on a like-
+for-like basis that would prevent it from seeing good operating leverage?
+A: There are some fixed costs, but the variable cost structure is high and we're investing a lot in these stores.
+And as revenue grows, we'll just continue to invest more to give both developers and customers the best
+experience in the world.
+
+[pair 24 | REL=0.811 | REL_JAC=0.095 | NONANS_RULE=0]
+Q: Peter, let's start with just a clarification on the new accounting standard, will there be $25 of deferred
+revenue going forward on the sale of iPhones? As well as, I know it's on a look-back basis?
+A: Yes, Keith, let me clarify this for you. I talked about how we're accounting for an iPhone sale in really two
+elements. The first being the initial hardware and the software that somebody would buy and walk out of the
+store with. And the second element being the right to receive future upgrades when and if they become
+available and we have estimated the selling price of that upgrade for iPhone to be about $25. So in terms of
+what we've done here in the revision of our financial statements, we went back and applied a $25 deferral to
+all iPhones that we have sold in the past and a $10 deferral to Apple TV. And when you look at the -- all the
+things that we put out today in terms of income statements and balance sheets and cash flow, you'll see that
+there is substantially less deferred revenue on those balance sheets and no deferred costs. We are recognizing
+the deferred revenue from the $25 deferral each quarter in our balance sheet. And so to help you be sure that
+you have your models correct on a go-forward basis, we essentially recognized about $110 million in the
+December quarter for the $25 that we deferred for all the iPhones that we sold over the past two years. So
+Keith, we deferred $25 on the 8.7 million iPhones that we sold in the quarter. So that came out as revenue.
+But then we put in about 110 million from the amortization that occurred from the past two years sale. Does
+that make sense?
+
+[pair 25 | REL=0.429 | REL_JAC=0.086 | NONANS_RULE=0]
+Q: Yes, that's fine. Tim, for you, I wanted -- on Asia Pac and Japan, CPU sales were particularly strong. And
+moreover, if you look at Asia Pac, the revenues were about -- the year-over-year growth rate was about three
+times higher than the CPU units. So I just want to try to understand in Japan and Asia Pac, that looks like a
+pretty strong mix up in terms of computers but also just underlying strength. I'm wondering here if you could
+offer some more color about that please?
+A: Sure, in Japan, what's going on there is that the iPhone has been a runaway hit. The iPhone was up over 400%
+year-on-year during the quarter. And so that's what's driving that huge revenue growth that you see in Japan.
+The Mac growth is above market, but we believe we can do better in the Mac area in Japan. In Asia Pacific,
+Asia Pacific is doing an incredible job with the Mac, growing 54%. It's our highest performing region in terms
+of growth. And in the iPhone, the iPhone was up over 500% in Asia Pacific and as you probably remembered, we
+talked about China on this call, but we also added Korea during the quarter and we added several other
+countries throughout the year after Q1 of last year. And so iPhone really drove an incredible amount of the
+total revenue growth that you see on revenue of 140%.
+
+[pair 26 | REL=0.530 | REL_JAC=0.053 | NONANS_RULE=0]
+Q: Peter, what revenue in EPS would have been under the previous accounting policy for the December quarter?
+A: Keith, actually I did not say that and that's actually not something that we have the time to try and figure
+out. As I've said before, the team did just an amazing job to implement this new accounting within four months
+of the FASB ratifying it. The comments that I made were that our revenue were $15.68 billion under the new
+accounting, exceeded the guidance we gave under the old accounting by over 4 billion. About half of that was
+driven by the amazing performance of the business, and the other half was driven by the accounting change.
+
+[pair 27 | REL=0.695 | REL_JAC=0.106 | NONANS_RULE=0]
+Q: I wanted to follow up on earlier questions around that mobile advertising in the application stores.
+Specifically, I'm interested to understand what role if any, you expect mobile advertising to have on your
+business model going forward? Can you characterize the changing relationship you have with Google as they've
+entered the smartphone space?
+A: Sure, well we work with Google in some areas and we compete with them in others. I think mobile advertising is
+just in it's infancy. And with the great folks that we've acquired and are going to be working with at
+Quattro, we look forward to providing our developers with a great opportunity from mobile advertising. And
+that's what we know at this point.
+
+[pair 28 | REL=0.169 | REL_JAC=0.000 | NONANS_RULE=0]
+Q: Do you anticipate mobile advertising as being a significant revenue earnings contributor going forward? Or is
+this primarily some of those strategies we've seen in iTunes and the App Store to drive demand for your
+devices?
+A: No, we are in infancy and I honestly don't know. We'll have to see. We'll then do -- work hard to provide, as
+I said, the developers, a great opportunity. We'll see where that takes us.
+
+[pair 29 | REL=0.599 | REL_JAC=0.087 | NONANS_RULE=0]
+Q: In the Pro segment, Tim, could you update us on what you're seeing in the Pro segment since the last call, and
+as you look at the upcoming year, are you seeing improvement there? And if you do, is it helping the Mac Pro
+product line or is it helping sales of higher end MacBook Pros and the iMacs? What did you see after the
+quarter and what do you expect? And I have a quick follow up?
+A: Bill, we saw a small year-over-year increase in Pro software sales, Final Cut, Aperture and Pro audio space.
+And we used that as a proxy for how many of our Pro machines are being sold in that space. And so I would
+still describe that as an economically challenged area currently. And I hope that we see improvement as we
+move forward, but I'm not projecting it.
+
+[pair 30 | REL=0.520 | REL_JAC=0.032 | NONANS_RULE=0]
+Q: And if I could switch gears to education. What are your latest thoughts there? Because you've in the past,
+made comments about state tax revenue and budgets have gotten worse, and certainly, the headlines have become
+even worse since the last time we talked to you guys? So what's going on with K-12 that helps you above the
+problems that are there? And in higher ed, with declining endowments is the per student purchase segment
+you're focused on higher ed, if you could give us some more color on K-12 and higher Ed and what's happening
+right for you and why? It would be helpful please?
+A: Well the great thing is, and I'm talking about the Mac here specifically, was that the combination of K-12 and
+higher ed in the U.S. was up 16% year-over-year and that's the best growth rate we've seen since the, before
+the recession began. And so we feel great about how we came out of the quarter. That we had very few orders
+that were supported with stimulus funds. And I would hope that, that would change in the future, although I
+don't know if that will happen or not. Our whole Ed business is based on that, we really understand teaching
+and learning and student achievement at a very deep level. And we think we're the only technology company that
+really gets it. And so we sell a lot more than just sell boxes as many other people do. And so I think with
+staying very focused in that market, I think we can continue to do well. And I was thrilled to see the results
+that we get last quarter. Thank you, Bill, and thanks to everyone, for your participation. A replay of today's
+call will be available for two weeks, as the podcast on the iTunes store and the webcast on apple.com/investor
+and via telephone. The numbers for the telephone replay are 888-203-1112 or 719-457-0820. And please enter
+confirmation code 403-5751. These replays can be available beginning at approximately 5:00 p.m. Pacific Time
+today. Members of the press with additional questions can contact Steve Dowling at 408-974-1896 and financial
+analysts can contact John Hoover or me with additional questions, John's at 408-974-4570 and I'm at
+408-974-5420. Thanks again for joining us.

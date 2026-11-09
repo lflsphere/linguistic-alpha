@@ -228,3 +228,4 @@ data/panel.csv
 !tests/fixtures/*.csv
 wrds_access_report.csv
 .pgpass
+
