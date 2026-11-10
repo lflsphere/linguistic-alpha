@@ -221,6 +221,9 @@ __marimo__/
 
 # --- Project data: WRDS-licensed, never commit ---
 data/panel.csv
+data/raw/*
+data/interim/*
+data/processed/*
 !data/**/
 !data/**/.gitkeep
 *.parquet

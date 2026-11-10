@@ -319,13 +319,17 @@ def base_table(df: pd.DataFrame) -> pd.DataFrame:
     out = pd.DataFrame(index=df.index)
     out["transcriptid"] = df["transcriptid"]
     out["ticker"] = df["ticker"]
-    out["firm"] = df["ticker"]
+    out["firm"] = df["firm"] if "firm" in df else df["ticker"]
     out["call_date"] = df["call_date"]
     out["day0"] = df["day0"]
     out["year"] = df["call_date"].dt.year
     out["event_q"] = df["day0"].dt.to_period("Q").astype(str)
-    ts = pd.to_datetime(df["call_date"].dt.strftime("%Y-%m-%d") + " " + df["call_time_utc"].astype(str))
-    ts_et = ts.dt.tz_localize("UTC").dt.tz_convert(et)
+    if "call_ts_utc" in df:
+        ts_et = pd.to_datetime(df["call_ts_utc"], errors="coerce", utc=True).dt.tz_convert(et)
+    else:
+        ts = pd.to_datetime(df["call_date"].dt.strftime("%Y-%m-%d") + " " +
+                            df["call_time_utc"].astype(str))
+        ts_et = ts.dt.tz_localize("UTC").dt.tz_convert(et)
     hour = ts_et.dt.hour + ts_et.dt.minute / 60
     out["call_time_et"] = ts_et.dt.strftime("%Y-%m-%d %H:%M")
     out["session"] = np.select([hour >= 16, hour < 9.5], ["post", "pre"], "intraday")
@@ -338,7 +342,8 @@ def base_table(df: pd.DataFrame) -> pd.DataFrame:
     out["LOGVOL_2_20"] = np.log(df["vol_post_2_20"])
 
     # Model A
-    sd_hist = df.groupby("ticker")["eps_surprise"].transform(
+    firm_key = df["firm"] if "firm" in df else df["ticker"]
+    sd_hist = df.groupby(firm_key)["eps_surprise"].transform(
         lambda s: s.shift(1).rolling(C.SUE_HIST[0], min_periods=C.SUE_HIST[1]).std())
     out["SUE_TS"] = df["eps_surprise"] / sd_hist.replace(0.0, np.nan)
     out["SUE_PCT"] = df["surprise_pct"].clip(-1, 1)
@@ -355,19 +360,23 @@ def base_table(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def text_features(df: pd.DataFrame, lex: dict, embed: str, use_finbert: bool):
-    rows, pair_rows, prep_clean, ans_all = [], [], {}, {}
+    rows, pair_rows, prep_clean, ans_all, release_clean = [], [], {}, {}, {}
     for r in df.itertuples(index=False):
         qa_trunc = len(str(r.qa_text)) >= EXCEL_CELL_LIMIT
         pr_trunc = len(str(r.prepared_text)) >= EXCEL_CELL_LIMIT
         prep, boiler = clean_prepared(r.prepared_text)
+        release = clean_prepared(getattr(r, "press_release_text", ""))[0]
         pairs, answers = parse_qa(r.qa_text, qa_trunc)
         ans = " ".join(answers)
         prep_clean[r.transcriptid], ans_all[r.transcriptid] = prep, ans
+        release_clean[r.transcriptid] = release
         cp, ca = lex_counts(prep, lex), lex_counts(ans, lex)
+        cr = lex_counts(release, lex)
         cm = {k: cp[k] + ca[k] for k in cp}
         rows.append(dict(
             transcriptid=r.transcriptid,
             TONE_P=net_tone(cp), TONE_Q=net_tone(ca), TONE_M=net_tone(cm),
+            TONE_R=net_tone(cr),
             TONE_P_PW=per_k(cp["pos"] - cp["neg"], cp["n"]), TONE_Q_PW=per_k(ca["pos"] - ca["neg"], ca["n"]),
             UNC=per_k(cm["unc"], cm["n"]), UNC_P=per_k(cp["unc"], cp["n"]), UNC_Q=per_k(ca["unc"], ca["n"]),
             HEDGE=per_k(cm["weak"] + cm["phr"], cm["n"]), HEDGE_P=per_k(cp["weak"] + cp["phr"], cp["n"]),
@@ -427,12 +436,17 @@ def text_features(df: pd.DataFrame, lex: dict, embed: str, use_finbert: bool):
     ids = df["transcriptid"].tolist()
     P = emb.doc([prep_fn(prep_clean[t]) for t in ids])
     Aa = emb.doc([prep_fn(ans_all[t]) for t in ids])
+    R = emb.doc([prep_fn(release_clean[t]) for t in ids])
     feats = feats.set_index("transcriptid").loc[ids].reset_index()
     feats["DIV_QP"] = 1 - rowcos(P, Aa)
+    feats["DIV_PR"] = 1 - rowcos(P, R)
+    feats.loc[[not release_clean[t].strip() for t in ids], "DIV_PR"] = np.nan
+    feats["DIV_PR_TONE"] = feats["TONE_P"] - feats["TONE_R"]
     # NOVEL: prepared remarks vs the same firm's previous call
     novel = np.full(len(ids), np.nan)
-    order = df.reset_index(drop=True).sort_values(["ticker", "call_date"])
-    for _, g in order.groupby("ticker"):
+    firm_key = "firm" if "firm" in df else "ticker"
+    order = df.reset_index(drop=True).sort_values([firm_key, "call_date"])
+    for _, g in order.groupby(firm_key):
         idx = g.index.to_numpy()
         for i_prev, i_cur in zip(idx[:-1], idx[1:]):
             novel[i_cur] = 1 - float(rowcos(P[[i_cur]], P[[i_prev]])[0])
@@ -448,9 +462,10 @@ def text_features(df: pd.DataFrame, lex: dict, embed: str, use_finbert: bool):
 
 def history_features(ev: pd.DataFrame) -> pd.DataFrame:
     """Current value minus the mean of the firm's previous HIST_WINDOW calls (strictly prior)."""
-    ev = ev.sort_values(["ticker", "call_date"]).copy()
+    firm_key = "firm" if "firm" in ev else "ticker"
+    ev = ev.sort_values([firm_key, "call_date"]).copy()
     for new, base in (("dTONE", "TONE_M"), ("dUNC", "UNC"), ("dEVADE", "EVADE")):
-        prior = ev.groupby("ticker")[base].transform(
+        prior = ev.groupby(firm_key)[base].transform(
             lambda s: s.shift(1).rolling(C.HIST_WINDOW, min_periods=C.HIST_WINDOW).mean())
         ev[new] = ev[base] - prior
     return ev.sort_values(["day0", "ticker"]).reset_index(drop=True)
@@ -460,9 +475,18 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--embed", choices=["auto", "st", "tfidf"], default="auto")
     ap.add_argument("--finbert", action="store_true")
+    ap.add_argument("--panel", type=str, default=str(C.PANEL_PATH),
+                    help="input panel CSV (defaults to data/panel.csv)")
+    ap.add_argument("--features-out", type=str, default=str(C.FEATURES_PATH))
+    ap.add_argument("--pairs-out", type=str, default=str(C.PAIRS_PATH))
+    ap.add_argument("--meta-out", type=str, default=str(C.META_PATH))
     args = ap.parse_args()
 
-    df = pd.read_csv(C.PANEL_PATH, parse_dates=["call_date", "day0", "fiscal_period_end"])
+    panel_path = C.Path(args.panel).resolve()
+    features_path = C.Path(args.features_out).resolve()
+    pairs_path = C.Path(args.pairs_out).resolve()
+    meta_path = C.Path(args.meta_out).resolve()
+    df = pd.read_csv(panel_path, parse_dates=["call_date", "day0", "fiscal_period_end"])
     df = df.sort_values(["call_date", "ticker"]).reset_index(drop=True)
     log.info("panel: %d calls, %d firms, %s to %s", len(df), df["ticker"].nunique(),
              df["call_date"].min().date(), df["call_date"].max().date())
@@ -473,11 +497,14 @@ def main():
     ev = history_features(base.merge(feats, on="transcriptid", how="left"))
     ev["fiscal_period_end"] = ev["transcriptid"].map(df.set_index("transcriptid")["fiscal_period_end"])
 
-    ev.to_csv(C.FEATURES_PATH, index=False)
-    pairs.to_csv(C.PAIRS_PATH, index=False)
+    features_path.parent.mkdir(parents=True, exist_ok=True)
+    pairs_path.parent.mkdir(parents=True, exist_ok=True)
+    meta_path.parent.mkdir(parents=True, exist_ok=True)
+    ev.to_csv(features_path, index=False)
+    pairs.to_csv(pairs_path, index=False)
     meta = dict(
         built_at=datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        panel_sha256=C.file_sha256(C.PANEL_PATH), n_events=len(ev), n_pairs=len(pairs),
+        panel_sha256=C.file_sha256(panel_path), n_events=len(ev), n_pairs=len(pairs),
         lexicon_source=lex_src, embedding_backend=emb_kind,
         embedding_model=C.ST_MODEL if emb_kind == "st" else f"tfidf+lsa{C.LSA_DIM}",
         embedding_fit_corpus=f"{n_fit} texts from calls with year <= {C.DEV_END}" if emb_kind == "tfidf"
@@ -485,8 +512,8 @@ def main():
         finbert=bool(args.finbert), label_classifiers=clf_meta, sue_variant_default=C.SUE_VARIANT,
         qa_truncated_calls=int(ev["qa_truncated"].sum()), prep_truncated_calls=int(ev["prep_truncated"].sum()),
         lowprec_events=int(ev["LOWPREC"].sum()))
-    C.META_PATH.write_text(json.dumps(meta, indent=2))
-    log.info("wrote %s (%d rows) and %s (%d pairs)", C.FEATURES_PATH.name, len(ev), C.PAIRS_PATH.name, len(pairs))
+    meta_path.write_text(json.dumps(meta, indent=2))
+    log.info("wrote %s (%d rows) and %s (%d pairs)", features_path, len(ev), pairs_path, len(pairs))
     log.info("embedding backend: %s | lexicon: %s", emb_kind, lex_src)
     log.info("truncated Q&A texts (Excel 32,767-char cell limit): %d calls", meta["qa_truncated_calls"])
 

@@ -1,7 +1,7 @@
 # linguistic-alpha
 
 Research pipeline: do earnings-call language features predict S&P 500 post-call drift,
-CAR[+2,+20], beyond the earnings surprise and standard controls?
+CAR[+2,+20] and other horizons, beyond the earnings surprise and standard controls?
 Data comes from WRDS: Capital IQ transcripts, CRSP, Compustat and I/B/E/S.
 
 - Architecture and stage contracts: [docs/pipeline.md](docs/pipeline.md)
@@ -32,7 +32,7 @@ the legacy notebook ([docs/data_audit.md](docs/data_audit.md)).
 |----------|--------|-------------------|
 | Split-adjusted I/B/E/S rounds consensus to 2 decimals (94/179 legacy rows; 13 with consensus 0) | SUE, the main control, is wrong | Unadjusted `actu_epsus` / `statsumu_epsus` + CRSP `cfacshr`; scale SUE by price |
 | `panel.xlsx` truncated text at Excel's 32,767-char cell limit (59/179 calls) | Biased language features | Never store text in xlsx; parquet only |
-| CRSP ends 2024-12-31 | Planned 2024–2026 holdout is only 2024 | Refresh CRSP, or move holdout to 2023–2024 (needs sign-off) |
+| CRSP ends 2024-12-31 | 2025–2026 calls have no realized CAR labels | Build through 2022; keep 2023–2024 as the untouched holdout and later calls for scoring only |
 | `sprtrn` excludes dividends, CRSP `ret` includes them | AR drifts up by ~dividend yield | Use `vwretd` / total-return S&P; FF4 as robustness |
 | Delisting returns pulled but not used | Survivorship bias | Merge `dlret` into returns |
 | Links ignore valid dates; duplicates dropped arbitrarily | Wrong firm/ticker matches | Date-valid, ranked links with attrition log |
@@ -58,6 +58,26 @@ la events | targets | controls | features | model | evaluate   # specified, not 
 .venv/bin/python scripts/audit_legacy_panel.py
 pytest
 ```
+
+### Full S&P 500 dataset
+
+The local WRDS build follows the pull-and-combine workflow in the project notebook and writes
+licensed source data to ignored `data/raw/`. It creates aligned Model A and Model B files at
+`data/processed/model_table_baseline.parquet` and
+`data/processed/model_table_with_language.parquet` (Model B is also available at
+`model_table.parquet`), plus Q&A pairs and a sample attrition report. The 2023–2024 holdout is
+retained for final evaluation; later calls can be scored without return targets.
+
+```bash
+uv sync --extra wrds --extra models
+WRDS_USERNAME=<your_wrds_user> SEC_CONTACT_EMAIL=<your_contact_email> \
+  .venv/bin/python scripts/build_wrds_dataset.py
+```
+
+The pull resumes from completed yearly Parquet files. `SEC_CONTACT_EMAIL` is sent only in the
+SEC archive request header for the same-day Exhibit 99.1 text used by the press-release divergence
+features. Without SEC archive access those F5 fields stay missing. Never commit WRDS/SEC source
+files or transcript text.
 
 ### Research scripts
 

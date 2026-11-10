@@ -14,17 +14,16 @@ wrds:
   end_year: 2026
 
 sample:
-  start: "2012-01-01"
-  end: "2024-12-31"             # CRSP daily ends 2024-12-31 on our subscription
+  start: "2010-01-01"           # includes history for four-call features and momentum
+  end: "2026-12-31"             # later calls are scoring-only while CRSP ends in 2024
   universe: sp500_historical    # crsp.msp500list membership on the call date
   exclude_gics_industries: ["352010"]   # Biotechnology (meeting 10/23)
   min_prior_return_days: 60
 
 split:
-  # Scope doc says 2012-2023 build / 2024-2026 holdout; with CRSP ending 2024-12-31
-  # the holdout is effectively 2024 only. Revisit once CRSP is refreshed.
-  build_end: "2023-12-31"
-  holdout_start: "2024-01-01"
+  # CRSP ends 2024-12-31; holdout is 2023-2024. 2025-2026 calls have no CAR labels.
+  build_end: "2022-12-31"
+  holdout_start: "2023-01-01"
   walk_forward:
     train_quarters: 8
     test_quarters: 2

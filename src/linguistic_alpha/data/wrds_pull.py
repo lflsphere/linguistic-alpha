@@ -22,6 +22,8 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 
+import pandas as pd
+
 from linguistic_alpha.config import Config
 
 # Server-side universe filters, composed into the queries below.
@@ -48,10 +50,14 @@ QUERIES: list[Query] = [
                  where lpermno in ({SP500_PERMNOS})"""),
     Query("wrdsapps_ibcrsphist", f"""select ticker, permno, ncusip, sdate, edate, score
                  from wrdsapps.ibcrsphist where permno in ({SP500_PERMNOS})"""),
-    Query("ciq_wrds_gvkey", f"""select companyid, gvkey, startdate, enddate
+    Query("ciq_wrds_gvkey", f"""select companyid, gvkey, startdate, enddate, primaryflag
                  from ciq.wrds_gvkey where gvkey in ({SP500_GVKEYS})"""),
+    Query("ciq_company", f"""select companyid, companyname from ciq.ciqcompany
+                 where companyid in ({SP500_CIQ})""", group="transcripts"),
     Query("comp_co_hgic", f"""select gvkey, gsector, ggroup, gind, gsubind, indfrom, indthru
                  from comp.co_hgic where gvkey in ({SP500_GVKEYS})"""),
+    Query("comp_company", f"""select gvkey, cik from comp.company
+                 where gvkey in ({SP500_GVKEYS})"""),
     # CRSP market data
     Query("crsp_dsi", "select date, sprtrn, vwretd from crsp.dsi where date >= %(start)s"),
     Query("crsp_dsf", f"""select permno, date, ret, retx, prc, vol, shrout, cfacpr, cfacshr
@@ -85,12 +91,13 @@ QUERIES: list[Query] = [
                  from ciq.wrds_transcript_detail
                  where keydeveventtypeid = 48 and companyid in ({SP500_CIQ})
                  and mostimportantdateutc >= %(start)s""", group="transcripts"),
-    Query("ciq_transcript_person", f"""select p.transcriptid, p.transcriptpersonid,
-                 p.transcriptpersonname, p.companyid, p.speakertypeid, p.speakertypename
+    Query("ciq_transcript_person", f"""select distinct p.transcriptid, p.transcriptpersonid,
+                 p.transcriptpersonname, p.speakertypename
                  from ciq.wrds_transcript_person p
                  join ciq.wrds_transcript_detail d on d.transcriptid = p.transcriptid
                  where d.keydeveventtypeid = 48 and d.companyid in ({SP500_CIQ})
-                 and d.mostimportantdateutc >= %(start)s""", group="transcripts"),
+                 and d.mostimportantdateutc between %(a)s and %(b)s""",
+          by_year="mostimportantdateutc", group="transcripts"),
     Query("ciq_transcript_component", f"""select c.transcriptid, c.componentorder,
                  c.transcriptcomponenttypeid, c.transcriptpersonid, c.componenttext
                  from ciq.ciqtranscriptcomponent c
@@ -119,8 +126,48 @@ def run_pull(cfg: Config, groups: tuple[str, ...] = ("core", "transcripts")) -> 
                 for y in range(start_year - 1, end_year + 1):
                     _pull_one(db, q.sql, out / f"{q.name}_{y}.parquet",
                               {"a": f"{y}-01-01", "b": f"{y}-12-31"})
+        _pull_sec_8k(db, out, start_year - 1, end_year)
     finally:
         db.close()
+
+
+def _pull_sec_8k(db, out: Path, start_year: int, end_year: int) -> None:
+    """Pull WRDS 8-K/Exhibit 99.1 index metadata; text is fetched from SEC archives later."""
+    try:
+        if "wrdssec" not in set(db.list_libraries()):
+            print("skip SEC press releases: wrdssec library is not subscribed")
+            return
+        db.raw_sql("select accession from wrdssec.wrds_forms limit 0")
+        db.raw_sql("select accession from wrdssec.exhibits limit 0")
+        companies = db.raw_sql(f"select distinct cik from comp.company where gvkey in ({SP500_GVKEYS})")
+    except Exception as exc:  # subscription/schema availability varies by WRDS account
+        print(f"skip SEC press releases: unable to inspect WRDS SEC tables ({type(exc).__name__})")
+        return
+    ciks = pd.to_numeric(companies["cik"], errors="coerce").dropna().astype("int64").unique()
+    if not len(ciks):
+        print("skip SEC press releases: no numeric CIKs for linked S&P 500 firms")
+        return
+    cik_sql = ",".join(f"'{int(x)}'" for x in ciks)
+    print("Pulling SEC 8-K Exhibit 99.1 filing references from WRDS")
+    for year in range(start_year, end_year + 1):
+        path = out / f"sec_8k_exhibits_{year}.parquet"
+        if path.exists():
+            print(f"skip  {path.name}")
+            continue
+        sql = f"""select f.cik, f.fdate as filing_date, f.form, f.accession,
+                          e.filename, e.type as exhibit_type, e.description, f.wrdsfname
+                   from wrdssec.wrds_forms f
+                   join wrdssec.exhibits e on e.accession = f.accession
+                   where ltrim(f.cik, chr(48)) in ({cik_sql})
+                     and f.form like '8-K%%' and e.type = 'EX-99.1'
+                     and f.fdate between %(a)s and %(b)s"""
+        try:
+            df = db.raw_sql(sql, params={"a": f"{year}-01-01", "b": f"{year}-12-31"})
+            df.to_parquet(path, index=False)
+            print(f"saved {path.name}: {len(df):,} earnings-release exhibit references")
+        except Exception as exc:
+            print(f"skip SEC {year}: {type(exc).__name__}: {str(exc)[:160]}")
+            break
 
 
 def _pull_one(db, sql: str, path: Path, params: dict) -> None:

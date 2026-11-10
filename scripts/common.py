@@ -43,9 +43,9 @@ OUT_DIR = ROOT / "outputs"
 FROZEN_SPEC_PATH = OUT_DIR / "frozen_spec.json"
 
 # ============================================================================ sample and splits (Sections 2.1, 6)
-DEV_START, DEV_END = 2012, 2023      # 2010-2011 calls only feed history-based features (burn-in)
-HOLDOUT_START = 2024                 # panel ends Nov 2024: 2025-2026 are not available
-FIRST_TEST_YEAR = 2018               # expanding windows 2012-2017 -> 2018, ..., 2012-2022 -> 2023
+DEV_START, DEV_END = 2010, 2022
+HOLDOUT_START, HOLDOUT_END = 2023, 2024  # CRSP target coverage ends 2024-12-31
+FIRST_TEST_YEAR = 2016               # expanding development folds begin after six years
 HIST_WINDOW = 4                      # prior calls used by the Delta features
 SUE_HIST = (8, 4)                    # (window, min periods) of the time-series SUE scale
 
@@ -64,7 +64,7 @@ OOS_TARGETS = ["CAR_2_5", "CAR_2_20", "CAR_2_60", "LOGVOL_2_20"]
 # SUE_TS  : surprise / SD of the firm's prior 8 surprises (point-in-time, split-invariant)   [default]
 # SUE_PCT : surprise / |consensus|, clipped to [-1, 1]
 # SUE_IBES: surprise / SD of analyst forecasts, as delivered in the panel (missing when SD rounds to 0)
-SUE_VARIANT = "SUE_TS"
+SUE_VARIANT = "SUE_IBES"             # scope definition: EPS surprise / pre-Day-0 price
 MODEL_A = ["SUE", "DISP", "COV", "SIZE", "BM", "MOM", "VOL"]
 DELAYED_EXTRA = ["AR01"]             # CAR[0,+1]: only in the delayed-signal robustness spec
 
@@ -133,9 +133,9 @@ def load_events(scope: str = "dev", sample: str = "all") -> pd.DataFrame:
     if scope == "dev":
         df = df[(df["year"] >= DEV_START) & (df["year"] <= DEV_END)]
     elif scope == "holdout":
-        df = df[df["year"] >= HOLDOUT_START]
+        df = df[df["year"].between(HOLDOUT_START, HOLDOUT_END)]
     elif scope == "dev+holdout":
-        df = df[df["year"] >= DEV_START]
+        df = df[df["year"].between(DEV_START, HOLDOUT_END)]
     elif scope != "all":
         raise ValueError(scope)
     if sample == "highprec":

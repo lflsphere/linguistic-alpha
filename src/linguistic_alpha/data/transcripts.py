@@ -62,6 +62,9 @@ def build_components(raw: pd.DataFrame, persons: pd.DataFrame | None = None) -> 
     if persons is not None:
         p = persons[["transcriptid", "transcriptpersonid", "speakertypename"]].copy()
         p["speaker_id"] = p.pop("transcriptpersonid").astype("Int64")
+        # WRDS person data is component-level; collapse repeated speaker rows before
+        # joining or a speaker with many turns would multiply component text rows.
+        p = p.drop_duplicates(["transcriptid", "speaker_id"])
         out = out.merge(p, on=["transcriptid", "speaker_id"], how="left")
         out["speaker_role"] = speaker_role(out.pop("speakertypename"))
     else:
