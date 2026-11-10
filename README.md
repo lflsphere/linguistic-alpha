@@ -94,6 +94,33 @@ the test period, and reports CAR[+2,+5], CAR[+2,+20], and CAR[+2,+60]. The HTML 
 aggregate results are written to `outputs/model_a_80_20/`; row-level predictions remain in ignored
 `data/processed/`.
 
+#### Current Model A results
+
+The saved comparison uses 22,233 training events (2010-01-06–2021-08-03) and 5,672 test events
+(2021-10-28–2024-10-18), across 13 test quarters. The gap purges 350 events to prevent the
+60-trading-day target windows from crossing the split. Across the models compared, the highest
+test information coefficient (IC) by horizon was:
+
+| Target | Model | Test IC | Rank IC | Test R² | RMSE |
+|---|---|---:|---:|---:|---:|
+| CAR[+2,+5] | Random Forest | 0.024 | 0.017 | -0.012 | 0.0330 |
+| CAR[+2,+20] (primary) | Extra Trees | 0.041 | 0.026 | -0.0065 | 0.0631 |
+| CAR[+2,+60] | Random Forest | 0.001 | 0.005 | -0.020 | 0.1215 |
+
+These are exploratory comparisons: the models were compared on the same test period, so the
+highest-IC model per horizon is not an unbiased final model-selection estimate. The primary-horizon
+IC is modest, and negative R² means the prediction errors were worse than predicting zero CAR for
+every event. The net top-minus-bottom quintile spread for the primary-horizon Extra Trees model was
+about 0.34% per quarter under the dashboard's assumed 20 bp round-trip cost per leg; this estimate
+is not yet a validated trading result. The current run is Model A only and does not establish that
+linguistic features improve forecasts.
+
+Open the [Model A dashboard](outputs/model_a_80_20/dashboard.html) for all model metrics and
+diagnostics. The underlying [metrics CSV](outputs/model_a_80_20/metrics.csv), [split metadata](outputs/model_a_80_20/split.json),
+and [pooled OLS control coefficients](outputs/model_a_80_20/ols_controls_clustered.csv) are also
+available in the results folder. The OLS coefficient p-values use PERMNO-clustered standard errors
+and do not account for common quarter shocks.
+
 FinBERT adds sentiment columns to a separate Model B dataset:
 
 ```bash
