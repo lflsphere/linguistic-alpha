@@ -258,22 +258,31 @@ def finbert_tone(texts: dict, tag: str) -> pd.Series:
         import torch
         from transformers import AutoModelForSequenceClassification, AutoTokenizer
         tok = AutoTokenizer.from_pretrained(C.FINBERT_MODEL)
-        mdl = AutoModelForSequenceClassification.from_pretrained(C.FINBERT_MODEL).eval()
+        device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+        mdl = AutoModelForSequenceClassification.from_pretrained(C.FINBERT_MODEL).eval().to(device)
         lab = {v.lower(): k for k, v in mdl.config.id2label.items()}
         new = {}
-        for i, (k, t) in enumerate(todo.items()):
+        items = list(todo.items())
+        for i, (k, t) in enumerate(items):
             sents = [s for s in SENT_RE.split(t) if len(s.split()) >= 4] or [t]
             probs = []
             for j in range(0, len(sents), 32):
-                enc = tok(sents[j:j + 32], padding=True, truncation=True, max_length=128, return_tensors="pt")
+                enc = tok(sents[j:j + 32], padding=True, truncation=True,
+                          max_length=128, return_tensors="pt")
+                enc = {name: value.to(device) for name, value in enc.items()}
                 with torch.no_grad():
-                    probs.append(torch.softmax(mdl(**enc).logits, -1).numpy())
+                    probs.append(torch.softmax(mdl(**enc).logits, -1).cpu().numpy())
             P = np.vstack(probs)
             new[k] = float((P[:, lab["positive"]] - P[:, lab["negative"]]).mean())
             if (i + 1) % 20 == 0:
                 log.info("FinBERT %s: %d/%d", tag, i + 1, len(todo))
-        done = pd.concat([done, pd.Series(new)])
-        done.to_csv(cache)
+                done = pd.concat([done, pd.Series(new)])
+                done = done[~done.index.duplicated(keep="last")]
+                done.to_csv(cache)
+        if new:
+            done = pd.concat([done, pd.Series(new)])
+            done = done[~done.index.duplicated(keep="last")]
+            done.to_csv(cache)
     return done
 
 

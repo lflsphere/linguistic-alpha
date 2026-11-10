@@ -63,4 +63,4 @@ are expected where a finding above applies, and should match within tolerance el
 - **AR benchmark:** `sprtrn` (scope) vs. `vwretd` / total return (dividend consistency).
 - **Transcript versions:** mixing redacted and unredacted / edited collections (meeting 10/23
   says yes). This needs a precedence rule.
-- **Biotech exclusion** via GICS 352010 (meeting 10/23). This requires `comp.co_hgic`.
+- **Industry exclusions:** none in the all-historical-S&P-500 build; retain all GICS sectors.

@@ -1,6 +1,6 @@
 """Sample universe and event exclusions.
 
-Status: specified, not implemented.
+Implemented with historical S&P 500 membership and explicit exclusion reasons.
 
 Rules (project scope §3, meeting 10/23):
   * Historical S&P 500 membership on the call date (crsp.msp500list), never today's list.
@@ -29,17 +29,24 @@ def sp500_member_on(events: pd.DataFrame, membership: pd.DataFrame) -> pd.Series
         raise ValueError("events require a call date column")
     d = _day(e[date_col])
     start, end = _day(m["start"]), _day(m["ending"])
+    covered_through = end.max()
     by_permno = {}
     for permno, idx in e.groupby("permno", dropna=False).groups.items():
         candidates = m[m["permno"].eq(permno)]
-        if candidates.empty:
-            by_permno.update({i: False for i in idx})
-            continue
         for i in idx:
+            # Do not call a firm outside the index when the membership source
+            # itself has stopped updating; preserve the distinction as unknown.
+            if pd.notna(d.iloc[i]) and pd.notna(covered_through) and d.iloc[i] > covered_through:
+                by_permno[i] = pd.NA
+                continue
+            if candidates.empty:
+                by_permno[i] = False
+                continue
             by_permno[i] = bool(((start.loc[candidates.index] <= d.iloc[i]) &
                                  (end.loc[candidates.index].isna() |
                                   (end.loc[candidates.index] >= d.iloc[i]))).any())
-    return pd.Series(by_permno).reindex(range(len(e)), fill_value=False).astype(bool).set_axis(events.index)
+    return (pd.Series(by_permno, dtype="boolean").reindex(range(len(e)), fill_value=False)
+            .set_axis(events.index))
 
 
 def apply_exclusions(events: pd.DataFrame, cfg: dict) -> pd.DataFrame:
@@ -54,7 +61,9 @@ def apply_exclusions(events: pd.DataFrame, cfg: dict) -> pd.DataFrame:
                                                     reasons.loc[mask] + ";") + label
 
     if "in_sp500" in e:
-        exclude(~e["in_sp500"].fillna(False).astype(bool), "not_sp500_on_call_date")
+        exclude(e["in_sp500"].notna() & ~e["in_sp500"].fillna(False).astype(bool),
+                "not_sp500_on_call_date")
+        exclude(e["in_sp500"].isna(), "sp500_membership_unavailable")
     if "has_transcript" in e:
         exclude(~e["has_transcript"].fillna(False).astype(bool), "no_transcript")
     elif "transcriptid" in e:

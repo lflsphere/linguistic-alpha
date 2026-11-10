@@ -37,7 +37,7 @@ the legacy notebook ([docs/data_audit.md](docs/data_audit.md)).
 | Delisting returns pulled but not used | Survivorship bias | Merge `dlret` into returns |
 | Links ignore valid dates; duplicates dropped arbitrarily | Wrong firm/ticker matches | Date-valid, ranked links with attrition log |
 | No rule for transcript versions (redacted/unredacted, re-collected ids) | Wrong or mixed text per call | Rank by creation time / presentation type; agree a precedence rule |
-| Biotech exclusion needs GICS history | Universe not as agreed | Pull `comp.co_hgic`, exclude GICS 352010 on the call date |
+| Industry exclusion could narrow the universe | User scope is all historical S&P 500 members | No industry exclusion in the full-universe build |
 | No GCP credits for audio features | Vocal features out of reach | Defer; use cheaper text features (readability, complexity) |
 
 ## Setup
@@ -66,7 +66,9 @@ licensed source data to ignored `data/raw/`. It creates aligned Model A and Mode
 `data/processed/model_table_baseline.parquet` and
 `data/processed/model_table_with_language.parquet` (Model B is also available at
 `model_table.parquet`), plus Q&A pairs and a sample attrition report. The 2023–2024 holdout is
-retained for final evaluation; later calls can be scored without return targets.
+retained for final evaluation. Later calls appear in the linked event audit, but the subscribed CRSP
+S&P membership table ends on 2024-12-31, so 2025–2026 calls are marked as membership unavailable
+and excluded from the scoreable model tables until membership coverage is refreshed.
 
 ```bash
 uv sync --extra wrds --extra models
@@ -78,6 +80,29 @@ The pull resumes from completed yearly Parquet files. `SEC_CONTACT_EMAIL` is sen
 SEC archive request header for the same-day Exhibit 99.1 text used by the press-release divergence
 features. Without SEC archive access those F5 fields stay missing. Never commit WRDS/SEC source
 files or transcript text.
+
+### Model A dashboard and FinBERT
+
+After building the two event tables, run the language-free model comparisons and dashboard:
+
+```bash
+.venv/bin/python scripts/run_model_a_dashboard.py
+```
+
+This uses a date-ordered 80/20 cutoff, purges training events whose 60-session labels could overlap
+the test period, and reports CAR[+2,+5], CAR[+2,+20], and CAR[+2,+60]. The HTML dashboard and
+aggregate results are written to `outputs/model_a_80_20/`; row-level predictions remain in ignored
+`data/processed/`.
+
+FinBERT adds sentiment columns to a separate Model B dataset:
+
+```bash
+uv sync --extra wrds --extra models --extra nlp
+.venv/bin/python scripts/add_finbert_features.py
+```
+
+It scores up to 32 evenly spaced sentences per prepared-remarks or answer section and uses Apple
+MPS when available. The output is `data/processed/model_table_with_language_finbert.parquet`.
 
 ### Research scripts
 

@@ -287,7 +287,7 @@ def build_panel(cfg, run_features: bool = True) -> pd.DataFrame:
         subprocess.run([sys.executable, str(ROOT / "scripts/01_build_features.py"),
                         "--panel", str(panel_path), "--features-out", str(feature_path),
                         "--pairs-out", str(cfg.paths.processed / "qa_pairs.csv"),
-                        "--meta-out", str(meta_path), "--embed", "auto"], check=True)
+                        "--meta-out", str(meta_path), "--embed", "tfidf"], check=True)
         features = pd.read_csv(feature_path)
         if "transcriptid" in features:
             linked = linked.merge(features.drop(columns=[c for c in needed if c in features and

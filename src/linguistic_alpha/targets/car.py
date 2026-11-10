@@ -1,6 +1,6 @@
 """Cumulative abnormal returns and post-call volatility.
 
-Status: specified, not implemented (waits on crsp_dsf / crsp_dsi / crsp_dsedelist).
+Implemented for CRSP DSF/DSI and delisting returns; factor-model alternatives remain a robustness extension.
 
 Definitions (project scope §1, §4):
   AR(i,t)          = R(i,t) - R(bench,t); bench = S&P 500 (crsp.dsi), FF4 for robustness.

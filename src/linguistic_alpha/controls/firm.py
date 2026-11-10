@@ -1,6 +1,6 @@
 """Firm characteristics: size, book-to-market, momentum, pre-event volatility, CAR[0,+1].
 
-Status: specified, not implemented.
+Implemented from CRSP daily data and Compustat quarterly fundamentals.
 
 Definitions:
   size    = ln(|prc| * shrout * 1000) at the last trading day of the month before the call

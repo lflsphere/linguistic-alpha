@@ -1,0 +1,38 @@
+{
+  "split": "chronological 80/20 with 60-trading-day label purge",
+  "cutoff_date": "2021-10-28",
+  "purge_day0_before": "2021-08-04",
+  "train_n": 22233,
+  "test_n": 5672,
+  "purged_n": 350,
+  "common_n": 28255,
+  "train_start": "2010-01-06",
+  "train_end": "2021-08-03",
+  "test_start": "2021-10-28",
+  "test_end": "2024-10-18",
+  "targets": {
+    "CAR[+2,+5]": "car_2_5",
+    "CAR[+2,+20]": "car_2_20",
+    "CAR[+2,+60]": "car_2_60"
+  },
+  "controls": [
+    "sue",
+    "size",
+    "bm",
+    "mom",
+    "car_0_1",
+    "vol_pre",
+    "n_analysts",
+    "dispersion"
+  ],
+  "models": [
+    "zero",
+    "train_mean",
+    "ols_controls",
+    "ols_industry_year_fe",
+    "ridge_industry_year_fe",
+    "random_forest",
+    "extra_trees"
+  ],
+  "qspread_cost_assumption": 0.002
+}

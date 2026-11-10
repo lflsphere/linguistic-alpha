@@ -1,6 +1,6 @@
 """Identifier linking: CIQ companyid -> gvkey -> permno -> I/B/E/S ticker, valid on the call date.
 
-Status: specified, not implemented (waits on the CRSP/Compustat/IBES pull).
+Implemented with date-valid CIQ, CCM, and I/B/E/S links.
 
 Rules (fixes vs. the legacy notebook, docs/data_audit.md §Linking):
   1. ciq.wrds_gvkey: keep rows with startdate <= call_date <= enddate (NULL enddate = open).

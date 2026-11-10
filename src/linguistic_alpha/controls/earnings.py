@@ -1,6 +1,6 @@
 """Earnings surprise and analyst controls from I/B/E/S (unadjusted).
 
-Status: specified, not implemented.
+Implemented with point-in-time unadjusted I/B/E/S actuals and summary estimates.
 
 Definitions:
   consensus  = last ``medest`` with statpers < anndats for fpedats == pends (fpi 6).
@@ -70,8 +70,14 @@ def earnings_surprise(events: pd.DataFrame, actuals: pd.DataFrame, consensus: pd
         cand = aa[(aa["anndats"] <= call_date) & (aa["anndats"] >= call_date - pd.Timedelta(days=10))]
         if call_ts is not None and pd.notna(call_ts) and "anntims" in cand:
             same = cand["anndats"].eq(call_date)
-            time = cand["anntims"].astype("string").str.replace(r"\D", "", regex=True).str.zfill(4)
-            minutes = pd.to_numeric(time.str[:2], errors="coerce") * 60 + pd.to_numeric(time.str[2:], errors="coerce")
+            raw_time = cand["anntims"].astype("string").str.strip()
+            # WRDS commonly returns HH:MM:SS. Removing punctuation and then
+            # parsing everything after HH accidentally treats seconds as minutes.
+            parts = raw_time.str.extract(r"^(\d{1,2}):(\d{2})")
+            compact = raw_time.str.replace(r"\D", "", regex=True).str.zfill(4).str[:4]
+            hour = parts[0].fillna(compact.str[:2])
+            minute = parts[1].fillna(compact.str[2:4])
+            minutes = pd.to_numeric(hour, errors="coerce") * 60 + pd.to_numeric(minute, errors="coerce")
             call_minutes = call_ts.hour * 60 + call_ts.minute
             cand = cand[~same | minutes.le(call_minutes)]
         elif call_ts is None or pd.isna(call_ts):

@@ -12,6 +12,7 @@ from pathlib import Path
 import pandas as pd
 
 from linguistic_alpha.config import load_config
+from linguistic_alpha.data.universe import apply_exclusions, sp500_member_on
 from linguistic_alpha.io import read_table, write_table
 
 
@@ -22,6 +23,8 @@ LANGUAGE_COLUMNS = {
     "TONE_R", "DIV_QP", "DIV_PR", "DIV_PR_TONE", "NOVEL", "dTONE",
     "dUNC", "dEVADE", "words_prep_parsed", "words_ans_parsed", "n_pairs",
     "n_q_blocks", "n_a_blocks", "qa_truncated", "prep_truncated", "boiler_share",
+    "words_prepared", "words_question", "words_answer", "n_questions", "n_answers",
+    "avg_answer_words", "has_transcript",
 }
 TEXT_COLUMNS = {
     "prepared_text", "qa_text", "question_text", "answer_text", "press_release_text",
@@ -38,6 +41,10 @@ def main() -> None:
     feature_path = args.features or cfg.paths.processed / "language_features.csv"
     panel = read_table(panel_path.parent, panel_path.stem)
     features = pd.read_csv(feature_path, low_memory=False)
+    membership = read_table(cfg.paths.raw, "crsp_msp500list")
+    panel["in_sp500"] = sp500_member_on(panel, membership)
+    panel = apply_exclusions(panel, cfg.raw)
+    write_table(panel, panel_path.parent, panel_path.stem)
 
     # Match the configured estimation sample and preserve the exact same rows
     # in the baseline and language-enhanced data sets.
@@ -55,6 +62,9 @@ def main() -> None:
     write_table(baseline, out, "model_table_baseline")
     # Keep the established project filename as the Model B alias.
     write_table(full, out, "model_table")
+    attrition = panel["exclusion_reason"].fillna("included").value_counts().rename_axis(
+        "reason").reset_index(name="events")
+    attrition.to_csv(out / "sample_attrition.csv", index=False)
     print(f"Model A: {len(baseline):,} rows x {baseline.shape[1]} columns")
     print(f"Model B: {len(full):,} rows x {full.shape[1]} columns")
     for target in ("car_2_5", "car_2_20", "car_2_60"):

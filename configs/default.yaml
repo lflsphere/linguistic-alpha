@@ -17,7 +17,7 @@ sample:
   start: "2010-01-01"           # includes history for four-call features and momentum
   end: "2026-12-31"             # later calls are scoring-only while CRSP ends in 2024
   universe: sp500_historical    # crsp.msp500list membership on the call date
-  exclude_gics_industries: ["352010"]   # Biotechnology (meeting 10/23)
+  exclude_gics_industries: []
   min_prior_return_days: 60
 
 split:
