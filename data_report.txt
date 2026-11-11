@@ -1,5 +1,5 @@
 MODEL TABLE  (/home/bhuvighosh3/earnings_sp500)
-calls: 29,698   companies: 770   columns: 45
+calls: 29,698   companies: 770   columns: 54
 duplicate calls: 0
 calls with transcript text: 29,686
 
@@ -20,22 +20,31 @@ vol_post_2_20               0.114
 car_2_20                    0.114
 vol_pre                     0.113
 car_0_1                     0.113
-day0                        0.113
 car_2_5                     0.113
+day0                        0.113
 mom                         0.088
 sue                         0.066
 dispersion                  0.061
 surprise_pct                0.060
-eps_surprise                0.059
-split_adjusted_consensus    0.059
-n_analysts                  0.059
-sue_price                   0.059
-fiscal_period_end           0.059
 consensus_eps               0.059
 actual_eps                  0.059
+fiscal_period_end           0.059
+n_analysts                  0.059
+eps_surprise                0.059
+sue_price                   0.059
+split_adjusted_consensus    0.059
 ticker                      0.055
+tone_answers_chg            0.036
+hedging_answers_chg         0.036
+tone_prepared_chg           0.027
+tone_gap                    0.010
+tone_answers                0.010
 avg_answer_words            0.010
+uncertainty_answers         0.010
 share_answers_by_execs      0.010
+hedging_answers             0.010
+tone_prepared               0.001
+hedging_prepared            0.000
 mcap_m                      0.000
 size                        0.000
 
@@ -74,10 +83,12 @@ Real Estate               1524
 Communication Services    1271
 
 key variables:
-            count     mean     std       min       1%      50%      99%       max
-car_0_1   26350.0  -0.0007  0.0577   -0.7716  -0.1652   0.0002   0.1512    0.5714
-car_2_20  26314.0   0.0025  0.0659   -1.1984  -0.1613   0.0027   0.1786    0.8469
-sue       27744.0   1.6776  4.3616 -155.8000  -6.3713   1.0290  14.0000  149.0000
-size      29690.0  24.1615  1.3998   20.3963  21.7713  23.8438  26.8676   28.8901
-bm        25319.0   0.4339  0.3739    0.0001   0.0158   0.3415   1.6982    8.1216
-mom       27083.0   0.1657  0.3452   -0.8726  -0.4945   0.1328   1.2369    7.3895
+                   count     mean     std       min       1%      50%      99%       max
+car_0_1          26350.0  -0.0007  0.0577   -0.7716  -0.1652   0.0002   0.1512    0.5714
+car_2_20         26314.0   0.0025  0.0659   -1.1984  -0.1613   0.0027   0.1786    0.8469
+sue              27744.0   1.6776  4.3616 -155.8000  -6.3713   1.0290  14.0000  149.0000
+size             29690.0  24.1615  1.3998   20.3963  21.7713  23.8438  26.8676   28.8901
+bm               25319.0   0.4339  0.3739    0.0001   0.0158   0.3415   1.6982    8.1216
+mom              27083.0   0.1657  0.3452   -0.8726  -0.4945   0.1328   1.2369    7.3895
+tone_answers     29406.0   0.3535  0.2312   -1.0000  -0.2692   0.3750   0.7895    1.0000
+hedging_answers  29407.0   7.2400  2.7733    0.0000   2.0828   6.9418  14.8289   32.9670

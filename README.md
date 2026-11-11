@@ -30,10 +30,50 @@ transcripts, and produces a single modeling table — one row per earnings call.
 
 | File | Description |
 |------|-------------|
-| `model_table.csv` | One row per call: IDs, sector, Day 0, CAR targets, controls, language features, sample split |
-| `data_report.txt` | Summary statistics, coverage by year, missing values, validation checks |
-| `model_a_report.txt` | Model A baseline report: preprocessing, feature selection, CV and holdout results |
-| `model_a_results.json` | Machine-readable Model A results (metrics, selected features, config) |
+| [`model_table.csv`](model_table.csv) | One row per call (45 cols): IDs, sector, Day 0, CAR targets, controls, sample split (no linguistic) |
+| [`model_table_with_linguistic.csv`](model_table_with_linguistic.csv) | Full table (54 cols): everything in model_table + LM tone, hedging, uncertainty, deltas |
+| [`data_report.txt`](data_report.txt) | Summary statistics, coverage by year, missing values, validation checks |
+| [`model_a_baseline.py`](model_a_baseline.py) | Model A script: preprocessing, feature selection, 8-model comparison |
+| [`model_a_report.txt`](model_a_report.txt) | Model A baseline report: preprocessing, feature selection, CV and holdout results |
+| [`model_a_results.json`](model_a_results.json) | Machine-readable Model A results (metrics, selected features, config) |
+| [`sp500_pipeline.py`](sp500_pipeline.py) | Main pipeline: PULL → PANEL → TARGETS → TEXT → FINAL |
+
+### Column reference (`model_table.csv`)
+
+| Column(s) | Category | Description |
+|-----------|----------|-------------|
+| `keydevid`, `transcriptid`, `companyid` | IDs | Capital IQ event and transcript identifiers |
+| `companyname`, `ticker`, `gvkey`, `permno` | IDs | Company name, ticker, Compustat and CRSP identifiers |
+| `call_date`, `call_time_utc`, `headline` | Call metadata | Earnings call date, UTC time, and headline |
+| `sector`, `gind`, `sic` | Industry | GICS sector name, GICS industry code, SIC code |
+| `day0` | Timing | First trading day on or after the call (event day 0) |
+| `car_0_1` | Target | Cumulative abnormal return, day 0–1 (announcement return) |
+| `car_2_5` | Target | CAR day 2–5 (short-term drift) |
+| **`car_2_20`** | **Target** | **CAR day 2–20 (primary target — post-earnings drift)** |
+| `car_2_60` | Target | CAR day 2–60 (long-term drift) |
+| `vol_post_2_20` | Target | Post-call realized volatility, day 2–20 |
+| `vol_pre` | Control | Pre-call realized volatility (20 trading days before) |
+| `mcap_m`, `size` | Control | Market cap ($M) and log market cap |
+| `mom` | Control | 12-1 month momentum |
+| `bm` | Control | Book-to-market ratio |
+| `fiscal_period_end` | Control | Fiscal quarter end date |
+| `actual_eps`, `consensus_eps`, `eps_surprise` | Earnings | Actual EPS, I/B/E/S consensus, and surprise |
+| `sue`, `sue_price`, `surprise_pct` | Earnings | Standardized Unexpected Earnings, SUE/price, surprise % |
+| `n_analysts`, `dispersion` | Analyst | Number of covering analysts, forecast dispersion |
+| `split_adjusted_consensus` | Analyst | Whether consensus was split-adjusted |
+| `n_questions`, `n_answers` | Call structure | Number of Q&A questions and answers |
+| `words_prepared`, `words_answers`, `words_questions` | Call structure | Word counts by section |
+| `avg_answer_words` | Call structure | Average words per executive answer |
+| `share_other_sections`, `share_answers_by_execs` | Call structure | Share of non-QA text; exec participation in answers |
+| `tone_prepared`, `tone_answers` | Linguistic | LM net tone: (positive − negative) / (positive + negative) per 1k words |
+| `hedging_prepared`, `hedging_answers` | Linguistic | LM weak-modal (hedging) words per 1k words |
+| `uncertainty_answers` | Linguistic | LM uncertainty words per 1k words in Q&A answers |
+| `tone_gap` | Linguistic | `tone_answers` − `tone_prepared` (shift from script to Q&A) |
+| `tone_prepared_chg`, `tone_answers_chg` | Linguistic | Change in tone vs. prior 4-call average |
+| `hedging_answers_chg` | Linguistic | Change in hedging vs. prior 4-call average |
+| `period` | Split | Fiscal period label |
+| `sample` | Split | `train` (2010–2022), `holdout` (2023–2024), or `no_target` (2025–2026) |
+| `prior_calls_with_target` | Meta | Count of prior calls for same firm with realized CAR |
 
 ### Pipeline stages
 
@@ -55,51 +95,85 @@ python sp500_pipeline.py --stages panel targets text final   # rebuild from cach
 ## Model A Baseline (No Linguistic Features)
 
 Predicts CAR[+2,+20] using only financial controls and call structure — no sentiment or tone features.
-Run via `model_a_baseline.py` on the GCP VM.
+Script: [`model_a_baseline.py`](model_a_baseline.py) | Report: [`model_a_report.txt`](model_a_report.txt) | JSON: [`model_a_results.json`](model_a_results.json)
 
 ### Preprocessing
 
-- **Winsorization** at 1st/99th percentile (fit per CV fold, no leakage)
+- **Winsorization** at 1st/99th percentile (fit on train per CV fold, no leakage)
 - **Log-transform** right-skewed features: `words_prepared`, `words_answers`, `words_questions`, `avg_answer_words`, `n_analysts`
 - **Median imputation** for missing values (per fold)
 - **VIF multicollinearity check** — flagged `n_answers` (15.9), `avg_answer_words` (12.3), `words_answers` (11.8)
 - **StandardScaler** per fold
+- **Sector one-hot encoding** (drop first)
+- **Time-series expanding window CV** — 4 folds, no future leakage
 
 ### Feature selection
 
-Three-method ranking (Spearman correlation, Mutual Information, Random Forest importance).
-Selected 11 of 18 candidate features:
+Three-method ensemble ranking (Spearman |r|, Mutual Information, Random Forest importance).
+Selected top 11 of 18 candidate features by average rank:
 
-| Selected | Avg Rank | Top Signal |
-|----------|----------|------------|
-| `dispersion` | 2.7 | Analyst disagreement — strongest univariate (Spearman p < 0.001) |
-| `mom` | 3.7 | 12-1 month momentum — high MI and RF importance |
-| `prior_calls_with_target` | 6.3 | How many prior calls had realized returns |
-| `vol_pre` | 6.7 | Pre-call volatility — highest RF importance (0.25) |
-| `car_0_1` | 6.7 | Announcement return (known before drift window) |
-| `size` | 6.7 | Log market cap |
-| `sue_price` | 7.3 | Earnings surprise / price |
-| `sue` | 9.0 | Standardized Unexpected Earnings |
-| `bm` | 9.3 | Book-to-market ratio |
-| `words_answers` | 10.5 | Q&A answer length (call structure, not sentiment) |
-| `n_answers` | 12.8 | Number of Q&A answers |
+| Feature | Spearman |r| | p-value | MI | RF Imp | Avg Rank | Selected |
+|---------|-------------|---------|------|--------|----------|----------|
+| `dispersion` | 0.032 | 1.3e-06 | 0.021 | 0.071 | **2.7** | Yes |
+| `mom` | 0.009 | 0.192 | 0.030 | 0.136 | **3.7** | Yes |
+| `prior_calls_with_target` | 0.006 | 0.326 | 0.011 | 0.093 | **6.3** | Yes |
+| `vol_pre` | 0.003 | 0.635 | 0.063 | 0.247 | **6.7** | Yes |
+| `car_0_1` | 0.018 | 0.007 | 0.003 | 0.046 | **6.7** | Yes |
+| `size` | 0.015 | 0.020 | 0.008 | 0.036 | **6.7** | Yes |
+| `sue_price` | 0.006 | 0.380 | 0.013 | 0.069 | **7.3** | Yes |
+| `sue` | 0.014 | 0.033 | 0.006 | 0.028 | **9.0** | Yes |
+| `bm` | 0.005 | 0.438 | 0.007 | 0.051 | **9.3** | Yes |
+| `words_answers` | 0.017 | 0.008 | 0.000 | 0.026 | **10.5** | Yes |
+| `n_answers` | 0.013 | 0.043 | 0.000 | 0.020 | **12.8** | Yes |
+| `n_questions` | 0.008 | 0.213 | 0.009 | 0.025 | 9.7 | — |
+| `surprise_pct` | 0.003 | 0.622 | 0.007 | 0.039 | 11.3 | — |
+| `n_analysts` | 0.004 | 0.572 | 0.001 | 0.032 | 13.0 | — |
+| `words_prepared` | 0.008 | 0.205 | 0.000 | 0.022 | 13.2 | — |
+| `avg_answer_words` | 0.004 | 0.538 | 0.000 | 0.034 | 13.5 | — |
+| `words_questions` | 0.006 | 0.340 | 0.000 | 0.023 | 14.2 | — |
+| `share_answers_by_execs` | 0.008 | 0.241 | 0.000 | 0.001 | 14.5 | — |
 
-Dropped: `n_questions`, `surprise_pct`, `n_analysts`, `words_prepared`, `avg_answer_words`, `words_questions`, `share_answers_by_execs`
+### Cross-validation results
 
-### Results
+Time-series expanding window, 4 folds, train period 2010–2022. All 8 models compared:
 
-**Cross-validation** (time-series expanding window, 4 folds, 2010–2022):
+| Model | Avg IC | IC ± | Avg Rank IC | Rank IC ± | R² | Dir Acc | Q5-Q1 Spread |
+|-------|--------|------|-------------|-----------|-----|---------|-------------|
+| **RandomForest** | **+0.052** | 0.092 | **+0.039** | 0.075 | −0.018 | 0.521 | **+1.05%** |
+| XGBoost | +0.030 | 0.085 | +0.031 | 0.070 | −0.057 | 0.521 | +0.76% |
+| GradientBoosting | +0.025 | 0.079 | +0.029 | 0.065 | −0.053 | 0.518 | +0.55% |
+| ExtraTrees | +0.028 | 0.076 | +0.018 | 0.042 | −0.013 | 0.517 | +0.38% |
+| Lasso | +0.006 | 0.092 | +0.007 | 0.015 | −0.013 | 0.533 | −0.13% |
+| ElasticNet | +0.004 | 0.078 | +0.008 | 0.027 | −0.014 | 0.515 | −0.00% |
+| OLS | −0.000 | 0.061 | +0.010 | 0.028 | −0.020 | 0.513 | +0.04% |
+| Ridge | −0.000 | 0.061 | +0.010 | 0.028 | −0.020 | 0.513 | +0.04% |
 
-| Model | Avg IC | Avg Rank IC | Dir Accuracy | Q5-Q1 Spread |
-|-------|--------|-------------|-------------|--------------|
-| **RandomForest** | **+0.052** | **+0.039** | 0.521 | **+1.05%** |
-| XGBoost | +0.030 | +0.031 | 0.521 | +0.76% |
-| GradientBoosting | +0.025 | +0.029 | 0.518 | +0.55% |
-| ExtraTrees | +0.028 | +0.018 | 0.517 | +0.38% |
-| OLS / Ridge | −0.000 | +0.010 | 0.513 | +0.04% |
+**Best model by Rank IC: RandomForest** (avg Rank IC +0.039, Q5-Q1 spread +1.05%)
 
-**Holdout** (2023–2024, one-time evaluation): Rank IC −0.005, Q5-Q1 −0.06%.
-Numeric controls alone do not generalize to the holdout period, motivating the addition of linguistic features.
+### Holdout results (2023–2024)
+
+One-time evaluation of the best CV model (RandomForest) on unseen data:
+
+| Metric | Value |
+|--------|-------|
+| IC | −0.076 |
+| Rank IC | −0.005 |
+| R² | −0.088 |
+| RMSE | 0.063 |
+| Direction accuracy | 43.5% |
+| Q5-Q1 spread | −0.06% |
+
+Numeric controls alone do not generalize to the holdout period — motivating the addition of linguistic features (tone, hedging, uncertainty) in Model B.
+
+### Key definitions
+
+| Metric | Definition | Range | Good value |
+|--------|-----------|-------|------------|
+| **IC** (Information Coefficient) | Pearson correlation between predicted and actual CAR | [−1, +1] | > +0.05 |
+| **Rank IC** | Spearman rank correlation — preferred for trading signals | [−1, +1] | > +0.03 |
+| **R²** | Variance explained; negative = worse than predicting zero | (−∞, 1] | > 0 |
+| **Dir Accuracy** | Share of predictions with correct sign | [0, 1] | > 0.52 |
+| **Q5-Q1 Spread** | Mean CAR of top quintile minus bottom quintile | any | > 0 |
 
 ## Roadmap
 
@@ -108,11 +182,11 @@ Numeric controls alone do not generalize to the holdout period, motivating the a
 | 1 | Pull all WRDS data and build full S&P 500 event dataset | **done** |
 | 2 | Preprocessing + feature selection on 18 non-linguistic features | **done** |
 | 3 | Baseline Model A — RandomForest, Rank IC +0.039 (CV) | **done** |
-| 4 | Features: LM tone, uncertainty, hedging, evasiveness, change vs. prior calls | next |
-| 5 | Model B — add linguistic features, compare to Model A | pending |
+| 4 | Compute LM tone, uncertainty, hedging from transcript text | **done** |
+| 5 | Model B — add linguistic features, compare to Model A | next |
 | 6 | Evaluation: IC comparison, long-short backtest net of costs | pending |
 
-Done: full pipeline build, GCP VM setup, data validation, pipeline flow diagram, Model A baseline.
+Done: full pipeline build, GCP VM setup, data validation, pipeline flow diagram, Model A baseline, LM linguistic features (tone, hedging, uncertainty + deltas).
 
 ## Obstacles and proposed solutions
 
