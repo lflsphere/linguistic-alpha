@@ -1,0 +1,51 @@
+======================================================================
+MODEL A BASELINE REPORT — Numeric Controls Only
+Generated: 2026-11-11 02:19
+Target: car_2_20
+Features: sue, sue_price, size, bm, mom, vol_pre, n_analysts, dispersion, car_0_1 + sector dummies
+======================================================================
+
+
+--- FEATURE CORRELATIONS WITH TARGET ---
+Feature               Pearson r  Spearman r    p-value
+dispersion              -0.0192     -0.0353   1.71e-07
+car_0_1                 +0.0051     +0.0161   1.73e-02
+size                    -0.0175     -0.0161   1.74e-02
+sue                     -0.0035     +0.0121   7.26e-02
+mom                     -0.0281     -0.0061   3.67e-01
+bm                      +0.0210     -0.0055   4.16e-01
+sue_price               +0.0136     +0.0045   5.02e-01
+vol_pre                 +0.0768     +0.0025   7.15e-01
+n_analysts              -0.0104     -0.0019   7.79e-01
+
+
+--- CROSS-VALIDATION RESULTS (time-series expanding window) ---
+Model                      IC      ±  Rank IC      ±       R²  Dir Acc    Q5-Q1
+RandomForest          +0.0488 0.0872  +0.0326 0.0731  -0.0103    0.522  +0.0077
+Lasso                 +0.0307 0.0531  +0.0268 0.0253  -0.0079    0.535  +0.0045
+XGBoost               +0.0336 0.0604  +0.0217 0.0640  -0.0190    0.518  +0.0043
+GradientBoosting      +0.0191 0.0709  +0.0185 0.0593  -0.0211    0.519  +0.0036
+ElasticNet            +0.0199 0.0457  +0.0184 0.0226  -0.0089    0.531  +0.0053
+Ridge                 +0.0121 0.0429  +0.0175 0.0317  -0.0132    0.528  +0.0059
+OLS                   +0.0121 0.0429  +0.0175 0.0317  -0.0132    0.528  +0.0059
+ExtraTrees            +0.0142 0.0903  +0.0115 0.0517  -0.0108    0.532  +0.0033
+
+Best model by avg Rank IC: RandomForest
+
+
+--- HOLDOUT RESULTS (RandomForest) ---
+  ic                       : -0.0071
+  rank_ic                  : +0.0780
+  r2                       : -0.0604
+  rmse                     : +0.0624
+  direction_accuracy       : +0.4514
+  quintile_spread          : +0.0083
+
+
+--- NOTES ---
+- car_0_1 (announcement return) is included as a feature since it is known before the [+2,+20] window
+- Sector is encoded as one-hot dummies (drop first)
+- All features standardized (zero mean, unit variance) per fold
+- Time-series CV: expanding window, no future data leaks into training
+- Holdout (2023-2024) evaluated once, not used for model selection
+- This is Model A (controls only). Model B will add linguistic features.
