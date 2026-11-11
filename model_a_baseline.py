@@ -1,12 +1,19 @@
 """
-Model A Baseline: Feature selection and model comparison on numeric controls only.
-Predicts CAR[+2,+20] (post-earnings drift) using only financial controls — no linguistic features.
-Run on the GCP VM where model_table.parquet lives.
+Model A Baseline v2: Proper preprocessing, full non-linguistic feature set, feature selection.
+Predicts CAR[+2,+20] using financial controls + call structure — no linguistic/sentiment features.
+
+Preprocessing pipeline:
+  1. Winsorize outliers (1st/99th percentile)
+  2. Log-transform skewed features
+  3. Impute missing with median (per fold, no leakage)
+  4. Multicollinearity check (VIF)
+  5. Feature selection (mutual information, univariate, RF importance)
+  6. StandardScaler per fold
 
 Usage:
     python3 model_a_baseline.py [--folder ~/earnings_sp500]
 """
-import argparse, os, json, warnings
+import argparse, os, json, warnings, gc
 from pathlib import Path
 from datetime import datetime
 
@@ -15,100 +22,209 @@ import pandas as pd
 from scipy import stats
 
 warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
 
 # ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------
 PRIMARY_TARGET = "car_2_20"
-SECONDARY_TARGETS = ["car_0_1", "car_2_5", "car_2_60"]
 
-CONTROL_FEATURES = [
-    "sue", "sue_price", "size", "bm", "mom", "vol_pre",
-    "n_analysts", "dispersion", "car_0_1",
+# All non-linguistic numeric features available in model_table
+FINANCIAL_CONTROLS = [
+    "sue", "sue_price", "surprise_pct",
+    "size", "bm", "mom", "vol_pre",
+    "n_analysts", "dispersion",
+    "car_0_1",
 ]
 
-SECTOR_COL = "sector"
-CV_FOLDS = 5
-RANDOM_STATE = 42
+CALL_STRUCTURE = [
+    "n_questions", "n_answers",
+    "words_prepared", "words_answers", "words_questions",
+    "avg_answer_words", "share_answers_by_execs",
+    "prior_calls_with_target",
+]
 
-def log(msg):
+ALL_FEATURES = FINANCIAL_CONTROLS + CALL_STRUCTURE
+SECTOR_COL = "sector"
+INDUSTRY_COL = "gind"
+
+# Features to log-transform (right-skewed, strictly positive)
+LOG_TRANSFORM = ["words_prepared", "words_answers", "words_questions", "avg_answer_words", "n_analysts"]
+
+# Winsorize bounds
+WINSOR_LOW = 0.01
+WINSOR_HIGH = 0.99
+
+CV_FOLDS = 5
+MIN_FOLD_SIZE = 100
+RANDOM_STATE = 42
+VIF_THRESHOLD = 10.0
+
+def log_msg(msg):
     print(f"{datetime.now().strftime('%H:%M:%S')} {msg}", flush=True)
 
 
 # ---------------------------------------------------------------------------
-# 1. Load and prepare data
+# 1. Load data
 # ---------------------------------------------------------------------------
 def load_data(base):
     df = pd.read_parquet(f"{base}/model_table.parquet")
-    log(f"loaded {len(df):,} rows, {df.shape[1]} columns")
+    log_msg(f"loaded {len(df):,} rows, {df.shape[1]} columns")
+    log_msg(f"columns: {', '.join(df.columns)}")
     train = df[df["sample"] == "train"].copy()
-    log(f"train sample: {len(train):,} rows ({train['call_date'].min().date()} to {train['call_date'].max().date()})")
+    log_msg(f"train: {len(train):,} rows ({train['call_date'].min().date()} to {train['call_date'].max().date()})")
     return df, train
 
 
-def prepare_features(train):
-    """Prepare feature matrix X and target y from training data."""
-    # Only keep rows with primary target and all core controls
-    cols_needed = CONTROL_FEATURES + [PRIMARY_TARGET, SECTOR_COL]
-    mask = train[PRIMARY_TARGET].notna()
-    for c in CONTROL_FEATURES:
-        if c in train.columns:
-            mask &= train[c].notna()
-    clean = train[mask].copy()
-    log(f"clean rows (no missing in controls + target): {len(clean):,} / {len(train):,}")
+# ---------------------------------------------------------------------------
+# 2. Preprocessing
+# ---------------------------------------------------------------------------
+def winsorize(series, low=WINSOR_LOW, high=WINSOR_HIGH):
+    """Clip values to percentile bounds."""
+    lo_val = series.quantile(low)
+    hi_val = series.quantile(high)
+    return series.clip(lo_val, hi_val)
 
-    X = clean[CONTROL_FEATURES].copy()
-    y = clean[PRIMARY_TARGET].values
-    sector = clean[SECTOR_COL].values
-    meta = clean[["keydevid", "call_date", "permno", SECTOR_COL]].copy()
 
-    return X, y, sector, meta, clean
+def preprocess_df(df, features, fit_stats=None):
+    """
+    Winsorize, log-transform, return processed df and fit statistics.
+    If fit_stats is provided, use those bounds (for test set).
+    """
+    out = df[features].copy()
+    new_stats = {}
+
+    for col in features:
+        if col not in out.columns:
+            continue
+
+        # Winsorize
+        if fit_stats is None:
+            lo = out[col].quantile(WINSOR_LOW)
+            hi = out[col].quantile(WINSOR_HIGH)
+            new_stats[f"{col}_lo"] = lo
+            new_stats[f"{col}_hi"] = hi
+        else:
+            lo = fit_stats[f"{col}_lo"]
+            hi = fit_stats[f"{col}_hi"]
+        out[col] = out[col].clip(lo, hi)
+
+        # Log-transform right-skewed features
+        if col in LOG_TRANSFORM:
+            out[col] = np.log1p(out[col].clip(lower=0))
+
+        # Median impute
+        if fit_stats is None:
+            med = out[col].median()
+            new_stats[f"{col}_median"] = med
+        else:
+            med = fit_stats[f"{col}_median"]
+        out[col] = out[col].fillna(med)
+
+    return out, (new_stats if fit_stats is None else fit_stats)
+
+
+def check_multicollinearity(X, names):
+    """Compute VIF for each feature. Flag pairs with high collinearity."""
+    from numpy.linalg import lstsq
+    log_msg("\n--- MULTICOLLINEARITY CHECK (VIF) ---")
+    vifs = []
+    X_arr = X.copy()
+    for i in range(X_arr.shape[1]):
+        others = np.delete(X_arr, i, axis=1)
+        y_i = X_arr[:, i]
+        coef, _, _, _ = lstsq(others, y_i, rcond=None)
+        y_pred = others @ coef
+        ss_res = np.sum((y_i - y_pred) ** 2)
+        ss_tot = np.sum((y_i - np.mean(y_i)) ** 2)
+        r2 = 1 - ss_res / ss_tot if ss_tot > 0 else 0
+        vif = 1 / (1 - r2) if r2 < 1 else float("inf")
+        vifs.append(vif)
+        flag = " *** HIGH" if vif > VIF_THRESHOLD else ""
+        log_msg(f"  {names[i]:25s}  VIF={vif:8.2f}{flag}")
+
+    # Also show top correlated pairs
+    corr = np.corrcoef(X_arr.T)
+    log_msg("\n  Top correlated feature pairs:")
+    pairs = []
+    for i in range(len(names)):
+        for j in range(i + 1, len(names)):
+            pairs.append((abs(corr[i, j]), names[i], names[j], corr[i, j]))
+    pairs.sort(reverse=True)
+    for absv, n1, n2, v in pairs[:10]:
+        log_msg(f"    {n1:25s} x {n2:25s}  r={v:+.3f}")
+
+    return vifs
 
 
 # ---------------------------------------------------------------------------
-# 2. Feature analysis
+# 3. Feature selection
 # ---------------------------------------------------------------------------
-def feature_analysis(X, y, sector):
-    """Correlation, rank correlation, and per-sector breakdown."""
-    results = {}
+def feature_selection(X, y, feature_names):
+    """
+    Three-method feature selection:
+    1. Univariate (Spearman correlation significance)
+    2. Mutual information regression
+    3. Random Forest importance
+    Returns ranked features and selected subset.
+    """
+    from sklearn.feature_selection import mutual_info_regression
+    from sklearn.ensemble import RandomForestRegressor
 
-    # Pearson and Spearman correlations with target
-    corrs = []
-    for col in X.columns:
-        r_p, p_p = stats.pearsonr(X[col], y)
-        r_s, p_s = stats.spearmanr(X[col], y)
-        corrs.append({
-            "feature": col,
-            "pearson_r": r_p, "pearson_p": p_p,
-            "spearman_r": r_s, "spearman_p": p_s,
-            "abs_spearman": abs(r_s),
-        })
-    corr_df = pd.DataFrame(corrs).sort_values("abs_spearman", ascending=False)
-    results["correlations"] = corr_df
-    log("feature correlations with CAR[2,20]:")
-    for _, row in corr_df.iterrows():
+    log_msg("\n--- FEATURE SELECTION ---")
+    n_features = X.shape[1]
+    scores = pd.DataFrame({"feature": feature_names})
+
+    # 1. Univariate Spearman
+    spearman_r = []
+    spearman_p = []
+    for i in range(n_features):
+        r, p = stats.spearmanr(X[:, i], y)
+        spearman_r.append(abs(r))
+        spearman_p.append(p)
+    scores["spearman_abs"] = spearman_r
+    scores["spearman_p"] = spearman_p
+    scores["spearman_rank"] = scores["spearman_abs"].rank(ascending=False)
+
+    # 2. Mutual information
+    mi = mutual_info_regression(X, y, random_state=RANDOM_STATE, n_neighbors=10)
+    scores["mi"] = mi
+    scores["mi_rank"] = scores["mi"].rank(ascending=False)
+
+    # 3. Random Forest importance
+    rf = RandomForestRegressor(
+        n_estimators=200, max_depth=6, min_samples_leaf=50,
+        max_features="sqrt", random_state=RANDOM_STATE, n_jobs=-1)
+    rf.fit(X, y)
+    scores["rf_importance"] = rf.feature_importances_
+    scores["rf_rank"] = scores["rf_importance"].rank(ascending=False)
+
+    # Average rank across methods
+    scores["avg_rank"] = (scores["spearman_rank"] + scores["mi_rank"] + scores["rf_rank"]) / 3
+    scores = scores.sort_values("avg_rank")
+
+    log_msg(f"{'Feature':25s} {'Spearman |r|':>13s} {'p-value':>10s} {'MI':>8s} {'RF imp':>8s} {'Avg rank':>9s}")
+    for _, row in scores.iterrows():
         sig = "***" if row["spearman_p"] < 0.001 else "**" if row["spearman_p"] < 0.01 else "*" if row["spearman_p"] < 0.05 else ""
-        log(f"  {row['feature']:20s}  pearson={row['pearson_r']:+.4f}  spearman={row['spearman_r']:+.4f} {sig}")
+        log_msg(f"  {row['feature']:25s} {row['spearman_abs']:10.4f} {sig:3s} {row['spearman_p']:10.2e} "
+                f"{row['mi']:8.4f} {row['rf_importance']:8.4f} {row['avg_rank']:9.1f}")
 
-    # Feature-feature correlation matrix
-    feat_corr = X.corr(method="spearman")
-    results["feature_corr_matrix"] = feat_corr
+    # Select features: keep those in top half by avg rank, OR significant spearman (p < 0.05)
+    n_keep = max(n_features // 2, 5)
+    top_by_rank = set(scores.head(n_keep)["feature"])
+    significant = set(scores[scores["spearman_p"] < 0.05]["feature"])
+    selected = sorted(top_by_rank | significant, key=lambda f: scores.set_index("feature").loc[f, "avg_rank"])
 
-    # Per-sector mean target
-    sector_means = pd.DataFrame({"sector": sector, "target": y}).groupby("sector")["target"].agg(["mean", "std", "count"])
-    results["sector_means"] = sector_means
-    log("\ntarget by sector:")
-    for s, row in sector_means.sort_values("mean", ascending=False).iterrows():
-        log(f"  {s:30s}  mean={row['mean']:+.4f}  std={row['std']:.4f}  n={int(row['count']):,}")
+    log_msg(f"\nSelected {len(selected)} features (top {n_keep} by avg rank + significant univariates):")
+    log_msg(f"  {', '.join(selected)}")
 
-    return results
+    return scores, selected
 
 
 # ---------------------------------------------------------------------------
-# 3. Model training with time-series cross-validation
+# 4. Time-series CV and model evaluation
 # ---------------------------------------------------------------------------
 def time_series_cv_splits(dates, n_splits=CV_FOLDS):
-    """Expanding window CV: train on earlier data, test on next chunk."""
     sorted_dates = np.sort(dates)
     n = len(sorted_dates)
     chunk = n // (n_splits + 1)
@@ -123,28 +239,23 @@ def time_series_cv_splits(dates, n_splits=CV_FOLDS):
         test_cutoff = sorted_dates[min(test_end - 1, n - 1)]
         train_idx = np.where(dates <= cutoff)[0]
         test_idx = np.where((dates > cutoff) & (dates <= test_cutoff))[0]
-        if len(test_idx) >= 100:
+        if len(test_idx) >= MIN_FOLD_SIZE:
             splits.append((train_idx, test_idx))
     return splits
 
 
 def evaluate_predictions(y_true, y_pred):
-    """Compute regression and classification metrics."""
-    # Regression
     ic = stats.pearsonr(y_pred, y_true)[0] if len(y_true) > 2 else np.nan
     rank_ic = stats.spearmanr(y_pred, y_true)[0] if len(y_true) > 2 else np.nan
-    mse = np.mean((y_true - y_pred) ** 2)
-    rmse = np.sqrt(mse)
     ss_res = np.sum((y_true - y_pred) ** 2)
     ss_tot = np.sum((y_true - np.mean(y_true)) ** 2)
     r2 = 1 - ss_res / ss_tot if ss_tot > 0 else np.nan
+    rmse = np.sqrt(np.mean((y_true - y_pred) ** 2))
 
-    # Classification (direction)
     direction_true = (y_true > 0).astype(int)
     direction_pred = (y_pred > 0).astype(int)
     accuracy = np.mean(direction_true == direction_pred)
 
-    # Quintile spread
     q = pd.qcut(y_pred, 5, labels=False, duplicates="drop")
     quintile_means = pd.Series(y_true).groupby(q).mean()
     top_bottom = quintile_means.iloc[-1] - quintile_means.iloc[0] if len(quintile_means) >= 2 else np.nan
@@ -155,8 +266,23 @@ def evaluate_predictions(y_true, y_pred):
     }
 
 
-def run_models(X, y, dates, sector):
-    """Train and evaluate multiple models using time-series CV."""
+def _clone_model(model):
+    from sklearn.base import clone
+    return clone(model)
+
+
+def build_sector_dummies(sector_values, all_sectors):
+    """One-hot encode sector, dropping first for dummy trap."""
+    sector_to_idx = {s: i for i, s in enumerate(all_sectors[1:])}
+    d = np.zeros((len(sector_values), len(sector_to_idx)))
+    for i, s in enumerate(sector_values):
+        if s in sector_to_idx:
+            d[i, sector_to_idx[s]] = 1
+    return d, [f"sec_{s[:8]}" for s in all_sectors[1:]]
+
+
+def run_models(X_numeric, feature_names, sector, dates, y, all_sectors):
+    """Train and evaluate models with per-fold preprocessing."""
     from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
     from sklearn.ensemble import RandomForestRegressor, ExtraTreesRegressor, GradientBoostingRegressor
     from sklearn.preprocessing import StandardScaler
@@ -165,17 +291,12 @@ def run_models(X, y, dates, sector):
         has_xgb = True
     except ImportError:
         has_xgb = False
-        log("xgboost not installed, skipping XGBRegressor")
-
-    # Add sector dummies
-    sector_dummies = pd.get_dummies(pd.Series(sector), prefix="sec", drop_first=True).values
-    X_with_sector = np.hstack([X.values, sector_dummies])
-    feature_names = list(X.columns) + [f"sec_{i}" for i in range(sector_dummies.shape[1])]
 
     splits = time_series_cv_splits(dates, CV_FOLDS)
-    log(f"\ntime-series CV: {len(splits)} folds")
+    log_msg(f"\n--- MODEL COMPARISON (time-series CV, {len(splits)} folds) ---")
     for i, (tr, te) in enumerate(splits):
-        log(f"  fold {i+1}: train={len(tr):,} (to {pd.Timestamp(dates[tr[-1]]).date()}), test={len(te):,} (to {pd.Timestamp(dates[te[-1]]).date()})")
+        log_msg(f"  fold {i+1}: train={len(tr):,} (to {pd.Timestamp(dates[tr[-1]]).date()}), "
+                f"test={len(te):,} (to {pd.Timestamp(dates[te[-1]]).date()})")
 
     models = {
         "OLS": LinearRegression(),
@@ -199,21 +320,31 @@ def run_models(X, y, dates, sector):
             random_state=RANDOM_STATE, verbosity=0, n_jobs=-1)
 
     all_results = {}
-    all_predictions = {}
 
     for name, model in models.items():
-        log(f"\n{'='*60}")
-        log(f"Training: {name}")
+        log_msg(f"\n{'='*60}")
+        log_msg(f"Training: {name}")
         fold_metrics = []
-        oof_preds = np.full(len(y), np.nan)
 
         for i, (train_idx, test_idx) in enumerate(splits):
-            X_tr, X_te = X_with_sector[train_idx], X_with_sector[test_idx]
+            # Per-fold preprocessing (fit on train, transform test)
+            X_tr_raw = pd.DataFrame(X_numeric[train_idx], columns=feature_names)
+            X_te_raw = pd.DataFrame(X_numeric[test_idx], columns=feature_names)
             y_tr, y_te = y[train_idx], y[test_idx]
 
+            X_tr_proc, fit_stats = preprocess_df(X_tr_raw, feature_names)
+            X_te_proc, _ = preprocess_df(X_te_raw, feature_names, fit_stats=fit_stats)
+
+            # Add sector dummies
+            sec_tr, sec_names = build_sector_dummies(sector[train_idx], all_sectors)
+            sec_te, _ = build_sector_dummies(sector[test_idx], all_sectors)
+
+            X_tr_full = np.hstack([X_tr_proc.values, sec_tr])
+            X_te_full = np.hstack([X_te_proc.values, sec_te])
+
             scaler = StandardScaler()
-            X_tr_s = scaler.fit_transform(X_tr)
-            X_te_s = scaler.transform(X_te)
+            X_tr_s = scaler.fit_transform(X_tr_full)
+            X_te_s = scaler.transform(X_te_full)
 
             model_clone = _clone_model(model)
             model_clone.fit(X_tr_s, y_tr)
@@ -221,41 +352,29 @@ def run_models(X, y, dates, sector):
 
             metrics = evaluate_predictions(y_te, preds)
             fold_metrics.append(metrics)
-            oof_preds[test_idx] = preds
+            log_msg(f"  fold {i+1}: IC={metrics['ic']:.4f}  rank_IC={metrics['rank_ic']:.4f}  "
+                    f"R²={metrics['r2']:.4f}  dir_acc={metrics['direction_accuracy']:.3f}  "
+                    f"Q5-Q1={metrics['quintile_spread']:.4f}")
 
-            log(f"  fold {i+1}: IC={metrics['ic']:.4f}  rank_IC={metrics['rank_ic']:.4f}  "
-                f"R²={metrics['r2']:.4f}  dir_acc={metrics['direction_accuracy']:.3f}")
-
-        # Average across folds
         avg = {k: np.mean([f[k] for f in fold_metrics]) for k in fold_metrics[0]}
         std = {k: np.std([f[k] for f in fold_metrics]) for k in fold_metrics[0]}
-
-        log(f"\n  AVERAGE: IC={avg['ic']:.4f}±{std['ic']:.4f}  rank_IC={avg['rank_ic']:.4f}±{std['rank_ic']:.4f}  "
-            f"R²={avg['r2']:.4f}  dir_acc={avg['direction_accuracy']:.3f}  Q5-Q1={avg['quintile_spread']:.4f}")
+        log_msg(f"\n  AVERAGE: IC={avg['ic']:.4f}±{std['ic']:.4f}  rank_IC={avg['rank_ic']:.4f}±{std['rank_ic']:.4f}  "
+                f"R²={avg['r2']:.4f}  dir_acc={avg['direction_accuracy']:.3f}  Q5-Q1={avg['quintile_spread']:.4f}")
 
         all_results[name] = {"avg": avg, "std": std, "folds": fold_metrics}
-        all_predictions[name] = oof_preds
 
-        # Feature importance for tree models
+        # Feature importance for last fold's tree model
         if hasattr(model_clone, "feature_importances_"):
-            imp = pd.Series(model_clone.feature_importances_, index=feature_names)
+            all_names = feature_names + sec_names
+            imp = pd.Series(model_clone.feature_importances_, index=all_names)
             imp = imp.sort_values(ascending=False).head(15)
-            log(f"  top features: {', '.join(f'{n}={v:.3f}' for n, v in imp.items())}")
+            log_msg(f"  top features: {', '.join(f'{n}={v:.3f}' for n, v in imp.items())}")
 
-    return all_results, all_predictions, feature_names
-
-
-def _clone_model(model):
-    """Clone a sklearn model with same params."""
-    from sklearn.base import clone
-    return clone(model)
+    return all_results
 
 
-# ---------------------------------------------------------------------------
-# 4. Final model on full train, predict holdout (report only, don't optimize on it)
-# ---------------------------------------------------------------------------
-def final_train_and_holdout_report(df, best_model_name, X_train, y_train, sector_train, dates_train):
-    """Train best model on full train set, report holdout metrics once."""
+def holdout_report(df, best_model_name, X_raw, y_train, sector_train, feature_names, all_sectors):
+    """Train best model on full train, evaluate on holdout once."""
     from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
     from sklearn.ensemble import RandomForestRegressor, ExtraTreesRegressor, GradientBoostingRegressor
     from sklearn.preprocessing import StandardScaler
@@ -291,74 +410,73 @@ def final_train_and_holdout_report(df, best_model_name, X_train, y_train, sector
     # Prepare holdout
     holdout = df[df["sample"] == "holdout"].copy()
     mask = holdout[PRIMARY_TARGET].notna()
-    for c in CONTROL_FEATURES:
+    for c in feature_names:
         if c in holdout.columns:
-            mask &= holdout[c].notna()
+            pass  # we'll impute missing
     holdout = holdout[mask]
-    log(f"\nholdout: {len(holdout):,} rows")
+    log_msg(f"\nholdout: {len(holdout):,} rows")
 
-    # Build sector dummies consistent with train
-    all_sectors = sorted(df[SECTOR_COL].dropna().unique())
-    sector_to_idx = {s: i for i, s in enumerate(all_sectors[1:])}  # drop_first
+    # Preprocess train
+    X_tr_df = pd.DataFrame(X_raw, columns=feature_names)
+    X_tr_proc, fit_stats = preprocess_df(X_tr_df, feature_names)
 
-    def make_sector_dummies(sectors):
-        d = np.zeros((len(sectors), len(sector_to_idx)))
-        for i, s in enumerate(sectors):
-            if s in sector_to_idx:
-                d[i, sector_to_idx[s]] = 1
-        return d
-
-    X_tr = np.hstack([X_train.values, make_sector_dummies(sector_train)])
-    X_ho = np.hstack([holdout[CONTROL_FEATURES].values, make_sector_dummies(holdout[SECTOR_COL].values)])
+    # Preprocess holdout with train stats
+    X_ho_df = holdout[feature_names].copy()
+    X_ho_proc, _ = preprocess_df(X_ho_df, feature_names, fit_stats=fit_stats)
     y_ho = holdout[PRIMARY_TARGET].values
 
+    # Sector dummies
+    sec_tr, sec_names = build_sector_dummies(sector_train, all_sectors)
+    sec_ho, _ = build_sector_dummies(holdout[SECTOR_COL].values, all_sectors)
+
+    X_tr_full = np.hstack([X_tr_proc.values, sec_tr])
+    X_ho_full = np.hstack([X_ho_proc.values, sec_ho])
+
     scaler = StandardScaler()
-    X_tr_s = scaler.fit_transform(X_tr)
-    X_ho_s = scaler.transform(X_ho)
+    X_tr_s = scaler.fit_transform(X_tr_full)
+    X_ho_s = scaler.transform(X_ho_full)
 
     model.fit(X_tr_s, y_train)
     preds = model.predict(X_ho_s)
 
     metrics = evaluate_predictions(y_ho, preds)
-    log(f"\n{'='*60}")
-    log(f"HOLDOUT REPORT ({best_model_name} trained on full train set):")
-    log(f"  IC:         {metrics['ic']:.4f}")
-    log(f"  Rank IC:    {metrics['rank_ic']:.4f}")
-    log(f"  R²:         {metrics['r2']:.4f}")
-    log(f"  RMSE:       {metrics['rmse']:.4f}")
-    log(f"  Dir Acc:    {metrics['direction_accuracy']:.3f}")
-    log(f"  Q5-Q1:      {metrics['quintile_spread']:.4f}")
+    log_msg(f"\n{'='*60}")
+    log_msg(f"HOLDOUT REPORT ({best_model_name} trained on full train set):")
+    for k, v in metrics.items():
+        log_msg(f"  {k:25s}: {v:+.4f}" if isinstance(v, float) else f"  {k:25s}: {v}")
 
-    return metrics, preds
+    return metrics
 
 
 # ---------------------------------------------------------------------------
-# 5. Summary report
+# 5. Report
 # ---------------------------------------------------------------------------
-def write_report(base, feat_results, model_results, holdout_metrics, best_model):
-    """Write a comprehensive text report."""
+def write_report(base, feat_scores, selected_features, model_results, holdout_metrics, best_model, vifs, feature_names):
     out = Path(base) / "model_a_report.txt"
     lines = []
     lines.append("=" * 70)
-    lines.append("MODEL A BASELINE REPORT — Numeric Controls Only")
+    lines.append("MODEL A BASELINE REPORT v2 — Full Non-Linguistic Features + Preprocessing")
     lines.append(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     lines.append(f"Target: {PRIMARY_TARGET}")
-    lines.append(f"Features: {', '.join(CONTROL_FEATURES)} + sector dummies")
+    lines.append(f"All candidate features ({len(feature_names)}): {', '.join(feature_names)}")
+    lines.append(f"Selected features ({len(selected_features)}): {', '.join(selected_features)}")
+    lines.append(f"Preprocessing: winsorize 1%/99%, log1p({', '.join(LOG_TRANSFORM)}), median impute, StandardScaler")
     lines.append("=" * 70)
 
-    lines.append("\n\n--- FEATURE CORRELATIONS WITH TARGET ---")
-    corr_df = feat_results["correlations"]
-    lines.append(f"{'Feature':20s} {'Pearson r':>10s} {'Spearman r':>11s} {'p-value':>10s}")
-    for _, row in corr_df.iterrows():
-        lines.append(f"{row['feature']:20s} {row['pearson_r']:+10.4f} {row['spearman_r']:+11.4f} {row['spearman_p']:10.2e}")
+    lines.append("\n\n--- FEATURE SELECTION RANKING ---")
+    lines.append(f"{'Feature':25s} {'|Spearman|':>11s} {'p-value':>10s} {'MI':>8s} {'RF imp':>8s} {'Avg rank':>9s} {'Selected':>9s}")
+    for _, row in feat_scores.iterrows():
+        sel = "YES" if row["feature"] in selected_features else ""
+        lines.append(f"{row['feature']:25s} {row['spearman_abs']:11.4f} {row['spearman_p']:10.2e} "
+                     f"{row['mi']:8.4f} {row['rf_importance']:8.4f} {row['avg_rank']:9.1f} {sel:>9s}")
 
-    lines.append("\n\n--- CROSS-VALIDATION RESULTS (time-series expanding window) ---")
+    lines.append("\n\n--- CROSS-VALIDATION RESULTS ---")
     lines.append(f"{'Model':20s} {'IC':>8s} {'±':>6s} {'Rank IC':>8s} {'±':>6s} {'R²':>8s} {'Dir Acc':>8s} {'Q5-Q1':>8s}")
     ranked = sorted(model_results.items(), key=lambda x: x[1]["avg"]["rank_ic"], reverse=True)
     for name, res in ranked:
         a, s = res["avg"], res["std"]
         lines.append(f"{name:20s} {a['ic']:+8.4f} {s['ic']:6.4f} {a['rank_ic']:+8.4f} {s['rank_ic']:6.4f} "
-                      f"{a['r2']:+8.4f} {a['direction_accuracy']:8.3f} {a['quintile_spread']:+8.4f}")
+                     f"{a['r2']:+8.4f} {a['direction_accuracy']:8.3f} {a['quintile_spread']:+8.4f}")
 
     lines.append(f"\nBest model by avg Rank IC: {best_model}")
 
@@ -367,17 +485,20 @@ def write_report(base, feat_results, model_results, holdout_metrics, best_model)
         for k, v in holdout_metrics.items():
             lines.append(f"  {k:25s}: {v:+.4f}" if isinstance(v, float) else f"  {k:25s}: {v}")
 
-    lines.append("\n\n--- NOTES ---")
-    lines.append("- car_0_1 (announcement return) is included as a feature since it is known before the [+2,+20] window")
-    lines.append("- Sector is encoded as one-hot dummies (drop first)")
-    lines.append("- All features standardized (zero mean, unit variance) per fold")
-    lines.append("- Time-series CV: expanding window, no future data leaks into training")
+    lines.append("\n\n--- PREPROCESSING NOTES ---")
+    lines.append("- Winsorization at 1st/99th percentile (fit on train per fold)")
+    lines.append(f"- Log1p transform on: {', '.join(LOG_TRANSFORM)}")
+    lines.append("- Missing values imputed with train-fold median")
+    lines.append("- Features standardized (zero mean, unit variance) per fold")
+    lines.append("- Sector encoded as one-hot dummies (drop first)")
+    lines.append("- Feature selection: top half by avg rank of (Spearman, MI, RF importance) + significant univariates")
+    lines.append("- Time-series expanding window CV, no future leakage")
     lines.append("- Holdout (2023-2024) evaluated once, not used for model selection")
-    lines.append("- This is Model A (controls only). Model B will add linguistic features.")
+    lines.append("- This is Model A (no linguistic features). Model B adds tone, hedging, etc.")
 
     report_text = "\n".join(lines)
     out.write_text(report_text)
-    log(f"\nreport saved to {out}")
+    log_msg(f"\nreport saved to {out}")
     return report_text
 
 
@@ -390,55 +511,94 @@ def main():
     args = parser.parse_args()
     base = args.folder
 
-    log("=" * 60)
-    log("MODEL A BASELINE — Feature Selection & Model Comparison")
-    log("=" * 60)
+    log_msg("=" * 60)
+    log_msg("MODEL A BASELINE v2 — Preprocessing + Feature Selection")
+    log_msg("=" * 60)
 
     # Load
     df, train = load_data(base)
 
-    # Prepare
-    X, y, sector, meta, clean = prepare_features(train)
-    dates = clean["call_date"].values
+    # Check which features exist
+    available = [f for f in ALL_FEATURES if f in train.columns]
+    missing_cols = [f for f in ALL_FEATURES if f not in train.columns]
+    if missing_cols:
+        log_msg(f"features not in data (skipping): {missing_cols}")
+    log_msg(f"candidate features ({len(available)}): {', '.join(available)}")
 
-    # Feature analysis
-    log("\n--- FEATURE ANALYSIS ---")
-    feat_results = feature_analysis(X, y, sector)
+    # Keep rows with target (allow missing features — we'll impute)
+    train_with_target = train[train[PRIMARY_TARGET].notna()].copy()
+    log_msg(f"rows with target: {len(train_with_target):,}")
 
-    # Model comparison
-    log("\n--- MODEL COMPARISON (time-series CV) ---")
-    model_results, predictions, feature_names = run_models(X, y, dates, sector)
+    X_raw = train_with_target[available].values
+    y = train_with_target[PRIMARY_TARGET].values
+    sector = train_with_target[SECTOR_COL].values
+    dates = train_with_target["call_date"].values
+    all_sectors = sorted(df[SECTOR_COL].dropna().unique())
 
-    # Pick best by average rank IC
+    # Step 1: Preprocess for feature analysis (full train)
+    log_msg("\n--- PREPROCESSING ---")
+    X_df = pd.DataFrame(X_raw, columns=available)
+    X_proc, fit_stats = preprocess_df(X_df, available)
+    log_msg(f"after preprocessing: {X_proc.shape[0]:,} rows, {X_proc.shape[1]} features")
+
+    # Show distributions before/after
+    log_msg("\nfeature distributions (after winsorize + log):")
+    for col in available:
+        s = X_proc[col]
+        log_msg(f"  {col:25s}  mean={s.mean():+8.4f}  std={s.std():8.4f}  "
+                f"skew={s.skew():+6.2f}  missing={X_df[col].isna().sum()}")
+
+    # Step 2: Multicollinearity check
+    vifs = check_multicollinearity(X_proc.values, available)
+
+    # Step 3: Feature selection
+    feat_scores, selected_features = feature_selection(X_proc.values, y, available)
+
+    # Step 4: Run models with SELECTED features only
+    selected_idx = [available.index(f) for f in selected_features]
+    X_selected = X_raw[:, selected_idx]
+
+    model_results = run_models(X_selected, selected_features, sector, dates, y, all_sectors)
+
+    # Pick best
     best_model = max(model_results, key=lambda k: model_results[k]["avg"]["rank_ic"])
-    log(f"\n>>> Best model by Rank IC: {best_model} "
-        f"(IC={model_results[best_model]['avg']['ic']:.4f}, "
-        f"Rank IC={model_results[best_model]['avg']['rank_ic']:.4f})")
+    best_res = model_results[best_model]
+    log_msg(f"\n>>> Best model: {best_model} "
+            f"(IC={best_res['avg']['ic']:.4f}, Rank IC={best_res['avg']['rank_ic']:.4f})")
 
-    # Holdout report (one-time look)
-    holdout_metrics, holdout_preds = final_train_and_holdout_report(
-        df, best_model, X, y, sector, dates)
+    # Step 5: Holdout
+    holdout_metrics = holdout_report(df, best_model, X_selected, y, sector, selected_features, all_sectors)
 
-    # Save report
-    report = write_report(base, feat_results, model_results, holdout_metrics, best_model)
+    # Step 6: Report
+    report = write_report(base, feat_scores, selected_features, model_results,
+                         holdout_metrics, best_model, vifs, available)
     print("\n" + report)
 
-    # Save results as JSON
+    # Save JSON
     json_out = Path(base) / "model_a_results.json"
     save = {
+        "version": "v2",
         "best_model": best_model,
-        "features": CONTROL_FEATURES,
+        "all_candidate_features": available,
+        "selected_features": selected_features,
+        "preprocessing": {
+            "winsorize": f"{WINSOR_LOW}/{WINSOR_HIGH}",
+            "log_transform": LOG_TRANSFORM,
+            "impute": "median (per fold)",
+            "scale": "StandardScaler (per fold)",
+        },
         "target": PRIMARY_TARGET,
         "cv_results": {name: {
             "avg": {k: float(v) for k, v in r["avg"].items()},
             "std": {k: float(v) for k, v in r["std"].items()},
         } for name, r in model_results.items()},
         "holdout": {k: float(v) for k, v in holdout_metrics.items()},
+        "feature_selection": feat_scores[["feature", "spearman_abs", "mi", "rf_importance", "avg_rank"]].to_dict("records"),
         "timestamp": datetime.now().isoformat(),
     }
     json_out.write_text(json.dumps(save, indent=2))
-    log(f"results JSON saved to {json_out}")
-    log("done")
+    log_msg(f"results JSON saved to {json_out}")
+    log_msg("done")
 
 
 if __name__ == "__main__":
