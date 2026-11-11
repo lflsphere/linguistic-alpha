@@ -8,23 +8,60 @@ Data comes from WRDS: Capital IQ transcripts, CRSP, Compustat and I/B/E/S.
 - Legacy notebook audit and rebuild plan: [docs/data_audit.md](docs/data_audit.md)
 - Run settings: [configs/default.yaml](configs/default.yaml)
 
-## Roadmap (in priority order)
+## S&P 500 Pipeline (GCP)
 
-| # | Task | Status | Done when |
-|---|------|--------|-----------|
-| 1 | Pull CRSP, Compustat, I/B/E/S and links for AAPL/MSFT/NVDA (`la pull`) | todo | raw files in `data/raw/`, table names checked (CRSP CIZ migration) |
-| 2 | Linking + universe (`data/linking.py`, `data/universe.py`) | stub | one row per call, link attrition logged per step |
-| 3 | Targets: CAR windows, post-call vol (`targets/car.py`) | stub | CAR[2,20] matches legacy panel within 1e-6 on the same benchmark |
-| 4 | Controls: SUE on unadjusted I/B/E/S, size, B/M, mom (`controls/`) | stub | no zero consensus; AAPL Q1-2010 surprise small and positive |
-| 5 | Confirm open decisions with prof/employer (see Obstacles) | todo | holdout, benchmark, version rule fixed in `configs/default.yaml` |
-| 6 | Scale to the full S&P 500 2010–2024 on WRDS Cloud | todo | audit checks clean: coverage per year, no truncation, missing times reported |
-| 7 | Features F1–F2: LM tone, uncertainty, hedging (`features/communication_state.py`) | interface | LM dictionary in `data/external/`, safe harbor stripped |
-| 8 | Features F3–F5: evasiveness, change vs. prior calls, divergence | interface | F3 validated on a hand-labeled Q&A sample |
-| 9 | Model A vs. B: walk-forward, Fama-MacBeth, FDR (`models/`) | stub | coefficient tables and out-of-sample IC for both models |
-| 10 | Evaluation: IC comparison, long-short backtest net of costs (`evaluation/`) | stub | portfolios A / L / B, gross vs. net, decay, capacity |
+A standalone pipeline (`sp500_pipeline.py`) pulls all WRDS source data, builds date-validated
+identifier links, computes abnormal returns and controls, extracts NLP features from Capital IQ
+transcripts, and produces a single modeling table — one row per earnings call.
 
-Done: package scaffold, transcript ingestion and Q&A pairing, Day 0 timing (tested), audit of
-the legacy notebook ([docs/data_audit.md](docs/data_audit.md)).
+### Dataset summary
+
+| Metric | Value |
+|--------|-------|
+| Total earnings calls | 29,698 |
+| Calls with CAR[+2,+20] | 26,314 |
+| Calls with SUE | 27,744 |
+| Date range | 2010-01-06 to 2026-10-30 |
+| GICS sectors | 11 |
+| Train sample | 2010–2022 |
+| Holdout sample | 2023–2024 |
+
+### Output files
+
+| File | Description |
+|------|-------------|
+| `model_table.csv` | One row per call: IDs, sector, Day 0, CAR targets, controls, language features, sample split |
+| `data_report.txt` | Summary statistics, coverage by year, missing values, validation checks |
+
+### Pipeline stages
+
+1. **PULL** — Download 14 WRDS tables (CRSP, Compustat, I/B/E/S, Capital IQ transcripts)
+2. **PANEL** — Chain date-validated identity joins: companyid → gvkey → permno → IBES ticker → GICS sector
+3. **TARGETS** — Compute CAR[0,1], CAR[2,5], CAR[2,20] (primary), CAR[2,60], post-call volatility
+4. **TEXT** — Extract NLP features: tone (Loughran-McDonald), hedging, word counts, exec participation
+5. **FINAL** — Merge numeric + language features, compute deltas vs. prior 4 calls, assign train/holdout split
+
+### How to run
+
+```bash
+# On a GCP VM (e2-standard-8, 32GB RAM, Ubuntu 22.04)
+pip install -r requirements.txt
+python sp500_pipeline.py          # interactive WRDS login (Duo required)
+python sp500_pipeline.py --stages panel targets text final   # rebuild from cached raw data
+```
+
+## Roadmap
+
+| # | Task | Status |
+|---|------|--------|
+| 1 | Pull all WRDS data and build full S&P 500 event dataset | **done** |
+| 2 | Feature selection on numeric controls (SUE, size, B/M, momentum, vol, analysts) | next |
+| 3 | Baseline Model A — predict CAR[2,20] without linguistic features | next |
+| 4 | Features: LM tone, uncertainty, hedging, evasiveness, change vs. prior calls | pending |
+| 5 | Model B — add linguistic features, compare to Model A | pending |
+| 6 | Evaluation: IC comparison, long-short backtest net of costs | pending |
+
+Done: full pipeline build, GCP VM setup, data validation, pipeline flow diagram.
 
 ## Obstacles and proposed solutions
 

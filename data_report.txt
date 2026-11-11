@@ -1,0 +1,83 @@
+MODEL TABLE  (/home/bhuvighosh3/earnings_sp500)
+calls: 29,698   companies: 770   columns: 45
+duplicate calls: 0
+calls with transcript text: 29,686
+
+samples (calls / companies / date range):
+  train                   23,121 calls    734 companies  2010-01-06 to 2022-12-22
+  holdout                  3,004 calls    476 companies  2023-01-05 to 2024-11-26
+  holdout_no_history         189 calls     42 companies  2023-01-26 to 2024-11-26
+  no_target                3,384 calls    490 companies  2024-12-03 to 2026-10-30
+  check: every holdout company is in train: True
+usable with target + core controls: train 21,973, holdout 2,769
+calls with a split between consensus and announcement: 19
+avg share of transcript pieces with unmapped section: 0.031%
+
+missing values by column (share):
+bm                          0.147
+car_2_60                    0.127
+vol_post_2_20               0.114
+car_2_20                    0.114
+vol_pre                     0.113
+car_0_1                     0.113
+day0                        0.113
+car_2_5                     0.113
+mom                         0.088
+sue                         0.066
+dispersion                  0.061
+surprise_pct                0.060
+eps_surprise                0.059
+split_adjusted_consensus    0.059
+n_analysts                  0.059
+sue_price                   0.059
+fiscal_period_end           0.059
+consensus_eps               0.059
+actual_eps                  0.059
+ticker                      0.055
+avg_answer_words            0.010
+share_answers_by_execs      0.010
+mcap_m                      0.000
+size                        0.000
+
+calls per year:
+call_date
+2010    1770
+2011    1842
+2012    1815
+2013    1761
+2014    1777
+2015    1758
+2016    1822
+2017    1791
+2018    1767
+2019    1777
+2020    1824
+2021    1754
+2022    1663
+2023    1602
+2024    1627
+2025    1737
+2026    1611
+
+calls per sector:
+sector
+Industrials               4149
+Financials                4136
+Consumer Discretionary    3711
+Information Technology    3561
+Health Care               3551
+Consumer Staples          2468
+Energy                    1964
+Utilities                 1752
+Materials                 1611
+Real Estate               1524
+Communication Services    1271
+
+key variables:
+            count     mean     std       min       1%      50%      99%       max
+car_0_1   26350.0  -0.0007  0.0577   -0.7716  -0.1652   0.0002   0.1512    0.5714
+car_2_20  26314.0   0.0025  0.0659   -1.1984  -0.1613   0.0027   0.1786    0.8469
+sue       27744.0   1.6776  4.3616 -155.8000  -6.3713   1.0290  14.0000  149.0000
+size      29690.0  24.1615  1.3998   20.3963  21.7713  23.8438  26.8676   28.8901
+bm        25319.0   0.4339  0.3739    0.0001   0.0158   0.3415   1.6982    8.1216
+mom       27083.0   0.1657  0.3452   -0.8726  -0.4945   0.1328   1.2369    7.3895
