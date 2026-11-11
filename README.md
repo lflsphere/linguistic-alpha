@@ -115,11 +115,11 @@ Script: [`model_a_baseline.py`](model_a_baseline.py) | Report: [`model_a_report.
 
 ### Feature selection
 
-Three-method ensemble ranking (Spearman |r|, Mutual Information, Random Forest importance).
+Three-method ensemble ranking (Spearman \|r\|, Mutual Information, Random Forest importance).
 Selected top 11 of 18 candidate features by average rank:
 
-| Feature | Spearman |r| | p-value | MI | RF Imp | Avg Rank | Selected |
-|---------|-------------|---------|------|--------|----------|----------|
+| Feature | Spearman \|r\| | p-value | MI | RF Imp | Avg Rank | Selected |
+|---------|---------------|---------|------|--------|----------|----------|
 | `dispersion` | 0.032 | 1.3e-06 | 0.021 | 0.071 | **2.7** | Yes |
 | `mom` | 0.009 | 0.192 | 0.030 | 0.136 | **3.7** | Yes |
 | `prior_calls_with_target` | 0.006 | 0.326 | 0.011 | 0.093 | **6.3** | Yes |
@@ -202,8 +202,8 @@ Script: [`model_b_linguistic.py`](model_b_linguistic.py) | Report: [`model_b_rep
 
 ### Feature selection (20 candidates → 13 selected)
 
-| Feature | Spearman |r| | MI | RF Imp | Avg Rank | Type | Selected |
-|---------|-------------|------|--------|----------|------|----------|
+| Feature | Spearman \|r\| | MI | RF Imp | Avg Rank | Type | Selected |
+|---------|---------------|------|--------|----------|------|----------|
 | `dispersion` | 0.032 | 0.021 | 0.069 | **2.7** | ctrl | Yes |
 | `mom` | 0.009 | 0.030 | 0.129 | **4.3** | ctrl | Yes |
 | `car_0_1` | 0.018 | 0.004 | 0.051 | **5.7** | ctrl | Yes |
