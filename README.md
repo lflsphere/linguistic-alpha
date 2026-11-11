@@ -39,6 +39,9 @@ transcripts, and produces a single modeling table — one row per earnings call.
 | [`model_b_linguistic.py`](model_b_linguistic.py) | Model B script: Model A controls + linguistic features, 8-model comparison |
 | [`model_b_report.txt`](model_b_report.txt) | Model B report: feature selection, CV results, A vs B comparison |
 | [`model_b_results.json`](model_b_results.json) | Machine-readable Model B results |
+| [`model_b_all_linguistic.py`](model_b_all_linguistic.py) | Model B* script: all 20 features forced, no selection |
+| [`model_b_all_report.txt`](model_b_all_report.txt) | Model B* report: all-features CV results, 3-way comparison |
+| [`model_b_all_results.json`](model_b_all_results.json) | Machine-readable Model B* results |
 | [`sp500_pipeline.py`](sp500_pipeline.py) | Main pipeline: PULL → PANEL → TARGETS → TEXT → FINAL |
 
 ### Column reference (`model_table.csv`)
@@ -237,16 +240,33 @@ Only 2 of 9 linguistic features were selected: `tone_prepared_chg` and `tone_ans
 | Lasso | +0.005 | +0.007 | 0.533 | −0.14% |
 | ElasticNet | +0.002 | +0.007 | 0.515 | +0.01% |
 
-### Model A vs Model B comparison
+### Model B* — all linguistic features forced (no feature selection)
 
-| Metric | Model A (controls only) | Model B (+ linguistic) | Difference |
-|--------|------------------------|----------------------|------------|
-| **CV Rank IC** | +0.039 | +0.038 | −0.001 |
-| **CV Q5-Q1** | +1.05% | +0.94% | −0.11% |
-| Holdout Rank IC | −0.005 | −0.011 | −0.006 |
-| Holdout Q5-Q1 | −0.06% | −0.32% | −0.26% |
+Script: [`model_b_all_linguistic.py`](model_b_all_linguistic.py) | Report: [`model_b_all_report.txt`](model_b_all_report.txt) | JSON: [`model_b_all_results.json`](model_b_all_results.json)
 
-**Conclusion:** LM dictionary-based linguistic features (tone, hedging, uncertainty) do not improve prediction of post-earnings drift CAR[+2,+20] beyond the financial controls in this dataset. The bag-of-words approach may be too coarse — next steps include contextual embeddings (FinBERT), interaction-quality features, or finer-grained text measures.
+All 20 features (11 controls + 9 linguistic) forced into every model to test whether feature selection dropped useful signal.
+
+| Model | Avg IC | Avg Rank IC | Dir Accuracy | Q5-Q1 Spread |
+|-------|--------|-------------|-------------|--------------|
+| **RandomForest** | **+0.041** | **+0.035** | 0.518 | **+0.75%** |
+| GradientBoosting | +0.013 | +0.031 | 0.513 | +0.47% |
+| XGBoost | +0.017 | +0.027 | 0.514 | +0.60% |
+| ExtraTrees | +0.023 | +0.009 | 0.518 | +0.22% |
+| Ridge / OLS | −0.003 | +0.008 | 0.508 | +0.09% |
+| Lasso | +0.005 | +0.006 | 0.532 | −0.03% |
+| ElasticNet | +0.000 | +0.005 | 0.517 | −0.12% |
+
+### Model A vs Model B comparison (all variants)
+
+| Metric | Model A | Model B (selected) | Model B* (all forced) |
+|--------|---------|--------------------|-----------------------|
+| Features | 11 controls | 13 (11 ctrl + 2 ling) | 20 (11 ctrl + 9 ling) |
+| **CV Rank IC** | **+0.039** | +0.038 | +0.035 |
+| **CV Q5-Q1** | **+1.05%** | +0.94% | +0.75% |
+| Holdout Rank IC | −0.005 | −0.011 | −0.008 |
+| Holdout Q5-Q1 | −0.06% | −0.32% | −0.44% |
+
+**Conclusion:** LM dictionary-based linguistic features (tone, hedging, uncertainty) do not improve prediction of post-earnings drift CAR[+2,+20]. Adding more linguistic features monotonically *worsens* performance — the bag-of-words approach adds noise, not signal. Next steps: contextual embeddings (FinBERT), interaction-quality features, or finer-grained text measures.
 
 ## Roadmap
 

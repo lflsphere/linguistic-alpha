@@ -1,0 +1,391 @@
+"""
+Model B (all linguistic): Model A controls + ALL 9 LM linguistic features.
+No feature selection — forces all linguistic features into the model to test
+whether the full set adds signal that feature selection missed.
+
+Usage:
+    python3 model_b_all_linguistic.py [--folder ~/earnings_sp500]
+"""
+import argparse, os, json, warnings
+from pathlib import Path
+from datetime import datetime
+
+import numpy as np
+import pandas as pd
+from scipy import stats
+
+warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
+
+PRIMARY_TARGET = "car_2_20"
+
+MODEL_A_FEATURES = [
+    "dispersion", "mom", "prior_calls_with_target", "vol_pre",
+    "car_0_1", "size", "sue_price", "sue", "bm",
+    "words_answers", "n_answers",
+]
+
+LINGUISTIC_FEATURES = [
+    "tone_prepared", "tone_answers", "hedging_prepared", "hedging_answers",
+    "uncertainty_answers", "tone_gap",
+    "tone_prepared_chg", "tone_answers_chg", "hedging_answers_chg",
+]
+
+ALL_FEATURES = MODEL_A_FEATURES + LINGUISTIC_FEATURES
+SECTOR_COL = "sector"
+LOG_TRANSFORM = ["words_answers"]
+
+WINSOR_LOW = 0.01
+WINSOR_HIGH = 0.99
+CV_FOLDS = 5
+MIN_FOLD_SIZE = 100
+RANDOM_STATE = 42
+
+
+def log_msg(msg):
+    print(f"{datetime.now().strftime('%H:%M:%S')} {msg}", flush=True)
+
+
+def load_data(base):
+    df = pd.read_parquet(f"{base}/model_table.parquet")
+    log_msg(f"loaded {len(df):,} rows, {df.shape[1]} columns")
+    ling_present = [c for c in LINGUISTIC_FEATURES if c in df.columns]
+    ling_missing = [c for c in LINGUISTIC_FEATURES if c not in df.columns]
+    log_msg(f"linguistic columns present ({len(ling_present)}): {ling_present}")
+    if ling_missing:
+        log_msg(f"WARNING — missing: {ling_missing}")
+    train = df[df["sample"] == "train"].copy()
+    log_msg(f"train: {len(train):,} rows ({train['call_date'].min().date()} to {train['call_date'].max().date()})")
+    return df, train
+
+
+def preprocess_df(df, features, fit_stats=None):
+    out = df[features].copy()
+    new_stats = {}
+    for col in features:
+        if col not in out.columns:
+            continue
+        if fit_stats is None:
+            lo = out[col].quantile(WINSOR_LOW)
+            hi = out[col].quantile(WINSOR_HIGH)
+            new_stats[f"{col}_lo"] = lo
+            new_stats[f"{col}_hi"] = hi
+        else:
+            lo = fit_stats[f"{col}_lo"]
+            hi = fit_stats[f"{col}_hi"]
+        out[col] = out[col].clip(lo, hi)
+        if col in LOG_TRANSFORM:
+            out[col] = np.log1p(out[col].clip(lower=0))
+        if fit_stats is None:
+            med = out[col].median()
+            new_stats[f"{col}_median"] = med
+        else:
+            med = fit_stats[f"{col}_median"]
+        out[col] = out[col].fillna(med)
+    return out, (new_stats if fit_stats is None else fit_stats)
+
+
+def evaluate_predictions(y_true, y_pred):
+    ic = stats.pearsonr(y_pred, y_true)[0] if len(y_true) > 2 else np.nan
+    rank_ic = stats.spearmanr(y_pred, y_true)[0] if len(y_true) > 2 else np.nan
+    ss_res = np.sum((y_true - y_pred) ** 2)
+    ss_tot = np.sum((y_true - np.mean(y_true)) ** 2)
+    r2 = 1 - ss_res / ss_tot if ss_tot > 0 else np.nan
+    rmse = np.sqrt(np.mean((y_true - y_pred) ** 2))
+    direction_true = (y_true > 0).astype(int)
+    direction_pred = (y_pred > 0).astype(int)
+    accuracy = np.mean(direction_true == direction_pred)
+    q = pd.qcut(y_pred, 5, labels=False, duplicates="drop")
+    quintile_means = pd.Series(y_true).groupby(q).mean()
+    top_bottom = quintile_means.iloc[-1] - quintile_means.iloc[0] if len(quintile_means) >= 2 else np.nan
+    return {
+        "ic": ic, "rank_ic": rank_ic, "r2": r2, "rmse": rmse,
+        "direction_accuracy": accuracy, "quintile_spread": top_bottom,
+    }
+
+
+def time_series_cv_splits(dates, n_splits=CV_FOLDS):
+    sorted_dates = np.sort(dates)
+    n = len(sorted_dates)
+    chunk = n // (n_splits + 1)
+    splits = []
+    for i in range(n_splits):
+        train_end = chunk * (i + 2)
+        test_end = min(train_end + chunk, n)
+        if test_end <= train_end:
+            continue
+        cutoff = sorted_dates[train_end - 1]
+        test_cutoff = sorted_dates[min(test_end - 1, n - 1)]
+        train_idx = np.where(dates <= cutoff)[0]
+        test_idx = np.where((dates > cutoff) & (dates <= test_cutoff))[0]
+        if len(test_idx) >= MIN_FOLD_SIZE:
+            splits.append((train_idx, test_idx))
+    return splits
+
+
+def build_sector_dummies(sector_values, all_sectors):
+    sector_to_idx = {s: i for i, s in enumerate(all_sectors[1:])}
+    d = np.zeros((len(sector_values), len(sector_to_idx)))
+    for i, s in enumerate(sector_values):
+        if s in sector_to_idx:
+            d[i, sector_to_idx[s]] = 1
+    return d, [f"sec_{s[:8]}" for s in all_sectors[1:]]
+
+
+def _clone_model(model):
+    from sklearn.base import clone
+    return clone(model)
+
+
+def run_models(X_numeric, feature_names, sector, dates, y, all_sectors):
+    from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
+    from sklearn.ensemble import RandomForestRegressor, ExtraTreesRegressor, GradientBoostingRegressor
+    from sklearn.preprocessing import StandardScaler
+    try:
+        from xgboost import XGBRegressor
+        has_xgb = True
+    except ImportError:
+        has_xgb = False
+
+    splits = time_series_cv_splits(dates, CV_FOLDS)
+    log_msg(f"\n--- MODEL COMPARISON (time-series CV, {len(splits)} folds, ALL features forced) ---")
+    for i, (tr, te) in enumerate(splits):
+        log_msg(f"  fold {i+1}: train={len(tr):,} (to {pd.Timestamp(dates[tr[-1]]).date()}), "
+                f"test={len(te):,} (to {pd.Timestamp(dates[te[-1]]).date()})")
+
+    models = {
+        "OLS": LinearRegression(),
+        "Ridge": Ridge(alpha=1.0),
+        "Lasso": Lasso(alpha=0.001, max_iter=5000),
+        "ElasticNet": ElasticNet(alpha=0.001, l1_ratio=0.5, max_iter=5000),
+        "RandomForest": RandomForestRegressor(
+            n_estimators=300, max_depth=6, min_samples_leaf=50,
+            max_features="sqrt", random_state=RANDOM_STATE, n_jobs=-1),
+        "ExtraTrees": ExtraTreesRegressor(
+            n_estimators=300, max_depth=6, min_samples_leaf=50,
+            max_features="sqrt", random_state=RANDOM_STATE, n_jobs=-1),
+        "GradientBoosting": GradientBoostingRegressor(
+            n_estimators=200, max_depth=3, learning_rate=0.05,
+            min_samples_leaf=50, subsample=0.8, random_state=RANDOM_STATE),
+    }
+    if has_xgb:
+        models["XGBoost"] = XGBRegressor(
+            n_estimators=200, max_depth=3, learning_rate=0.05,
+            min_child_weight=50, subsample=0.8, colsample_bytree=0.8,
+            random_state=RANDOM_STATE, verbosity=0, n_jobs=-1)
+
+    all_results = {}
+    for name, model in models.items():
+        log_msg(f"\n{'='*60}")
+        log_msg(f"Training: {name}")
+        fold_metrics = []
+        for i, (train_idx, test_idx) in enumerate(splits):
+            X_tr_raw = pd.DataFrame(X_numeric[train_idx], columns=feature_names)
+            X_te_raw = pd.DataFrame(X_numeric[test_idx], columns=feature_names)
+            y_tr, y_te = y[train_idx], y[test_idx]
+            X_tr_proc, fit_stats = preprocess_df(X_tr_raw, feature_names)
+            X_te_proc, _ = preprocess_df(X_te_raw, feature_names, fit_stats=fit_stats)
+            sec_tr, sec_names = build_sector_dummies(sector[train_idx], all_sectors)
+            sec_te, _ = build_sector_dummies(sector[test_idx], all_sectors)
+            X_tr_full = np.hstack([X_tr_proc.values, sec_tr])
+            X_te_full = np.hstack([X_te_proc.values, sec_te])
+            scaler = StandardScaler()
+            X_tr_s = scaler.fit_transform(X_tr_full)
+            X_te_s = scaler.transform(X_te_full)
+            model_clone = _clone_model(model)
+            model_clone.fit(X_tr_s, y_tr)
+            preds = model_clone.predict(X_te_s)
+            metrics = evaluate_predictions(y_te, preds)
+            fold_metrics.append(metrics)
+            log_msg(f"  fold {i+1}: IC={metrics['ic']:.4f}  rank_IC={metrics['rank_ic']:.4f}  "
+                    f"R²={metrics['r2']:.4f}  dir_acc={metrics['direction_accuracy']:.3f}  "
+                    f"Q5-Q1={metrics['quintile_spread']:.4f}")
+        avg = {k: np.mean([f[k] for f in fold_metrics]) for k in fold_metrics[0]}
+        std = {k: np.std([f[k] for f in fold_metrics]) for k in fold_metrics[0]}
+        log_msg(f"\n  AVERAGE: IC={avg['ic']:.4f}±{std['ic']:.4f}  rank_IC={avg['rank_ic']:.4f}±{std['rank_ic']:.4f}  "
+                f"R²={avg['r2']:.4f}  dir_acc={avg['direction_accuracy']:.3f}  Q5-Q1={avg['quintile_spread']:.4f}")
+        all_results[name] = {"avg": avg, "std": std, "folds": fold_metrics}
+        if hasattr(model_clone, "feature_importances_"):
+            all_names = feature_names + sec_names
+            imp = pd.Series(model_clone.feature_importances_, index=all_names)
+            imp = imp.sort_values(ascending=False).head(15)
+            log_msg(f"  top features: {', '.join(f'{n}={v:.3f}' for n, v in imp.items())}")
+    return all_results
+
+
+def holdout_report(df, best_model_name, X_raw, y_train, sector_train, feature_names, all_sectors):
+    from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
+    from sklearn.ensemble import RandomForestRegressor, ExtraTreesRegressor, GradientBoostingRegressor
+    from sklearn.preprocessing import StandardScaler
+    try:
+        from xgboost import XGBRegressor
+        has_xgb = True
+    except ImportError:
+        has_xgb = False
+
+    model_map = {
+        "OLS": LinearRegression(),
+        "Ridge": Ridge(alpha=1.0),
+        "Lasso": Lasso(alpha=0.001, max_iter=5000),
+        "ElasticNet": ElasticNet(alpha=0.001, l1_ratio=0.5, max_iter=5000),
+        "RandomForest": RandomForestRegressor(
+            n_estimators=300, max_depth=6, min_samples_leaf=50,
+            max_features="sqrt", random_state=RANDOM_STATE, n_jobs=-1),
+        "ExtraTrees": ExtraTreesRegressor(
+            n_estimators=300, max_depth=6, min_samples_leaf=50,
+            max_features="sqrt", random_state=RANDOM_STATE, n_jobs=-1),
+        "GradientBoosting": GradientBoostingRegressor(
+            n_estimators=200, max_depth=3, learning_rate=0.05,
+            min_samples_leaf=50, subsample=0.8, random_state=RANDOM_STATE),
+    }
+    if has_xgb:
+        model_map["XGBoost"] = XGBRegressor(
+            n_estimators=200, max_depth=3, learning_rate=0.05,
+            min_child_weight=50, subsample=0.8, colsample_bytree=0.8,
+            random_state=RANDOM_STATE, verbosity=0, n_jobs=-1)
+
+    model = model_map[best_model_name]
+    holdout = df[df["sample"] == "holdout"].copy()
+    holdout = holdout[holdout[PRIMARY_TARGET].notna()]
+    log_msg(f"\nholdout: {len(holdout):,} rows")
+
+    X_tr_df = pd.DataFrame(X_raw, columns=feature_names)
+    X_tr_proc, fit_stats = preprocess_df(X_tr_df, feature_names)
+    X_ho_df = holdout[feature_names].copy()
+    X_ho_proc, _ = preprocess_df(X_ho_df, feature_names, fit_stats=fit_stats)
+    y_ho = holdout[PRIMARY_TARGET].values
+
+    sec_tr, sec_names = build_sector_dummies(sector_train, all_sectors)
+    sec_ho, _ = build_sector_dummies(holdout[SECTOR_COL].values, all_sectors)
+    X_tr_full = np.hstack([X_tr_proc.values, sec_tr])
+    X_ho_full = np.hstack([X_ho_proc.values, sec_ho])
+
+    scaler = StandardScaler()
+    X_tr_s = scaler.fit_transform(X_tr_full)
+    X_ho_s = scaler.transform(X_ho_full)
+    model.fit(X_tr_s, y_train)
+    preds = model.predict(X_ho_s)
+
+    metrics = evaluate_predictions(y_ho, preds)
+    log_msg(f"\n{'='*60}")
+    log_msg(f"HOLDOUT REPORT ({best_model_name}, all features forced):")
+    for k, v in metrics.items():
+        log_msg(f"  {k:25s}: {v:+.4f}" if isinstance(v, float) else f"  {k:25s}: {v}")
+    return metrics
+
+
+def write_report(base, model_results, holdout_metrics, best_model, feature_names):
+    out = Path(base) / "model_b_all_report.txt"
+    lines = []
+    lines.append("=" * 70)
+    lines.append("MODEL B (ALL LINGUISTIC) — No Feature Selection")
+    lines.append(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    lines.append(f"Target: {PRIMARY_TARGET}")
+    lines.append(f"Features ({len(feature_names)}): {', '.join(feature_names)}")
+    lines.append(f"  Controls (11): {', '.join(MODEL_A_FEATURES)}")
+    lines.append(f"  Linguistic (9): {', '.join(LINGUISTIC_FEATURES)}")
+    lines.append("  NO feature selection — all 20 features forced into every model")
+    lines.append("=" * 70)
+
+    lines.append("\n\n--- CROSS-VALIDATION RESULTS ---")
+    lines.append(f"{'Model':20s} {'IC':>8s} {'±':>6s} {'Rank IC':>8s} {'±':>6s} {'R²':>8s} {'Dir Acc':>8s} {'Q5-Q1':>8s}")
+    ranked = sorted(model_results.items(), key=lambda x: x[1]["avg"]["rank_ic"], reverse=True)
+    for name, res in ranked:
+        a, s = res["avg"], res["std"]
+        lines.append(f"{name:20s} {a['ic']:+8.4f} {s['ic']:6.4f} {a['rank_ic']:+8.4f} {s['rank_ic']:6.4f} "
+                     f"{a['r2']:+8.4f} {a['direction_accuracy']:8.3f} {a['quintile_spread']:+8.4f}")
+
+    lines.append(f"\nBest model by avg Rank IC: {best_model}")
+
+    lines.append("\n\n--- COMPARISON ---")
+    lines.append("Model A  (11 controls, feature-selected):        Rank IC +0.039, Q5-Q1 +1.05%")
+    lines.append("Model B  (13 features, feature-selected):        Rank IC +0.038, Q5-Q1 +0.94%")
+    best_b = model_results[best_model]["avg"]
+    lines.append(f"Model B* (20 features, ALL forced):              Rank IC {best_b['rank_ic']:+.3f}, Q5-Q1 {best_b['quintile_spread']:+.2%}")
+
+    if holdout_metrics:
+        lines.append(f"\n\n--- HOLDOUT RESULTS ({best_model}) ---")
+        for k, v in holdout_metrics.items():
+            lines.append(f"  {k:25s}: {v:+.4f}" if isinstance(v, float) else f"  {k:25s}: {v}")
+        lines.append("\nModel A  holdout: Rank IC -0.005, Q5-Q1 -0.06%")
+        lines.append("Model B  holdout: Rank IC -0.011, Q5-Q1 -0.32%")
+        lines.append(f"Model B* holdout: Rank IC {holdout_metrics['rank_ic']:+.4f}, Q5-Q1 {holdout_metrics['quintile_spread']:+.2%}")
+
+    lines.append("\n\n--- NOTES ---")
+    lines.append("- Same preprocessing as Model A/B: winsorize 1%/99%, log1p, median impute, StandardScaler")
+    lines.append("- All 9 linguistic features forced (no feature selection)")
+    lines.append("- Tests whether feature selection dropped useful linguistic signal")
+
+    report_text = "\n".join(lines)
+    out.write_text(report_text)
+    log_msg(f"\nreport saved to {out}")
+    return report_text
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--folder", default=os.path.expanduser("~/earnings_sp500"))
+    args = parser.parse_args()
+    base = args.folder
+
+    log_msg("=" * 60)
+    log_msg("MODEL B (ALL LINGUISTIC) — No Feature Selection")
+    log_msg("=" * 60)
+
+    df, train = load_data(base)
+
+    available = [f for f in ALL_FEATURES if f in train.columns]
+    missing = [f for f in ALL_FEATURES if f not in train.columns]
+    if missing:
+        log_msg(f"WARNING — features not in data: {missing}")
+    log_msg(f"using ALL {len(available)} features (no selection): {', '.join(available)}")
+
+    train_with_target = train[train[PRIMARY_TARGET].notna()].copy()
+    log_msg(f"rows with target: {len(train_with_target):,}")
+
+    X_raw = train_with_target[available].values
+    y = train_with_target[PRIMARY_TARGET].values
+    sector = train_with_target[SECTOR_COL].values
+    dates = train_with_target["call_date"].values
+    all_sectors = sorted(df[SECTOR_COL].dropna().unique())
+
+    model_results = run_models(X_raw, available, sector, dates, y, all_sectors)
+
+    best_model = max(model_results, key=lambda k: model_results[k]["avg"]["rank_ic"])
+    best_res = model_results[best_model]
+    log_msg(f"\n>>> Best model: {best_model} "
+            f"(IC={best_res['avg']['ic']:.4f}, Rank IC={best_res['avg']['rank_ic']:.4f})")
+
+    holdout_metrics = holdout_report(df, best_model, X_raw, y, sector, available, all_sectors)
+
+    report = write_report(base, model_results, holdout_metrics, best_model, available)
+    print("\n" + report)
+
+    json_out = Path(base) / "model_b_all_results.json"
+    save = {
+        "version": "v1_all_linguistic",
+        "best_model": best_model,
+        "features_used": available,
+        "n_controls": len([f for f in available if f in MODEL_A_FEATURES]),
+        "n_linguistic": len([f for f in available if f in LINGUISTIC_FEATURES]),
+        "feature_selection": "none — all forced",
+        "target": PRIMARY_TARGET,
+        "cv_results": {name: {
+            "avg": {k: float(v) for k, v in r["avg"].items()},
+            "std": {k: float(v) for k, v in r["std"].items()},
+        } for name, r in model_results.items()},
+        "holdout": {k: float(v) for k, v in holdout_metrics.items()},
+        "comparison": {
+            "model_a_rank_ic_cv": 0.039,
+            "model_b_selected_rank_ic_cv": 0.038,
+            "model_b_all_rank_ic_cv": float(best_res["avg"]["rank_ic"]),
+        },
+        "timestamp": datetime.now().isoformat(),
+    }
+    json_out.write_text(json.dumps(save, indent=2))
+    log_msg(f"results JSON saved to {json_out}")
+    log_msg("done")
+
+
+if __name__ == "__main__":
+    main()

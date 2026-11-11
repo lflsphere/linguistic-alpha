@@ -1,0 +1,48 @@
+======================================================================
+MODEL B (ALL LINGUISTIC) — No Feature Selection
+Generated: 2026-11-11 04:18
+Target: car_2_20
+Features (20): dispersion, mom, prior_calls_with_target, vol_pre, car_0_1, size, sue_price, sue, bm, words_answers, n_answers, tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
+  Controls (11): dispersion, mom, prior_calls_with_target, vol_pre, car_0_1, size, sue_price, sue, bm, words_answers, n_answers
+  Linguistic (9): tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
+  NO feature selection — all 20 features forced into every model
+======================================================================
+
+
+--- CROSS-VALIDATION RESULTS ---
+Model                      IC      ±  Rank IC      ±       R²  Dir Acc    Q5-Q1
+RandomForest          +0.0405 0.0910  +0.0347 0.0708  -0.0179    0.518  +0.0075
+GradientBoosting      +0.0129 0.0751  +0.0312 0.0599  -0.0523    0.513  +0.0047
+XGBoost               +0.0171 0.0751  +0.0274 0.0579  -0.0556    0.514  +0.0060
+ExtraTrees            +0.0233 0.0843  +0.0093 0.0436  -0.0127    0.518  +0.0022
+Ridge                 -0.0029 0.0609  +0.0081 0.0277  -0.0215    0.508  +0.0009
+OLS                   -0.0029 0.0609  +0.0081 0.0277  -0.0215    0.508  +0.0009
+Lasso                 +0.0045 0.0913  +0.0059 0.0149  -0.0130    0.532  -0.0003
+ElasticNet            +0.0004 0.0771  +0.0048 0.0254  -0.0151    0.517  -0.0012
+
+Best model by avg Rank IC: RandomForest
+
+
+--- COMPARISON ---
+Model A  (11 controls, feature-selected):        Rank IC +0.039, Q5-Q1 +1.05%
+Model B  (13 features, feature-selected):        Rank IC +0.038, Q5-Q1 +0.94%
+Model B* (20 features, ALL forced):              Rank IC +0.035, Q5-Q1 +0.75%
+
+
+--- HOLDOUT RESULTS (RandomForest) ---
+  ic                       : -0.0739
+  rank_ic                  : -0.0079
+  r2                       : -0.0835
+  rmse                     : +0.0630
+  direction_accuracy       : +0.4331
+  quintile_spread          : -0.0044
+
+Model A  holdout: Rank IC -0.005, Q5-Q1 -0.06%
+Model B  holdout: Rank IC -0.011, Q5-Q1 -0.32%
+Model B* holdout: Rank IC -0.0079, Q5-Q1 -0.44%
+
+
+--- NOTES ---
+- Same preprocessing as Model A/B: winsorize 1%/99%, log1p, median impute, StandardScaler
+- All 9 linguistic features forced (no feature selection)
+- Tests whether feature selection dropped useful linguistic signal
