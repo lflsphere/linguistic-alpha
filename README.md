@@ -32,6 +32,8 @@ transcripts, and produces a single modeling table — one row per earnings call.
 |------|-------------|
 | `model_table.csv` | One row per call: IDs, sector, Day 0, CAR targets, controls, language features, sample split |
 | `data_report.txt` | Summary statistics, coverage by year, missing values, validation checks |
+| `model_a_report.txt` | Model A baseline report: preprocessing, feature selection, CV and holdout results |
+| `model_a_results.json` | Machine-readable Model A results (metrics, selected features, config) |
 
 ### Pipeline stages
 
@@ -50,18 +52,67 @@ python sp500_pipeline.py          # interactive WRDS login (Duo required)
 python sp500_pipeline.py --stages panel targets text final   # rebuild from cached raw data
 ```
 
+## Model A Baseline (No Linguistic Features)
+
+Predicts CAR[+2,+20] using only financial controls and call structure — no sentiment or tone features.
+Run via `model_a_baseline.py` on the GCP VM.
+
+### Preprocessing
+
+- **Winsorization** at 1st/99th percentile (fit per CV fold, no leakage)
+- **Log-transform** right-skewed features: `words_prepared`, `words_answers`, `words_questions`, `avg_answer_words`, `n_analysts`
+- **Median imputation** for missing values (per fold)
+- **VIF multicollinearity check** — flagged `n_answers` (15.9), `avg_answer_words` (12.3), `words_answers` (11.8)
+- **StandardScaler** per fold
+
+### Feature selection
+
+Three-method ranking (Spearman correlation, Mutual Information, Random Forest importance).
+Selected 11 of 18 candidate features:
+
+| Selected | Avg Rank | Top Signal |
+|----------|----------|------------|
+| `dispersion` | 2.7 | Analyst disagreement — strongest univariate (Spearman p < 0.001) |
+| `mom` | 3.7 | 12-1 month momentum — high MI and RF importance |
+| `prior_calls_with_target` | 6.3 | How many prior calls had realized returns |
+| `vol_pre` | 6.7 | Pre-call volatility — highest RF importance (0.25) |
+| `car_0_1` | 6.7 | Announcement return (known before drift window) |
+| `size` | 6.7 | Log market cap |
+| `sue_price` | 7.3 | Earnings surprise / price |
+| `sue` | 9.0 | Standardized Unexpected Earnings |
+| `bm` | 9.3 | Book-to-market ratio |
+| `words_answers` | 10.5 | Q&A answer length (call structure, not sentiment) |
+| `n_answers` | 12.8 | Number of Q&A answers |
+
+Dropped: `n_questions`, `surprise_pct`, `n_analysts`, `words_prepared`, `avg_answer_words`, `words_questions`, `share_answers_by_execs`
+
+### Results
+
+**Cross-validation** (time-series expanding window, 4 folds, 2010–2022):
+
+| Model | Avg IC | Avg Rank IC | Dir Accuracy | Q5-Q1 Spread |
+|-------|--------|-------------|-------------|--------------|
+| **RandomForest** | **+0.052** | **+0.039** | 0.521 | **+1.05%** |
+| XGBoost | +0.030 | +0.031 | 0.521 | +0.76% |
+| GradientBoosting | +0.025 | +0.029 | 0.518 | +0.55% |
+| ExtraTrees | +0.028 | +0.018 | 0.517 | +0.38% |
+| OLS / Ridge | −0.000 | +0.010 | 0.513 | +0.04% |
+
+**Holdout** (2023–2024, one-time evaluation): Rank IC −0.005, Q5-Q1 −0.06%.
+Numeric controls alone do not generalize to the holdout period, motivating the addition of linguistic features.
+
 ## Roadmap
 
 | # | Task | Status |
 |---|------|--------|
 | 1 | Pull all WRDS data and build full S&P 500 event dataset | **done** |
-| 2 | Feature selection on numeric controls (SUE, size, B/M, momentum, vol, analysts) | next |
-| 3 | Baseline Model A — predict CAR[2,20] without linguistic features | next |
-| 4 | Features: LM tone, uncertainty, hedging, evasiveness, change vs. prior calls | pending |
+| 2 | Preprocessing + feature selection on 18 non-linguistic features | **done** |
+| 3 | Baseline Model A — RandomForest, Rank IC +0.039 (CV) | **done** |
+| 4 | Features: LM tone, uncertainty, hedging, evasiveness, change vs. prior calls | next |
 | 5 | Model B — add linguistic features, compare to Model A | pending |
 | 6 | Evaluation: IC comparison, long-short backtest net of costs | pending |
 
-Done: full pipeline build, GCP VM setup, data validation, pipeline flow diagram.
+Done: full pipeline build, GCP VM setup, data validation, pipeline flow diagram, Model A baseline.
 
 ## Obstacles and proposed solutions
 
