@@ -1,0 +1,16 @@
+# The legacy Model A remains available through scripts/run_model_a_dashboard.py.
+financial_baselines:
+  primary_target: car_2_20
+  target_windows:
+    car_2_5: [2, 5]
+    car_2_20: [2, 20]
+    car_2_60: [2, 60]
+  minimum_coverage: 0.8
+  test_share: 0.2
+  seed: 7
+  models: [extra_trees, random_forest, ols_controls]
+  specifications:
+    a2:
+      add_short_momentum: false
+    a2_short_momentum:
+      add_short_momentum: true

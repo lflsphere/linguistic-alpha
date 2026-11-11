@@ -83,6 +83,8 @@ files or transcript text.
 
 ### Model A dashboard and FinBERT
 
+The [selectable financial baselines](docs/model_a_financial_baselines.md) document the local A2 and short-momentum runs.
+
 After building the two event tables, run the language-free model comparisons and dashboard:
 
 ```bash

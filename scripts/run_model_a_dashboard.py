@@ -32,8 +32,8 @@ MODELS = ["zero", "train_mean", "ols_controls", "ols_industry_year_fe", "ridge_i
 NET_COST = 0.0020  # illustrative 5 bps per side at entry/exit, both long and short legs
 
 
-def pipeline(model: str, train: pd.DataFrame, seed: int) -> Pipeline:
-    numeric = [c for c in CONTROLS if c in train]
+def pipeline(model: str, train: pd.DataFrame, seed: int, *, controls=CONTROLS) -> Pipeline:
+    numeric = [c for c in controls if c in train]
     categorical = [c for c in ("gsubind", "year") if c in train] if "industry_year_fe" in model else []
     steps_num = [("impute", SimpleImputer(strategy="median"))]
     if model.startswith(("ols", "ridge")):

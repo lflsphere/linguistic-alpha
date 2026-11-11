@@ -233,3 +233,13 @@ data/cache/**
 wrds_access_report.csv
 .pgpass
 
+
+# New research runs and restricted local inputs stay outside the staging set.
+# These rules do not affect inherited tracked files.
+/data/
+/outputs/
+.env.*
+!.env.example
+*.key
+*.pem
+.netrc
