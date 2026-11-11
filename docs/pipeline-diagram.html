@@ -1,0 +1,223 @@
+<title>S&P 500 Pipeline Flow</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+  :root {
+    --bg: #f8f9fb; --fg: #1a1a2e; --muted: #6b7280; --surface: #fff; --border: #dfe3ea;
+    --pull: #3b82f6; --panel: #7c3aed; --targets: #059669; --text: #d97706; --final: #dc2626;
+    --pull-bg: #eff6ff; --panel-bg: #f5f3ff; --targets-bg: #ecfdf5; --text-bg: #fffbeb; --final-bg: #fef2f2;
+    --arrow: #94a3b8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d1017; --fg: #e2e4e9; --muted: #8b8fa4; --surface: #161922; --border: #272b3a;
+      --pull: #60a5fa; --panel: #a78bfa; --targets: #34d399; --text: #fbbf24; --final: #f87171;
+      --pull-bg: #1e2a3a; --panel-bg: #231e35; --targets-bg: #132a22; --text-bg: #2a2414; --final-bg: #2d1a1a;
+      --arrow: #4b5270;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1017; --fg: #e2e4e9; --muted: #8b8fa4; --surface: #161922; --border: #272b3a;
+    --pull: #60a5fa; --panel: #a78bfa; --targets: #34d399; --text: #fbbf24; --final: #f87171;
+    --pull-bg: #1e2a3a; --panel-bg: #231e35; --targets-bg: #132a22; --text-bg: #2a2414; --final-bg: #2d1a1a;
+    --arrow: #4b5270;
+    color-scheme: dark;
+  }
+  body {
+    background: var(--bg); color: var(--fg);
+    font-family: 'Inter', system-ui, sans-serif;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 1.5rem 3rem;
+    max-width: 900px; margin: 0 auto;
+  }
+  h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.6rem; margin: 0 0 0.2rem; text-wrap: balance; }
+  .sub { color: var(--muted); font-size: 0.85rem; margin-bottom: 1.5rem; }
+
+  .stage { margin-bottom: 1.25rem; border-radius: 10px; border: 1px solid var(--border); overflow: hidden; }
+  .stage-head { padding: 0.6rem 1rem; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.03em; color: #fff; display: flex; align-items: center; gap: 0.5rem; }
+  .stage-body { padding: 0.75rem 1rem; background: var(--surface); font-size: 0.8rem; line-height: 1.65; }
+  .stage-body .tbl { display: grid; grid-template-columns: auto 1fr; gap: 0.15rem 0.75rem; }
+  .src { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .desc { color: var(--muted); }
+  .arrow-row { text-align: center; color: var(--arrow); font-size: 1.4rem; line-height: 1; margin: 0.2rem 0; }
+  .output { display: inline-block; background: var(--surface); border: 2px solid var(--border); border-radius: 6px; padding: 0.3rem 0.75rem; font-size: 0.8rem; font-weight: 600; margin-top: 0.25rem; }
+  .join-chain { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem; font-size: 0.78rem; font-weight: 500; margin: 0.5rem 0; }
+  .join-chain .step { background: var(--surface); border: 1px solid var(--border); border-radius: 5px; padding: 0.25rem 0.5rem; }
+  .join-chain .arr { color: var(--arrow); font-weight: 700; }
+  .notes { margin-top: 1.5rem; padding: 0.85rem 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-size: 0.78rem; color: var(--muted); line-height: 1.6; }
+  .notes strong { color: var(--fg); }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  @media (max-width: 600px) { .cols { grid-template-columns: 1fr; } }
+  .cols > div { min-width: 0; }
+</style>
+
+<h1>S&P 500 Earnings-Call Pipeline</h1>
+<p class="sub">WRDS raw tables → one-row-per-call modeling table &nbsp;·&nbsp; 5 stages, resumable</p>
+
+<!-- STAGE 1: PULL -->
+<div class="stage">
+  <div class="stage-head" style="background: var(--pull);">
+    <span>①</span> PULL — Download from WRDS
+  </div>
+  <div class="stage-body" style="background: var(--pull-bg);">
+    <div class="cols">
+      <div>
+        <div style="font-weight:600; margin-bottom:0.3rem;">Identity &amp; Links</div>
+        <div class="tbl">
+          <span class="src">crspq.msp500list_v2</span><span class="desc">S&P 500 membership spells</span>
+          <span class="src">crspq.ccmxpf_lnkhist</span><span class="desc">permno → gvkey</span>
+          <span class="src">wrdsapps.ibcrsphist</span><span class="desc">permno → IBES ticker</span>
+          <span class="src">ciq.wrds_gvkey</span><span class="desc">gvkey → CIQ companyid</span>
+          <span class="src">comp.co_hgic</span><span class="desc">GICS sector history</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-weight:600; margin-bottom:0.3rem;">Market &amp; Fundamentals</div>
+        <div class="tbl">
+          <span class="src">crspq.dsf_v2</span><span class="desc">daily ret / prc / vol / shrout</span>
+          <span class="src">crspq.dsp500_v2</span><span class="desc">S&P 500 index return</span>
+          <span class="src">crspq.stkdelists</span><span class="desc">delisting returns</span>
+          <span class="src">comp.fundq</span><span class="desc">quarterly book equity (ceqq)</span>
+          <span class="src">ibes.actu_epsus</span><span class="desc">actual EPS (unadjusted)</span>
+          <span class="src">ibes.statsumu_epsus</span><span class="desc">consensus EPS (unadjusted)</span>
+        </div>
+      </div>
+    </div>
+    <div style="font-weight:600; margin: 0.5rem 0 0.3rem;">Transcripts (Capital IQ)</div>
+    <div class="tbl">
+      <span class="src">ciq.wrds_transcript_detail</span><span class="desc">earnings call metadata — one row per version per call</span>
+      <span class="src">ciq.ciqtranscriptcomponent</span><span class="desc">transcript text, by section (prepared / Q&A)</span>
+      <span class="src">ciq.wrds_transcript_person</span><span class="desc">speaker name, role, company</span>
+    </div>
+  </div>
+</div>
+
+<div class="arrow-row">▼</div>
+
+<!-- STAGE 2: PANEL -->
+<div class="stage">
+  <div class="stage-head" style="background: var(--panel);">
+    <span>②</span> PANEL — Identity Joins → event_panel
+  </div>
+  <div class="stage-body" style="background: var(--panel-bg);">
+    <div style="margin-bottom:0.4rem;">Pick <strong>latest transcript version</strong> per call (max transcriptid per keydevid), then chain date-validated joins:</div>
+    <div class="join-chain">
+      <span class="step">transcript_calls<br><small>companyid</small></span>
+      <span class="arr">→</span>
+      <span class="step">ciq.wrds_gvkey<br><small>→ gvkey</small></span>
+      <span class="arr">→</span>
+      <span class="step">ccmxpf_lnkhist<br><small>→ permno (primary)</small></span>
+      <span class="arr">→</span>
+      <span class="step">msp500list<br><small>∈ S&P 500?</small></span>
+      <span class="arr">→</span>
+      <span class="step">ibcrsphist<br><small>→ IBES ticker</small></span>
+      <span class="arr">→</span>
+      <span class="step">co_hgic<br><small>→ GICS sector</small></span>
+    </div>
+    <div>Every link validated: <code>start_date ≤ call_date ≤ end_date</code></div>
+    <div style="margin-top:0.4rem;"><span class="output">→ event_panel.parquet</span> <span class="desc">&nbsp; one row per call with all IDs</span></div>
+  </div>
+</div>
+
+<div class="arrow-row">▼</div>
+
+<!-- STAGE 3: TARGETS -->
+<div class="stage">
+  <div class="stage-head" style="background: var(--targets);">
+    <span>③</span> TARGETS — Returns &amp; Controls → events_numeric
+  </div>
+  <div class="stage-body" style="background: var(--targets-bg);">
+    <div class="cols">
+      <div>
+        <div style="font-weight:600; margin-bottom:0.3rem;">Target Variables</div>
+        <div class="tbl">
+          <span class="src">Day 0</span><span class="desc">before 4pm ET → same day; after → next</span>
+          <span class="src">Abnormal ret</span><span class="desc">stock ret − S&P 500 ret + delist splice</span>
+          <span class="src">CAR[0,1]</span><span class="desc">announcement return</span>
+          <span class="src">CAR[2,5]</span><span class="desc">short drift</span>
+          <span class="src">CAR[2,20]</span><span class="desc"><strong>primary target</strong></span>
+          <span class="src">CAR[2,60]</span><span class="desc">long drift</span>
+          <span class="src">vol_post</span><span class="desc">annualized vol [+2,+20]</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-weight:600; margin-bottom:0.3rem;">Control Variables</div>
+        <div class="tbl">
+          <span class="src">SUE</span><span class="desc">surprise / σ (unadj IBES, split-corrected)</span>
+          <span class="src">sue_price</span><span class="desc">surprise / pre-announcement price</span>
+          <span class="src">size</span><span class="desc">log(mcap) end of prior month</span>
+          <span class="src">bm</span><span class="desc">book equity / mcap (merge_asof on rdq)</span>
+          <span class="src">mom</span><span class="desc">12-1 month return</span>
+          <span class="src">vol_pre</span><span class="desc">annualized vol [−60,−5]</span>
+          <span class="src">n_analysts</span><span class="desc">analyst coverage from IBES</span>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:0.4rem;"><span class="output">→ events_numeric.parquet</span> <span class="desc">&nbsp; panel + all targets &amp; controls</span></div>
+  </div>
+</div>
+
+<div class="arrow-row">▼</div>
+
+<!-- STAGE 4: TEXT -->
+<div class="stage">
+  <div class="stage-head" style="background: var(--text);">
+    <span>④</span> TEXT — NLP &amp; Language Features
+  </div>
+  <div class="stage-body" style="background: var(--text-bg);">
+    <div class="cols">
+      <div>
+        <div style="font-weight:600; margin-bottom:0.3rem;">Processing</div>
+        <div class="tbl">
+          <span class="src">Section label</span><span class="desc">operator / prepared / question / answer</span>
+          <span class="src">Speaker role</span><span class="desc">exec vs analyst (transcript_person)</span>
+          <span class="src">Word counts</span><span class="desc">prepared, answers, questions sections</span>
+          <span class="src">LM Dictionary</span><span class="desc">tone, hedging, uncertainty (if CSV present)</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-weight:600; margin-bottom:0.3rem;">Output Features</div>
+        <div class="tbl">
+          <span class="src">tone_prepared</span><span class="desc">(pos − neg) / (pos + neg)</span>
+          <span class="src">tone_answers</span><span class="desc">same for Q&A answers</span>
+          <span class="src">tone_gap</span><span class="desc">answers − prepared</span>
+          <span class="src">hedging_*</span><span class="desc">hedge words per 1000</span>
+          <span class="src">share_answers_by_execs</span><span class="desc">exec participation rate</span>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:0.4rem;">
+      <span class="output">→ features_YYYY.parquet</span> <span class="desc">&nbsp; language features</span><br>
+      <span class="output">→ text_YYYY.parquet</span> <span class="desc">&nbsp; prepared_text + qa_text</span>
+    </div>
+  </div>
+</div>
+
+<div class="arrow-row">▼</div>
+
+<!-- STAGE 5: FINAL -->
+<div class="stage">
+  <div class="stage-head" style="background: var(--final);">
+    <span>⑤</span> FINAL — Merge &amp; Sample Split
+  </div>
+  <div class="stage-body" style="background: var(--final-bg);">
+    <div class="tbl">
+      <span class="src">Merge</span><span class="desc">events_numeric + language features on transcriptid</span>
+      <span class="src">Δ features</span><span class="desc">tone / hedging change vs. company's prior 4 calls</span>
+      <span class="src">Sample split</span><span class="desc"><strong>train</strong> 2010–2022 &nbsp;|&nbsp; <strong>holdout</strong> 2023–2024 (≥4 prior calls) &nbsp;|&nbsp; <strong>no_target</strong> 2025+</span>
+    </div>
+    <div style="margin-top:0.5rem;">
+      <span class="output" style="border-color: var(--final);">→ model_table.parquet</span> <span class="desc">&nbsp; final one-row-per-call table</span><br>
+      <span class="output" style="border-color: var(--final);">→ model_table_with_text.parquet</span> <span class="desc">&nbsp; + prepared_text &amp; qa_text</span>
+    </div>
+  </div>
+</div>
+
+<div class="notes">
+  <strong>Key joins:</strong> CIQ companyid → gvkey → permno → IBES ticker. All date-validated: link must be active on the call date.<br>
+  <strong>SUE:</strong> Uses <em>unadjusted</em> IBES with CRSP cumulative factor adjustment for splits between consensus and announcement dates.<br>
+  <strong>Day 0:</strong> Call before 4pm ET on a trading day → same day. After 4pm → next trading day. CAR[2,20] is the primary target.<br>
+  <strong>Resumable:</strong> Each parquet is skipped if it exists. Interrupted runs resume where they stopped.
+</div>

@@ -1,0 +1,425 @@
+<title>Pipeline Data Reference</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+  :root {
+    --bg: #fafbfc; --fg: #1b1f2b; --muted: #5f6b7a; --surface: #fff; --border: #e2e6ec;
+    --accent: #2563eb; --accent-bg: #eff4ff; --section-bg: #f4f6f9;
+    --green: #059669; --green-bg: #ecfdf5; --amber: #b45309; --amber-bg: #fffbeb;
+    --red: #dc2626; --red-bg: #fef2f2; --purple: #7c3aed; --purple-bg: #f5f3ff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0c0f16; --fg: #dfe2ea; --muted: #7d849a; --surface: #151921; --border: #262c3a;
+      --accent: #60a5fa; --accent-bg: #1a2436; --section-bg: #12161e;
+      --green: #34d399; --green-bg: #0f2520; --amber: #fbbf24; --amber-bg: #261f0e;
+      --red: #f87171; --red-bg: #2a1515; --purple: #a78bfa; --purple-bg: #1e1735;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0c0f16; --fg: #dfe2ea; --muted: #7d849a; --surface: #151921; --border: #262c3a;
+    --accent: #60a5fa; --accent-bg: #1a2436; --section-bg: #12161e;
+    --green: #34d399; --green-bg: #0f2520; --amber: #fbbf24; --amber-bg: #261f0e;
+    --red: #f87171; --red-bg: #2a1515; --purple: #a78bfa; --purple-bg: #1e1735;
+    color-scheme: dark;
+  }
+  body {
+    background: var(--bg); color: var(--fg);
+    font-family: 'Inter', system-ui, sans-serif;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 1.5rem 4rem;
+    max-width: 860px; margin: 0 auto; line-height: 1.65;
+  }
+  h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.5rem; margin: 0 0 0.15rem; text-wrap: balance; }
+  .sub { color: var(--muted); font-size: 0.82rem; margin-bottom: 1.8rem; }
+  h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.05rem; margin: 2rem 0 0.6rem; padding-bottom: 0.35rem; border-bottom: 2px solid var(--border); }
+  h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 0.88rem; margin: 1.4rem 0 0.4rem; color: var(--accent); }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.1rem; margin-bottom: 0.9rem; }
+  .card-head { display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 0.5rem; }
+  .card-head .name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.88rem; }
+  .card-head .full { font-size: 0.78rem; color: var(--muted); font-style: italic; }
+  .card p { font-size: 0.8rem; margin: 0.3rem 0; color: var(--fg); }
+  .card .why { font-size: 0.78rem; color: var(--muted); margin-top: 0.4rem; padding-top: 0.4rem; border-top: 1px solid var(--border); }
+  .card .cols { font-size: 0.75rem; color: var(--muted); margin-top: 0.35rem; }
+  .tag { display: inline-block; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; padding: 0.15rem 0.45rem; border-radius: 4px; margin-right: 0.3rem; }
+  .tag-id { background: var(--accent-bg); color: var(--accent); }
+  .tag-mkt { background: var(--green-bg); color: var(--green); }
+  .tag-fund { background: var(--amber-bg); color: var(--amber); }
+  .tag-text { background: var(--purple-bg); color: var(--purple); }
+  .tag-est { background: var(--red-bg); color: var(--red); }
+
+  .feat-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-top: 0.5rem; }
+  .feat-table th { text-align: left; font-weight: 600; padding: 0.4rem 0.6rem; background: var(--section-bg); border-bottom: 2px solid var(--border); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+  .feat-table td { padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .feat-table tr:last-child td { border-bottom: none; }
+  .feat-table code { font-size: 0.75rem; background: var(--section-bg); padding: 0.1rem 0.3rem; border-radius: 3px; }
+  .feat-table .primary { font-weight: 600; color: var(--accent); }
+
+  .toc { background: var(--section-bg); border-radius: 8px; padding: 0.8rem 1rem; margin-bottom: 1.5rem; font-size: 0.78rem; }
+  .toc a { color: var(--accent); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .toc ul { margin: 0.3rem 0 0 1.2rem; padding: 0; }
+  .toc li { margin: 0.2rem 0; }
+
+  .note { background: var(--accent-bg); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; padding: 0.6rem 0.8rem; font-size: 0.78rem; margin: 0.8rem 0; }
+</style>
+
+<h1>WRDS Tables & Final Features Reference</h1>
+<p class="sub">Every data source in the S&P 500 earnings-call pipeline — what it is, what it tells us, and why we need it</p>
+
+<nav class="toc">
+  <strong>Contents</strong>
+  <ul>
+    <li><a href="#identity">Identity & Linkage Tables</a> (5 tables)</li>
+    <li><a href="#market">Market & Price Tables</a> (3 tables)</li>
+    <li><a href="#fundamentals">Fundamentals & Estimates</a> (3 tables)</li>
+    <li><a href="#transcripts">Transcript Tables</a> (3 tables)</li>
+    <li><a href="#targets">Target Variables</a></li>
+    <li><a href="#controls">Control Variables</a></li>
+    <li><a href="#linguistic">Linguistic Features</a></li>
+    <li><a href="#final">Final Feature List in model_table</a></li>
+  </ul>
+</nav>
+
+<!-- ============================================ -->
+<h2 id="identity">1. Identity & Linkage Tables</h2>
+<p style="font-size:0.82rem; color:var(--muted); margin-bottom:0.8rem;">Financial databases each use their own company identifier. These tables chain them together so we can match a transcript to its stock price, analyst estimates, and sector.</p>
+
+<div class="card">
+  <div class="card-head">
+    <span class="tag tag-id">Identity</span>
+    <span class="name">crspq.msp500list_v2</span>
+    <span class="full">CRSP Monthly S&P 500 Constituent List (Version 2)</span>
+  </div>
+  <p><strong>CRSP</strong> = Center for Research in Security Prices (University of Chicago). The gold-standard database for US stock prices and returns.</p>
+  <p><strong>What it tells us:</strong> Which companies were in the S&P 500 index on any given date. Each row is a "membership spell" — company X was in the S&P 500 from date A to date B.</p>
+  <p><strong>Why we need it:</strong> We only study earnings calls from S&P 500 companies. But membership changes over time (companies get added/removed). This table lets us check <em>point-in-time</em> membership — "was this company in the S&P 500 on the day of this earnings call?" — avoiding <strong>survivorship bias</strong> (studying only today's members would miss companies that were dropped, which often had poor performance).</p>
+  <div class="cols"><strong>Key columns:</strong> <code>permno</code> (CRSP stock ID), <code>start</code>, <code>ending</code> (spell dates)</div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <span class="tag tag-id">Identity</span>
+    <span class="name">crspq.ccmxpf_lnkhist</span>
+    <span class="full">CRSP/Compustat Merged – Cross-Reference of PERMNO to GVKEY (Link History)</span>
+  </div>
+  <p><strong>CCM</strong> = CRSP/Compustat Merged database. <strong>PERMNO</strong> = Permanent Number (CRSP's stock identifier). <strong>GVKEY</strong> = Global Company Key (Compustat/S&P's company identifier).</p>
+  <p><strong>What it tells us:</strong> How to translate between CRSP's world (stock prices, returns) and Compustat's world (financial statements, fundamentals). Each row links one PERMNO to one GVKEY for a date range.</p>
+  <p><strong>Why we need it:</strong> Stock returns come from CRSP (using PERMNO) but book equity comes from Compustat (using GVKEY), and transcripts come from Capital IQ (using GVKEY). This bridge lets us merge them. The link type filter (LC/LU = primary links) ensures we pick the main trading security, not a secondary share class.</p>
+  <div class="cols"><strong>Key columns:</strong> <code>gvkey</code>, <code>lpermno</code> (linked PERMNO), <code>linkdt</code>, <code>linkenddt</code>, <code>linktype</code>, <code>linkprim</code></div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <span class="tag tag-id">Identity</span>
+    <span class="name">wrdsapps.ibcrsphist</span>
+    <span class="full">WRDS I/B/E/S–CRSP Link History</span>
+  </div>
+  <p><strong>I/B/E/S</strong> = Institutional Brokers' Estimate System (now owned by Refinitiv/LSEG). A database of analyst earnings forecasts.</p>
+  <p><strong>What it tells us:</strong> How to translate CRSP's PERMNO to I/B/E/S's <code>ticker</code> (their own internal ticker, not the stock exchange ticker). Each row links one PERMNO to one I/B/E/S ticker for a date range.</p>
+  <p><strong>Why we need it:</strong> To compute earnings surprise (SUE), we need analyst consensus forecasts from I/B/E/S. But I/B/E/S identifies companies by its own ticker system, not PERMNO. This table bridges the gap so we can match the right forecasts to each earnings call.</p>
+  <div class="cols"><strong>Key columns:</strong> <code>permno</code>, <code>ticker</code> (I/B/E/S ticker), <code>sdate</code>, <code>edate</code></div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <span class="tag tag-id">Identity</span>
+    <span class="name">ciq.wrds_gvkey</span>
+    <span class="full">Capital IQ – GVKEY Cross-Reference</span>
+  </div>
+  <p><strong>CIQ</strong> = Capital IQ (S&P Global's business intelligence platform). <strong>companyid</strong> = Capital IQ's company identifier.</p>
+  <p><strong>What it tells us:</strong> How to translate Capital IQ's companyid to Compustat's GVKEY. Since transcripts live in Capital IQ and financials live in Compustat/CRSP, this is the first link in the chain.</p>
+  <p><strong>Why we need it:</strong> Earnings call transcripts are stored in Capital IQ using their companyid. To connect a transcript to stock returns and analyst forecasts, we need: companyid → gvkey → permno → IBES ticker. This table provides the first hop.</p>
+  <div class="cols"><strong>Key columns:</strong> <code>companyid</code>, <code>gvkey</code>, <code>startdate</code>, <code>enddate</code></div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <span class="tag tag-id">Identity</span>
+    <span class="name">comp.co_hgic</span>
+    <span class="full">Compustat – Company GICS History</span>
+  </div>
+  <p><strong>GICS</strong> = Global Industry Classification Standard (developed by MSCI and S&P). A hierarchical system: Sector → Industry Group → Industry → Sub-Industry. Example: "Information Technology → Software & Services → Application Software".</p>
+  <p><strong>What it tells us:</strong> What industry sector a company belongs to, and how that classification changed over time (companies do get reclassified).</p>
+  <p><strong>Why we need it:</strong> Sector is a critical control variable. Earnings patterns, language, and market reactions differ by sector (tech vs. utilities vs. healthcare). We use the sector that was assigned <em>at the time of the call</em>, not today's classification, to avoid look-ahead bias.</p>
+  <div class="cols"><strong>Key columns:</strong> <code>gvkey</code>, <code>gsector</code> (2-digit sector code), <code>ggroup</code>, <code>gind</code>, <code>indfrom</code>, <code>indthru</code></div>
+</div>
+
+<div class="note">
+  <strong>The full identity chain:</strong> Transcript (companyid) → <code>ciq.wrds_gvkey</code> → gvkey → <code>ccmxpf_lnkhist</code> → permno → <code>msp500list</code> (S&P 500 filter) → <code>ibcrsphist</code> → IBES ticker → <code>co_hgic</code> → GICS sector. Every link is <strong>date-validated</strong>: the link must have been active on the earnings call date.
+</div>
+
+<!-- ============================================ -->
+<h2 id="market">2. Market & Price Tables</h2>
+<p style="font-size:0.82rem; color:var(--muted); margin-bottom:0.8rem;">Daily stock prices and returns — the raw material for computing how the market reacted to each earnings call.</p>
+
+<div class="card">
+  <div class="card-head">
+    <span class="tag tag-mkt">Market</span>
+    <span class="name">crspq.dsf_v2</span>
+    <span class="full">CRSP Daily Stock File (Version 2)</span>
+  </div>
+  <p><strong>What it tells us:</strong> For every US-listed stock, every trading day: its closing price, daily return (including dividends), trading volume, shares outstanding, and cumulative adjustment factors for splits/dividends.</p>
+  <p><strong>Why we need it:</strong> This is the backbone of all return calculations. We use it to compute:</p>
+  <ul style="font-size:0.8rem; margin:0.2rem 0 0.2rem 1.2rem; padding:0;">
+    <li><strong>Abnormal returns</strong> (stock return minus market return) around earnings calls</li>
+    <li><strong>CARs</strong> (Cumulative Abnormal Returns) over various windows</li>
+    <li><strong>Market cap</strong> = |price| × shares outstanding (for the "size" control)</li>
+    <li><strong>Momentum</strong> (12-1 month return)</li>
+    <li><strong>Pre/post volatility</strong></li>
+    <li><strong>Split adjustment factors</strong> (cfacpr) to align I/B/E/S EPS estimates across stock splits</li>
+  </ul>
+  <div class="cols"><strong>Key columns:</strong> <code>permno</code>, <code>date</code>, <code>ret</code> (daily return), <code>prc</code> (price), <code>vol</code> (volume), <code>shrout</code> (shares out, in thousands), <code>cfacpr</code> (cumulative factor to adjust price)</div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <span class="tag tag-mkt">Market</span>
+    <span class="name">crspq.dsp500_v2</span>
+    <span class="full">CRSP Daily S&P 500 Index Returns (Version 2)</span>
+  </div>
+  <p><strong>What it tells us:</strong> The daily total return of the S&P 500 index itself (including dividends).</p>
+  <p><strong>Why we need it:</strong> To compute <strong>abnormal returns</strong>. A stock going up 2% on earnings day is meaningless if the entire market also went up 2%. Abnormal return = stock return − S&P 500 return. This isolates the company-specific market reaction to the earnings call, stripping out the broad market movement that day.</p>
+  <div class="cols"><strong>Key columns:</strong> <code>date</code>, <code>sprtrn</code> (S&P 500 total return)</div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <span class="tag tag-mkt">Market</span>
+    <span class="name">crspq.stkdelists</span>
+    <span class="full">CRSP Stock Delisting Information</span>
+  </div>
+  <p><strong>What it tells us:</strong> When a stock was delisted (removed from the exchange) and the final "delisting return" — the loss investors suffered when the stock stopped trading (e.g., bankruptcy → −100%, merger → premium paid).</p>
+  <p><strong>Why we need it:</strong> Without this, stocks that go bankrupt or get acquired simply "disappear" from the data on their last trading day. If a company had a bad earnings call and then got delisted at a big loss, we'd miss that loss entirely. Splicing in the delisting return ensures our CAR windows capture the full economic outcome, even when the stock stops trading mid-window. This avoids <strong>delisting bias</strong>.</p>
+  <div class="cols"><strong>Key columns:</strong> <code>permno</code>, <code>dlstdt</code> (delisting date), <code>dlret</code> (delisting return), <code>dlstcd</code> (reason code)</div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="fundamentals">3. Fundamentals & Analyst Estimates</h2>
+<p style="font-size:0.82rem; color:var(--muted); margin-bottom:0.8rem;">Financial statement data and analyst earnings forecasts — needed for book-to-market ratio and earnings surprise.</p>
+
+<div class="card">
+  <div class="card-head">
+    <span class="tag tag-fund">Fundamentals</span>
+    <span class="name">comp.fundq</span>
+    <span class="full">Compustat Fundamentals Quarterly</span>
+  </div>
+  <p><strong>Compustat</strong> = S&P Global's database of company financial statements, pulled from SEC filings (10-Q, 10-K).</p>
+  <p><strong>What it tells us:</strong> Quarterly financial statement items: revenue, earnings, assets, liabilities, equity, etc. We specifically use <code>ceqq</code> (Common Equity, Quarterly).</p>
+  <p><strong>Why we need it:</strong> To compute the <strong>book-to-market ratio</strong> (B/M = book equity / market cap). B/M is one of the Fama-French factors — a well-known predictor of stock returns. High B/M ("value") stocks behave differently from low B/M ("growth") stocks. We use <code>rdq</code> (Report Date of Quarterly earnings) to ensure we only use book equity that was <em>publicly known</em> before the earnings call — no look-ahead bias.</p>
+  <div class="cols"><strong>Key columns:</strong> <code>gvkey</code>, <code>datadate</code> (fiscal quarter end), <code>rdq</code> (report date — when it was public), <code>ceqq</code> (common equity)</div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <span class="tag tag-est">Estimates</span>
+    <span class="name">ibes.actu_epsus</span>
+    <span class="full">I/B/E/S Actual EPS — US, Unadjusted</span>
+  </div>
+  <p><strong>EPS</strong> = Earnings Per Share. <strong>Unadjusted</strong> = in the share count at the time of the announcement, NOT retroactively adjusted for later stock splits.</p>
+  <p><strong>What it tells us:</strong> The actual EPS a company reported for each fiscal quarter, and the exact date it was announced.</p>
+  <p><strong>Why we need it:</strong> One half of the earnings surprise calculation. Surprise = Actual EPS − Consensus Forecast. We use the <em>unadjusted</em> version (rather than split-adjusted) because we pair it with unadjusted consensus estimates, then handle splits ourselves using CRSP's cumulative adjustment factor. This avoids the well-documented "I/B/E/S adjustment errors" that plague the adjusted files.</p>
+  <div class="cols"><strong>Key columns:</strong> <code>ticker</code> (I/B/E/S ticker), <code>pends</code> (fiscal period end), <code>anndats</code> (announcement date), <code>actual_eps</code> (reported EPS), <code>pdicity</code> (QTR = quarterly)</div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <span class="tag tag-est">Estimates</span>
+    <span class="name">ibes.statsumu_epsus</span>
+    <span class="full">I/B/E/S Summary Statistics — US EPS, Unadjusted</span>
+  </div>
+  <p><strong>What it tells us:</strong> Monthly snapshots of analyst consensus for each company's upcoming quarterly EPS: the median estimate, mean, standard deviation, and number of analysts covering.</p>
+  <p><strong>Why we need it:</strong> The other half of earnings surprise. We take the <em>last consensus snapshot before the announcement date</em> (using <code>merge_asof</code> backward) as the market's expectation. The surprise divided by the standard deviation of estimates gives <strong>SUE</strong> (Standardized Unexpected Earnings) — the most widely used earnings surprise measure in academic finance. We also extract <code>numest</code> (analyst count) as a control for information environment — heavily-covered stocks react differently to surprises.</p>
+  <div class="cols"><strong>Key columns:</strong> <code>ticker</code>, <code>fpedats</code> (fiscal period end), <code>statpers</code> (statistics date), <code>medest</code> (median consensus), <code>stdev</code> (estimate dispersion), <code>numest</code> (number of analysts)</div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="transcripts">4. Transcript Tables</h2>
+<p style="font-size:0.82rem; color:var(--muted); margin-bottom:0.8rem;">Earnings call transcripts from Capital IQ (S&P Global) — the actual text of what executives and analysts said on the call.</p>
+
+<div class="card">
+  <div class="card-head">
+    <span class="tag tag-text">Text</span>
+    <span class="name">ciq.wrds_transcript_detail</span>
+    <span class="full">Capital IQ Transcript Detail (via WRDS)</span>
+  </div>
+  <p><strong>What it tells us:</strong> Metadata for every earnings call transcript: which company, when the call happened (date + time in UTC), what type of event (earnings call vs. investor day, etc.), and the transcript version number.</p>
+  <p><strong>Why we need it:</strong> This is the "index" of all transcripts. We filter to <strong>Earnings Calls</strong> only (keynoteypeid = 1), pick the <strong>latest version</strong> of each call (max transcriptid per keydevid), and extract the call timestamp. The time matters: a call <em>before</em> 4pm ET means the market can react the same day (Day 0 = today), while a call <em>after</em> 4pm means the reaction starts next trading day (Day 0 = tomorrow).</p>
+  <div class="cols"><strong>Key columns:</strong> <code>companyid</code>, <code>keydevid</code> (event ID), <code>transcriptid</code> (version), <code>mostimportantdateutc</code> (call datetime), <code>keynoteypeid</code> (event type)</div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <span class="tag tag-text">Text</span>
+    <span class="name">ciq.ciqtranscriptcomponent</span>
+    <span class="full">Capital IQ Transcript Component</span>
+  </div>
+  <p><strong>What it tells us:</strong> The actual text of each transcript, broken into components (sections). Each row is one block of speech by one person. The <code>componenttypeid</code> tells you if it's from the Operator (intro), Prepared Remarks (executives presenting), a Question (from analysts), or an Answer (from executives responding).</p>
+  <p><strong>Why we need it:</strong> This is the raw material for all linguistic features. We process it by section:</p>
+  <ul style="font-size:0.8rem; margin:0.2rem 0 0.2rem 1.2rem; padding:0;">
+    <li><strong>Prepared remarks:</strong> scripted, reviewed by lawyers — reveals deliberate messaging choices</li>
+    <li><strong>Q&A answers:</strong> more spontaneous — reveals executive confidence and comfort level</li>
+    <li><strong>Questions:</strong> analyst focus areas — what the market cares about</li>
+  </ul>
+  <p>The <em>gap</em> between prepared vs. Q&A tone is itself a feature — executives may sound upbeat in scripted remarks but hedge more under questioning.</p>
+  <div class="cols"><strong>Key columns:</strong> <code>transcriptid</code>, <code>componenttypeid</code> (section type), <code>componentorder</code>, <code>componenttext</code> (the actual text), <code>transcriptpersonid</code></div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <span class="tag tag-text">Text</span>
+    <span class="name">ciq.wrds_transcript_person</span>
+    <span class="full">Capital IQ Transcript Person</span>
+  </div>
+  <p><strong>What it tells us:</strong> Who spoke on the call — their name, job title, role type (executive vs. analyst/professional), and which company they represent.</p>
+  <p><strong>Why we need it:</strong> To distinguish <strong>executives</strong> (CEO, CFO — the company's own people) from <strong>analysts</strong> (from investment banks, asking questions). This matters because:</p>
+  <ul style="font-size:0.8rem; margin:0.2rem 0 0.2rem 1.2rem; padding:0;">
+    <li>We compute <code>share_answers_by_execs</code> — how much of Q&A was the CEO vs. other executives answering. A CEO who fields most questions personally signals confidence (or concern).</li>
+    <li>Tone features are computed separately for executive speech only</li>
+  </ul>
+  <div class="cols"><strong>Key columns:</strong> <code>transcriptpersonid</code>, <code>speakertypename</code> (role), <code>companyofperson</code> (speaker's company), <code>personname</code></div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="targets">5. Target Variables (What We're Predicting)</h2>
+<p style="font-size:0.82rem; color:var(--muted); margin-bottom:0.8rem;">All computed from CRSP daily returns minus S&P 500 daily returns = abnormal returns, cumulated over windows.</p>
+
+<div class="card" style="border-left: 3px solid var(--accent);">
+  <table class="feat-table">
+    <thead><tr><th>Variable</th><th>Window</th><th>What It Measures</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td><code>car_0_1</code></td><td>[0, +1]</td><td>Announcement return — the market's immediate reaction to the earnings call</td><td>How much the stock moved when the news hit. Captures the "headline" reaction.</td></tr>
+      <tr><td><code>car_2_5</code></td><td>[+2, +5]</td><td>Short-term post-earnings drift</td><td>The first week of drift after the announcement dust settles. Early signal of underreaction.</td></tr>
+      <tr><td class="primary"><code>car_2_20</code></td><td>[+2, +20]</td><td><strong>Primary target</strong> — one-month post-earnings drift</td><td>The classic PEAD (Post-Earnings Announcement Drift) window. If the market underreacts to information in the call, the drift over the next month reveals it. This is what our model tries to predict.</td></tr>
+      <tr><td><code>car_2_60</code></td><td>[+2, +60]</td><td>Longer-term drift over ~3 months</td><td>Checks if the signal persists longer. Also a robustness check — if a feature predicts car_2_20 but not car_2_60, the effect may reverse (meaning it wasn't real alpha, just noise).</td></tr>
+      <tr><td><code>vol_post_2_20</code></td><td>[+2, +20]</td><td>Post-call realized volatility (annualized)</td><td>Secondary target. Can we predict which calls lead to more uncertain/volatile trading afterwards?</td></tr>
+    </tbody>
+  </table>
+  <div class="note" style="margin-top:0.6rem;">
+    <strong>Day 0 logic:</strong> If the call starts before 4:00 PM Eastern (market close), Day 0 = that day. If after 4:00 PM, Day 0 = next trading day. This ensures the return window starts when the market could first react. <strong>Abnormal return</strong> = stock daily return − S&P 500 daily return + delisting return splice (if applicable). CAR = sum of daily abnormal returns across the window.
+  </div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="controls">6. Control Variables (Known Predictors to Account For)</h2>
+<p style="font-size:0.82rem; color:var(--muted); margin-bottom:0.8rem;">Well-established factors from asset pricing and earnings literature. Model A uses only these — no linguistic features.</p>
+
+<div class="card">
+  <table class="feat-table">
+    <thead><tr><th>Variable</th><th>Source</th><th>What It Measures</th><th>Why It Matters</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>sue</code></td><td>I/B/E/S + CRSP cfacpr</td>
+        <td><strong>Standardized Unexpected Earnings</strong> = (Actual EPS − Consensus EPS) / σ of estimates. Uses unadjusted I/B/E/S with CRSP split factor correction.</td>
+        <td>The single strongest known predictor of PEAD. A big positive surprise → stock drifts up for weeks. The pipeline adjusts for stock splits between the consensus date and announcement date using CRSP's cumulative factor.</td>
+      </tr>
+      <tr>
+        <td><code>sue_price</code></td><td>I/B/E/S + CRSP</td>
+        <td>EPS surprise / pre-announcement stock price</td>
+        <td>Alternative scaling that normalizes by price level instead of dispersion. More robust when analyst coverage is thin.</td>
+      </tr>
+      <tr>
+        <td><code>size</code></td><td>CRSP</td>
+        <td>log(market cap in $) at end of month before the call</td>
+        <td><strong>Size effect</strong> — small stocks have higher expected returns and may react differently to earnings. Also proxies for liquidity and information environment.</td>
+      </tr>
+      <tr>
+        <td><code>bm</code></td><td>Compustat ceqq / CRSP mcap</td>
+        <td>Book-to-market ratio = book equity / market cap. Book equity from the most recent quarterly report <em>publicly filed</em> before Day 0.</td>
+        <td><strong>Value effect</strong> — high B/M ("value") vs. low B/M ("growth") stocks have different return patterns. The <code>merge_asof</code> with <code>rdq</code> ensures no look-ahead.</td>
+      </tr>
+      <tr>
+        <td><code>mom</code></td><td>CRSP</td>
+        <td>12-month minus 1-month cumulative return (ending one month before the call)</td>
+        <td><strong>Momentum effect</strong> — stocks that went up in the past year tend to keep going up (Jegadeesh & Titman). Skips the most recent month to avoid short-term reversal contamination.</td>
+      </tr>
+      <tr>
+        <td><code>vol_pre</code></td><td>CRSP</td>
+        <td>Annualized volatility of abnormal returns over [−60, −5] trading days before the call</td>
+        <td>Pre-earnings volatility captures uncertainty and risk. High-vol stocks may react differently to the same surprise. Also helps the model distinguish signal from noise.</td>
+      </tr>
+      <tr>
+        <td><code>n_analysts</code></td><td>I/B/E/S</td>
+        <td>Number of analysts issuing EPS estimates</td>
+        <td>Proxy for <strong>information environment</strong>. Heavily covered stocks (e.g., Apple with 30+ analysts) may have less PEAD because information is priced in faster. Thinly covered stocks may have more drift.</td>
+      </tr>
+      <tr>
+        <td><code>dispersion</code></td><td>I/B/E/S</td>
+        <td>σ of analyst estimates / |median estimate|</td>
+        <td>Analyst <strong>disagreement</strong>. High dispersion = analysts can't agree → more uncertainty → potentially stronger or weaker drift.</td>
+      </tr>
+      <tr>
+        <td><code>gsector</code></td><td>Compustat GICS</td>
+        <td>GICS sector code (11 sectors: Tech, Healthcare, Financials, Energy, etc.)</td>
+        <td>Sector fixed effects. Earnings call language, market reactions, and drift patterns differ by industry.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ============================================ -->
+<h2 id="linguistic">7. Linguistic Features (For Model B, Later)</h2>
+<p style="font-size:0.82rem; color:var(--muted); margin-bottom:0.8rem;">Extracted from transcript text using the Loughran-McDonald (LM) Master Dictionary — a finance-specific word list. These are <strong>not</strong> used in Model A.</p>
+
+<div class="card">
+  <table class="feat-table">
+    <thead><tr><th>Variable</th><th>Formula</th><th>What It Captures</th></tr></thead>
+    <tbody>
+      <tr><td><code>tone_prepared</code></td><td>(positive − negative) / (positive + negative) words in prepared remarks</td><td>Management's deliberate sentiment in their scripted presentation. Reviewed by lawyers, so reflects conscious messaging strategy.</td></tr>
+      <tr><td><code>tone_answers</code></td><td>Same formula, but for Q&A answer sections only</td><td>Executive tone under live questioning — more spontaneous and harder to script. Divergence from prepared tone may reveal true sentiment.</td></tr>
+      <tr><td><code>tone_gap</code></td><td>tone_answers − tone_prepared</td><td>The <strong>shift</strong> in sentiment between scripted and spontaneous speech. Negative gap = executives more cautious in Q&A → possible hidden concerns.</td></tr>
+      <tr><td><code>hedging_prepared</code></td><td>hedge words per 1,000 words in prepared remarks</td><td>Use of uncertain/weak modal language ("may", "could", "possibly", "approximately") in scripted remarks. Higher hedging may signal management uncertainty.</td></tr>
+      <tr><td><code>hedging_answers</code></td><td>Same for Q&A answers</td><td>Hedging under pressure — more informative than in scripted text.</td></tr>
+      <tr><td><code>words_prepared</code></td><td>Word count of prepared remarks section</td><td>Length of prepared remarks — very long may indicate complexity or burying bad news; very short may indicate evasion.</td></tr>
+      <tr><td><code>words_answers</code></td><td>Word count of Q&A answers</td><td>How much executives say in response to questions.</td></tr>
+      <tr><td><code>words_questions</code></td><td>Word count of analyst questions</td><td>How much analysts pressed — more questions may indicate more concern.</td></tr>
+      <tr><td><code>share_answers_by_execs</code></td><td>Fraction of Q&A answer words spoken by executives</td><td>CEO dominance in Q&A — a CEO answering everything personally may signal hands-on management or crisis mode.</td></tr>
+      <tr><td><code>tone_prepared_chg</code></td><td>Current tone − mean of previous 4 calls</td><td><strong>Change</strong> in prepared tone vs. company's own recent history. A sudden tone drop is more informative than the absolute level.</td></tr>
+      <tr><td><code>tone_answers_chg</code></td><td>Same for Q&A tone</td><td>Change in spontaneous sentiment.</td></tr>
+      <tr><td><code>hedging_answers_chg</code></td><td>Same for hedging</td><td>Change in hedging behavior — a sudden increase may be a warning sign.</td></tr>
+    </tbody>
+  </table>
+  <div class="note">
+    <strong>Loughran-McDonald Dictionary:</strong> Unlike generic sentiment dictionaries (e.g., Harvard GI), this was built specifically for financial text. Words like "liability", "tax", and "capital" are neutral in finance but would be counted as negative by general dictionaries. The LM dictionary has separate word lists for Positive, Negative, Uncertainty, and Weak Modal (hedging) categories.
+  </div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="final">8. Complete Feature List in model_table.parquet</h2>
+<p style="font-size:0.82rem; color:var(--muted); margin-bottom:0.8rem;">Every column in the final output, organized by purpose.</p>
+
+<div class="card">
+  <table class="feat-table">
+    <thead><tr><th style="width:30%">Column(s)</th><th>Category</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><code>transcriptid</code>, <code>keydevid</code></td><td>IDs</td><td>Transcript version ID and event ID</td></tr>
+      <tr><td><code>companyid</code>, <code>gvkey</code>, <code>permno</code>, <code>ticker</code></td><td>IDs</td><td>Company identifiers across all four databases</td></tr>
+      <tr><td><code>call_date</code>, <code>call_time_utc</code>, <code>day0</code></td><td>Timing</td><td>When the call happened and when the market could first react</td></tr>
+      <tr><td><code>gsector</code>, <code>ggroup</code>, <code>gind</code></td><td>Classification</td><td>GICS sector, industry group, industry</td></tr>
+      <tr><td><code>car_0_1</code>, <code>car_2_5</code>, <code class="primary">car_2_20</code>, <code>car_2_60</code></td><td>Targets</td><td>Cumulative abnormal returns over various drift windows</td></tr>
+      <tr><td><code>vol_post_2_20</code></td><td>Target</td><td>Post-call realized volatility</td></tr>
+      <tr><td><code>sue</code>, <code>sue_price</code>, <code>surprise_pct</code></td><td>Earnings surprise</td><td>Standardized and price-scaled earnings surprise</td></tr>
+      <tr><td><code>actual_eps</code>, <code>consensus_eps</code>, <code>eps_surprise</code></td><td>Earnings raw</td><td>The raw EPS numbers behind SUE</td></tr>
+      <tr><td><code>size</code>, <code>mcap_m</code></td><td>Control</td><td>Log market cap and raw market cap ($M)</td></tr>
+      <tr><td><code>bm</code></td><td>Control</td><td>Book-to-market ratio</td></tr>
+      <tr><td><code>mom</code></td><td>Control</td><td>12-1 month momentum</td></tr>
+      <tr><td><code>vol_pre</code></td><td>Control</td><td>Pre-call volatility [−60,−5]</td></tr>
+      <tr><td><code>n_analysts</code>, <code>dispersion</code></td><td>Control</td><td>Analyst coverage and estimate dispersion</td></tr>
+      <tr><td><code>tone_prepared</code>, <code>tone_answers</code>, <code>tone_gap</code></td><td>Linguistic</td><td>Sentiment scores by section</td></tr>
+      <tr><td><code>hedging_prepared</code>, <code>hedging_answers</code></td><td>Linguistic</td><td>Hedging language intensity</td></tr>
+      <tr><td><code>words_prepared</code>, <code>words_answers</code>, <code>words_questions</code></td><td>Linguistic</td><td>Section word counts</td></tr>
+      <tr><td><code>share_answers_by_execs</code></td><td>Linguistic</td><td>Executive participation in Q&A</td></tr>
+      <tr><td><code>tone_prepared_chg</code>, <code>tone_answers_chg</code>, <code>hedging_answers_chg</code></td><td>Linguistic Δ</td><td>Change vs. prior 4 calls</td></tr>
+      <tr><td><code>sample</code></td><td>Split</td><td><strong>train</strong> (2010–2022), <strong>holdout</strong> (2023–2024), or <strong>no_target</strong></td></tr>
+      <tr><td><code>period</code>, <code>prior_calls_with_target</code></td><td>Split</td><td>Time period and experience count for filtering</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="note">
+  <strong>Model A (baseline)</strong> uses only: <code>sue</code>, <code>sue_price</code>, <code>size</code>, <code>bm</code>, <code>mom</code>, <code>vol_pre</code>, <code>n_analysts</code>, <code>dispersion</code>, <code>gsector</code>, and targets. Trained on <code>sample == "train"</code> only.<br>
+  <strong>Model B (later)</strong> adds all linguistic features and their Δ-changes to see if language adds predictive power beyond these financial controls.
+</div>
