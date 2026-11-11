@@ -258,13 +258,27 @@ All 20 features (11 controls + 9 linguistic) forced into every model to test whe
 
 ### Model A vs Model B comparison (all variants)
 
+All models use RandomForest (best by Rank IC in every variant).
+
+**Cross-validation** (time-series expanding window, 4 folds, 2010–2022):
+
+| Metric | Model A (11 ctrl) | Model B (13 selected) | Model B* (20 all forced) |
+|--------|-------------------|-----------------------|--------------------------|
+| **IC** | **+0.052** | +0.045 | +0.041 |
+| **Rank IC** | **+0.039** | +0.038 | +0.035 |
+| **R²** | −0.018 | −0.017 | −0.018 |
+| **Dir Accuracy** | 0.521 | 0.522 | 0.518 |
+| **Q5-Q1 Spread** | **+1.05%** | +0.94% | +0.75% |
+
+**Holdout** (2023–2024, one-time evaluation):
+
 | Metric | Model A | Model B (selected) | Model B* (all forced) |
 |--------|---------|--------------------|-----------------------|
-| Features | 11 controls | 13 (11 ctrl + 2 ling) | 20 (11 ctrl + 9 ling) |
-| **CV Rank IC** | **+0.039** | +0.038 | +0.035 |
-| **CV Q5-Q1** | **+1.05%** | +0.94% | +0.75% |
-| Holdout Rank IC | −0.005 | −0.011 | −0.008 |
-| Holdout Q5-Q1 | −0.06% | −0.32% | −0.44% |
+| **IC** | −0.076 | −0.075 | −0.074 |
+| **Rank IC** | −0.005 | −0.011 | −0.008 |
+| **R²** | −0.088 | −0.086 | −0.084 |
+| **Dir Accuracy** | 0.435 | 0.435 | 0.433 |
+| **Q5-Q1 Spread** | −0.06% | −0.32% | −0.44% |
 
 **Conclusion:** LM dictionary-based linguistic features (tone, hedging, uncertainty) do not improve prediction of post-earnings drift CAR[+2,+20]. Adding more linguistic features monotonically *worsens* performance — the bag-of-words approach adds noise, not signal. Next steps: contextual embeddings (FinBERT), interaction-quality features, or finer-grained text measures.
 
