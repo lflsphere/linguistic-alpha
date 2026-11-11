@@ -103,6 +103,51 @@ python sp500_pipeline.py --stages panel targets text final   # rebuild from cach
 Predicts CAR[+2,+20] using only financial controls and call structure — no sentiment or tone features.
 Script: [`model_a_baseline.py`](model_a_baseline.py) | Report: [`model_a_report.txt`](model_a_report.txt) | JSON: [`model_a_results.json`](model_a_results.json)
 
+### Feature descriptions (Model A — 18 candidates, 11 selected)
+
+**Earnings surprise features** — the core driver of post-earnings drift (PEAD). Firms that beat expectations tend to keep drifting up, and misses keep drifting down.
+
+| Feature | What it measures | Why it matters for drift |
+|---------|-----------------|------------------------|
+| `sue` | Standardized Unexpected Earnings: (actual − consensus) / std dev of past surprises | The classic PEAD signal — higher SUE → stronger positive drift. Standardizing by historical dispersion makes surprises comparable across firms. |
+| `sue_price` | Earnings surprise scaled by stock price | Controls for price level — a $0.05 surprise means more for a $10 stock than a $500 stock. Reduces the influence of high-priced, low-volatility names. |
+| `surprise_pct` | (actual − consensus) / consensus as a percentage | Raw percentage surprise. Dropped by feature selection (rank 11.3) — `sue` and `sue_price` capture the same information better. |
+
+**Firm characteristics** — known cross-sectional return predictors (Fama-French factors and related).
+
+| Feature | What it measures | Why it matters for drift |
+|---------|-----------------|------------------------|
+| `size` | Log market capitalization on the day before the call | Small firms have stronger PEAD — less analyst coverage, slower information diffusion. The size effect is one of the most robust findings in PEAD literature. |
+| `bm` | Book-to-market ratio (Compustat book equity / CRSP market cap) | Value stocks (high B/M) may have different drift patterns. Controls for the value factor so the model doesn't confuse drift with value premium. |
+| `mom` | 12-month minus 1-month momentum (cumulative return) | Firms with strong prior momentum may have continuation or reversal patterns that interact with earnings surprises. Highest RF importance (0.136) — tree models find nonlinear interactions with other features. |
+| `vol_pre` | Realized volatility over 20 trading days before the call | High pre-call volatility means more uncertainty. Highest single-feature RF importance (0.247) — the model uses it to scale expected drift magnitude. |
+
+**Analyst coverage** — captures the information environment around the firm.
+
+| Feature | What it measures | Why it matters for drift |
+|---------|-----------------|------------------------|
+| `dispersion` | Standard deviation of analyst EPS forecasts / abs(consensus) | **Strongest univariate signal** (Spearman p < 0.001). High disagreement = high uncertainty = more room for the market to slowly digest the surprise. Firms with high dispersion show stronger, more persistent drift. |
+| `n_analysts` | Number of analysts covering the firm | More coverage → faster price discovery → weaker drift. Dropped by feature selection (rank 13.0) — correlated with `size`. |
+
+**Call structure** — measures what happened during the earnings call itself.
+
+| Feature | What it measures | Why it matters for drift |
+|---------|-----------------|------------------------|
+| `car_0_1` | Announcement-day return (CAR day 0–1) | The initial market reaction. Known at the start of the drift window — strong announcement returns may predict continuation (underreaction) or reversal. |
+| `words_answers` | Total word count in Q&A answers (log-transformed) | Longer answers may signal more complex or ambiguous situations. Selected (rank 10.5) even with zero MI — the Spearman correlation (p = 0.008) and RF importance both picked it up. |
+| `n_answers` | Number of Q&A answers | More Q&A exchanges can indicate higher analyst interest or management willingness to engage. Borderline selection (rank 12.8) but Spearman was significant (p = 0.043). |
+| `n_questions` | Number of analyst questions in Q&A | Dropped (rank 9.7) — correlated with `n_answers`. |
+| `words_prepared` | Word count in prepared remarks (log-transformed) | Dropped (rank 13.2) — length of the scripted section has low predictive value. |
+| `words_questions` | Word count in analyst questions (log-transformed) | Dropped (rank 14.2). |
+| `avg_answer_words` | Average words per executive answer (log-transformed) | Dropped (rank 13.5) — collinear with `words_answers` (VIF 12.3). |
+| `share_answers_by_execs` | Share of Q&A answers given by executives (vs. IR, etc.) | Dropped (rank 14.5) — near-zero RF importance (0.001). |
+
+**Other:**
+
+| Feature | What it measures | Why it matters for drift |
+|---------|-----------------|------------------------|
+| `prior_calls_with_target` | How many prior earnings calls this firm has with realized CAR | Controls for data availability — firms with more history have more stable feature estimates. Also captures a survivorship/tenure effect. |
+
 ### Preprocessing
 
 - **Winsorization** at 1st/99th percentile (fit on train per CV fold, no leakage)
@@ -186,19 +231,35 @@ Numeric controls alone do not generalize to the holdout period — motivating th
 Adds Loughran-McDonald dictionary features (tone, hedging, uncertainty) on top of Model A's 11 controls.
 Script: [`model_b_linguistic.py`](model_b_linguistic.py) | Report: [`model_b_report.txt`](model_b_report.txt) | JSON: [`model_b_results.json`](model_b_results.json)
 
-### Linguistic features added
+### Feature descriptions (Model B — 9 linguistic features added to Model A's 11 controls)
 
-| Feature | Description |
-|---------|-------------|
-| `tone_prepared` | Net tone in prepared remarks: (positive − negative) / (positive + negative) per 1k words |
-| `tone_answers` | Net tone in Q&A answers |
-| `hedging_prepared` | Weak-modal (hedging) words per 1k words in prepared remarks |
-| `hedging_answers` | Hedging words per 1k words in Q&A answers |
-| `uncertainty_answers` | Uncertainty words per 1k words in Q&A answers |
-| `tone_gap` | `tone_answers` − `tone_prepared` (shift from script to live Q&A) |
-| `tone_prepared_chg` | Change in prepared-remarks tone vs. prior 4-call average |
-| `tone_answers_chg` | Change in Q&A tone vs. prior 4-call average |
-| `hedging_answers_chg` | Change in Q&A hedging vs. prior 4-call average |
+All linguistic features are computed using the **Loughran-McDonald (LM) Master Dictionary** (1993–2025 edition, 86,553 words), a finance-specific word list designed for 10-K/10-Q and earnings call text. Unlike general-purpose sentiment (e.g., Harvard GI), LM classifies words by how they function in financial disclosure — "liability" is negative in general English but neutral in finance.
+
+**Tone features** — measure net sentiment polarity. The hypothesis: managers who use more positive vs. negative words may be signaling genuine confidence (→ positive drift) or spinning bad results (→ reversal).
+
+| Feature | What it measures | Why it might matter | Result |
+|---------|-----------------|--------------------| -------|
+| `tone_prepared` | (LM positive − LM negative) / (positive + negative) in prepared remarks | Prepared remarks are scripted — tone reflects deliberate framing by IR/legal teams. Optimistic framing of strong results may predict continuation. | Dropped by selection (rank 15.2). Near-zero Spearman and MI — the scripted section's tone is too polished to carry incremental signal. |
+| `tone_answers` | Same ratio computed on Q&A answers only | Q&A is live and less rehearsed — executives reveal more under analyst questioning. Tone here is less controlled and potentially more informative. | **Selected** (rank 12.0). Weak but present signal — RF importance 0.030, suggesting nonlinear interactions with controls. |
+| `tone_gap` | `tone_answers` − `tone_prepared` | If executives are markedly less positive in Q&A than in their script, it may signal they're less confident than the prepared remarks suggest. A large negative gap = potential bad news the script glossed over. | Narrowly missed selection (rank 12.7). Spearman \|r\| = 0.010 (p = 0.12) — suggestive but not significant. |
+| `tone_prepared_chg` | Change in prepared-remarks tone vs. rolling mean of prior 4 calls | A sudden shift in scripted tone — more positive or negative than the firm's recent baseline — may signal a regime change the market hasn't fully priced. | **Selected** (rank 11.2). Strongest linguistic feature by average rank. Spearman \|r\| = 0.013 (p = 0.057), RF importance 0.043. |
+| `tone_answers_chg` | Change in Q&A tone vs. prior 4-call average | Same logic as above but for live Q&A. A sudden drop in Q&A positivity relative to the firm's norm could flag deterioration. | Dropped (rank 14.3). Near-zero Spearman (p = 0.93) — the delta didn't add signal beyond level. |
+
+**Hedging features** — count weak-modal words ("may", "could", "might", "possibly", "approximately"). The hypothesis: managers hedge more when they're uncertain about forward guidance or trying to avoid commitment.
+
+| Feature | What it measures | Why it might matter | Result |
+|---------|-----------------|--------------------| -------|
+| `hedging_prepared` | LM Weak_Modal words per 1,000 words in prepared remarks | Heavy hedging in the script may signal management uncertainty about guidance or upcoming risks they can't disclose directly. | Dropped (rank 14.3). Low signal — hedging in the script is partly legal boilerplate. |
+| `hedging_answers` | LM Weak_Modal words per 1,000 words in Q&A answers | Hedging under live questioning is harder to script — genuinely uncertain executives hedge more in Q&A. | Dropped (rank 16.8). Near-zero correlation with drift. |
+| `hedging_answers_chg` | Change in Q&A hedging vs. prior 4-call average | A firm that suddenly hedges much more than usual in Q&A may be facing new uncertainty. | Dropped (rank 15.7). No detectable signal. |
+
+**Uncertainty feature** — counts LM Uncertainty words ("risk", "uncertain", "volatile", "unpredictable", etc.).
+
+| Feature | What it measures | Why it might matter | Result |
+|---------|-----------------|--------------------| -------|
+| `uncertainty_answers` | LM Uncertainty words per 1,000 words in Q&A answers | Direct expressions of uncertainty in live responses. Higher uncertainty language could predict wider return dispersion or directional drift if it proxies for unresolved information. | Dropped (rank 16.2). Spearman \|r\| = 0.0005 (p = 0.94) — no linear or nonlinear signal detected. |
+
+**Summary:** Only 2 of 9 linguistic features survived feature selection (`tone_prepared_chg` and `tone_answers`), and even these did not improve model performance. The LM bag-of-words approach is likely too coarse — it counts words without context, can't distinguish sarcasm or hedged optimism, and the signal (if any) may already be captured by the call structure features (`words_answers`, `n_answers`) that proxy for the same underlying information complexity.
 
 ### Feature selection (20 candidates → 13 selected)
 
