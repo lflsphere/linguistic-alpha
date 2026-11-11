@@ -7,10 +7,12 @@ Data comes from WRDS: Capital IQ transcripts, CRSP, Compustat and I/B/E/S.
 - Architecture and stage contracts: [docs/pipeline.md](docs/pipeline.md)
 - Legacy notebook audit and rebuild plan: [docs/data_audit.md](docs/data_audit.md)
 - Run settings: [configs/default.yaml](configs/default.yaml)
+- Pipeline data reference (WRDS tables): [docs/tables-reference.html](docs/tables-reference.html)
+- Pipeline flow diagram: [docs/pipeline-diagram.html](docs/pipeline-diagram.html)
 
 ## S&P 500 Pipeline (GCP)
 
-A standalone pipeline (`sp500_pipeline.py`) pulls all WRDS source data, builds date-validated
+A standalone pipeline ([`sp500_pipeline.py`](sp500_pipeline.py)) pulls all WRDS source data, builds date-validated
 identifier links, computes abnormal returns and controls, extracts NLP features from Capital IQ
 transcripts, and produces a single modeling table — one row per earnings call.
 
@@ -44,7 +46,7 @@ transcripts, and produces a single modeling table — one row per earnings call.
 | [`model_b_all_results.json`](model_b_all_results.json) | Machine-readable Model B* results |
 | [`sp500_pipeline.py`](sp500_pipeline.py) | Main pipeline: PULL → PANEL → TARGETS → TEXT → FINAL |
 
-### Column reference (`model_table.csv`)
+### Column reference ([`model_table.csv`](model_table.csv))
 
 | Column(s) | Category | Description |
 |-----------|----------|-------------|
@@ -86,7 +88,7 @@ transcripts, and produces a single modeling table — one row per earnings call.
 1. **PULL** — Download 14 WRDS tables (CRSP, Compustat, I/B/E/S, Capital IQ transcripts)
 2. **PANEL** — Chain date-validated identity joins: companyid → gvkey → permno → IBES ticker → GICS sector
 3. **TARGETS** — Compute CAR[0,1], CAR[2,5], CAR[2,20] (primary), CAR[2,60], post-call volatility
-4. **TEXT** — Extract NLP features: tone (Loughran-McDonald), hedging, word counts, exec participation
+4. **TEXT** — Extract NLP features: tone ([Loughran-McDonald dictionary](data/Loughran-McDonald_MasterDictionary_1993-2025.csv)), hedging, word counts, exec participation
 5. **FINAL** — Merge numeric + language features, compute deltas vs. prior 4 calls, assign train/holdout split
 
 ### How to run
@@ -228,12 +230,12 @@ Numeric controls alone do not generalize to the holdout period — motivating th
 
 ## Model B: Controls + Linguistic Features
 
-Adds Loughran-McDonald dictionary features (tone, hedging, uncertainty) on top of Model A's 11 controls.
+Adds [Loughran-McDonald dictionary](data/Loughran-McDonald_MasterDictionary_1993-2025.csv) features (tone, hedging, uncertainty) on top of Model A's 11 controls.
 Script: [`model_b_linguistic.py`](model_b_linguistic.py) | Report: [`model_b_report.txt`](model_b_report.txt) | JSON: [`model_b_results.json`](model_b_results.json)
 
 ### Feature descriptions (Model B — 9 linguistic features added to Model A's 11 controls)
 
-All linguistic features are computed using the **Loughran-McDonald (LM) Master Dictionary** (1993–2025 edition, 86,553 words), a finance-specific word list designed for 10-K/10-Q and earnings call text. Unlike general-purpose sentiment (e.g., Harvard GI), LM classifies words by how they function in financial disclosure — "liability" is negative in general English but neutral in finance.
+All linguistic features are computed using the **[Loughran-McDonald (LM) Master Dictionary](data/Loughran-McDonald_MasterDictionary_1993-2025.csv)** (1993–2025 edition, 86,553 words), a finance-specific word list designed for 10-K/10-Q and earnings call text. Unlike general-purpose sentiment (e.g., Harvard GI), LM classifies words by how they function in financial disclosure — "liability" is negative in general English but neutral in finance.
 
 **Tone features** — measure net sentiment polarity. The hypothesis: managers who use more positive vs. negative words may be signaling genuine confidence (→ positive drift) or spinning bad results (→ reversal).
 
