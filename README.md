@@ -36,6 +36,9 @@ transcripts, and produces a single modeling table — one row per earnings call.
 | [`model_a_baseline.py`](model_a_baseline.py) | Model A script: preprocessing, feature selection, 8-model comparison |
 | [`model_a_report.txt`](model_a_report.txt) | Model A baseline report: preprocessing, feature selection, CV and holdout results |
 | [`model_a_results.json`](model_a_results.json) | Machine-readable Model A results (metrics, selected features, config) |
+| [`model_b_linguistic.py`](model_b_linguistic.py) | Model B script: Model A controls + linguistic features, 8-model comparison |
+| [`model_b_report.txt`](model_b_report.txt) | Model B report: feature selection, CV results, A vs B comparison |
+| [`model_b_results.json`](model_b_results.json) | Machine-readable Model B results |
 | [`sp500_pipeline.py`](sp500_pipeline.py) | Main pipeline: PULL → PANEL → TARGETS → TEXT → FINAL |
 
 ### Column reference (`model_table.csv`)
@@ -175,6 +178,76 @@ Numeric controls alone do not generalize to the holdout period — motivating th
 | **Dir Accuracy** | Share of predictions with correct sign | [0, 1] | > 0.52 |
 | **Q5-Q1 Spread** | Mean CAR of top quintile minus bottom quintile | any | > 0 |
 
+## Model B: Controls + Linguistic Features
+
+Adds Loughran-McDonald dictionary features (tone, hedging, uncertainty) on top of Model A's 11 controls.
+Script: [`model_b_linguistic.py`](model_b_linguistic.py) | Report: [`model_b_report.txt`](model_b_report.txt) | JSON: [`model_b_results.json`](model_b_results.json)
+
+### Linguistic features added
+
+| Feature | Description |
+|---------|-------------|
+| `tone_prepared` | Net tone in prepared remarks: (positive − negative) / (positive + negative) per 1k words |
+| `tone_answers` | Net tone in Q&A answers |
+| `hedging_prepared` | Weak-modal (hedging) words per 1k words in prepared remarks |
+| `hedging_answers` | Hedging words per 1k words in Q&A answers |
+| `uncertainty_answers` | Uncertainty words per 1k words in Q&A answers |
+| `tone_gap` | `tone_answers` − `tone_prepared` (shift from script to live Q&A) |
+| `tone_prepared_chg` | Change in prepared-remarks tone vs. prior 4-call average |
+| `tone_answers_chg` | Change in Q&A tone vs. prior 4-call average |
+| `hedging_answers_chg` | Change in Q&A hedging vs. prior 4-call average |
+
+### Feature selection (20 candidates → 13 selected)
+
+| Feature | Spearman |r| | MI | RF Imp | Avg Rank | Type | Selected |
+|---------|-------------|------|--------|----------|------|----------|
+| `dispersion` | 0.032 | 0.021 | 0.069 | **2.7** | ctrl | Yes |
+| `mom` | 0.009 | 0.030 | 0.129 | **4.3** | ctrl | Yes |
+| `car_0_1` | 0.018 | 0.004 | 0.051 | **5.7** | ctrl | Yes |
+| `prior_calls_with_target` | 0.006 | 0.011 | 0.085 | **6.0** | ctrl | Yes |
+| `vol_pre` | 0.003 | 0.063 | 0.225 | **6.0** | ctrl | Yes |
+| `size` | 0.015 | 0.008 | 0.036 | **6.3** | ctrl | Yes |
+| `sue_price` | 0.006 | 0.013 | 0.066 | **7.0** | ctrl | Yes |
+| `sue` | 0.014 | 0.006 | 0.024 | **8.7** | ctrl | Yes |
+| `bm` | 0.005 | 0.007 | 0.051 | **9.3** | ctrl | Yes |
+| `tone_prepared_chg` | 0.013 | 0.000 | 0.043 | **11.2** | LING | Yes |
+| `tone_answers` | 0.006 | 0.001 | 0.030 | **12.0** | LING | Yes |
+| `words_answers` | 0.017 | 0.000 | 0.022 | **12.2** | ctrl | Yes |
+| `n_answers` | 0.013 | 0.000 | 0.020 | **13.5** | ctrl | Yes |
+| `tone_gap` | 0.010 | 0.002 | 0.017 | 12.7 | LING | — |
+| `hedging_prepared` | 0.005 | 0.000 | 0.023 | 14.3 | LING | — |
+| `tone_answers_chg` | 0.001 | 0.002 | 0.028 | 14.3 | LING | — |
+| `tone_prepared` | 0.004 | 0.000 | 0.025 | 15.2 | LING | — |
+| `hedging_answers_chg` | 0.003 | 0.002 | 0.019 | 15.7 | LING | — |
+| `uncertainty_answers` | 0.001 | 0.002 | 0.020 | 16.2 | LING | — |
+| `hedging_answers` | 0.001 | 0.002 | 0.019 | 16.8 | LING | — |
+
+Only 2 of 9 linguistic features were selected: `tone_prepared_chg` and `tone_answers`. Hedging and uncertainty features ranked in the bottom third.
+
+### Cross-validation results
+
+| Model | Avg IC | Avg Rank IC | Dir Accuracy | Q5-Q1 Spread |
+|-------|--------|-------------|-------------|--------------|
+| **RandomForest** | **+0.045** | **+0.038** | 0.522 | **+0.94%** |
+| XGBoost | +0.022 | +0.031 | 0.516 | +0.57% |
+| GradientBoosting | +0.016 | +0.030 | 0.515 | +0.56% |
+| ExtraTrees | +0.026 | +0.018 | 0.524 | +0.25% |
+| Ridge | −0.003 | +0.008 | 0.510 | +0.01% |
+| OLS | −0.003 | +0.008 | 0.510 | +0.01% |
+| Lasso | +0.005 | +0.007 | 0.533 | −0.14% |
+| ElasticNet | +0.002 | +0.007 | 0.515 | +0.01% |
+
+### Model A vs Model B comparison
+
+| Metric | Model A (controls only) | Model B (+ linguistic) | Difference |
+|--------|------------------------|----------------------|------------|
+| **CV Rank IC** | +0.039 | +0.038 | −0.001 |
+| **CV Q5-Q1** | +1.05% | +0.94% | −0.11% |
+| Holdout Rank IC | −0.005 | −0.011 | −0.006 |
+| Holdout Q5-Q1 | −0.06% | −0.32% | −0.26% |
+
+**Conclusion:** LM dictionary-based linguistic features (tone, hedging, uncertainty) do not improve prediction of post-earnings drift CAR[+2,+20] beyond the financial controls in this dataset. The bag-of-words approach may be too coarse — next steps include contextual embeddings (FinBERT), interaction-quality features, or finer-grained text measures.
+
 ## Roadmap
 
 | # | Task | Status |
@@ -183,10 +256,12 @@ Numeric controls alone do not generalize to the holdout period — motivating th
 | 2 | Preprocessing + feature selection on 18 non-linguistic features | **done** |
 | 3 | Baseline Model A — RandomForest, Rank IC +0.039 (CV) | **done** |
 | 4 | Compute LM tone, uncertainty, hedging from transcript text | **done** |
-| 5 | Model B — add linguistic features, compare to Model A | next |
-| 6 | Evaluation: IC comparison, long-short backtest net of costs | pending |
+| 5 | Model B — add linguistic features, compare to Model A | **done** (no improvement) |
+| 6 | Try contextual embeddings (FinBERT) or interaction-quality features | next |
+| 7 | Evaluation: IC comparison, long-short backtest net of costs | pending |
 
-Done: full pipeline build, GCP VM setup, data validation, pipeline flow diagram, Model A baseline, LM linguistic features (tone, hedging, uncertainty + deltas).
+Done: full pipeline, GCP VM, data validation, Model A baseline, LM linguistic features, Model B comparison.
+Finding: LM bag-of-words features do not improve over controls alone — finer-grained text features needed.
 
 ## Obstacles and proposed solutions
 
