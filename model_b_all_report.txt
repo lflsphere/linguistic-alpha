@@ -1,7 +1,8 @@
 ======================================================================
-MODEL B (ALL LINGUISTIC) — No Feature Selection
-Generated: 2026-11-11 04:18
+MODEL B* (ALL LINGUISTIC) — No Feature Selection
+Generated: 2026-11-11 04:50
 Target: car_2_20
+Train: 2010–2021 | Test: 2022–2024
 Features (20): dispersion, mom, prior_calls_with_target, vol_pre, car_0_1, size, sue_price, sue, bm, words_answers, n_answers, tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
   Controls (11): dispersion, mom, prior_calls_with_target, vol_pre, car_0_1, size, sue_price, sue, bm, words_answers, n_answers
   Linguistic (9): tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
@@ -9,40 +10,42 @@ Features (20): dispersion, mom, prior_calls_with_target, vol_pre, car_0_1, size,
 ======================================================================
 
 
---- CROSS-VALIDATION RESULTS ---
+--- CROSS-VALIDATION RESULTS (train 2010-2021) ---
 Model                      IC      ±  Rank IC      ±       R²  Dir Acc    Q5-Q1
-RandomForest          +0.0405 0.0910  +0.0347 0.0708  -0.0179    0.518  +0.0075
-GradientBoosting      +0.0129 0.0751  +0.0312 0.0599  -0.0523    0.513  +0.0047
-XGBoost               +0.0171 0.0751  +0.0274 0.0579  -0.0556    0.514  +0.0060
-ExtraTrees            +0.0233 0.0843  +0.0093 0.0436  -0.0127    0.518  +0.0022
-Ridge                 -0.0029 0.0609  +0.0081 0.0277  -0.0215    0.508  +0.0009
-OLS                   -0.0029 0.0609  +0.0081 0.0277  -0.0215    0.508  +0.0009
-Lasso                 +0.0045 0.0913  +0.0059 0.0149  -0.0130    0.532  -0.0003
-ElasticNet            +0.0004 0.0771  +0.0048 0.0254  -0.0151    0.517  -0.0012
+GradientBoosting      +0.0200 0.0803  +0.0331 0.0287  -0.0223    0.523  +0.0071
+RandomForest          +0.0247 0.0643  +0.0207 0.0321  -0.0029    0.525  +0.0049
+XGBoost               -0.0002 0.0663  +0.0193 0.0248  -0.0266    0.519  +0.0031
+ElasticNet            +0.0101 0.0597  -0.0027 0.0444  -0.0034    0.517  -0.0017
+Ridge                 -0.0031 0.0713  -0.0041 0.0537  -0.0100    0.506  -0.0034
+OLS                   -0.0031 0.0712  -0.0041 0.0537  -0.0100    0.506  -0.0034
+ExtraTrees            +0.0205 0.0618  -0.0054 0.0536  -0.0015    0.527  -0.0030
+Lasso                 +0.0207 0.0529  -0.0129 0.0464  -0.0011    0.528  -0.0040
 
-Best model by avg Rank IC: RandomForest
-
-
---- COMPARISON ---
-Model A  (11 controls, feature-selected):        Rank IC +0.039, Q5-Q1 +1.05%
-Model B  (13 features, feature-selected):        Rank IC +0.038, Q5-Q1 +0.94%
-Model B* (20 features, ALL forced):              Rank IC +0.035, Q5-Q1 +0.75%
+Best model by avg Rank IC: GradientBoosting
 
 
---- HOLDOUT RESULTS (RandomForest) ---
-  ic                       : -0.0739
-  rank_ic                  : -0.0079
-  r2                       : -0.0835
-  rmse                     : +0.0630
-  direction_accuracy       : +0.4331
-  quintile_spread          : -0.0044
+--- COMPARISON (CV) ---
+Model A  (11 controls, feature-selected):        Rank IC +0.041, Q5-Q1 +0.79%
+Model B  (12 features, feature-selected):        Rank IC +0.037, Q5-Q1 +0.64%
+Model B* (20 features, ALL forced):              Rank IC +0.033, Q5-Q1 +0.71%
 
-Model A  holdout: Rank IC -0.005, Q5-Q1 -0.06%
-Model B  holdout: Rank IC -0.011, Q5-Q1 -0.32%
-Model B* holdout: Rank IC -0.0079, Q5-Q1 -0.44%
+
+--- TEST RESULTS 2022-2024 (GradientBoosting) ---
+  ic                       : +0.0109
+  rank_ic                  : +0.0314
+  r2                       : -0.0436
+  rmse                     : +0.0667
+  direction_accuracy       : +0.5074
+  quintile_spread          : +0.0070
+
+Model A  test: Rank IC +0.0417, Q5-Q1 +0.75%
+Model B  test: Rank IC +0.0267, Q5-Q1 +0.50%
+Model B* test: Rank IC +0.0314, Q5-Q1 +0.70%
 
 
 --- NOTES ---
 - Same preprocessing as Model A/B: winsorize 1%/99%, log1p, median impute, StandardScaler
 - All 9 linguistic features forced (no feature selection)
 - Tests whether feature selection dropped useful linguistic signal
+- Time-series expanding window CV on train (2010-2021)
+- Test (2022-2024) evaluated once after model selection

@@ -1,67 +1,68 @@
 ======================================================================
 MODEL B REPORT — Controls + Loughran-McDonald Linguistic Features
-Generated: 2026-11-11 04:12
+Generated: 2026-11-11 04:48
 Target: car_2_20
+Train: 2010–2021 | Test: 2022–2024
 Model A controls (11): dispersion, mom, prior_calls_with_target, vol_pre, car_0_1, size, sue_price, sue, bm, words_answers, n_answers
 Linguistic features (9): tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
-Selected features (13): dispersion, mom, car_0_1, prior_calls_with_target, vol_pre, size, sue_price, sue, bm, tone_prepared_chg, tone_answers, words_answers, n_answers
+Selected features (12): dispersion, vol_pre, size, mom, car_0_1, prior_calls_with_target, bm, sue_price, sue, tone_prepared_chg, words_answers, n_answers
 ======================================================================
 
 
 --- FEATURE SELECTION RANKING ---
 Feature                    |Spearman|    p-value       MI   RF imp  Avg rank     Type  Selected
-dispersion                     0.0319   1.25e-06   0.0210   0.0685       2.7     ctrl       YES
-mom                            0.0086   1.92e-01   0.0301   0.1287       4.3     ctrl       YES
-car_0_1                        0.0179   6.54e-03   0.0035   0.0512       5.7     ctrl       YES
-prior_calls_with_target        0.0065   3.26e-01   0.0107   0.0853       6.0     ctrl       YES
-vol_pre                        0.0031   6.35e-01   0.0627   0.2251       6.0     ctrl       YES
-size                           0.0153   2.01e-02   0.0075   0.0355       6.3     ctrl       YES
-sue_price                      0.0058   3.80e-01   0.0132   0.0662       7.0     ctrl       YES
-sue                            0.0141   3.25e-02   0.0060   0.0236       8.7     ctrl       YES
-bm                             0.0051   4.38e-01   0.0073   0.0512       9.3     ctrl       YES
-tone_prepared_chg              0.0125   5.69e-02   0.0000   0.0427      11.2     LING       YES
-tone_answers                   0.0060   3.64e-01   0.0012   0.0295      12.0     LING       YES
-words_answers                  0.0173   8.37e-03   0.0000   0.0222      12.2     ctrl       YES
-tone_gap                       0.0101   1.24e-01   0.0022   0.0166      12.7     LING          
-n_answers                      0.0133   4.26e-02   0.0000   0.0201      13.5     ctrl       YES
-hedging_prepared               0.0053   4.19e-01   0.0003   0.0226      14.3     LING          
-tone_answers_chg               0.0006   9.32e-01   0.0017   0.0279      14.3     LING          
-tone_prepared                  0.0035   5.91e-01   0.0000   0.0246      15.2     LING          
-hedging_answers_chg            0.0026   6.96e-01   0.0020   0.0187      15.7     LING          
-uncertainty_answers            0.0005   9.44e-01   0.0020   0.0201      16.2     LING          
-hedging_answers                0.0005   9.44e-01   0.0020   0.0194      16.8     LING          
+dispersion                     0.0415   1.22e-09   0.0193   0.0838       2.3     ctrl       YES
+vol_pre                        0.0086   2.05e-01   0.0625   0.2158       4.0     ctrl       YES
+mom                            0.0060   3.83e-01   0.0326   0.1337       5.3     ctrl       YES
+size                           0.0228   8.48e-04   0.0117   0.0412       5.3     ctrl       YES
+prior_calls_with_target        0.0129   5.84e-02   0.0085   0.0650       6.3     ctrl       YES
+car_0_1                        0.0226   9.22e-04   0.0056   0.0491       6.3     ctrl       YES
+bm                             0.0090   1.88e-01   0.0106   0.0508       7.0     ctrl       YES
+sue_price                      0.0055   4.17e-01   0.0125   0.0571       7.7     ctrl       YES
+sue                            0.0188   5.92e-03   0.0058   0.0272       8.0     ctrl       YES
+tone_prepared_chg              0.0167   1.46e-02   0.0000   0.0473      11.0     LING       YES
+n_answers                      0.0191   5.25e-03   0.0000   0.0220      13.0     ctrl       YES
+words_answers                  0.0142   3.80e-02   0.0000   0.0251      13.0     ctrl       YES
+tone_answers_chg               0.0058   3.96e-01   0.0014   0.0250      14.0     LING          
+tone_answers                   0.0016   8.15e-01   0.0019   0.0289      14.0     LING          
+hedging_prepared               0.0053   4.35e-01   0.0022   0.0249      14.3     LING          
+tone_prepared                  0.0054   4.28e-01   0.0001   0.0258      14.7     LING          
+tone_gap                       0.0084   2.19e-01   0.0019   0.0170      14.7     LING          
+hedging_answers                0.0001   9.83e-01   0.0033   0.0171      16.2     LING          
+uncertainty_answers            0.0001   9.83e-01   0.0032   0.0212      16.2     LING          
+hedging_answers_chg            0.0033   6.33e-01   0.0013   0.0217      16.7     LING          
 
 
---- CROSS-VALIDATION RESULTS ---
+--- CROSS-VALIDATION RESULTS (train 2010-2021) ---
 Model                      IC      ±  Rank IC      ±       R²  Dir Acc    Q5-Q1
-RandomForest          +0.0451 0.0935  +0.0378 0.0767  -0.0174    0.522  +0.0094
-XGBoost               +0.0221 0.0725  +0.0309 0.0552  -0.0570    0.516  +0.0057
-GradientBoosting      +0.0157 0.0807  +0.0297 0.0627  -0.0543    0.515  +0.0056
-ExtraTrees            +0.0258 0.0880  +0.0177 0.0445  -0.0126    0.524  +0.0025
-Ridge                 -0.0027 0.0605  +0.0084 0.0266  -0.0207    0.510  +0.0001
-OLS                   -0.0027 0.0605  +0.0083 0.0265  -0.0207    0.510  +0.0001
-Lasso                 +0.0052 0.0918  +0.0074 0.0152  -0.0128    0.533  -0.0014
-ElasticNet            +0.0019 0.0779  +0.0069 0.0252  -0.0147    0.515  +0.0001
+GradientBoosting      +0.0224 0.0863  +0.0368 0.0344  -0.0227    0.528  +0.0064
+XGBoost               +0.0077 0.0641  +0.0317 0.0290  -0.0261    0.524  +0.0054
+RandomForest          +0.0246 0.0759  +0.0277 0.0411  -0.0029    0.528  +0.0038
+ExtraTrees            +0.0304 0.0636  +0.0174 0.0578  -0.0008    0.527  +0.0034
+ElasticNet            +0.0138 0.0643  +0.0009 0.0497  -0.0028    0.517  -0.0013
+Ridge                 +0.0010 0.0724  -0.0003 0.0552  -0.0090    0.510  -0.0017
+OLS                   +0.0009 0.0724  -0.0003 0.0552  -0.0090    0.510  -0.0017
+Lasso                 +0.0220 0.0530  -0.0102 0.0478  -0.0010    0.531  -0.0040
 
-Best model by avg Rank IC: RandomForest
+Best model by avg Rank IC: GradientBoosting
 
 
 --- MODEL A vs MODEL B COMPARISON ---
-Model A best (RandomForest, controls only): Rank IC +0.039, Q5-Q1 +1.05%
-Model B best (RandomForest, controls + linguistic): Rank IC +0.038, Q5-Q1 +0.94%
-Rank IC improvement: -0.001 (worse)
+Model A best (GradientBoosting, controls only): Rank IC +0.041, Q5-Q1 +0.79%
+Model B best (GradientBoosting, controls + linguistic): Rank IC +0.037, Q5-Q1 +0.64%
+Rank IC improvement: -0.004 (worse)
 
 
---- HOLDOUT RESULTS (RandomForest) ---
-  ic                       : -0.0750
-  rank_ic                  : -0.0107
-  r2                       : -0.0858
-  rmse                     : +0.0630
-  direction_accuracy       : +0.4351
-  quintile_spread          : -0.0032
+--- TEST RESULTS 2022-2024 (GradientBoosting) ---
+  ic                       : -0.0012
+  rank_ic                  : +0.0267
+  r2                       : -0.0501
+  rmse                     : +0.0669
+  direction_accuracy       : +0.5119
+  quintile_spread          : +0.0050
 
-Model A holdout: Rank IC -0.005, Q5-Q1 -0.06%
-Model B holdout: Rank IC -0.0107, Q5-Q1 -0.32%
+Model A test: Rank IC +0.0417, Q5-Q1 +0.75%
+Model B test: Rank IC +0.0267, Q5-Q1 +0.50%
 
 
 --- NOTES ---
@@ -69,5 +70,5 @@ Model B holdout: Rank IC -0.0107, Q5-Q1 -0.32%
 - Linguistic features: LM dictionary tone (net positive), hedging (weak modal), uncertainty
 - _chg features = change vs. rolling 4-call average for same firm
 - tone_gap = tone_answers - tone_prepared (shift from script to Q&A)
-- Time-series expanding window CV, no future leakage
-- Holdout (2023-2024) evaluated once, not used for model selection
+- Time-series expanding window CV on train (2010-2021), no future leakage
+- Test (2022-2024) evaluated once after model selection

@@ -1,7 +1,10 @@
 """
-Model B (all linguistic): Model A controls + ALL 9 LM linguistic features.
+Model B* (all linguistic): Model A controls + ALL 9 LM linguistic features.
 No feature selection — forces all linguistic features into the model to test
 whether the full set adds signal that feature selection missed.
+
+Train: 2010–2021 (expanding-window CV inside for model selection)
+Test:  2022–2024 (one-time evaluation of best CV model)
 
 Usage:
     python3 model_b_all_linguistic.py [--folder ~/earnings_sp500]
@@ -37,6 +40,7 @@ LOG_TRANSFORM = ["words_answers"]
 
 WINSOR_LOW = 0.01
 WINSOR_HIGH = 0.99
+TRAIN_END = "2021-12-31"
 CV_FOLDS = 5
 MIN_FOLD_SIZE = 100
 RANDOM_STATE = 42
@@ -54,9 +58,13 @@ def load_data(base):
     log_msg(f"linguistic columns present ({len(ling_present)}): {ling_present}")
     if ling_missing:
         log_msg(f"WARNING — missing: {ling_missing}")
-    train = df[df["sample"] == "train"].copy()
+    has_target = df[df[PRIMARY_TARGET].notna()].copy()
+    cutoff = pd.Timestamp(TRAIN_END)
+    train = has_target[has_target["call_date"] <= cutoff].copy()
+    test = has_target[has_target["call_date"] > cutoff].copy()
     log_msg(f"train: {len(train):,} rows ({train['call_date'].min().date()} to {train['call_date'].max().date()})")
-    return df, train
+    log_msg(f"test:  {len(test):,} rows ({test['call_date'].min().date()} to {test['call_date'].max().date()})")
+    return df, train, test
 
 
 def preprocess_df(df, features, fit_stats=None):
@@ -213,7 +221,7 @@ def run_models(X_numeric, feature_names, sector, dates, y, all_sectors):
     return all_results
 
 
-def holdout_report(df, best_model_name, X_raw, y_train, sector_train, feature_names, all_sectors):
+def test_report(test_df, best_model_name, X_raw, y_train, sector_train, feature_names, all_sectors):
     from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
     from sklearn.ensemble import RandomForestRegressor, ExtraTreesRegressor, GradientBoostingRegressor
     from sklearn.preprocessing import StandardScaler
@@ -245,49 +253,48 @@ def holdout_report(df, best_model_name, X_raw, y_train, sector_train, feature_na
             random_state=RANDOM_STATE, verbosity=0, n_jobs=-1)
 
     model = model_map[best_model_name]
-    holdout = df[df["sample"] == "holdout"].copy()
-    holdout = holdout[holdout[PRIMARY_TARGET].notna()]
-    log_msg(f"\nholdout: {len(holdout):,} rows")
+    log_msg(f"\ntest set: {len(test_df):,} rows")
 
     X_tr_df = pd.DataFrame(X_raw, columns=feature_names)
     X_tr_proc, fit_stats = preprocess_df(X_tr_df, feature_names)
-    X_ho_df = holdout[feature_names].copy()
-    X_ho_proc, _ = preprocess_df(X_ho_df, feature_names, fit_stats=fit_stats)
-    y_ho = holdout[PRIMARY_TARGET].values
+    X_te_df = test_df[feature_names].copy()
+    X_te_proc, _ = preprocess_df(X_te_df, feature_names, fit_stats=fit_stats)
+    y_te = test_df[PRIMARY_TARGET].values
 
     sec_tr, sec_names = build_sector_dummies(sector_train, all_sectors)
-    sec_ho, _ = build_sector_dummies(holdout[SECTOR_COL].values, all_sectors)
+    sec_te, _ = build_sector_dummies(test_df[SECTOR_COL].values, all_sectors)
     X_tr_full = np.hstack([X_tr_proc.values, sec_tr])
-    X_ho_full = np.hstack([X_ho_proc.values, sec_ho])
+    X_te_full = np.hstack([X_te_proc.values, sec_te])
 
     scaler = StandardScaler()
     X_tr_s = scaler.fit_transform(X_tr_full)
-    X_ho_s = scaler.transform(X_ho_full)
+    X_te_s = scaler.transform(X_te_full)
     model.fit(X_tr_s, y_train)
-    preds = model.predict(X_ho_s)
+    preds = model.predict(X_te_s)
 
-    metrics = evaluate_predictions(y_ho, preds)
+    metrics = evaluate_predictions(y_te, preds)
     log_msg(f"\n{'='*60}")
-    log_msg(f"HOLDOUT REPORT ({best_model_name}, all features forced):")
+    log_msg(f"TEST REPORT ({best_model_name}, all features forced, train 2010-2021):")
     for k, v in metrics.items():
         log_msg(f"  {k:25s}: {v:+.4f}" if isinstance(v, float) else f"  {k:25s}: {v}")
     return metrics
 
 
-def write_report(base, model_results, holdout_metrics, best_model, feature_names):
+def write_report(base, model_results, test_metrics, best_model, feature_names, model_a_results, model_b_results):
     out = Path(base) / "model_b_all_report.txt"
     lines = []
     lines.append("=" * 70)
-    lines.append("MODEL B (ALL LINGUISTIC) — No Feature Selection")
+    lines.append("MODEL B* (ALL LINGUISTIC) — No Feature Selection")
     lines.append(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     lines.append(f"Target: {PRIMARY_TARGET}")
+    lines.append(f"Train: 2010–2021 | Test: 2022–2024")
     lines.append(f"Features ({len(feature_names)}): {', '.join(feature_names)}")
     lines.append(f"  Controls (11): {', '.join(MODEL_A_FEATURES)}")
     lines.append(f"  Linguistic (9): {', '.join(LINGUISTIC_FEATURES)}")
     lines.append("  NO feature selection — all 20 features forced into every model")
     lines.append("=" * 70)
 
-    lines.append("\n\n--- CROSS-VALIDATION RESULTS ---")
+    lines.append("\n\n--- CROSS-VALIDATION RESULTS (train 2010-2021) ---")
     lines.append(f"{'Model':20s} {'IC':>8s} {'±':>6s} {'Rank IC':>8s} {'±':>6s} {'R²':>8s} {'Dir Acc':>8s} {'Q5-Q1':>8s}")
     ranked = sorted(model_results.items(), key=lambda x: x[1]["avg"]["rank_ic"], reverse=True)
     for name, res in ranked:
@@ -297,24 +304,26 @@ def write_report(base, model_results, holdout_metrics, best_model, feature_names
 
     lines.append(f"\nBest model by avg Rank IC: {best_model}")
 
-    lines.append("\n\n--- COMPARISON ---")
-    lines.append("Model A  (11 controls, feature-selected):        Rank IC +0.039, Q5-Q1 +1.05%")
-    lines.append("Model B  (13 features, feature-selected):        Rank IC +0.038, Q5-Q1 +0.94%")
+    lines.append("\n\n--- COMPARISON (CV) ---")
+    lines.append(f"Model A  (11 controls, feature-selected):        Rank IC {model_a_results['cv_rank_ic']:+.3f}, Q5-Q1 {model_a_results['cv_q5q1']:+.2%}")
+    lines.append(f"Model B  ({model_b_results['n_selected']} features, feature-selected):        Rank IC {model_b_results['cv_rank_ic']:+.3f}, Q5-Q1 {model_b_results['cv_q5q1']:+.2%}")
     best_b = model_results[best_model]["avg"]
     lines.append(f"Model B* (20 features, ALL forced):              Rank IC {best_b['rank_ic']:+.3f}, Q5-Q1 {best_b['quintile_spread']:+.2%}")
 
-    if holdout_metrics:
-        lines.append(f"\n\n--- HOLDOUT RESULTS ({best_model}) ---")
-        for k, v in holdout_metrics.items():
+    if test_metrics:
+        lines.append(f"\n\n--- TEST RESULTS 2022-2024 ({best_model}) ---")
+        for k, v in test_metrics.items():
             lines.append(f"  {k:25s}: {v:+.4f}" if isinstance(v, float) else f"  {k:25s}: {v}")
-        lines.append("\nModel A  holdout: Rank IC -0.005, Q5-Q1 -0.06%")
-        lines.append("Model B  holdout: Rank IC -0.011, Q5-Q1 -0.32%")
-        lines.append(f"Model B* holdout: Rank IC {holdout_metrics['rank_ic']:+.4f}, Q5-Q1 {holdout_metrics['quintile_spread']:+.2%}")
+        lines.append(f"\nModel A  test: Rank IC {model_a_results['test_rank_ic']:+.4f}, Q5-Q1 {model_a_results['test_q5q1']:+.2%}")
+        lines.append(f"Model B  test: Rank IC {model_b_results['test_rank_ic']:+.4f}, Q5-Q1 {model_b_results['test_q5q1']:+.2%}")
+        lines.append(f"Model B* test: Rank IC {test_metrics['rank_ic']:+.4f}, Q5-Q1 {test_metrics['quintile_spread']:+.2%}")
 
     lines.append("\n\n--- NOTES ---")
     lines.append("- Same preprocessing as Model A/B: winsorize 1%/99%, log1p, median impute, StandardScaler")
     lines.append("- All 9 linguistic features forced (no feature selection)")
     lines.append("- Tests whether feature selection dropped useful linguistic signal")
+    lines.append("- Time-series expanding window CV on train (2010-2021)")
+    lines.append("- Test (2022-2024) evaluated once after model selection")
 
     report_text = "\n".join(lines)
     out.write_text(report_text)
@@ -329,10 +338,37 @@ def main():
     base = args.folder
 
     log_msg("=" * 60)
-    log_msg("MODEL B (ALL LINGUISTIC) — No Feature Selection")
+    log_msg("MODEL B* (ALL LINGUISTIC) — No Feature Selection (Train/Test)")
     log_msg("=" * 60)
 
-    df, train = load_data(base)
+    df, train, test = load_data(base)
+
+    # Load Model A and B results for comparison
+    model_a_results = {"best_model": "?", "cv_rank_ic": 0, "cv_q5q1": 0, "test_rank_ic": 0, "test_q5q1": 0}
+    model_b_results = {"best_model": "?", "cv_rank_ic": 0, "cv_q5q1": 0, "test_rank_ic": 0, "test_q5q1": 0, "n_selected": 0}
+
+    ma_json = Path(base) / "model_a_results.json"
+    if ma_json.exists():
+        ma = json.loads(ma_json.read_text())
+        model_a_results = {
+            "best_model": ma["best_model"],
+            "cv_rank_ic": ma["cv_results"][ma["best_model"]]["avg"]["rank_ic"],
+            "cv_q5q1": ma["cv_results"][ma["best_model"]]["avg"]["quintile_spread"],
+            "test_rank_ic": ma["test"]["rank_ic"],
+            "test_q5q1": ma["test"]["quintile_spread"],
+        }
+
+    mb_json = Path(base) / "model_b_results.json"
+    if mb_json.exists():
+        mb = json.loads(mb_json.read_text())
+        model_b_results = {
+            "best_model": mb["best_model"],
+            "cv_rank_ic": mb["cv_results"][mb["best_model"]]["avg"]["rank_ic"],
+            "cv_q5q1": mb["cv_results"][mb["best_model"]]["avg"]["quintile_spread"],
+            "test_rank_ic": mb["test"]["rank_ic"],
+            "test_q5q1": mb["test"]["quintile_spread"],
+            "n_selected": len(mb.get("selected_features", [])),
+        }
 
     available = [f for f in ALL_FEATURES if f in train.columns]
     missing = [f for f in ALL_FEATURES if f not in train.columns]
@@ -340,8 +376,8 @@ def main():
         log_msg(f"WARNING — features not in data: {missing}")
     log_msg(f"using ALL {len(available)} features (no selection): {', '.join(available)}")
 
-    train_with_target = train[train[PRIMARY_TARGET].notna()].copy()
-    log_msg(f"rows with target: {len(train_with_target):,}")
+    train_with_target = train.copy()
+    log_msg(f"train rows: {len(train_with_target):,}")
 
     X_raw = train_with_target[available].values
     y = train_with_target[PRIMARY_TARGET].values
@@ -356,15 +392,17 @@ def main():
     log_msg(f"\n>>> Best model: {best_model} "
             f"(IC={best_res['avg']['ic']:.4f}, Rank IC={best_res['avg']['rank_ic']:.4f})")
 
-    holdout_metrics = holdout_report(df, best_model, X_raw, y, sector, available, all_sectors)
+    test_metrics = test_report(test, best_model, X_raw, y, sector, available, all_sectors)
 
-    report = write_report(base, model_results, holdout_metrics, best_model, available)
+    report = write_report(base, model_results, test_metrics, best_model, available,
+                         model_a_results, model_b_results)
     print("\n" + report)
 
     json_out = Path(base) / "model_b_all_results.json"
     save = {
-        "version": "v1_all_linguistic",
+        "version": "v2_all_linguistic",
         "best_model": best_model,
+        "split": {"train": "2010-2021", "test": "2022-2024"},
         "features_used": available,
         "n_controls": len([f for f in available if f in MODEL_A_FEATURES]),
         "n_linguistic": len([f for f in available if f in LINGUISTIC_FEATURES]),
@@ -374,11 +412,11 @@ def main():
             "avg": {k: float(v) for k, v in r["avg"].items()},
             "std": {k: float(v) for k, v in r["std"].items()},
         } for name, r in model_results.items()},
-        "holdout": {k: float(v) for k, v in holdout_metrics.items()},
+        "test": {k: float(v) for k, v in test_metrics.items()},
         "comparison": {
-            "model_a_rank_ic_cv": 0.039,
-            "model_b_selected_rank_ic_cv": 0.038,
-            "model_b_all_rank_ic_cv": float(best_res["avg"]["rank_ic"]),
+            "model_a_cv_rank_ic": model_a_results["cv_rank_ic"],
+            "model_b_cv_rank_ic": model_b_results["cv_rank_ic"],
+            "model_b_all_cv_rank_ic": float(best_res["avg"]["rank_ic"]),
         },
         "timestamp": datetime.now().isoformat(),
     }

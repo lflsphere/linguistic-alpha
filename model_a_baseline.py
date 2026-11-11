@@ -1,14 +1,9 @@
 """
-Model A Baseline v2: Proper preprocessing, full non-linguistic feature set, feature selection.
+Model A Baseline v3: Proper preprocessing, full non-linguistic feature set, feature selection.
 Predicts CAR[+2,+20] using financial controls + call structure — no linguistic/sentiment features.
 
-Preprocessing pipeline:
-  1. Winsorize outliers (1st/99th percentile)
-  2. Log-transform skewed features
-  3. Impute missing with median (per fold, no leakage)
-  4. Multicollinearity check (VIF)
-  5. Feature selection (mutual information, univariate, RF importance)
-  6. StandardScaler per fold
+Train: 2010–2021 (expanding-window CV inside for model selection)
+Test:  2022–2024 (one-time evaluation of best CV model)
 
 Usage:
     python3 model_a_baseline.py [--folder ~/earnings_sp500]
@@ -55,6 +50,8 @@ LOG_TRANSFORM = ["words_prepared", "words_answers", "words_questions", "avg_answ
 WINSOR_LOW = 0.01
 WINSOR_HIGH = 0.99
 
+TRAIN_END = "2021-12-31"
+
 CV_FOLDS = 5
 MIN_FOLD_SIZE = 100
 RANDOM_STATE = 42
@@ -71,9 +68,13 @@ def load_data(base):
     df = pd.read_parquet(f"{base}/model_table.parquet")
     log_msg(f"loaded {len(df):,} rows, {df.shape[1]} columns")
     log_msg(f"columns: {', '.join(df.columns)}")
-    train = df[df["sample"] == "train"].copy()
+    has_target = df[df[PRIMARY_TARGET].notna()].copy()
+    cutoff = pd.Timestamp(TRAIN_END)
+    train = has_target[has_target["call_date"] <= cutoff].copy()
+    test = has_target[has_target["call_date"] > cutoff].copy()
     log_msg(f"train: {len(train):,} rows ({train['call_date'].min().date()} to {train['call_date'].max().date()})")
-    return df, train
+    log_msg(f"test:  {len(test):,} rows ({test['call_date'].min().date()} to {test['call_date'].max().date()})")
+    return df, train, test
 
 
 # ---------------------------------------------------------------------------
@@ -373,8 +374,8 @@ def run_models(X_numeric, feature_names, sector, dates, y, all_sectors):
     return all_results
 
 
-def holdout_report(df, best_model_name, X_raw, y_train, sector_train, feature_names, all_sectors):
-    """Train best model on full train, evaluate on holdout once."""
+def test_report(test_df, best_model_name, X_raw, y_train, sector_train, feature_names, all_sectors):
+    """Train best model on full train, evaluate on test set once."""
     from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
     from sklearn.ensemble import RandomForestRegressor, ExtraTreesRegressor, GradientBoostingRegressor
     from sklearn.preprocessing import StandardScaler
@@ -406,42 +407,31 @@ def holdout_report(df, best_model_name, X_raw, y_train, sector_train, feature_na
             random_state=RANDOM_STATE, verbosity=0, n_jobs=-1)
 
     model = model_map[best_model_name]
+    log_msg(f"\ntest set: {len(test_df):,} rows")
 
-    # Prepare holdout
-    holdout = df[df["sample"] == "holdout"].copy()
-    mask = holdout[PRIMARY_TARGET].notna()
-    for c in feature_names:
-        if c in holdout.columns:
-            pass  # we'll impute missing
-    holdout = holdout[mask]
-    log_msg(f"\nholdout: {len(holdout):,} rows")
-
-    # Preprocess train
     X_tr_df = pd.DataFrame(X_raw, columns=feature_names)
     X_tr_proc, fit_stats = preprocess_df(X_tr_df, feature_names)
 
-    # Preprocess holdout with train stats
-    X_ho_df = holdout[feature_names].copy()
-    X_ho_proc, _ = preprocess_df(X_ho_df, feature_names, fit_stats=fit_stats)
-    y_ho = holdout[PRIMARY_TARGET].values
+    X_te_df = test_df[feature_names].copy()
+    X_te_proc, _ = preprocess_df(X_te_df, feature_names, fit_stats=fit_stats)
+    y_te = test_df[PRIMARY_TARGET].values
 
-    # Sector dummies
     sec_tr, sec_names = build_sector_dummies(sector_train, all_sectors)
-    sec_ho, _ = build_sector_dummies(holdout[SECTOR_COL].values, all_sectors)
+    sec_te, _ = build_sector_dummies(test_df[SECTOR_COL].values, all_sectors)
 
     X_tr_full = np.hstack([X_tr_proc.values, sec_tr])
-    X_ho_full = np.hstack([X_ho_proc.values, sec_ho])
+    X_te_full = np.hstack([X_te_proc.values, sec_te])
 
     scaler = StandardScaler()
     X_tr_s = scaler.fit_transform(X_tr_full)
-    X_ho_s = scaler.transform(X_ho_full)
+    X_te_s = scaler.transform(X_te_full)
 
     model.fit(X_tr_s, y_train)
-    preds = model.predict(X_ho_s)
+    preds = model.predict(X_te_s)
 
-    metrics = evaluate_predictions(y_ho, preds)
+    metrics = evaluate_predictions(y_te, preds)
     log_msg(f"\n{'='*60}")
-    log_msg(f"HOLDOUT REPORT ({best_model_name} trained on full train set):")
+    log_msg(f"TEST REPORT ({best_model_name} trained on full train 2010-2021):")
     for k, v in metrics.items():
         log_msg(f"  {k:25s}: {v:+.4f}" if isinstance(v, float) else f"  {k:25s}: {v}")
 
@@ -451,13 +441,14 @@ def holdout_report(df, best_model_name, X_raw, y_train, sector_train, feature_na
 # ---------------------------------------------------------------------------
 # 5. Report
 # ---------------------------------------------------------------------------
-def write_report(base, feat_scores, selected_features, model_results, holdout_metrics, best_model, vifs, feature_names):
+def write_report(base, feat_scores, selected_features, model_results, test_metrics, best_model, vifs, feature_names):
     out = Path(base) / "model_a_report.txt"
     lines = []
     lines.append("=" * 70)
-    lines.append("MODEL A BASELINE REPORT v2 — Full Non-Linguistic Features + Preprocessing")
+    lines.append("MODEL A BASELINE REPORT v3 — Train/Test Split")
     lines.append(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     lines.append(f"Target: {PRIMARY_TARGET}")
+    lines.append(f"Train: 2010–2021 | Test: 2022–2024")
     lines.append(f"All candidate features ({len(feature_names)}): {', '.join(feature_names)}")
     lines.append(f"Selected features ({len(selected_features)}): {', '.join(selected_features)}")
     lines.append(f"Preprocessing: winsorize 1%/99%, log1p({', '.join(LOG_TRANSFORM)}), median impute, StandardScaler")
@@ -470,7 +461,7 @@ def write_report(base, feat_scores, selected_features, model_results, holdout_me
         lines.append(f"{row['feature']:25s} {row['spearman_abs']:11.4f} {row['spearman_p']:10.2e} "
                      f"{row['mi']:8.4f} {row['rf_importance']:8.4f} {row['avg_rank']:9.1f} {sel:>9s}")
 
-    lines.append("\n\n--- CROSS-VALIDATION RESULTS ---")
+    lines.append("\n\n--- CROSS-VALIDATION RESULTS (train 2010-2021) ---")
     lines.append(f"{'Model':20s} {'IC':>8s} {'±':>6s} {'Rank IC':>8s} {'±':>6s} {'R²':>8s} {'Dir Acc':>8s} {'Q5-Q1':>8s}")
     ranked = sorted(model_results.items(), key=lambda x: x[1]["avg"]["rank_ic"], reverse=True)
     for name, res in ranked:
@@ -480,9 +471,9 @@ def write_report(base, feat_scores, selected_features, model_results, holdout_me
 
     lines.append(f"\nBest model by avg Rank IC: {best_model}")
 
-    if holdout_metrics:
-        lines.append(f"\n\n--- HOLDOUT RESULTS ({best_model}) ---")
-        for k, v in holdout_metrics.items():
+    if test_metrics:
+        lines.append(f"\n\n--- TEST RESULTS 2022-2024 ({best_model}) ---")
+        for k, v in test_metrics.items():
             lines.append(f"  {k:25s}: {v:+.4f}" if isinstance(v, float) else f"  {k:25s}: {v}")
 
     lines.append("\n\n--- PREPROCESSING NOTES ---")
@@ -492,8 +483,8 @@ def write_report(base, feat_scores, selected_features, model_results, holdout_me
     lines.append("- Features standardized (zero mean, unit variance) per fold")
     lines.append("- Sector encoded as one-hot dummies (drop first)")
     lines.append("- Feature selection: top half by avg rank of (Spearman, MI, RF importance) + significant univariates")
-    lines.append("- Time-series expanding window CV, no future leakage")
-    lines.append("- Holdout (2023-2024) evaluated once, not used for model selection")
+    lines.append("- Time-series expanding window CV on train (2010-2021), no future leakage")
+    lines.append("- Test (2022-2024) evaluated once after model selection")
     lines.append("- This is Model A (no linguistic features). Model B adds tone, hedging, etc.")
 
     report_text = "\n".join(lines)
@@ -512,11 +503,11 @@ def main():
     base = args.folder
 
     log_msg("=" * 60)
-    log_msg("MODEL A BASELINE v2 — Preprocessing + Feature Selection")
+    log_msg("MODEL A BASELINE v3 — Train/Test Split")
     log_msg("=" * 60)
 
     # Load
-    df, train = load_data(base)
+    df, train, test = load_data(base)
 
     # Check which features exist
     available = [f for f in ALL_FEATURES if f in train.columns]
@@ -525,9 +516,8 @@ def main():
         log_msg(f"features not in data (skipping): {missing_cols}")
     log_msg(f"candidate features ({len(available)}): {', '.join(available)}")
 
-    # Keep rows with target (allow missing features — we'll impute)
-    train_with_target = train[train[PRIMARY_TARGET].notna()].copy()
-    log_msg(f"rows with target: {len(train_with_target):,}")
+    train_with_target = train.copy()
+    log_msg(f"train rows with target: {len(train_with_target):,}")
 
     X_raw = train_with_target[available].values
     y = train_with_target[PRIMARY_TARGET].values
@@ -566,19 +556,20 @@ def main():
     log_msg(f"\n>>> Best model: {best_model} "
             f"(IC={best_res['avg']['ic']:.4f}, Rank IC={best_res['avg']['rank_ic']:.4f})")
 
-    # Step 5: Holdout
-    holdout_metrics = holdout_report(df, best_model, X_selected, y, sector, selected_features, all_sectors)
+    # Step 5: Test evaluation
+    test_metrics = test_report(test, best_model, X_selected, y, sector, selected_features, all_sectors)
 
     # Step 6: Report
     report = write_report(base, feat_scores, selected_features, model_results,
-                         holdout_metrics, best_model, vifs, available)
+                         test_metrics, best_model, vifs, available)
     print("\n" + report)
 
     # Save JSON
     json_out = Path(base) / "model_a_results.json"
     save = {
-        "version": "v2",
+        "version": "v3",
         "best_model": best_model,
+        "split": {"train": "2010-2021", "test": "2022-2024"},
         "all_candidate_features": available,
         "selected_features": selected_features,
         "preprocessing": {
@@ -592,7 +583,7 @@ def main():
             "avg": {k: float(v) for k, v in r["avg"].items()},
             "std": {k: float(v) for k, v in r["std"].items()},
         } for name, r in model_results.items()},
-        "holdout": {k: float(v) for k, v in holdout_metrics.items()},
+        "test": {k: float(v) for k, v in test_metrics.items()},
         "feature_selection": feat_scores[["feature", "spearman_abs", "mi", "rf_importance", "avg_rank"]].to_dict("records"),
         "timestamp": datetime.now().isoformat(),
     }
