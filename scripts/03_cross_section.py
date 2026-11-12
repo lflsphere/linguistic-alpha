@@ -38,6 +38,8 @@ def full_rank(feats: list[str]) -> list[str]:
     f = list(feats)
     if {"TONE_P", "TONE_Q", "TONE_GAP"} <= set(f):
         f.remove("TONE_Q")
+    if {"dTONE_P", "dTONE_Q", "dTONE_GAP"} <= set(f):      # dTONE_GAP = dTONE_Q - dTONE_P exactly
+        f.remove("dTONE_Q")
     return f
 
 

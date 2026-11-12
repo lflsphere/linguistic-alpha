@@ -222,3 +222,5 @@ __marimo__/
 # --- Credentials: never commit ---
 .pgpass
 
+outputs
+panel.csv

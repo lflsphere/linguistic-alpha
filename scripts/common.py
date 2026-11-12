@@ -72,7 +72,7 @@ DELAYED_EXTRA = ["AR01"]             # CAR[0,+1]: only in the delayed-signal rob
 LING_FAMILIES = {
     "communication_state": ["TONE_P", "TONE_Q", "TONE_GAP", "UNC", "HEDGE"],
     "interaction_quality": ["EVADE", "NONANS"],
-    "consistency_deviation": ["dTONE", "dUNC", "dEVADE", "NOVEL", "DIV_QP"],
+    "consistency_deviation": ["dTONE", "dUNC", "dEVADE", "dTONE_P", "dTONE_Q", "dTONE_GAP", "NOVEL", "DIV_QP"],
 }
 LING_ALL = [f for fam in LING_FAMILIES.values() for f in fam]
 # Full-rank subset for joint OLS: TONE_GAP = TONE_Q - TONE_P, and EVADE = 1 - REL.

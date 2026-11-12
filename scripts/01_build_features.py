@@ -473,7 +473,11 @@ def history_features(ev: pd.DataFrame) -> pd.DataFrame:
     """Current value minus the mean of the firm's previous HIST_WINDOW calls (strictly prior)."""
     firm_key = "firm" if "firm" in ev else "ticker"
     ev = ev.sort_values([firm_key, "call_date"]).copy()
-    for new, base in (("dTONE", "TONE_M"), ("dUNC", "UNC"), ("dEVADE", "EVADE")):
+    for new, base in (("dTONE", "TONE_M"), ("dUNC", "UNC"), ("dEVADE", "EVADE"),
+                      ("dTONE_Q", "TONE_Q"), ("dTONE_P", "TONE_P"), ("dTONE_R", "TONE_R"),
+                      ("dTONE_GAP", "TONE_GAP")):
+        if base not in ev:      # e.g. TONE_R when the panel has no press-release text
+            continue
         prior = ev.groupby(firm_key)[base].transform(
             lambda s: s.shift(1).rolling(C.HIST_WINDOW, min_periods=C.HIST_WINDOW).mean())
         ev[new] = ev[base] - prior
