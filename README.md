@@ -197,11 +197,11 @@ python model_b_all_linguistic.py  # Model B*
 
 Model C requires a GPU to score ~2.7M sentences through FinBERT in a reasonable time (~14 hours on a T4, ~220 sentences/sec). The pipeline produces text files that FinBERT reads; FinBERT output is then merged with `model_table.parquet` for model training.
 
-**Step 1 — Generate text files** (CPU VM, done by `sp500_pipeline.py`):
+**Step 1 — Generate text files** (CPU VM, done by [`sp500_pipeline.py`](sp500_pipeline.py)):
 
 The pipeline's TEXT stage writes per-year transcript text to `text/text_{year}.parquet`, each containing `transcriptid`, `prepared_text` (CEO/CFO presentation), and `qa_text` (Q&A section). These are the input to FinBERT.
 
-**Step 2 — Score with FinBERT** (GPU VM):
+**Step 2 — Score with FinBERT** (GPU VM, script: [`finbert_features.py`](finbert_features.py)):
 
 ```bash
 # On a GCP VM with a GPU (e.g., n1-standard-4 + NVIDIA T4)
@@ -214,14 +214,14 @@ This scores every sentence in prepared remarks and Q&A answers using [ProsusAI/f
 
 Output: `finbert_features.parquet` — one row per earnings call (29,698 rows, 14 columns: `transcriptid` + 13 features).
 
-**Step 3 — Train Model C / C*** (GPU or CPU VM):
+**Step 3 — Train Model C / C*** (GPU or CPU VM, script: [`model_c_finbert.py`](model_c_finbert.py)):
 
 ```bash
 # Copy model_table.parquet and finbert_features.parquet into ~/earnings_sp500/
 python model_c_finbert.py
 ```
 
-This merges FinBERT features with model_table on `transcriptid`, runs forward selection (Model C) and all-features-forced (Model C\*), and writes `model_c_report.txt`, `model_c_results.json`, `model_c_all_report.txt`, `model_c_all_results.json`.
+This merges FinBERT features with model_table on `transcriptid`, runs forward selection (Model C) and all-features-forced (Model C\*), and writes [`model_c_report.txt`](model_c_report.txt), [`model_c_results.json`](model_c_results.json), [`model_c_all_report.txt`](model_c_all_report.txt), [`model_c_all_results.json`](model_c_all_results.json).
 
 **Required input files for FinBERT extraction:**
 
