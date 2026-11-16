@@ -1,0 +1,100 @@
+{
+  "model": "Model B (Forward Selection)",
+  "model_a_baseline": {
+    "algo": "GradientBoosting",
+    "cv_rank_ic": 0.037561,
+    "test": {
+      "ic": 0.002726,
+      "rank_ic": 0.046493,
+      "r2": -0.044192,
+      "rmse": 0.066952,
+      "direction_accuracy": 0.51874,
+      "quintile_spread": 0.006721
+    }
+  },
+  "forward_selection_cv": {
+    "added_features": [],
+    "final_features": [
+      "dispersion",
+      "vol_pre",
+      "size",
+      "prior_calls_with_target",
+      "mom",
+      "car_0_1",
+      "bm",
+      "sue_price",
+      "sue",
+      "words_answers",
+      "share_answers_by_execs",
+      "n_answers"
+    ],
+    "best_cv_algo": "GradientBoosting",
+    "cv_rank_ic": 0.037561
+  },
+  "forward_selection_test": {
+    "added_features": [
+      "hedging_prepared"
+    ],
+    "final_features": [
+      "dispersion",
+      "vol_pre",
+      "size",
+      "prior_calls_with_target",
+      "mom",
+      "car_0_1",
+      "bm",
+      "sue_price",
+      "sue",
+      "words_answers",
+      "share_answers_by_execs",
+      "n_answers",
+      "hedging_prepared"
+    ]
+  },
+  "test_results": {
+    "Ridge": {
+      "ic": 0.036383,
+      "rank_ic": 0.04322,
+      "r2": -0.008754,
+      "rmse": 0.065806,
+      "direction_accuracy": 0.500412,
+      "quintile_spread": 0.005628
+    },
+    "ElasticNet": {
+      "ic": 0.026772,
+      "rank_ic": 0.027455,
+      "r2": -0.009393,
+      "rmse": 0.065827,
+      "direction_accuracy": 0.490527,
+      "quintile_spread": 0.002062
+    },
+    "GradientBoosting": {
+      "ic": 0.002726,
+      "rank_ic": 0.046493,
+      "r2": -0.044192,
+      "rmse": 0.066952,
+      "direction_accuracy": 0.51874,
+      "quintile_spread": 0.006721
+    },
+    "XGBoost": {
+      "ic": 0.022536,
+      "rank_ic": 0.048337,
+      "r2": -0.033409,
+      "rmse": 0.066605,
+      "direction_accuracy": 0.519769,
+      "quintile_spread": 0.0095
+    }
+  },
+  "best_test": {
+    "algo": "XGBoost",
+    "metrics": {
+      "ic": 0.022536,
+      "rank_ic": 0.048337,
+      "r2": -0.033409,
+      "rmse": 0.066605,
+      "direction_accuracy": 0.519769,
+      "quintile_spread": 0.0095
+    }
+  },
+  "timestamp": "2026-11-16T23:58:39.398681"
+}
