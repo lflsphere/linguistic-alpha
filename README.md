@@ -32,14 +32,14 @@ transcripts, and produces a single modeling table — one row per earnings call.
 
 All models use GradientBoosting (best by Rank IC). Train 2010–2021 (expanding-window CV), test 2022–2024.
 
-| | Model A (controls only) | Model B (selected) | Model B* (all forced) |
-|---|---|---|---|
-| **Features** | 12 controls | 11 controls + 2 linguistic | 11 controls + 9 linguistic |
-| **CV Rank IC** | **+0.038** | +0.033 | +0.024 |
-| **Test Rank IC** | **+0.047** | +0.038 | +0.043 |
-| **Test Q5−Q1 spread** | **+0.67%** | +0.61% | +0.78% |
+| | Model A (controls only) | Model B (selected) | Model B* (all forced) | Model C (FinBERT selected) | Model C* (all FinBERT forced) |
+|---|---|---|---|---|---|
+| **Features** | 12 controls | 11 controls + 2 linguistic | 11 controls + 9 linguistic | 12 controls + 0 FinBERT | 12 controls + 13 FinBERT |
+| **CV Rank IC** | **+0.038** | +0.033 | +0.024 | **+0.038** | +0.026 |
+| **Test Rank IC** | **+0.047** | +0.038 | +0.043 | **+0.047** | +0.032 |
+| **Test Q5−Q1 spread** | **+0.67%** | +0.61% | +0.78% | **+0.67%** | +0.45% |
 
-**Finding:** LM dictionary features do not improve CV prediction — Model A (no linguistics) leads on CV Rank IC. Test results are closer but Model A still leads on Rank IC. See [full comparison](#model-a-vs-model-b-comparison-all-variants).
+**Finding:** Neither LM dictionary features (Model B) nor FinBERT contextual sentiment (Model C) improve CV prediction — Model A (no linguistics) leads on CV Rank IC. Forward selection added zero FinBERT features; forcing all 13 (Model C*) degraded performance. See [full comparison](#model-comparison-all-variants).
 
 ### Output files
 
@@ -57,6 +57,12 @@ All models use GradientBoosting (best by Rank IC). Train 2010–2021 (expanding-
 | [`model_b_all_linguistic.py`](model_b_all_linguistic.py) | Model B* script: all 20 features forced, no selection |
 | [`model_b_all_report.txt`](model_b_all_report.txt) | Model B* report: all-features CV results, 3-way comparison |
 | [`model_b_all_results.json`](model_b_all_results.json) | Machine-readable Model B* results |
+| [`finbert_features.py`](finbert_features.py) | FinBERT extraction: sentence-level sentiment scoring (ProsusAI/finbert on GPU) |
+| [`model_c_finbert.py`](model_c_finbert.py) | Model C/C* script: forward selection of FinBERT features over Model A controls |
+| [`model_c_report.txt`](model_c_report.txt) | Model C report: forward selection log, CV and test results |
+| [`model_c_results.json`](model_c_results.json) | Machine-readable Model C results |
+| [`model_c_all_report.txt`](model_c_all_report.txt) | Model C* report: all 13 FinBERT features forced |
+| [`model_c_all_results.json`](model_c_all_results.json) | Machine-readable Model C* results |
 | [`sp500_pipeline.py`](sp500_pipeline.py) | Main pipeline: PULL → PANEL → TARGETS → TEXT → FINAL |
 
 ### Column reference ([`model_table.csv`](model_table.csv))
@@ -414,30 +420,62 @@ All 20 features (11 controls + 9 linguistic) forced into every model to test whe
 | Ridge / OLS | −0.012 | −0.013 | 0.502 | −0.33% |
 | Lasso | +0.018 | −0.014 | 0.529 | −0.59% |
 
-### Model A vs Model B comparison (all variants)
+### Model C — FinBERT sentiment (forward selection over Model A controls)
 
-All models use GradientBoosting (best by Rank IC in every variant).
+Script: [`model_c_finbert.py`](model_c_finbert.py) | Report: [`model_c_report.txt`](model_c_report.txt) | JSON: [`model_c_results.json`](model_c_results.json)
+
+FinBERT extraction: [`finbert_features.py`](finbert_features.py) scored 29,698 earnings calls at the sentence level using [ProsusAI/finbert](https://huggingface.co/ProsusAI/finbert) on a T4 GPU (~220 sent/sec). 13 FinBERT features were derived: mean sentiment, positive/negative percentage, sentiment std, and sentence count for prepared remarks and Q&A answers separately, plus the sentiment gap (prepared − answers) and year-over-year changes.
+
+Forward selection started with Model A's 12 controls and tested each FinBERT candidate. **No FinBERT feature improved CV Rank IC** — Model C equals Model A.
+
+| Step | Feature added | CV Rank IC | Δ |
+|------|--------------|-----------|---|
+| 0 | (baseline — 12 controls) | +0.0376 | — |
+
+All 13 candidates tested; best was `fb_neg_pct_prepared` at +0.0372 (Δ = −0.0004). None exceeded baseline.
+
+### Model C* — all FinBERT features forced (no feature selection)
+
+Script: [`model_c_finbert.py`](model_c_finbert.py) | Report: [`model_c_all_report.txt`](model_c_all_report.txt) | JSON: [`model_c_all_results.json`](model_c_all_results.json)
+
+All 25 features (12 controls + 13 FinBERT) forced into every model. Train 2010–2021, test 2022–2024.
+
+| Model | Avg IC | Avg Rank IC | Dir Accuracy | Q5-Q1 Spread |
+|-------|--------|-------------|-------------|--------------|
+| **RandomForest** | **+0.023** | **+0.026** | 0.528 | **+0.42%** |
+| GradientBoosting | +0.004 | +0.020 | 0.522 | +0.29% |
+| ExtraTrees | +0.029 | +0.012 | 0.531 | +0.13% |
+| Ridge / OLS | −0.006 | −0.005 | 0.505 | −0.30% |
+| ElasticNet | +0.008 | −0.006 | 0.517 | −0.41% |
+| Lasso | +0.020 | −0.015 | 0.530 | −0.54% |
+
+Best model switches to RandomForest (GradientBoosting overfits with 25 features). Test Rank IC +0.032, worse than Model A's +0.047.
+
+### Model comparison (all variants)
+
+All models use their best algorithm by CV Rank IC. Train 2010–2021 (expanding-window CV), test 2022–2024.
 
 **Cross-validation** (time-series expanding window, train 2010–2021):
 
-| Metric | Model A (12 ctrl) | Model B (13 selected) | Model B* (20 all forced) |
-|--------|-------------------|-----------------------|--------------------------|
-| **IC** | **+0.023** | +0.017 | +0.012 |
-| **Rank IC** | **+0.038** | +0.033 | +0.024 |
-| **Dir Accuracy** | 0.524 | **0.525** | 0.522 |
-| **Q5-Q1 Spread** | **+0.92%** | +0.73% | +0.62% |
+| Metric | Model A (12 ctrl) | Model B (13 sel.) | Model B* (20 forced) | Model C (12 ctrl) | Model C* (25 forced) |
+|--------|-------------------|-------------------|----------------------|-------------------|----------------------|
+| **IC** | **+0.023** | +0.017 | +0.012 | **+0.023** | +0.023 |
+| **Rank IC** | **+0.038** | +0.033 | +0.024 | **+0.038** | +0.026 |
+| **Dir Accuracy** | 0.524 | **0.525** | 0.522 | 0.524 | **0.528** |
+| **Q5-Q1 Spread** | **+0.92%** | +0.73% | +0.62% | **+0.92%** | +0.42% |
+| **Best Algo** | GBM | GBM | GBM | GBM | RandomForest |
 
 **Test** (2022–2024, one-time evaluation):
 
-| Metric | Model A | Model B (selected) | Model B* (all forced) |
-|--------|---------|--------------------|-----------------------|
-| **IC** | +0.003 | −0.013 | −0.003 |
-| **Rank IC** | **+0.047** | +0.038 | +0.043 |
-| **R²** | −0.044 | −0.050 | −0.044 |
-| **Dir Accuracy** | **0.519** | 0.514 | 0.514 |
-| **Q5-Q1 Spread** | +0.67% | +0.61% | **+0.78%** |
+| Metric | Model A | Model B (sel.) | Model B* (forced) | Model C | Model C* (forced) |
+|--------|---------|----------------|--------------------|---------|--------------------|
+| **IC** | +0.003 | −0.013 | −0.003 | +0.003 | +0.020 |
+| **Rank IC** | **+0.047** | +0.038 | +0.043 | **+0.047** | +0.032 |
+| **R²** | −0.044 | −0.050 | −0.044 | −0.044 | −0.006 |
+| **Dir Accuracy** | **0.519** | 0.514 | 0.514 | **0.519** | 0.501 |
+| **Q5-Q1 Spread** | +0.67% | +0.61% | **+0.78%** | +0.67% | +0.45% |
 
-**Conclusion:** LM dictionary-based linguistic features (tone, hedging, uncertainty) do not improve CV prediction of post-earnings drift CAR[+2,+20]. Model A leads on CV Rank IC (+0.038 vs +0.033 vs +0.024). On test, Model A still leads on Rank IC (+0.047) but B* shows a higher quintile spread (+0.78%). The bag-of-words approach does not add consistent signal. Next steps: contextual embeddings (FinBERT) for Models C/C*.
+**Conclusion:** Neither LM dictionary features (Model B) nor FinBERT contextual sentiment (Model C) improve CV prediction of post-earnings drift CAR[+2,+20]. Model A leads on CV Rank IC (+0.038) across all variants. Forward selection added zero FinBERT features — the contextual embeddings carry no incremental signal once controls are included. Forcing all FinBERT features (C*) actively degrades performance (CV Rank IC +0.026, test +0.032). The market appears to fully price earnings-call sentiment by the time standard controls (volatility, size, momentum, SUE) are accounted for.
 
 ## Roadmap
 
@@ -448,11 +486,11 @@ All models use GradientBoosting (best by Rank IC in every variant).
 | 3 | Baseline Model A — GradientBoosting, Rank IC +0.038 (CV), +0.047 (test) | **done** |
 | 4 | Compute LM tone, uncertainty, hedging from transcript text | **done** |
 | 5 | Model B — add linguistic features, compare to Model A | **done** (no improvement) |
-| 6 | Try contextual embeddings (FinBERT) or interaction-quality features | next |
+| 6 | Model C — FinBERT contextual sentiment, forward selection over Model A | **done** (no improvement) |
 | 7 | Evaluation: IC comparison, long-short backtest net of costs | pending |
 
-Done: full pipeline, GCP VM, data validation, Model A baseline, LM linguistic features, Model B comparison.
-Finding: Model A (controls only) achieves +0.047 test Rank IC. LM bag-of-words features do not improve over controls alone — FinBERT contextual embeddings next.
+Done: full pipeline, GCP VM, data validation, Model A baseline, LM linguistic features (Model B), FinBERT sentiment (Model C).
+Finding: Model A (controls only) achieves +0.047 test Rank IC. Neither LM bag-of-words (Model B) nor FinBERT contextual sentiment (Model C) improve over controls alone.
 
 ## Obstacles and proposed solutions
 
