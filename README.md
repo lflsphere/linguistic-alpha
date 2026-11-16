@@ -193,6 +193,50 @@ python model_b_linguistic.py      # Model B
 python model_b_all_linguistic.py  # Model B*
 ```
 
+#### Reproducing Model C / C* (FinBERT)
+
+Model C requires a GPU to score ~2.7M sentences through FinBERT in a reasonable time (~14 hours on a T4, ~220 sentences/sec). The pipeline produces text files that FinBERT reads; FinBERT output is then merged with `model_table.parquet` for model training.
+
+**Step 1 — Generate text files** (CPU VM, done by `sp500_pipeline.py`):
+
+The pipeline's TEXT stage writes per-year transcript text to `text/text_{year}.parquet`, each containing `transcriptid`, `prepared_text` (CEO/CFO presentation), and `qa_text` (Q&A section). These are the input to FinBERT.
+
+**Step 2 — Score with FinBERT** (GPU VM):
+
+```bash
+# On a GCP VM with a GPU (e.g., n1-standard-4 + NVIDIA T4)
+pip install torch transformers pandas pyarrow
+# Copy text files and event_panel.parquet into ~/earnings_sp500/
+python finbert_features.py --folder ~/earnings_sp500
+```
+
+This scores every sentence in prepared remarks and Q&A answers using [ProsusAI/finbert](https://huggingface.co/ProsusAI/finbert). Each sentence (split on `.!?`, min 10 chars, truncated to 512 chars) is classified as positive/negative/neutral. Scores are aggregated per call into 13 features (mean sentiment, positive/negative share, std dev, sentence count for each section, plus the gap and YoY changes). Per-year results are cached as `finbert_features_{year}.parquet` so interrupted runs resume where they left off.
+
+Output: `finbert_features.parquet` — one row per earnings call (29,698 rows, 14 columns: `transcriptid` + 13 features).
+
+**Step 3 — Train Model C / C*** (GPU or CPU VM):
+
+```bash
+# Copy model_table.parquet and finbert_features.parquet into ~/earnings_sp500/
+python model_c_finbert.py
+```
+
+This merges FinBERT features with model_table on `transcriptid`, runs forward selection (Model C) and all-features-forced (Model C\*), and writes `model_c_report.txt`, `model_c_results.json`, `model_c_all_report.txt`, `model_c_all_results.json`.
+
+**Required input files for FinBERT extraction:**
+
+| File | Source | Description |
+|------|--------|-------------|
+| `text/text_{year}.parquet` (×17) | `sp500_pipeline.py` TEXT stage | Transcript text per year (prepared remarks + Q&A) |
+| `event_panel.parquet` | `sp500_pipeline.py` PANEL stage | Call metadata with `transcriptid`, `permno`, `call_date` (for YoY deltas) |
+
+**Required input files for Model C training:**
+
+| File | Source | Description |
+|------|--------|-------------|
+| `model_table.parquet` | `sp500_pipeline.py` FINAL stage | Full modeling table (controls, targets, identifiers) |
+| `finbert_features.parquet` | `finbert_features.py` | FinBERT sentiment features (13 per call) |
+
 ## Model A Baseline (No Linguistic Features)
 
 Predicts CAR[+2,+20] using only financial controls and call structure — no sentiment or tone features.
