@@ -1,73 +1,70 @@
 {
-  "model": "Model B",
   "option": "Option 1 (S&P 500 bench)",
-  "best_algo": "ElasticNet",
-  "selected_features": [
-    "car_0_1",
-    "vol_pre",
-    "mom",
-    "bm",
-    "prior_calls_with_target",
-    "dispersion",
-    "size",
-    "uncertainty_answers",
-    "avg_answer_words",
-    "hedging_answers",
-    "tone_prepared_chg",
-    "tone_answers",
-    "tone_gap"
-  ],
-  "all_test_results": {
-    "Ridge": {
-      "ic": 0.011389,
-      "rank_ic": -0.007376,
-      "r2": -0.006113,
-      "rmse": 0.068728,
-      "direction_accuracy": 0.525122,
-      "quintile_spread": -0.001117
-    },
-    "ElasticNet": {
-      "ic": 0.033027,
-      "rank_ic": 0.010421,
-      "r2": -0.001136,
-      "rmse": 0.068557,
-      "direction_accuracy": 0.538088,
-      "quintile_spread": 0.001501
-    },
-    "RandomForest": {
-      "ic": -0.058959,
-      "rank_ic": -0.062672,
-      "r2": -0.01304,
-      "rmse": 0.068964,
-      "direction_accuracy": 0.54295,
-      "quintile_spread": -0.015472
-    },
-    "GradientBoosting": {
-      "ic": -0.131662,
-      "rank_ic": -0.046625,
-      "r2": -0.103002,
-      "rmse": 0.071961,
-      "direction_accuracy": 0.505673,
-      "quintile_spread": -0.008124
-    },
-    "XGBoost": {
-      "ic": -0.115768,
-      "rank_ic": -0.066058,
-      "r2": -0.080104,
-      "rmse": 0.07121,
-      "direction_accuracy": 0.513776,
-      "quintile_spread": -0.010444
+  "model_a_baseline": {
+    "algo": "ElasticNet",
+    "rank_ic": 0.045059
+  },
+  "winner": {
+    "strategy": "Forward Selection",
+    "algo": "ElasticNet",
+    "features": [
+      "vol_pre",
+      "car_0_1",
+      "mom",
+      "bm",
+      "dispersion",
+      "avg_answer_words",
+      "size",
+      "prior_calls_with_target",
+      "words_prepared",
+      "hedging_prepared",
+      "tone_answers",
+      "tone_answers_chg"
+    ],
+    "added_ling": [
+      "hedging_prepared",
+      "tone_answers",
+      "tone_answers_chg"
+    ],
+    "metrics": {
+      "ic": 0.099434,
+      "rank_ic": 0.07257,
+      "r2": 0.007301,
+      "rmse": 0.068268,
+      "direction_accuracy": 0.546191,
+      "quintile_spread": 0.010176
     }
   },
-  "test": {
-    "ic": 0.033027,
-    "rank_ic": 0.010421,
-    "r2": -0.001136,
-    "rmse": 0.068557,
-    "direction_accuracy": 0.538088,
-    "quintile_spread": 0.001501
-  },
-  "train_size": 2479,
-  "test_size": 617,
-  "n_companies": 106
+  "all_strategies": [
+    {
+      "name": "Forward Selection",
+      "algo": "ElasticNet",
+      "rank_ic": 0.07257,
+      "quintile_spread": 0.010176
+    },
+    {
+      "name": "Interactions (no raw ling)",
+      "algo": "ElasticNet",
+      "rank_ic": 0.043442,
+      "quintile_spread": 0.025256
+    },
+    {
+      "name": "Residualized Tone",
+      "algo": "ElasticNet",
+      "rank_ic": 0.035229,
+      "quintile_spread": 0.003179
+    },
+    {
+      "name": "Strong Regularization",
+      "algo": "EN_a0.005",
+      "rank_ic": 0.043002,
+      "quintile_spread": 0.011177
+    },
+    {
+      "name": "PCA(3) Linguistic",
+      "algo": "ElasticNet",
+      "rank_ic": 0.024015,
+      "quintile_spread": 0.001111
+    }
+  ]
 }
