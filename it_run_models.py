@@ -1,9 +1,9 @@
 """
 IT Sector Models A & B — runs on both Option 1 (market bench) and Option 2 (IT bench).
+Simple train/test split: train 2010-2021, test 2022-2024. No CV.
 
 Reads:  ~/earnings_it/model_table_opt1.parquet, model_table_opt2.parquet
-Writes: ~/earnings_it/it_model_{a,b}_{opt1,opt2}_report.txt
-        ~/earnings_it/it_model_{a,b}_{opt1,opt2}_results.json
+Writes: ~/earnings_it/it_{model}_{option}_report.txt + _results.json
 
 Usage:
     python3 it_run_models.py [--folder ~/earnings_it]
@@ -21,8 +21,6 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 PRIMARY_TARGET = "car_2_20"
 TRAIN_END = "2021-12-31"
-CV_FOLDS = 4
-MIN_FOLD_SIZE = 50
 RANDOM_STATE = 42
 WINSOR_LOW, WINSOR_HIGH = 0.01, 0.99
 
@@ -115,7 +113,7 @@ def feature_selection(X, y, feature_names):
 
     n_keep = max(n_features // 2, 5)
     top_by_rank = set(scores.head(n_keep)["feature"])
-    significant = set(scores[scores["spearman_p"] < 0.10]["feature"])  # relaxed for smaller sample
+    significant = set(scores[scores["spearman_p"] < 0.10]["feature"])
     selected = sorted(top_by_rank | significant,
                       key=lambda f: scores.set_index("feature").loc[f, "avg_rank"])
 
@@ -142,144 +140,20 @@ def evaluate_predictions(y_true, y_pred):
             "direction_accuracy": accuracy, "quintile_spread": spread}
 
 
-def time_series_cv_splits(dates, n_splits=CV_FOLDS):
-    sorted_dates = np.sort(dates)
-    n = len(sorted_dates)
-    chunk = n // (n_splits + 1)
-    splits = []
-    for i in range(n_splits):
-        train_end = chunk * (i + 2)
-        test_start = train_end
-        test_end = min(train_end + chunk, n)
-        if test_end <= test_start:
-            continue
-        cutoff = sorted_dates[train_end - 1]
-        test_cutoff = sorted_dates[min(test_end - 1, n - 1)]
-        train_idx = np.where(dates <= cutoff)[0]
-        test_idx = np.where((dates > cutoff) & (dates <= test_cutoff))[0]
-        if len(test_idx) >= MIN_FOLD_SIZE:
-            splits.append((train_idx, test_idx))
-    return splits
-
-
-def run_models(X_numeric, feature_names, dates, y, log_cols):
-    from sklearn.linear_model import Ridge, ElasticNet
-    from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-    from sklearn.preprocessing import StandardScaler
-    from sklearn.base import clone
-    try:
-        from xgboost import XGBRegressor
-        has_xgb = True
-    except ImportError:
-        has_xgb = False
-
-    splits = time_series_cv_splits(dates, CV_FOLDS)
-    log_msg(f"\nTime-series CV: {len(splits)} folds")
-    for i, (tr, te) in enumerate(splits):
-        log_msg(f"  fold {i+1}: train={len(tr):,}, test={len(te):,}")
-
-    # Smaller sample -> adjusted hyperparameters
-    models = {
-        "Ridge": Ridge(alpha=1.0),
-        "ElasticNet": ElasticNet(alpha=0.001, l1_ratio=0.5, max_iter=5000),
-        "RandomForest": RandomForestRegressor(
-            n_estimators=300, max_depth=5, min_samples_leaf=30,
-            max_features="sqrt", random_state=RANDOM_STATE, n_jobs=-1),
-        "GradientBoosting": GradientBoostingRegressor(
-            n_estimators=150, max_depth=3, learning_rate=0.05,
-            min_samples_leaf=30, subsample=0.8, random_state=RANDOM_STATE),
-    }
-    if has_xgb:
-        models["XGBoost"] = XGBRegressor(
-            n_estimators=150, max_depth=3, learning_rate=0.05,
-            min_child_weight=30, subsample=0.8, colsample_bytree=0.8,
-            random_state=RANDOM_STATE, verbosity=0, n_jobs=-1)
-
-    all_results = {}
-    for name, model in models.items():
-        log_msg(f"\n  {name}:")
-        fold_metrics = []
-        for i, (train_idx, test_idx) in enumerate(splits):
-            X_tr_raw = pd.DataFrame(X_numeric[train_idx], columns=feature_names)
-            X_te_raw = pd.DataFrame(X_numeric[test_idx], columns=feature_names)
-            y_tr, y_te = y[train_idx], y[test_idx]
-
-            X_tr_proc, fit_stats = preprocess_df(X_tr_raw, feature_names, log_cols)
-            X_te_proc, _ = preprocess_df(X_te_raw, feature_names, log_cols, fit_stats=fit_stats)
-
-            scaler = StandardScaler()
-            X_tr_s = scaler.fit_transform(X_tr_proc.values)
-            X_te_s = scaler.transform(X_te_proc.values)
-
-            m = clone(model)
-            m.fit(X_tr_s, y_tr)
-            preds = m.predict(X_te_s)
-            metrics = evaluate_predictions(y_te, preds)
-            fold_metrics.append(metrics)
-
-        avg = {k: np.mean([f[k] for f in fold_metrics]) for k in fold_metrics[0]}
-        std = {k: np.std([f[k] for f in fold_metrics]) for k in fold_metrics[0]}
-        log_msg(f"    IC={avg['ic']:+.4f}±{std['ic']:.4f}  Rank IC={avg['rank_ic']:+.4f}±{std['rank_ic']:.4f}  "
-                f"R²={avg['r2']:+.4f}  Dir={avg['direction_accuracy']:.3f}  Q5-Q1={avg['quintile_spread']:+.4f}")
-        all_results[name] = {"avg": avg, "std": std}
-
-    return all_results
-
-
-def test_evaluation(train_df, test_df, best_name, features, log_cols):
-    from sklearn.linear_model import Ridge, ElasticNet
-    from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-    from sklearn.preprocessing import StandardScaler
-    try:
-        from xgboost import XGBRegressor
-        has_xgb = True
-    except ImportError:
-        has_xgb = False
-
-    model_map = {
-        "Ridge": Ridge(alpha=1.0),
-        "ElasticNet": ElasticNet(alpha=0.001, l1_ratio=0.5, max_iter=5000),
-        "RandomForest": RandomForestRegressor(
-            n_estimators=300, max_depth=5, min_samples_leaf=30,
-            max_features="sqrt", random_state=RANDOM_STATE, n_jobs=-1),
-        "GradientBoosting": GradientBoostingRegressor(
-            n_estimators=150, max_depth=3, learning_rate=0.05,
-            min_samples_leaf=30, subsample=0.8, random_state=RANDOM_STATE),
-    }
-    if has_xgb:
-        model_map["XGBoost"] = XGBRegressor(
-            n_estimators=150, max_depth=3, learning_rate=0.05,
-            min_child_weight=30, subsample=0.8, colsample_bytree=0.8,
-            random_state=RANDOM_STATE, verbosity=0, n_jobs=-1)
-
-    X_tr_raw = train_df[features]
-    X_te_raw = test_df[features]
-    y_tr = train_df[PRIMARY_TARGET].values
-    y_te = test_df[PRIMARY_TARGET].values
-
-    X_tr_proc, fit_stats = preprocess_df(X_tr_raw, features, log_cols)
-    X_te_proc, _ = preprocess_df(X_te_raw, features, log_cols, fit_stats=fit_stats)
-
-    scaler = StandardScaler()
-    X_tr_s = scaler.fit_transform(X_tr_proc.values)
-    X_te_s = scaler.transform(X_te_proc.values)
-
-    model = model_map[best_name]
-    model.fit(X_tr_s, y_tr)
-    preds = model.predict(X_te_s)
-    metrics = evaluate_predictions(y_te, preds)
-
-    log_msg(f"\n  TEST ({best_name}):")
-    for k, v in metrics.items():
-        log_msg(f"    {k:25s}: {v:+.4f}")
-    return metrics
-
-
 def run_one(df, model_name, option_name, features, log_cols, out_dir):
-    """Run feature selection, CV, and test for one model+option combo."""
+    """Feature selection on train, train all algos on 2010-2021, evaluate on 2022-2024."""
     log_msg(f"\n{'='*70}")
     log_msg(f"{model_name} — {option_name}")
     log_msg(f"{'='*70}")
+
+    from sklearn.linear_model import Ridge, ElasticNet
+    from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
+    from sklearn.preprocessing import StandardScaler
+    try:
+        from xgboost import XGBRegressor
+        has_xgb = True
+    except ImportError:
+        has_xgb = False
 
     df = df.copy()
     df["call_date"] = pd.to_datetime(df["call_date"])
@@ -293,30 +167,60 @@ def run_one(df, model_name, option_name, features, log_cols, out_dir):
     available = [f for f in features if f in train.columns]
     log_msg(f"candidate features ({len(available)}): {', '.join(available)}")
 
-    X_raw = train[available].values
-    y = train[PRIMARY_TARGET].values
-    dates = train["call_date"].values
+    # Preprocess train for feature selection
+    X_tr_raw = train[available]
+    y_tr = train[PRIMARY_TARGET].values
+    X_tr_proc, fit_stats = preprocess_df(X_tr_raw, available, log_cols)
 
-    X_df = pd.DataFrame(X_raw, columns=available)
-    X_proc, _ = preprocess_df(X_df, available, log_cols)
+    # Feature selection on train
+    feat_scores, selected = feature_selection(X_tr_proc.values, y_tr, available)
 
-    # Feature selection
-    feat_scores, selected = feature_selection(X_proc.values, y, available)
+    # Preprocess with selected features
+    X_tr_sel = train[selected]
+    X_te_sel = test[selected]
+    X_tr_p, fit_stats_sel = preprocess_df(X_tr_sel, selected, log_cols)
+    X_te_p, _ = preprocess_df(X_te_sel, selected, log_cols, fit_stats=fit_stats_sel)
 
-    # CV with selected features
-    sel_idx = [available.index(f) for f in selected]
-    X_sel = X_raw[:, sel_idx]
-    cv_results = run_models(X_sel, selected, dates, y, log_cols)
+    scaler = StandardScaler()
+    X_tr_s = scaler.fit_transform(X_tr_p.values)
+    X_te_s = scaler.transform(X_te_p.values)
+    y_te = test[PRIMARY_TARGET].values
 
-    best = max(cv_results, key=lambda k: cv_results[k]["avg"]["rank_ic"])
-    best_res = cv_results[best]
-    log_msg(f"\n>>> Best: {best} (Rank IC={best_res['avg']['rank_ic']:+.4f})")
+    # Train all algos, evaluate on test
+    algos = {
+        "Ridge": Ridge(alpha=1.0),
+        "ElasticNet": ElasticNet(alpha=0.001, l1_ratio=0.5, max_iter=5000),
+        "RandomForest": RandomForestRegressor(
+            n_estimators=300, max_depth=5, min_samples_leaf=30,
+            max_features="sqrt", random_state=RANDOM_STATE, n_jobs=-1),
+        "GradientBoosting": GradientBoostingRegressor(
+            n_estimators=150, max_depth=3, learning_rate=0.05,
+            min_samples_leaf=30, subsample=0.8, random_state=RANDOM_STATE),
+    }
+    if has_xgb:
+        algos["XGBoost"] = XGBRegressor(
+            n_estimators=150, max_depth=3, learning_rate=0.05,
+            min_child_weight=30, subsample=0.8, colsample_bytree=0.8,
+            random_state=RANDOM_STATE, verbosity=0, n_jobs=-1)
 
-    # Test
-    test_metrics = test_evaluation(train, test, best, selected, log_cols)
+    all_test_results = {}
+    log_msg(f"\n--- TEST RESULTS (train 2010-2021 → test 2022-2024) ---")
+    log_msg(f"{'Algo':20s} {'IC':>8s} {'Rank IC':>9s} {'R²':>8s} {'Dir Acc':>8s} {'Q5-Q1':>8s}")
+
+    for name, algo in algos.items():
+        algo.fit(X_tr_s, y_tr)
+        preds = algo.predict(X_te_s)
+        metrics = evaluate_predictions(y_te, preds)
+        all_test_results[name] = metrics
+        log_msg(f"  {name:20s} {metrics['ic']:+8.4f} {metrics['rank_ic']:+9.4f} "
+                f"{metrics['r2']:+8.4f} {metrics['direction_accuracy']:8.3f} {metrics['quintile_spread']:+8.4f}")
+
+    best = max(all_test_results, key=lambda k: all_test_results[k]["rank_ic"])
+    best_metrics = all_test_results[best]
+    log_msg(f"\n>>> Best: {best} (Rank IC={best_metrics['rank_ic']:+.4f}, Q5-Q1={best_metrics['quintile_spread']:+.4f})")
 
     # Save report
-    tag = f"{model_name.lower().replace(' ', '_')}_{option_name.lower().replace(' ', '_').replace('(','').replace(')','')}"
+    tag = f"{model_name.lower().replace(' ', '_')}_{option_name.lower().replace(' ', '_').replace('(','').replace(')','').replace(' ','_')}"
     lines = [
         "=" * 70,
         f"{model_name} — {option_name} — IT Sector Only",
@@ -327,7 +231,7 @@ def run_one(df, model_name, option_name, features, log_cols, out_dir):
         f"Selected features ({len(selected)}): {', '.join(selected)}",
         "=" * 70,
         "",
-        "--- FEATURE SELECTION ---",
+        "--- FEATURE SELECTION (on train) ---",
     ]
     lines.append(f"{'Feature':25s} {'|ρ|':>6s} {'p':>10s} {'MI':>8s} {'RF':>8s} {'AvgRk':>7s} {'Type':>6s} {'Sel':>4s}")
     for _, row in feat_scores.iterrows():
@@ -337,37 +241,29 @@ def run_one(df, model_name, option_name, features, log_cols, out_dir):
                      f"{row['mi']:8.4f} {row['rf_importance']:8.4f} {row['avg_rank']:7.1f} {ftype:>6s} {sel:>4s}")
 
     lines.append("")
-    lines.append("--- CROSS-VALIDATION ---")
-    lines.append(f"{'Model':20s} {'IC':>8s} {'±':>6s} {'Rank IC':>8s} {'±':>6s} {'R²':>8s} {'Dir':>6s} {'Q5-Q1':>8s}")
-    ranked = sorted(cv_results.items(), key=lambda x: x[1]["avg"]["rank_ic"], reverse=True)
-    for name, res in ranked:
-        a, s = res["avg"], res["std"]
-        lines.append(f"{name:20s} {a['ic']:+8.4f} {s['ic']:6.4f} {a['rank_ic']:+8.4f} {s['rank_ic']:6.4f} "
-                     f"{a['r2']:+8.4f} {a['direction_accuracy']:6.3f} {a['quintile_spread']:+8.4f}")
+    lines.append("--- TEST RESULTS (all algos) ---")
+    lines.append(f"{'Algo':20s} {'IC':>8s} {'Rank IC':>9s} {'R²':>8s} {'Dir Acc':>8s} {'Q5-Q1':>8s}")
+    ranked = sorted(all_test_results.items(), key=lambda x: x[1]["rank_ic"], reverse=True)
+    for name, m in ranked:
+        lines.append(f"{name:20s} {m['ic']:+8.4f} {m['rank_ic']:+9.4f} "
+                     f"{m['r2']:+8.4f} {m['direction_accuracy']:8.3f} {m['quintile_spread']:+8.4f}")
     lines.append(f"\nBest: {best}")
-
-    lines.append("")
-    lines.append(f"--- TEST 2022-2024 ({best}) ---")
-    for k, v in test_metrics.items():
-        lines.append(f"  {k:25s}: {v:+.4f}")
 
     report_path = Path(out_dir) / f"it_{tag}_report.txt"
     report_path.write_text("\n".join(lines))
     log_msg(f"report: {report_path}")
 
-    # Save JSON
     json_path = Path(out_dir) / f"it_{tag}_results.json"
     json_path.write_text(json.dumps({
         "model": model_name, "option": option_name, "best_algo": best,
         "selected_features": selected,
-        "cv_rank_ic": best_res["avg"]["rank_ic"],
-        "cv_quintile_spread": best_res["avg"]["quintile_spread"],
-        "test": {k: round(v, 6) for k, v in test_metrics.items()},
+        "all_test_results": {k: {mk: round(mv, 6) for mk, mv in v.items()} for k, v in all_test_results.items()},
+        "test": {k: round(v, 6) for k, v in best_metrics.items()},
         "train_size": len(train), "test_size": len(test),
         "n_companies": int(df["permno"].nunique()),
     }, indent=2))
 
-    return {"best": best, "cv": best_res, "test": test_metrics, "selected": selected}
+    return {"best": best, "test": best_metrics, "selected": selected, "all_results": all_test_results}
 
 
 def main():
@@ -386,7 +282,7 @@ def main():
             continue
         df = pd.read_parquet(fpath)
 
-        # Model A: controls only, no sector dummies (single sector)
+        # Model A: controls only
         res_a = run_one(df, "Model A", opt_label, MODEL_A_CANDIDATES, LOG_TRANSFORM_A, OUT)
         results[f"A_{opt_label}"] = res_a
 
@@ -395,23 +291,21 @@ def main():
         res_b = run_one(df, "Model B", opt_label, model_b_candidates, LOG_TRANSFORM_B, OUT)
         results[f"B_{opt_label}"] = res_b
 
-    # Summary comparison
+    # Summary
     log_msg(f"\n{'='*70}")
     log_msg("SUMMARY — IT Sector Analysis")
     log_msg(f"{'='*70}")
-    log_msg(f"{'Config':40s} {'Best Algo':15s} {'CV Rank IC':>11s} {'Test Rank IC':>13s} {'Test Q5-Q1':>11s}")
+    log_msg(f"{'Config':40s} {'Best Algo':15s} {'Test Rank IC':>13s} {'Test Q5-Q1':>11s}")
     for key, res in results.items():
-        log_msg(f"{key:40s} {res['best']:15s} {res['cv']['avg']['rank_ic']:+11.4f} "
-                f"{res['test']['rank_ic']:+13.4f} {res['test']['quintile_spread']:+11.4f}")
+        log_msg(f"{key:40s} {res['best']:15s} {res['test']['rank_ic']:+13.4f} "
+                f"{res['test']['quintile_spread']:+11.4f}")
 
-    # Save summary
     summary_path = Path(OUT) / "it_summary.json"
     summary = {}
     for key, res in results.items():
         summary[key] = {
             "best_algo": res["best"],
             "selected_features": res["selected"],
-            "cv_rank_ic": round(res["cv"]["avg"]["rank_ic"], 6),
             "test_rank_ic": round(res["test"]["rank_ic"], 6),
             "test_quintile_spread": round(res["test"]["quintile_spread"], 6),
         }
