@@ -337,14 +337,10 @@ def stage_targets():
     cs_lr = csum(np.log1p(np.where(np.isnan(ret), 0, ret)))
     cs_rn = csum((~np.isnan(ret)).astype(float))
 
-    # Day 0: same day if the call starts before 4:00 pm New York time on a trading day, else next trading day
-    t = pd.to_datetime(panel["call_date"].dt.strftime("%Y-%m-%d") + " " + panel["call_time_utc"].astype(str),
-                       errors="coerce", utc=True)
-    after_close = (t.dt.tz_convert("America/New_York").dt.hour >= 16).fillna(False).values
+    # Day 0: always the next trading day after the call date
     cd = panel["call_date"].dt.normalize().values
-    i = np.searchsorted(days, cd)
-    trading = (i < nd) & (days[np.minimum(i, nd - 1)] == cd)
-    d0 = i + (trading & after_close).astype(int)
+    i = np.searchsorted(days, cd, side="right")
+    d0 = np.minimum(i, nd - 1)
     row = panel["permno"].map(pidx).fillna(-1).astype(int).values
     valid = (row >= 0) & (d0 < nd)
     panel["day0"] = pd.NaT

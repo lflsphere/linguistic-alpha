@@ -28,6 +28,19 @@ transcripts, and produces a single modeling table — one row per earnings call.
 | Train sample | 2010–2021 |
 | Test sample | 2022–2024 |
 
+### Results at a glance
+
+All models use GradientBoosting (best by Rank IC). Train 2010–2021 (expanding-window CV), test 2022–2024.
+
+| | Model A (controls only) | Model B (selected) | Model B* (all forced) |
+|---|---|---|---|
+| **Features** | 12 controls | 11 controls + 2 linguistic | 11 controls + 9 linguistic |
+| **CV Rank IC** | **+0.038** | +0.033 | +0.024 |
+| **Test Rank IC** | **+0.047** | +0.038 | +0.043 |
+| **Test Q5−Q1 spread** | **+0.67%** | +0.61% | +0.78% |
+
+**Finding:** LM dictionary features do not improve CV prediction — Model A (no linguistics) leads on CV Rank IC. Test results are closer but Model A still leads on Rank IC. See [full comparison](#model-a-vs-model-b-comparison-all-variants).
+
 ### Output files
 
 | File | Description |
@@ -54,7 +67,7 @@ transcripts, and produces a single modeling table — one row per earnings call.
 | `companyname`, `ticker`, `gvkey`, `permno` | IDs | Company name, ticker, Compustat and CRSP identifiers |
 | `call_date`, `call_time_utc`, `headline` | Call metadata | Earnings call date, UTC time, and headline |
 | `sector`, `gind`, `sic` | Industry | GICS sector name, GICS industry code, SIC code |
-| `day0` | Timing | First trading day on or after the call (event day 0) |
+| `day0` | Timing | First trading day after the call date (event day 0) |
 | `car_0_1` | Target | Cumulative abnormal return, day 0–1 (announcement return) |
 | `car_2_5` | Target | CAR day 2–5 (short-term drift) |
 | **`car_2_20`** | **Target** | **CAR day 2–20 (primary target — post-earnings drift)** |
@@ -143,6 +156,25 @@ Capital IQ transcripts          Compustat / CRSP             I/B/E/S
 
 Calls that fail any inner join are dropped — primarily firms not in the S&P 500 on the call date or with no valid CCM link. The I/B/E/S ticker is a left join: calls without a ticker match remain but will have missing SUE and surprise features downstream.
 
+**Day 0 definition:** Always the next trading day after the call date. This ensures the market has had the full earnings call before Day 0 opens, giving a clean post-call baseline for all CAR windows.
+
+### WRDS tables → features
+
+| WRDS Table | What it provides | Features derived |
+|------------|-----------------|-----------------|
+| `ciq.ciqtranscript` + `ciq.ciqtranscriptcomponent` | Earnings call transcripts (prepared remarks, Q&A) | `words_prepared`, `words_answers`, `n_questions`, `n_answers`, `share_answers_by_execs`, all tone/hedging/uncertainty features |
+| `crsp.dsf` (daily stock file) | Daily returns, prices, shares outstanding | `car_0_1`, `car_2_5`, `car_2_20`, `car_2_60`, `vol_pre`, `mom`, `size` |
+| `crsp.dsedelist` | Delisting returns | Folded into CAR to correct survivorship bias |
+| `crsp.msp500list` | S&P 500 membership spells | Universe filter — call must be during membership |
+| `comp.fundq` | Quarterly fundamentals (book equity) | `bm` (book-to-market) |
+| `comp.company` | Company identifiers, GICS sector | `sector`, `gind`, `sic` |
+| `ibes.actu_epsus` | Actual EPS (unadjusted) | `sue`, `sue_price`, `surprise_pct` |
+| `ibes.statsumu_epsus` | Consensus EPS forecasts | `sue`, `sue_price`, `surprise_pct`, `dispersion`, `n_analysts` |
+| `crsp.ccmxpf_lnkhist` | gvkey ↔ permno link | Identity join (PANEL stage) |
+| `wrdsapps.ibcrsphist` | permno ↔ IBES ticker link | Identity join (PANEL stage) |
+| `ciq.wrds_gvkey` | companyid ↔ gvkey link | Identity join (PANEL stage) |
+| `crsp.dsi` + Fama-French factors | Market index returns, risk factors | Abnormal returns (market-adjusted) |
+
 ### How to run
 
 ```bash
@@ -170,6 +202,7 @@ Script: [`model_a_baseline.py`](model_a_baseline.py) | Report: [`model_a_report.
 | `sue` | Standardized Unexpected Earnings: (actual − consensus) / std dev of past surprises | The classic PEAD signal — higher SUE → stronger positive drift. Standardizing by historical dispersion makes surprises comparable across firms. |
 | `sue_price` | Earnings surprise scaled by stock price | Controls for price level — a $0.05 surprise means more for a $10 stock than a $500 stock. Reduces the influence of high-priced, low-volatility names. |
 | `surprise_pct` | (actual − consensus) / consensus as a percentage | Raw percentage surprise. Dropped by feature selection (rank 11.3) — `sue` and `sue_price` capture the same information better. |
+| `share_answers_by_execs` | Share of Q&A answers given by executives (vs. IR, etc.) | Selected (rank 12.0). Captures management engagement — firms where executives personally answer more questions may be signaling confidence. |
 
 **Firm characteristics** — known cross-sectional return predictors (Fama-French factors and related).
 
@@ -177,8 +210,8 @@ Script: [`model_a_baseline.py`](model_a_baseline.py) | Report: [`model_a_report.
 |---------|-----------------|------------------------|
 | `size` | Log market capitalization on the day before the call | Small firms have stronger PEAD — less analyst coverage, slower information diffusion. The size effect is one of the most robust findings in PEAD literature. |
 | `bm` | Book-to-market ratio (Compustat book equity / CRSP market cap) | Value stocks (high B/M) may have different drift patterns. Controls for the value factor so the model doesn't confuse drift with value premium. |
-| `mom` | 12-month minus 1-month momentum (cumulative return) | Firms with strong prior momentum may have continuation or reversal patterns that interact with earnings surprises. Highest RF importance (0.136) — tree models find nonlinear interactions with other features. |
-| `vol_pre` | Realized volatility over 20 trading days before the call | High pre-call volatility means more uncertainty. Highest single-feature RF importance (0.247) — the model uses it to scale expected drift magnitude. |
+| `mom` | 12-month minus 1-month momentum (cumulative return) | Firms with strong prior momentum may have continuation or reversal patterns that interact with earnings surprises. Highest RF importance (0.146) — tree models find nonlinear interactions with other features. |
+| `vol_pre` | Realized volatility over 20 trading days before the call | High pre-call volatility means more uncertainty. Highest single-feature RF importance (0.296) — the model uses it to scale expected drift magnitude. |
 
 **Analyst coverage** — captures the information environment around the firm.
 
@@ -192,13 +225,12 @@ Script: [`model_a_baseline.py`](model_a_baseline.py) | Report: [`model_a_report.
 | Feature | What it measures | Why it matters for drift |
 |---------|-----------------|------------------------|
 | `car_0_1` | Announcement-day return (CAR day 0–1) | The initial market reaction. Known at the start of the drift window — strong announcement returns may predict continuation (underreaction) or reversal. |
-| `words_answers` | Total word count in Q&A answers (log-transformed) | Longer answers may signal more complex or ambiguous situations. Selected (rank 10.5) even with zero MI — the Spearman correlation (p = 0.008) and RF importance both picked it up. |
-| `n_answers` | Number of Q&A answers | More Q&A exchanges can indicate higher analyst interest or management willingness to engage. Borderline selection (rank 12.8) but Spearman was significant (p = 0.043). |
-| `n_questions` | Number of analyst questions in Q&A | Selected (rank 10.7). Significant Spearman (p = 0.048) — captures analyst engagement intensity. |
-| `words_prepared` | Word count in prepared remarks (log-transformed) | Dropped (rank 13.2) — length of the scripted section has low predictive value. |
-| `words_questions` | Word count in analyst questions (log-transformed) | Dropped (rank 14.2). |
-| `avg_answer_words` | Average words per executive answer (log-transformed) | Dropped (rank 13.5) — collinear with `words_answers` (VIF 12.3). |
-| `share_answers_by_execs` | Share of Q&A answers given by executives (vs. IR, etc.) | Dropped (rank 14.5) — near-zero RF importance (0.001). |
+| `words_answers` | Total word count in Q&A answers (log-transformed) | Longer answers may signal more complex or ambiguous situations. Selected (rank 11.7) — Spearman correlation (p = 0.028) and RF importance both picked it up. |
+| `n_answers` | Number of Q&A answers | More Q&A exchanges can indicate higher analyst interest or management willingness to engage. Selected (rank 12.3) — Spearman significant (p = 0.003). |
+| `n_questions` | Number of analyst questions in Q&A | Dropped (rank 13.3) — correlated with `n_answers`. |
+| `words_prepared` | Word count in prepared remarks (log-transformed) | Dropped (rank 13.7) — length of the scripted section has low predictive value. |
+| `words_questions` | Word count in analyst questions (log-transformed) | Dropped (rank 13.7). |
+| `avg_answer_words` | Average words per executive answer (log-transformed) | Dropped (rank 13.7) — collinear with `words_answers`. |
 
 **Other:**
 
@@ -225,43 +257,42 @@ Three-method ensemble ranking (Spearman \|r\|, Mutual Information, Random Forest
 
 Selected top 12 of 18 candidate features:
 
-| Feature | Spearman \|r\| | p-value | MI | RF Imp | Avg Rank | Selected |
-|---------|---------------|---------|------|--------|----------|----------|
-| `dispersion` | 0.042 | 1.2e-09 | 0.019 | 0.080 | **2.3** | Yes |
-| `vol_pre` | 0.009 | 0.205 | 0.062 | 0.235 | **4.7** | Yes |
-| `size` | 0.023 | 8.5e-04 | 0.012 | 0.039 | **5.0** | Yes |
-| `mom` | 0.006 | 0.383 | 0.033 | 0.153 | **6.0** | Yes |
-| `car_0_1` | 0.023 | 9.2e-04 | 0.006 | 0.054 | **6.3** | Yes |
-| `prior_calls_with_target` | 0.013 | 0.058 | 0.008 | 0.074 | **6.3** | Yes |
-| `bm` | 0.009 | 0.188 | 0.011 | 0.052 | **7.7** | Yes |
-| `sue_price` | 0.006 | 0.417 | 0.013 | 0.074 | **8.0** | Yes |
-| `sue` | 0.019 | 0.006 | 0.005 | 0.029 | **9.0** | Yes |
-| `n_questions` | 0.014 | 0.048 | 0.006 | 0.021 | **10.7** | Yes |
-| `words_answers` | 0.014 | 0.038 | 0.000 | 0.025 | **11.5** | Yes |
-| `n_answers` | 0.019 | 0.005 | 0.000 | 0.019 | **12.2** | Yes |
-| `surprise_pct` | 0.002 | 0.809 | 0.008 | 0.036 | 11.7 | — |
-| `words_prepared` | 0.009 | 0.200 | 0.000 | 0.023 | 13.5 | — |
-| `n_analysts` | 0.002 | 0.757 | 0.001 | 0.029 | 13.7 | — |
-| `avg_answer_words` | 0.004 | 0.595 | 0.000 | 0.035 | 13.8 | — |
-| `share_answers_by_execs` | 0.010 | 0.150 | 0.000 | 0.001 | 14.2 | — |
-| `words_questions` | 0.007 | 0.342 | 0.000 | 0.021 | 14.5 | — |
+| Feature | Spearman \|r\| | MI | RF Imp | Avg Rank | Selected |
+|---------|---------------|------|--------|----------|----------|
+| `dispersion` | 0.037 | 0.022 | 0.069 | **2.3** | Yes |
+| `size` | 0.024 | 0.014 | 0.040 | **5.0** | Yes |
+| `vol_pre` | 0.005 | 0.062 | 0.296 | **5.0** | Yes |
+| `mom` | 0.004 | 0.026 | 0.146 | **6.3** | Yes |
+| `prior_calls_with_target` | 0.015 | 0.010 | 0.064 | **6.3** | Yes |
+| `car_0_1` | 0.009 | 0.015 | 0.054 | **7.0** | Yes |
+| `bm` | 0.011 | 0.010 | 0.047 | **8.0** | Yes |
+| `sue_price` | 0.003 | 0.014 | 0.068 | **8.7** | Yes |
+| `sue` | 0.017 | 0.008 | 0.026 | **9.0** | Yes |
+| `words_answers` | 0.014 | 0.000 | 0.023 | **11.7** | Yes |
+| `share_answers_by_execs` | 0.015 | 0.001 | 0.002 | **12.0** | Yes |
+| `n_answers` | 0.019 | 0.000 | 0.019 | **12.3** | Yes |
+| `surprise_pct` | 0.002 | 0.010 | 0.033 | 11.3 | — |
+| `n_analysts` | 0.008 | 0.001 | 0.027 | 11.7 | — |
+| `n_questions` | 0.010 | 0.000 | 0.019 | 13.3 | — |
+| `words_prepared` | 0.011 | 0.000 | 0.020 | 13.7 | — |
+| `avg_answer_words` | 0.004 | 0.000 | 0.028 | 13.7 | — |
+| `words_questions` | 0.003 | 0.009 | 0.021 | 13.7 | — |
 
 ### Cross-validation results
 
 Time-series expanding window CV on train period 2010–2021. All 8 models compared:
 
-| Model | Avg IC | IC ± | Avg Rank IC | Rank IC ± | R² | Dir Acc | Q5-Q1 Spread |
-|-------|--------|------|-------------|-----------|-----|---------|-------------|
-| **GradientBoosting** | **+0.021** | 0.077 | **+0.041** | 0.031 | −0.023 | 0.529 | **+0.79%** |
-| XGBoost | +0.017 | 0.069 | +0.035 | 0.030 | −0.024 | 0.530 | +0.47% |
-| RandomForest | +0.026 | 0.071 | +0.030 | 0.037 | −0.003 | 0.528 | +0.50% |
-| ExtraTrees | +0.033 | 0.061 | +0.018 | 0.058 | −0.001 | 0.527 | +0.32% |
-| ElasticNet | +0.014 | 0.065 | +0.001 | 0.051 | −0.003 | 0.517 | −0.12% |
-| Ridge | +0.001 | 0.073 | −0.000 | 0.057 | −0.009 | 0.509 | −0.17% |
-| OLS | +0.001 | 0.073 | −0.000 | 0.057 | −0.009 | 0.509 | −0.17% |
-| Lasso | +0.022 | 0.053 | −0.010 | 0.048 | −0.001 | 0.531 | −0.41% |
+| Model | Avg IC | Avg Rank IC | Dir Accuracy | Q5-Q1 Spread |
+|-------|--------|-------------|-------------|--------------|
+| **GradientBoosting** | **+0.023** | **+0.038** | 0.524 | **+0.92%** |
+| RandomForest | +0.036 | +0.033 | 0.527 | +0.70% |
+| XGBoost | +0.017 | +0.030 | 0.520 | +0.78% |
+| ExtraTrees | +0.030 | +0.019 | 0.528 | +0.20% |
+| ElasticNet | +0.010 | −0.007 | 0.518 | −0.42% |
+| Ridge / OLS | −0.006 | −0.009 | 0.502 | −0.24% |
+| Lasso | +0.021 | −0.013 | 0.529 | −0.59% |
 
-**Best model by Rank IC: GradientBoosting** (avg Rank IC +0.041, Q5-Q1 spread +0.79%)
+**Best model by Rank IC: GradientBoosting** (avg Rank IC +0.038, Q5-Q1 spread +0.92%)
 
 ### Test results (2022–2024)
 
@@ -269,12 +300,12 @@ One-time evaluation of the best CV model (GradientBoosting) on unseen data:
 
 | Metric | Value |
 |--------|-------|
-| IC | +0.012 |
-| Rank IC | **+0.042** |
-| R² | −0.048 |
+| IC | +0.003 |
+| Rank IC | **+0.047** |
+| R² | −0.044 |
 | RMSE | 0.067 |
-| Direction accuracy | 51.6% |
-| Q5-Q1 spread | +0.75% |
+| Direction accuracy | 51.9% |
+| Q5-Q1 spread | +0.67% |
 
 Controls generalize to the test period with positive Rank IC. The question: can linguistic features improve on this?
 
@@ -292,11 +323,11 @@ Controls generalize to the test period with positive Rank IC. The question: can 
 
 ## Model B: Controls + Linguistic Features
 
-Adds [Loughran-McDonald dictionary](data/Loughran-McDonald_MasterDictionary_1993-2025.csv) features (tone, hedging, uncertainty) on top of Model A's 12 controls.
+Adds [Loughran-McDonald dictionary](data/Loughran-McDonald_MasterDictionary_1993-2025.csv) features (tone, hedging, uncertainty) on top of Model A's controls.
 Train: 2010–2021 (expanding-window CV) | Test: 2022–2024 (one-time evaluation)
 Script: [`model_b_linguistic.py`](model_b_linguistic.py) | Report: [`model_b_report.txt`](model_b_report.txt) | JSON: [`model_b_results.json`](model_b_results.json)
 
-### Feature descriptions (Model B — 9 linguistic features added to Model A's 12 controls)
+### Feature descriptions (Model B — 9 linguistic candidates added to Model A's controls)
 
 All linguistic features are computed using the **[Loughran-McDonald (LM) Master Dictionary](data/Loughran-McDonald_MasterDictionary_1993-2025.csv)** (1993–2025 edition, 86,553 words), a finance-specific word list designed for 10-K/10-Q and earnings call text. Unlike general-purpose sentiment (e.g., Harvard GI), LM classifies words by how they function in financial disclosure — "liability" is negative in general English but neutral in finance.
 
@@ -307,8 +338,8 @@ All linguistic features are computed using the **[Loughran-McDonald (LM) Master 
 | `tone_prepared` | (LM positive − LM negative) / (positive + negative) in prepared remarks | Prepared remarks are scripted — tone reflects deliberate framing by IR/legal teams. Optimistic framing of strong results may predict continuation. | Dropped (rank 14.7). Near-zero Spearman and MI — the scripted section's tone is too polished to carry incremental signal. |
 | `tone_answers` | Same ratio computed on Q&A answers only | Q&A is live and less rehearsed — executives reveal more under analyst questioning. Tone here is less controlled and potentially more informative. | Dropped (rank 14.0). Near-zero Spearman (p = 0.82) on the 2010–2021 train set. |
 | `tone_gap` | `tone_answers` − `tone_prepared` | If executives are markedly less positive in Q&A than in their script, it may signal they're less confident than the prepared remarks suggest. A large negative gap = potential bad news the script glossed over. | Dropped (rank 14.7). Spearman \|r\| = 0.008 (p = 0.22). |
-| `tone_prepared_chg` | Change in prepared-remarks tone vs. rolling mean of prior 4 calls | A sudden shift in scripted tone — more positive or negative than the firm's recent baseline — may signal a regime change the market hasn't fully priced. | **Selected** (rank 11.0). Only linguistic feature to survive selection. Spearman \|r\| = 0.017 (p = 0.015), RF importance 0.047. |
-| `tone_answers_chg` | Change in Q&A tone vs. prior 4-call average | Same logic as above but for live Q&A. A sudden drop in Q&A positivity relative to the firm's norm could flag deterioration. | Dropped (rank 14.0). Spearman \|r\| = 0.006 (p = 0.40). |
+| `tone_prepared_chg` | Change in prepared-remarks tone vs. rolling mean of prior 4 calls | A sudden shift in scripted tone — more positive or negative than the firm's recent baseline — may signal a regime change the market hasn't fully priced. | **Selected** (rank 9.3). Spearman \|r\| = 0.010, RF importance 0.047. |
+| `tone_answers_chg` | Change in Q&A tone vs. prior 4-call average | Same logic as above but for live Q&A. A sudden drop in Q&A positivity relative to the firm's norm could flag deterioration. | **Selected** (rank 12.7). RF importance 0.028. |
 
 **Hedging features** — count weak-modal words ("may", "could", "might", "possibly", "approximately"). The hypothesis: managers hedge more when they're uncertain about forward guidance or trying to avoid commitment.
 
@@ -324,49 +355,48 @@ All linguistic features are computed using the **[Loughran-McDonald (LM) Master 
 |---------|-----------------|--------------------| -------|
 | `uncertainty_answers` | LM Uncertainty words per 1,000 words in Q&A answers | Direct expressions of uncertainty in live responses. Higher uncertainty language could predict wider return dispersion or directional drift if it proxies for unresolved information. | Dropped (rank 16.2). Spearman \|r\| = 0.0001 (p = 0.98) — no linear or nonlinear signal detected. |
 
-**Summary:** Only 1 of 9 linguistic features survived feature selection (`tone_prepared_chg`), and it did not improve model performance. The LM bag-of-words approach is likely too coarse — it counts words without context, can't distinguish sarcasm or hedged optimism, and the signal (if any) may already be captured by the call structure features (`words_answers`, `n_answers`) that proxy for the same underlying information complexity.
+**Summary:** 2 of 9 linguistic features survived feature selection (`tone_prepared_chg`, `tone_answers_chg`), but they did not improve model performance. The LM bag-of-words approach is likely too coarse — it counts words without context, can't distinguish sarcasm or hedged optimism, and the signal (if any) may already be captured by the call structure features (`words_answers`, `n_answers`) that proxy for the same underlying information complexity.
 
-### Feature selection (21 candidates → 12 selected)
+### Feature selection (20 candidates → 13 selected)
 
 **Criterion:** top 60% by average rank across 3 methods (Spearman \|r\|, Mutual Information, Random Forest importance), plus any feature with significant Spearman correlation (p < 0.05).
 
 | Feature | Spearman \|r\| | MI | RF Imp | Avg Rank | Type | Selected |
 |---------|---------------|------|--------|----------|------|----------|
-| `dispersion` | 0.042 | 0.019 | 0.084 | **2.3** | ctrl | Yes |
-| `vol_pre` | 0.009 | 0.063 | 0.216 | **4.0** | ctrl | Yes |
-| `mom` | 0.006 | 0.033 | 0.134 | **5.3** | ctrl | Yes |
-| `size` | 0.023 | 0.012 | 0.041 | **5.3** | ctrl | Yes |
-| `prior_calls_with_target` | 0.013 | 0.009 | 0.065 | **6.3** | ctrl | Yes |
-| `car_0_1` | 0.023 | 0.006 | 0.049 | **6.3** | ctrl | Yes |
-| `bm` | 0.009 | 0.011 | 0.051 | **7.0** | ctrl | Yes |
-| `sue_price` | 0.006 | 0.013 | 0.057 | **7.7** | ctrl | Yes |
-| `sue` | 0.019 | 0.006 | 0.027 | **8.0** | ctrl | Yes |
-| `tone_prepared_chg` | 0.017 | 0.000 | 0.047 | **11.0** | LING | Yes |
-| `n_answers` | 0.019 | 0.000 | 0.022 | **13.0** | ctrl | Yes |
-| `words_answers` | 0.014 | 0.000 | 0.025 | **13.0** | ctrl | Yes |
-| `tone_answers_chg` | 0.006 | 0.001 | 0.025 | 14.0 | LING | — |
-| `tone_answers` | 0.002 | 0.002 | 0.029 | 14.0 | LING | — |
-| `hedging_prepared` | 0.005 | 0.002 | 0.025 | 14.3 | LING | — |
-| `tone_prepared` | 0.005 | 0.000 | 0.026 | 14.7 | LING | — |
-| `tone_gap` | 0.008 | 0.002 | 0.017 | 14.7 | LING | — |
-| `hedging_answers` | 0.000 | 0.003 | 0.017 | 16.2 | LING | — |
-| `uncertainty_answers` | 0.000 | 0.003 | 0.021 | 16.2 | LING | — |
-| `hedging_answers_chg` | 0.003 | 0.001 | 0.022 | 16.7 | LING | — |
+| `dispersion` | 0.037 | 0.023 | 0.072 | **2.3** | ctrl | Yes |
+| `vol_pre` | 0.005 | 0.062 | 0.255 | **4.3** | ctrl | Yes |
+| `size` | 0.024 | 0.014 | 0.035 | **5.3** | ctrl | Yes |
+| `mom` | 0.004 | 0.027 | 0.143 | **5.7** | ctrl | Yes |
+| `prior_calls_with_target` | 0.015 | 0.010 | 0.054 | **6.0** | ctrl | Yes |
+| `car_0_1` | 0.009 | 0.015 | 0.058 | **6.0** | ctrl | Yes |
+| `bm` | 0.011 | 0.010 | 0.043 | **7.7** | ctrl | Yes |
+| `sue_price` | 0.003 | 0.014 | 0.062 | **8.0** | ctrl | Yes |
+| `sue` | 0.017 | 0.008 | 0.024 | **8.3** | ctrl | Yes |
+| `tone_prepared_chg` | 0.010 | 0.002 | 0.047 | **9.3** | LING | Yes |
+| `tone_answers_chg` | 0.006 | 0.000 | 0.028 | **12.7** | LING | Yes |
+| `n_answers` | 0.019 | 0.000 | 0.019 | **12.7** | ctrl | Yes |
+| `words_answers` | 0.014 | 0.000 | 0.020 | **13.0** | ctrl | Yes |
+| `hedging_answers` | 0.003 | 0.002 | 0.022 | 13.5 | LING | — |
+| `uncertainty_answers` | 0.003 | 0.002 | 0.020 | 13.8 | LING | — |
+| `tone_answers` | 0.002 | 0.002 | 0.022 | 14.0 | LING | — |
+| `tone_gap` | 0.004 | 0.000 | 0.018 | 16.0 | LING | — |
+| `tone_prepared` | 0.000 | 0.000 | 0.025 | 16.3 | LING | — |
+| `hedging_prepared` | 0.002 | 0.001 | 0.018 | 17.0 | LING | — |
+| `hedging_answers_chg` | 0.001 | 0.001 | 0.018 | 18.0 | LING | — |
 
-Only 1 of 9 linguistic features was selected: `tone_prepared_chg`. All hedging and uncertainty features ranked in the bottom third.
+2 of 9 linguistic features selected: `tone_prepared_chg` and `tone_answers_chg`. All hedging and uncertainty features ranked in the bottom third.
 
 ### Cross-validation results (train 2010–2021)
 
 | Model | Avg IC | Avg Rank IC | Dir Accuracy | Q5-Q1 Spread |
 |-------|--------|-------------|-------------|--------------|
-| **GradientBoosting** | **+0.022** | **+0.037** | 0.528 | **+0.64%** |
-| XGBoost | +0.008 | +0.032 | 0.524 | +0.54% |
-| RandomForest | +0.025 | +0.028 | 0.528 | +0.38% |
-| ExtraTrees | +0.030 | +0.017 | 0.527 | +0.34% |
-| ElasticNet | +0.014 | +0.001 | 0.517 | −0.13% |
-| Ridge | +0.001 | −0.000 | 0.510 | −0.17% |
-| OLS | +0.001 | −0.000 | 0.510 | −0.17% |
-| Lasso | +0.022 | −0.010 | 0.531 | −0.40% |
+| **GradientBoosting** | **+0.017** | **+0.033** | 0.525 | **+0.73%** |
+| XGBoost | +0.012 | +0.028 | 0.520 | +0.71% |
+| RandomForest | +0.028 | +0.028 | 0.527 | +0.71% |
+| ExtraTrees | +0.029 | +0.016 | 0.529 | +0.24% |
+| ElasticNet | +0.010 | −0.008 | 0.517 | −0.43% |
+| Ridge / OLS | −0.008 | −0.010 | 0.502 | −0.30% |
+| Lasso | +0.021 | −0.013 | 0.529 | −0.59% |
 
 ### Model B* — all linguistic features forced (no feature selection)
 
@@ -376,13 +406,13 @@ All 20 features (11 controls + 9 linguistic) forced into every model to test whe
 
 | Model | Avg IC | Avg Rank IC | Dir Accuracy | Q5-Q1 Spread |
 |-------|--------|-------------|-------------|--------------|
-| **GradientBoosting** | **+0.020** | **+0.033** | 0.523 | **+0.71%** |
-| RandomForest | +0.025 | +0.021 | 0.525 | +0.49% |
-| XGBoost | −0.000 | +0.019 | 0.519 | +0.31% |
-| ElasticNet | +0.010 | −0.003 | 0.517 | −0.17% |
-| Ridge / OLS | −0.003 | −0.004 | 0.506 | −0.34% |
-| ExtraTrees | +0.021 | −0.005 | 0.527 | −0.30% |
-| Lasso | +0.021 | −0.013 | 0.528 | −0.40% |
+| **GradientBoosting** | **+0.012** | **+0.024** | 0.522 | **+0.62%** |
+| RandomForest | +0.025 | +0.021 | 0.528 | +0.47% |
+| XGBoost | +0.002 | +0.017 | 0.521 | +0.41% |
+| ExtraTrees | +0.023 | +0.004 | 0.528 | −0.02% |
+| ElasticNet | +0.006 | −0.010 | 0.515 | −0.41% |
+| Ridge / OLS | −0.012 | −0.013 | 0.502 | −0.33% |
+| Lasso | +0.018 | −0.014 | 0.529 | −0.59% |
 
 ### Model A vs Model B comparison (all variants)
 
@@ -390,25 +420,24 @@ All models use GradientBoosting (best by Rank IC in every variant).
 
 **Cross-validation** (time-series expanding window, train 2010–2021):
 
-| Metric | Model A (12 ctrl) | Model B (12 selected) | Model B* (20 all forced) |
+| Metric | Model A (12 ctrl) | Model B (13 selected) | Model B* (20 all forced) |
 |--------|-------------------|-----------------------|--------------------------|
-| **IC** | **+0.021** | +0.022 | +0.020 |
-| **Rank IC** | **+0.041** | +0.037 | +0.033 |
-| **R²** | −0.023 | −0.023 | −0.022 |
-| **Dir Accuracy** | **0.529** | 0.528 | 0.523 |
-| **Q5-Q1 Spread** | **+0.79%** | +0.64% | +0.71% |
+| **IC** | **+0.023** | +0.017 | +0.012 |
+| **Rank IC** | **+0.038** | +0.033 | +0.024 |
+| **Dir Accuracy** | 0.524 | **0.525** | 0.522 |
+| **Q5-Q1 Spread** | **+0.92%** | +0.73% | +0.62% |
 
 **Test** (2022–2024, one-time evaluation):
 
 | Metric | Model A | Model B (selected) | Model B* (all forced) |
 |--------|---------|--------------------|-----------------------|
-| **IC** | **+0.012** | −0.001 | +0.011 |
-| **Rank IC** | **+0.042** | +0.027 | +0.031 |
-| **R²** | −0.048 | −0.050 | −0.044 |
-| **Dir Accuracy** | **0.516** | 0.512 | 0.507 |
-| **Q5-Q1 Spread** | **+0.75%** | +0.50% | +0.70% |
+| **IC** | +0.003 | −0.013 | −0.003 |
+| **Rank IC** | **+0.047** | +0.038 | +0.043 |
+| **R²** | −0.044 | −0.050 | −0.044 |
+| **Dir Accuracy** | **0.519** | 0.514 | 0.514 |
+| **Q5-Q1 Spread** | +0.67% | +0.61% | **+0.78%** |
 
-**Conclusion:** LM dictionary-based linguistic features (tone, hedging, uncertainty) do not improve prediction of post-earnings drift CAR[+2,+20]. Model A outperforms on both CV and test — adding linguistic features monotonically *worsens* Rank IC. The bag-of-words approach adds noise, not signal. Next steps: contextual embeddings (FinBERT), interaction-quality features, or finer-grained text measures.
+**Conclusion:** LM dictionary-based linguistic features (tone, hedging, uncertainty) do not improve CV prediction of post-earnings drift CAR[+2,+20]. Model A leads on CV Rank IC (+0.038 vs +0.033 vs +0.024). On test, Model A still leads on Rank IC (+0.047) but B* shows a higher quintile spread (+0.78%). The bag-of-words approach does not add consistent signal. Next steps: contextual embeddings (FinBERT) for Models C/C*.
 
 ## Roadmap
 
@@ -416,14 +445,14 @@ All models use GradientBoosting (best by Rank IC in every variant).
 |---|------|--------|
 | 1 | Pull all WRDS data and build full S&P 500 event dataset | **done** |
 | 2 | Preprocessing + feature selection on 18 non-linguistic features | **done** |
-| 3 | Baseline Model A — GradientBoosting, Rank IC +0.041 (CV), +0.042 (test) | **done** |
+| 3 | Baseline Model A — GradientBoosting, Rank IC +0.038 (CV), +0.047 (test) | **done** |
 | 4 | Compute LM tone, uncertainty, hedging from transcript text | **done** |
 | 5 | Model B — add linguistic features, compare to Model A | **done** (no improvement) |
 | 6 | Try contextual embeddings (FinBERT) or interaction-quality features | next |
 | 7 | Evaluation: IC comparison, long-short backtest net of costs | pending |
 
 Done: full pipeline, GCP VM, data validation, Model A baseline, LM linguistic features, Model B comparison.
-Finding: Model A (controls only) achieves +0.042 test Rank IC. LM bag-of-words features do not improve over controls alone — finer-grained text features needed.
+Finding: Model A (controls only) achieves +0.047 test Rank IC. LM bag-of-words features do not improve over controls alone — FinBERT contextual embeddings next.
 
 ## Obstacles and proposed solutions
 

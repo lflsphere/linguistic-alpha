@@ -1,0 +1,46 @@
+======================================================================
+MODEL C (FinBERT, FORWARD SELECTION) REPORT
+Generated: 2026-11-16 13:42
+Target: car_2_20
+Train: 2010–2021 | Test: 2022–2024
+Features (12): dispersion, vol_pre, size, prior_calls_with_target, mom, car_0_1, bm, sue_price, sue, words_answers, share_answers_by_execs, n_answers
+  Controls (12): dispersion, vol_pre, size, prior_calls_with_target, mom, car_0_1, bm, sue_price, sue, words_answers, share_answers_by_execs, n_answers
+  FinBERT (0): 
+  Forward selection on CV Rank IC (GradientBoosting)
+======================================================================
+
+
+--- FORWARD SELECTION LOG ---
+ Step Added                            CV Rank IC          Δ
+    0 (baseline)                          +0.0376    +0.0000
+
+
+--- CROSS-VALIDATION RESULTS (train 2010-2021) ---
+Model                      IC      ±  Rank IC      ±       R²  Dir Acc    Q5-Q1
+GradientBoosting      +0.0226 0.1005  +0.0376 0.0348  -0.0321    0.524  +0.0092
+RandomForest          +0.0358 0.0897  +0.0326 0.0338  -0.0049    0.527  +0.0070
+ExtraTrees            +0.0303 0.0883  +0.0189 0.0661  -0.0028    0.528  +0.0020
+ElasticNet            +0.0100 0.0832  -0.0073 0.0611  -0.0054    0.518  -0.0042
+Ridge                 -0.0064 0.0872  -0.0085 0.0660  -0.0124    0.502  -0.0024
+OLS                   -0.0064 0.0872  -0.0085 0.0660  -0.0124    0.502  -0.0024
+Lasso                 +0.0207 0.0749  -0.0127 0.0573  -0.0027    0.529  -0.0059
+
+Best model by avg Rank IC: GradientBoosting
+
+
+--- TEST RESULTS 2022-2024 (GradientBoosting) ---
+  ic                       : +0.0027
+  rank_ic                  : +0.0465
+  r2                       : -0.0442
+  rmse                     : +0.0670
+  direction_accuracy       : +0.5187
+  quintile_spread          : +0.0067
+
+
+--- NOTES ---
+- Same preprocessing as Model A/B: winsorize 1%/99%, log1p, median impute, StandardScaler
+- FinBERT features from ProsusAI/finbert sentence-level scoring
+- Forward selection: start with Model A's 12 controls, add FinBERT features one at a time
+- Keep feature if it improves CV Rank IC (GradientBoosting, expanding window)
+- Time-series expanding window CV on train (2010-2021)
+- Test (2022-2024) evaluated once after model selection

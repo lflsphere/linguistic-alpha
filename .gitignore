@@ -224,3 +224,8 @@ __marimo__/
 
 outputs
 panel.csv
+
+# --- WRDS / licensed data: never commit ---
+data/
+*.parquet
+earnings_*/

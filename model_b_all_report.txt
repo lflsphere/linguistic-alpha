@@ -1,6 +1,6 @@
 ======================================================================
 MODEL B* (ALL LINGUISTIC) — No Feature Selection
-Generated: 2026-11-11 04:50
+Generated: 2026-11-14 22:09
 Target: car_2_20
 Train: 2010–2021 | Test: 2022–2024
 Features (20): dispersion, mom, prior_calls_with_target, vol_pre, car_0_1, size, sue_price, sue, bm, words_answers, n_answers, tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
@@ -12,35 +12,35 @@ Features (20): dispersion, mom, prior_calls_with_target, vol_pre, car_0_1, size,
 
 --- CROSS-VALIDATION RESULTS (train 2010-2021) ---
 Model                      IC      ±  Rank IC      ±       R²  Dir Acc    Q5-Q1
-GradientBoosting      +0.0200 0.0803  +0.0331 0.0287  -0.0223    0.523  +0.0071
-RandomForest          +0.0247 0.0643  +0.0207 0.0321  -0.0029    0.525  +0.0049
-XGBoost               -0.0002 0.0663  +0.0193 0.0248  -0.0266    0.519  +0.0031
-ElasticNet            +0.0101 0.0597  -0.0027 0.0444  -0.0034    0.517  -0.0017
-Ridge                 -0.0031 0.0713  -0.0041 0.0537  -0.0100    0.506  -0.0034
-OLS                   -0.0031 0.0712  -0.0041 0.0537  -0.0100    0.506  -0.0034
-ExtraTrees            +0.0205 0.0618  -0.0054 0.0536  -0.0015    0.527  -0.0030
-Lasso                 +0.0207 0.0529  -0.0129 0.0464  -0.0011    0.528  -0.0040
+GradientBoosting      +0.0121 0.1036  +0.0239 0.0330  -0.0350    0.522  +0.0062
+RandomForest          +0.0250 0.0810  +0.0210 0.0328  -0.0050    0.528  +0.0047
+XGBoost               +0.0018 0.0862  +0.0167 0.0284  -0.0362    0.521  +0.0041
+ExtraTrees            +0.0234 0.0816  +0.0035 0.0642  -0.0028    0.528  -0.0002
+ElasticNet            +0.0058 0.0774  -0.0098 0.0562  -0.0059    0.515  -0.0041
+Ridge                 -0.0118 0.0836  -0.0126 0.0627  -0.0137    0.502  -0.0033
+OLS                   -0.0118 0.0836  -0.0126 0.0627  -0.0137    0.502  -0.0032
+Lasso                 +0.0181 0.0723  -0.0144 0.0566  -0.0029    0.529  -0.0059
 
 Best model by avg Rank IC: GradientBoosting
 
 
 --- COMPARISON (CV) ---
-Model A  (11 controls, feature-selected):        Rank IC +0.041, Q5-Q1 +0.79%
-Model B  (12 features, feature-selected):        Rank IC +0.037, Q5-Q1 +0.64%
-Model B* (20 features, ALL forced):              Rank IC +0.033, Q5-Q1 +0.71%
+Model A  (11 controls, feature-selected):        Rank IC +0.038, Q5-Q1 +0.92%
+Model B  (13 features, feature-selected):        Rank IC +0.033, Q5-Q1 +0.73%
+Model B* (20 features, ALL forced):              Rank IC +0.024, Q5-Q1 +0.62%
 
 
 --- TEST RESULTS 2022-2024 (GradientBoosting) ---
-  ic                       : +0.0109
-  rank_ic                  : +0.0314
-  r2                       : -0.0436
-  rmse                     : +0.0667
-  direction_accuracy       : +0.5074
-  quintile_spread          : +0.0070
+  ic                       : -0.0029
+  rank_ic                  : +0.0432
+  r2                       : -0.0407
+  rmse                     : +0.0668
+  direction_accuracy       : +0.5144
+  quintile_spread          : +0.0078
 
-Model A  test: Rank IC +0.0417, Q5-Q1 +0.75%
-Model B  test: Rank IC +0.0267, Q5-Q1 +0.50%
-Model B* test: Rank IC +0.0314, Q5-Q1 +0.70%
+Model A  test: Rank IC +0.0465, Q5-Q1 +0.67%
+Model B  test: Rank IC +0.0375, Q5-Q1 +0.61%
+Model B* test: Rank IC +0.0432, Q5-Q1 +0.78%
 
 
 --- NOTES ---

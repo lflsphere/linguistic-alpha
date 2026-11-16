@@ -1,57 +1,57 @@
 ======================================================================
 MODEL A BASELINE REPORT v3 — Train/Test Split
-Generated: 2026-11-11 04:47
+Generated: 2026-11-14 22:07
 Target: car_2_20
 Train: 2010–2021 | Test: 2022–2024
 All candidate features (18): sue, sue_price, surprise_pct, size, bm, mom, vol_pre, n_analysts, dispersion, car_0_1, n_questions, n_answers, words_prepared, words_answers, words_questions, avg_answer_words, share_answers_by_execs, prior_calls_with_target
-Selected features (12): dispersion, vol_pre, size, mom, car_0_1, prior_calls_with_target, bm, sue_price, sue, n_questions, words_answers, n_answers
+Selected features (12): dispersion, vol_pre, size, prior_calls_with_target, mom, car_0_1, bm, sue_price, sue, words_answers, share_answers_by_execs, n_answers
 Preprocessing: winsorize 1%/99%, log1p(words_prepared, words_answers, words_questions, avg_answer_words, n_analysts), median impute, StandardScaler
 ======================================================================
 
 
 --- FEATURE SELECTION RANKING ---
 Feature                    |Spearman|    p-value       MI   RF imp  Avg rank  Selected
-dispersion                     0.0415   1.22e-09   0.0193   0.0800       2.3       YES
-vol_pre                        0.0086   2.05e-01   0.0624   0.2354       4.7       YES
-size                           0.0228   8.48e-04   0.0118   0.0393       5.0       YES
-mom                            0.0060   3.83e-01   0.0325   0.1526       6.0       YES
-car_0_1                        0.0226   9.22e-04   0.0056   0.0542       6.3       YES
-prior_calls_with_target        0.0129   5.84e-02   0.0081   0.0744       6.3       YES
-bm                             0.0090   1.88e-01   0.0106   0.0521       7.7       YES
-sue_price                      0.0055   4.17e-01   0.0127   0.0736       8.0       YES
-sue                            0.0188   5.92e-03   0.0053   0.0291       9.0       YES
-n_questions                    0.0135   4.81e-02   0.0061   0.0205      10.7       YES
-words_answers                  0.0142   3.80e-02   0.0000   0.0254      11.5       YES
-surprise_pct                   0.0016   8.09e-01   0.0077   0.0360      11.7          
-n_answers                      0.0191   5.25e-03   0.0000   0.0185      12.2       YES
-words_prepared                 0.0087   2.00e-01   0.0000   0.0228      13.5          
-n_analysts                     0.0021   7.57e-01   0.0014   0.0288      13.7          
-avg_answer_words               0.0036   5.95e-01   0.0000   0.0350      13.8          
-share_answers_by_execs         0.0098   1.50e-01   0.0000   0.0007      14.2          
-words_questions                0.0065   3.42e-01   0.0000   0.0214      14.5          
+dispersion                     0.0370   5.77e-08   0.0225   0.0687       2.3       YES
+size                           0.0245   3.35e-04   0.0138   0.0400       5.0       YES
+vol_pre                        0.0054   4.33e-01   0.0620   0.2956       5.0       YES
+mom                            0.0040   5.55e-01   0.0264   0.1463       6.3       YES
+prior_calls_with_target        0.0145   3.32e-02   0.0096   0.0639       6.3       YES
+car_0_1                        0.0089   1.91e-01   0.0149   0.0542       7.0       YES
+bm                             0.0114   9.40e-02   0.0095   0.0466       8.0       YES
+sue_price                      0.0032   6.39e-01   0.0135   0.0681       8.7       YES
+sue                            0.0174   1.07e-02   0.0081   0.0265       9.0       YES
+surprise_pct                   0.0022   7.44e-01   0.0097   0.0326      11.3          
+words_answers                  0.0136   4.68e-02   0.0000   0.0226      11.7       YES
+n_analysts                     0.0077   2.59e-01   0.0010   0.0269      11.7          
+share_answers_by_execs         0.0150   2.78e-02   0.0006   0.0017      12.0       YES
+n_answers                      0.0185   6.64e-03   0.0000   0.0185      12.3       YES
+n_questions                    0.0104   1.27e-01   0.0004   0.0187      13.3          
+words_prepared                 0.0108   1.12e-01   0.0000   0.0201      13.7          
+avg_answer_words               0.0045   5.11e-01   0.0000   0.0283      13.7          
+words_questions                0.0031   6.53e-01   0.0089   0.0206      13.7          
 
 
 --- CROSS-VALIDATION RESULTS (train 2010-2021) ---
 Model                      IC      ±  Rank IC      ±       R²  Dir Acc    Q5-Q1
-GradientBoosting      +0.0212 0.0771  +0.0407 0.0311  -0.0226    0.529  +0.0079
-XGBoost               +0.0169 0.0689  +0.0352 0.0302  -0.0240    0.530  +0.0047
-RandomForest          +0.0260 0.0711  +0.0301 0.0373  -0.0030    0.528  +0.0050
-ExtraTrees            +0.0325 0.0614  +0.0177 0.0577  -0.0005    0.527  +0.0032
-ElasticNet            +0.0142 0.0647  +0.0014 0.0507  -0.0028    0.517  -0.0012
-Ridge                 +0.0011 0.0733  -0.0004 0.0566  -0.0089    0.509  -0.0017
-OLS                   +0.0011 0.0732  -0.0004 0.0566  -0.0089    0.509  -0.0017
-Lasso                 +0.0220 0.0530  -0.0102 0.0478  -0.0010    0.531  -0.0041
+GradientBoosting      +0.0226 0.1005  +0.0376 0.0348  -0.0321    0.524  +0.0092
+RandomForest          +0.0358 0.0897  +0.0326 0.0338  -0.0049    0.527  +0.0070
+XGBoost               +0.0170 0.0959  +0.0302 0.0281  -0.0332    0.520  +0.0078
+ExtraTrees            +0.0303 0.0883  +0.0189 0.0661  -0.0028    0.528  +0.0020
+ElasticNet            +0.0100 0.0832  -0.0073 0.0611  -0.0054    0.518  -0.0042
+Ridge                 -0.0064 0.0872  -0.0085 0.0660  -0.0124    0.502  -0.0024
+OLS                   -0.0064 0.0872  -0.0085 0.0660  -0.0124    0.502  -0.0024
+Lasso                 +0.0207 0.0749  -0.0127 0.0573  -0.0027    0.529  -0.0059
 
 Best model by avg Rank IC: GradientBoosting
 
 
 --- TEST RESULTS 2022-2024 (GradientBoosting) ---
-  ic                       : +0.0115
-  rank_ic                  : +0.0417
-  r2                       : -0.0479
-  rmse                     : +0.0669
-  direction_accuracy       : +0.5163
-  quintile_spread          : +0.0075
+  ic                       : +0.0027
+  rank_ic                  : +0.0465
+  r2                       : -0.0442
+  rmse                     : +0.0670
+  direction_accuracy       : +0.5187
+  quintile_spread          : +0.0067
 
 
 --- PREPROCESSING NOTES ---

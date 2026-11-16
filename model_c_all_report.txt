@@ -1,0 +1,40 @@
+======================================================================
+MODEL C* (ALL FinBERT) REPORT — No Feature Selection
+Generated: 2026-11-16 13:43
+Target: car_2_20
+Train: 2010–2021 | Test: 2022–2024
+Features (25): dispersion, vol_pre, size, prior_calls_with_target, mom, car_0_1, bm, sue_price, sue, words_answers, share_answers_by_execs, n_answers, fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg, fb_n_sent_prepared, fb_n_sent_answers
+  Controls (12): dispersion, vol_pre, size, prior_calls_with_target, mom, car_0_1, bm, sue_price, sue, words_answers, share_answers_by_execs, n_answers
+  FinBERT (13): fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg, fb_n_sent_prepared, fb_n_sent_answers
+  NO feature selection — all FinBERT features forced
+======================================================================
+
+
+--- CROSS-VALIDATION RESULTS (train 2010-2021) ---
+Model                      IC      ±  Rank IC      ±       R²  Dir Acc    Q5-Q1
+RandomForest          +0.0234 0.0818  +0.0257 0.0294  -0.0042    0.528  +0.0042
+GradientBoosting      +0.0037 0.0933  +0.0204 0.0215  -0.0354    0.522  +0.0029
+ExtraTrees            +0.0295 0.0829  +0.0123 0.0651  -0.0019    0.531  +0.0013
+Ridge                 -0.0056 0.0839  -0.0045 0.0647  -0.0126    0.505  -0.0030
+OLS                   -0.0056 0.0838  -0.0045 0.0647  -0.0126    0.505  -0.0030
+ElasticNet            +0.0077 0.0838  -0.0062 0.0623  -0.0054    0.517  -0.0041
+Lasso                 +0.0200 0.0755  -0.0145 0.0610  -0.0027    0.530  -0.0054
+
+Best model by avg Rank IC: RandomForest
+
+
+--- TEST RESULTS 2022-2024 (RandomForest) ---
+  ic                       : +0.0204
+  rank_ic                  : +0.0318
+  r2                       : -0.0064
+  rmse                     : +0.0657
+  direction_accuracy       : +0.5012
+  quintile_spread          : +0.0045
+
+
+--- NOTES ---
+- Same preprocessing as Model A/B: winsorize 1%/99%, log1p, median impute, StandardScaler
+- FinBERT features from ProsusAI/finbert sentence-level scoring
+- All 13 FinBERT features forced (no selection)
+- Time-series expanding window CV on train (2010-2021)
+- Test (2022-2024) evaluated once after model selection
