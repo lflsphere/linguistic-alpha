@@ -1,0 +1,69 @@
+{
+  "model": "Model A",
+  "option": "Option 1 (S&P 500 bench)",
+  "best_algo": "ElasticNet",
+  "selected_features": [
+    "vol_pre",
+    "car_0_1",
+    "mom",
+    "bm",
+    "dispersion",
+    "avg_answer_words",
+    "size",
+    "prior_calls_with_target",
+    "words_prepared"
+  ],
+  "all_test_results": {
+    "Ridge": {
+      "ic": 0.057112,
+      "rank_ic": 0.015828,
+      "r2": 0.002521,
+      "rmse": 0.068432,
+      "direction_accuracy": 0.539708,
+      "quintile_spread": 0.015944
+    },
+    "ElasticNet": {
+      "ic": 0.09077,
+      "rank_ic": 0.045059,
+      "r2": 0.005467,
+      "rmse": 0.068331,
+      "direction_accuracy": 0.547812,
+      "quintile_spread": 0.019165
+    },
+    "RandomForest": {
+      "ic": -0.040176,
+      "rank_ic": -0.063444,
+      "r2": -0.012269,
+      "rmse": 0.068938,
+      "direction_accuracy": 0.546191,
+      "quintile_spread": -0.006929
+    },
+    "GradientBoosting": {
+      "ic": -0.099665,
+      "rank_ic": -0.055087,
+      "r2": -0.08319,
+      "rmse": 0.071312,
+      "direction_accuracy": 0.513776,
+      "quintile_spread": -0.01288
+    },
+    "XGBoost": {
+      "ic": -0.062711,
+      "rank_ic": -0.04721,
+      "r2": -0.060947,
+      "rmse": 0.070576,
+      "direction_accuracy": 0.518639,
+      "quintile_spread": -0.003238
+    }
+  },
+  "test": {
+    "ic": 0.09077,
+    "rank_ic": 0.045059,
+    "r2": 0.005467,
+    "rmse": 0.068331,
+    "direction_accuracy": 0.547812,
+    "quintile_spread": 0.019165
+  },
+  "train_size": 2479,
+  "test_size": 617,
+  "n_companies": 106
+}

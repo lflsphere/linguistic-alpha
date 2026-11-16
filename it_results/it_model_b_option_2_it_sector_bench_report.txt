@@ -1,0 +1,48 @@
+======================================================================
+Model B — Option 2 (IT sector bench) — IT Sector Only
+Generated: 2026-11-16 23:07
+Target: car_2_20
+Train: 2010–2021 (2,479 calls) | Test: 2022–2024 (617 calls)
+Companies: 106
+Selected features (13): prior_calls_with_target, vol_pre, tone_prepared_chg, avg_answer_words, size, dispersion, car_0_1, hedging_answers, uncertainty_answers, n_questions, tone_gap, mom, n_answers
+======================================================================
+
+--- FEATURE SELECTION (on train) ---
+Feature                      |ρ|          p       MI       RF   AvgRk   Type  Sel
+prior_calls_with_target   0.0477   1.75e-02   0.0092   0.0420     4.7   ctrl  YES
+vol_pre                   0.0173   3.88e-01   0.0417   0.0802     5.0   ctrl  YES
+tone_prepared_chg         0.0247   2.20e-01   0.0121   0.0409     7.3   LING  YES
+avg_answer_words          0.0447   2.61e-02   0.0003   0.0390     8.7   ctrl  YES
+size                      0.0368   6.71e-02   0.0000   0.0765     9.5   ctrl  YES
+dispersion                0.0026   8.95e-01   0.0213   0.0659     9.7   ctrl  YES
+car_0_1                   0.0424   3.48e-02   0.0000   0.0564     9.8   ctrl  YES
+uncertainty_answers       0.0239   2.35e-01   0.0035   0.0330    10.5   LING  YES
+hedging_answers           0.0239   2.35e-01   0.0033   0.0345    10.5   LING  YES
+n_questions               0.0346   8.48e-02   0.0021   0.0288    11.3   ctrl  YES
+tone_gap                  0.0344   8.68e-02   0.0145   0.0225    11.3   LING  YES
+mom                       0.0055   7.83e-01   0.0017   0.0547    13.0   ctrl  YES
+n_answers                 0.0410   4.13e-02   0.0000   0.0309    13.2   ctrl  YES
+bm                        0.0039   8.45e-01   0.0001   0.0657    13.3   ctrl     
+words_questions           0.0117   5.62e-01   0.0019   0.0293    14.3   ctrl     
+words_answers             0.0004   9.84e-01   0.0079   0.0312    15.3   ctrl     
+hedging_answers_chg       0.0064   7.50e-01   0.0044   0.0232    16.3   LING     
+hedging_prepared          0.0025   9.02e-01   0.0055   0.0267    16.7   LING     
+sue_price                 0.0037   8.55e-01   0.0000   0.0474    16.8   ctrl     
+surprise_pct              0.0135   5.03e-01   0.0000   0.0306    16.8   ctrl     
+words_prepared            0.0195   3.33e-01   0.0000   0.0261    17.5   ctrl     
+tone_answers              0.0252   2.10e-01   0.0000   0.0201    18.5   LING     
+tone_prepared             0.0102   6.12e-01   0.0000   0.0243    19.5   LING     
+sue                       0.0084   6.75e-01   0.0000   0.0229    20.5   ctrl     
+tone_answers_chg          0.0030   8.81e-01   0.0000   0.0256    21.5   LING     
+share_answers_by_execs    0.0080   6.92e-01   0.0000   0.0005    22.2   ctrl     
+n_analysts                0.0015   9.41e-01   0.0000   0.0210    24.2   ctrl     
+
+--- TEST RESULTS (all algos) ---
+Algo                       IC   Rank IC       R²  Dir Acc    Q5-Q1
+Ridge                 +0.0360   +0.0248  -0.0023    0.546  +0.0059
+ElasticNet            +0.0405   +0.0240  +0.0000    0.553  +0.0048
+XGBoost               -0.0715   -0.0295  -0.0513    0.556  -0.0159
+RandomForest          -0.0246   -0.0321  -0.0080    0.558  +0.0000
+GradientBoosting      -0.0752   -0.0344  -0.0669    0.546  -0.0142
+
+Best: Ridge

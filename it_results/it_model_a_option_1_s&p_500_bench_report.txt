@@ -1,0 +1,39 @@
+======================================================================
+Model A — Option 1 (S&P 500 bench) — IT Sector Only
+Generated: 2026-11-16 23:07
+Target: car_2_20
+Train: 2010–2021 (2,479 calls) | Test: 2022–2024 (617 calls)
+Companies: 106
+Selected features (9): vol_pre, car_0_1, mom, bm, dispersion, avg_answer_words, size, prior_calls_with_target, words_prepared
+======================================================================
+
+--- FEATURE SELECTION (on train) ---
+Feature                      |ρ|          p       MI       RF   AvgRk   Type  Sel
+vol_pre                   0.0239   2.34e-01   0.0670   0.1353     2.3   ctrl  YES
+car_0_1                   0.0441   2.79e-02   0.0122   0.0742     3.7   ctrl  YES
+mom                       0.0257   2.00e-01   0.0096   0.0895     4.3   ctrl  YES
+bm                        0.0143   4.78e-01   0.0157   0.0798     5.7   ctrl  YES
+dispersion                0.0183   3.64e-01   0.0108   0.0769     6.0   ctrl  YES
+avg_answer_words          0.0173   3.90e-01   0.0210   0.0490     6.7   ctrl  YES
+size                      0.0209   2.98e-01   0.0079   0.0727     7.0   ctrl  YES
+prior_calls_with_target   0.0199   3.23e-01   0.0155   0.0481     7.0   ctrl  YES
+words_prepared            0.0268   1.82e-01   0.0082   0.0474     7.3   ctrl  YES
+share_answers_by_execs    0.0305   1.29e-01   0.0004   0.0032    11.3   ctrl     
+surprise_pct              0.0148   4.61e-01   0.0000   0.0574    11.5   ctrl     
+n_answers                 0.0122   5.43e-01   0.0047   0.0306    12.0   ctrl     
+sue_price                 0.0043   8.29e-01   0.0027   0.0474    13.0   ctrl     
+words_questions           0.0021   9.18e-01   0.0000   0.0596    13.8   ctrl     
+n_questions               0.0039   8.47e-01   0.0045   0.0300    14.0   ctrl     
+words_answers             0.0073   7.16e-01   0.0000   0.0458    14.2   ctrl     
+n_analysts                0.0068   7.33e-01   0.0010   0.0268    14.3   ctrl     
+sue                       0.0027   8.93e-01   0.0000   0.0264    16.8   ctrl     
+
+--- TEST RESULTS (all algos) ---
+Algo                       IC   Rank IC       R²  Dir Acc    Q5-Q1
+ElasticNet            +0.0908   +0.0451  +0.0055    0.548  +0.0192
+Ridge                 +0.0571   +0.0158  +0.0025    0.540  +0.0159
+XGBoost               -0.0627   -0.0472  -0.0609    0.519  -0.0032
+GradientBoosting      -0.0997   -0.0551  -0.0832    0.514  -0.0129
+RandomForest          -0.0402   -0.0634  -0.0123    0.546  -0.0069
+
+Best: ElasticNet
