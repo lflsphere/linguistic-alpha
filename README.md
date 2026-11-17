@@ -32,14 +32,14 @@ transcripts, and produces a single modeling table — one row per earnings call.
 
 All models use GradientBoosting (best by Rank IC). Train 2010–2021 (expanding-window CV), test 2022–2024.
 
-| | Model A (controls only) | Model B (selected) | Model B* (all forced) | Model C (FinBERT selected) | Model C* (all FinBERT forced) |
-|---|---|---|---|---|---|
-| **Features** | 12 controls | 11 controls + 2 linguistic | 11 controls + 9 linguistic | 12 controls + 0 FinBERT | 12 controls + 13 FinBERT |
-| **CV Rank IC** | **+0.038** | +0.033 | +0.024 | **+0.038** | +0.026 |
-| **Test Rank IC** | **+0.047** | +0.038 | +0.043 | **+0.047** | +0.032 |
-| **Test Q5−Q1 spread** | **+0.67%** | +0.61% | +0.78% | **+0.67%** | +0.45% |
+| | Model A (controls only) | Model B (rank filter) | Model B** (forward sel.) | Model B* (all forced) | Model C (FinBERT selected) | Model C* (all FinBERT forced) |
+|---|---|---|---|---|---|---|
+| **Features** | 12 controls | 11 ctrl + 2 ling | 12 ctrl + 0 ling | 11 ctrl + 9 ling | 12 ctrl + 0 FinBERT | 12 ctrl + 13 FinBERT |
+| **CV Rank IC** | **+0.038** | +0.033 | **+0.038** | +0.024 | **+0.038** | +0.026 |
+| **Test Rank IC** | **+0.047** | +0.038 | **+0.047** | +0.043 | **+0.047** | +0.032 |
+| **Test Q5−Q1 spread** | **+0.67%** | +0.61% | **+0.67%** | +0.78% | **+0.67%** | +0.45% |
 
-**Finding:** Neither LM dictionary features (Model B) nor FinBERT contextual sentiment (Model C) improve CV prediction — Model A (no linguistics) leads on CV Rank IC. Forward selection added zero FinBERT features; forcing all 13 (Model C*) degraded performance. See [full comparison](#model-comparison-all-variants).
+**Finding:** Neither LM dictionary features (Model B) nor FinBERT contextual sentiment (Model C) improve prediction — Model A (no linguistics) leads on CV Rank IC. Two feature selection methods were tried for LM features: rank-based filtering (Model B, selected 2 linguistic) and forward selection (Model B**, selected 0 linguistic). Both confirm linguistic features don't help on the full S&P 500. Forward selection added zero FinBERT features (Model C) as well; forcing all features (B*, C*) degraded performance. See [full comparison](#model-comparison-all-variants).
 
 ### Output files
 
@@ -63,6 +63,9 @@ All models use GradientBoosting (best by Rank IC). Train 2010–2021 (expanding-
 | [`model_c_results.json`](model_c_results.json) | Machine-readable Model C results |
 | [`model_c_all_report.txt`](model_c_all_report.txt) | Model C* report: all 13 FinBERT features forced |
 | [`model_c_all_results.json`](model_c_all_results.json) | Machine-readable Model C* results |
+| [`model_b_forward.py`](model_b_forward.py) | Model B** script: forward selection of LM features over Model A controls |
+| [`model_b_forward_report.txt`](model_b_forward_report.txt) | Model B** report: forward selection log, test results |
+| [`model_b_forward_results.json`](model_b_forward_results.json) | Machine-readable Model B** results |
 | [`sp500_pipeline.py`](sp500_pipeline.py) | Main pipeline: PULL → PANEL → TARGETS → TEXT → FINAL |
 
 ### Column reference ([`model_table.csv`](model_table.csv))
@@ -464,6 +467,33 @@ All 20 features (11 controls + 9 linguistic) forced into every model to test whe
 | Ridge / OLS | −0.012 | −0.013 | 0.502 | −0.33% |
 | Lasso | +0.018 | −0.014 | 0.529 | −0.59% |
 
+### Model B** — Forward Selection (same method as IT sector)
+
+Script: [`model_b_forward.py`](model_b_forward.py) | Report: [`model_b_forward_report.txt`](model_b_forward_report.txt) | JSON: [`model_b_forward_results.json`](model_b_forward_results.json)
+
+The rank-based filter (Model B) evaluates features in isolation. Forward selection tests each linguistic feature **in context** — it locks Model A's 12 controls and greedily adds linguistic features one at a time, keeping only those that improve CV Rank IC. This is the method that worked for the IT sector subsample.
+
+**CV-based forward selection:** No linguistic feature improved CV Rank IC over Model A's baseline (+0.038). All 9 candidates were tested; none exceeded the baseline.
+
+| Step | Best candidate | CV Rank IC | Δ vs baseline |
+|------|---------------|-----------|--------------|
+| 1 | (all 9 tested) | ≤ +0.0376 | ≤ 0.000 |
+
+Forward selection stopped at step 1 — no feature added.
+
+**Test-based forward selection (for comparison only):** When selecting on test Rank IC instead of CV (not proper methodology, shown for transparency), `hedging_prepared` was added (test Rank IC +0.056 vs +0.047). However, the CV-based method did not confirm this — suggesting `hedging_prepared` overfits to the test period.
+
+**Final test results (Model A features, no linguistic added):**
+
+| Algorithm | Test Rank IC | Test Q5−Q1 | IC |
+|-----------|-------------|-----------|-----|
+| XGBoost | +0.048 | +0.95% | +0.023 |
+| GradientBoosting | +0.047 | +0.67% | +0.003 |
+| Ridge | +0.043 | +0.56% | +0.036 |
+| ElasticNet | +0.028 | +0.21% | +0.027 |
+
+**Conclusion:** Forward selection confirms the rank-based filter result — linguistic features do not add value on the full S&P 500. The same method adds 2–3 linguistic features on the IT sector subsample (see `it-sector-analysis` branch), suggesting the signal is sector-specific rather than absent.
+
 ### Model C — FinBERT sentiment (forward selection over Model A controls)
 
 Script: [`model_c_finbert.py`](model_c_finbert.py) | Report: [`model_c_report.txt`](model_c_report.txt) | JSON: [`model_c_results.json`](model_c_results.json)
@@ -501,25 +531,25 @@ All models use their best algorithm by CV Rank IC. Train 2010–2021 (expanding-
 
 **Cross-validation** (time-series expanding window, train 2010–2021):
 
-| Metric | Model A (12 ctrl) | Model B (13 sel.) | Model B* (20 forced) | Model C (12 ctrl) | Model C* (25 forced) |
-|--------|-------------------|-------------------|----------------------|-------------------|----------------------|
-| **IC** | **+0.023** | +0.017 | +0.012 | **+0.023** | +0.023 |
-| **Rank IC** | **+0.038** | +0.033 | +0.024 | **+0.038** | +0.026 |
-| **Dir Accuracy** | 0.524 | **0.525** | 0.522 | 0.524 | **0.528** |
-| **Q5-Q1 Spread** | **+0.92%** | +0.73% | +0.62% | **+0.92%** | +0.42% |
-| **Best Algo** | GBM | GBM | GBM | GBM | RandomForest |
+| Metric | Model A (12 ctrl) | Model B (13 sel.) | Model B** (12 fwd-sel) | Model B* (20 forced) | Model C (12 ctrl) | Model C* (25 forced) |
+|--------|-------------------|-------------------|------------------------|----------------------|-------------------|----------------------|
+| **IC** | **+0.023** | +0.017 | **+0.023** | +0.012 | **+0.023** | +0.023 |
+| **Rank IC** | **+0.038** | +0.033 | **+0.038** | +0.024 | **+0.038** | +0.026 |
+| **Dir Accuracy** | 0.524 | **0.525** | 0.524 | 0.522 | 0.524 | **0.528** |
+| **Q5-Q1 Spread** | **+0.92%** | +0.73% | **+0.92%** | +0.62% | **+0.92%** | +0.42% |
+| **Best Algo** | GBM | GBM | GBM | GBM | GBM | RandomForest |
 
 **Test** (2022–2024, one-time evaluation):
 
-| Metric | Model A | Model B (sel.) | Model B* (forced) | Model C | Model C* (forced) |
-|--------|---------|----------------|--------------------|---------|--------------------|
-| **IC** | +0.003 | −0.013 | −0.003 | +0.003 | +0.020 |
-| **Rank IC** | **+0.047** | +0.038 | +0.043 | **+0.047** | +0.032 |
-| **R²** | −0.044 | −0.050 | −0.044 | −0.044 | −0.006 |
-| **Dir Accuracy** | **0.519** | 0.514 | 0.514 | **0.519** | 0.501 |
-| **Q5-Q1 Spread** | +0.67% | +0.61% | **+0.78%** | +0.67% | +0.45% |
+| Metric | Model A | Model B (sel.) | Model B** (fwd-sel) | Model B* (forced) | Model C | Model C* (forced) |
+|--------|---------|----------------|---------------------|--------------------|---------|--------------------|
+| **IC** | +0.003 | −0.013 | +0.003 | −0.003 | +0.003 | +0.020 |
+| **Rank IC** | **+0.047** | +0.038 | **+0.047** | +0.043 | **+0.047** | +0.032 |
+| **R²** | −0.044 | −0.050 | −0.044 | −0.044 | −0.044 | −0.006 |
+| **Dir Accuracy** | **0.519** | 0.514 | **0.519** | 0.514 | **0.519** | 0.501 |
+| **Q5-Q1 Spread** | +0.67% | +0.61% | +0.67% | **+0.78%** | +0.67% | +0.45% |
 
-**Conclusion:** Neither LM dictionary features (Model B) nor FinBERT contextual sentiment (Model C) improve CV prediction of post-earnings drift CAR[+2,+20]. Model A leads on CV Rank IC (+0.038) across all variants. Forward selection added zero FinBERT features — the contextual embeddings carry no incremental signal once controls are included. Forcing all FinBERT features (C*) actively degrades performance (CV Rank IC +0.026, test +0.032). The market appears to fully price earnings-call sentiment by the time standard controls (volatility, size, momentum, SUE) are accounted for.
+**Conclusion:** Neither LM dictionary features (Model B, B**) nor FinBERT contextual sentiment (Model C) improve CV prediction of post-earnings drift CAR[+2,+20] on the full S&P 500. Model A leads on CV Rank IC (+0.038) across all variants. Two feature selection methods confirm LM features don't help: rank-based filtering (Model B, 2 selected but hurt) and forward selection (Model B**, 0 selected). Forward selection also added zero FinBERT features (Model C). Forcing all features (B*, C*) actively degrades performance. However, the same forward selection method **does** improve prediction on the IT sector subsample (see `it-sector-analysis` branch), suggesting linguistic signal is sector-specific rather than absent — cross-sector pooling dilutes it.
 
 ## Roadmap
 
