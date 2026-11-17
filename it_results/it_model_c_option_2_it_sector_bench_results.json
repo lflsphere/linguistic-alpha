@@ -1,0 +1,131 @@
+{
+  "option": "Option 2 (IT sector bench)",
+  "model_a_baseline": {
+    "algo": "OLS",
+    "rank_ic": 0.072553
+  },
+  "model_c_forward_selection": {
+    "algo": "OLS",
+    "features": [
+      "vol_pre",
+      "prior_calls_with_target",
+      "avg_answer_words",
+      "size",
+      "dispersion",
+      "words_questions",
+      "car_0_1",
+      "n_questions",
+      "mom",
+      "n_answers",
+      "fb_sent_std_answers",
+      "fb_n_sent_prepared",
+      "fb_sent_gap",
+      "fb_sent_prepared_chg",
+      "fb_n_sent_answers"
+    ],
+    "added_finbert": [
+      "fb_sent_std_answers",
+      "fb_n_sent_prepared",
+      "fb_sent_gap",
+      "fb_sent_prepared_chg",
+      "fb_n_sent_answers"
+    ],
+    "metrics": {
+      "ic": 0.110758,
+      "rank_ic": 0.092447,
+      "r2": 0.010711,
+      "rmse": 0.070081,
+      "direction_accuracy": 0.578606,
+      "quintile_spread": 0.023677
+    },
+    "selection_log": [
+      {
+        "step": 0,
+        "added": null,
+        "rank_ic": 0.07255250535127938,
+        "improvement": 0.0
+      },
+      {
+        "step": 1,
+        "added": "fb_sent_std_answers",
+        "rank_ic": 0.08030453709784593,
+        "improvement": 0.007752031746566551
+      },
+      {
+        "step": 2,
+        "added": "fb_n_sent_prepared",
+        "rank_ic": 0.08401497370918332,
+        "improvement": 0.003710436611337381
+      },
+      {
+        "step": 3,
+        "added": "fb_sent_gap",
+        "rank_ic": 0.08583808261462585,
+        "improvement": 0.0018231089054425303
+      },
+      {
+        "step": 4,
+        "added": "fb_sent_prepared_chg",
+        "rank_ic": 0.09107538889956583,
+        "improvement": 0.005237306284939985
+      },
+      {
+        "step": 5,
+        "added": "fb_n_sent_answers",
+        "rank_ic": 0.09244664165496812,
+        "improvement": 0.0013712527554022858
+      }
+    ]
+  },
+  "model_c_star_all_forced": {
+    "algo": "OLS",
+    "features": [
+      "vol_pre",
+      "prior_calls_with_target",
+      "avg_answer_words",
+      "size",
+      "dispersion",
+      "words_questions",
+      "car_0_1",
+      "n_questions",
+      "mom",
+      "n_answers",
+      "fb_sent_prepared",
+      "fb_sent_answers",
+      "fb_pos_pct_prepared",
+      "fb_neg_pct_prepared",
+      "fb_pos_pct_answers",
+      "fb_neg_pct_answers",
+      "fb_sent_std_prepared",
+      "fb_sent_std_answers",
+      "fb_sent_gap",
+      "fb_sent_prepared_chg",
+      "fb_sent_answers_chg",
+      "fb_n_sent_prepared",
+      "fb_n_sent_answers"
+    ],
+    "added_finbert": [
+      "fb_sent_prepared",
+      "fb_sent_answers",
+      "fb_pos_pct_prepared",
+      "fb_neg_pct_prepared",
+      "fb_pos_pct_answers",
+      "fb_neg_pct_answers",
+      "fb_sent_std_prepared",
+      "fb_sent_std_answers",
+      "fb_sent_gap",
+      "fb_sent_prepared_chg",
+      "fb_sent_answers_chg",
+      "fb_n_sent_prepared",
+      "fb_n_sent_answers"
+    ],
+    "metrics": {
+      "ic": 0.091911,
+      "rank_ic": 0.072343,
+      "r2": 0.008087,
+      "rmse": 0.070174,
+      "direction_accuracy": 0.557536,
+      "quintile_spread": 0.022279
+    }
+  }
+}

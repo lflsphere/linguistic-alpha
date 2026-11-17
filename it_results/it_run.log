@@ -1,0 +1,241 @@
+=== IT Sector Analysis Pipeline ===
+Mon Nov 16 23:07:24 UTC 2026
+From https://github.com/lflsphere/linguistic-alpha
+ * branch            it-sector-analysis -> FETCH_HEAD
+Already up to date.
+
+=== Step 1: Extract IT sector datasets ===
+23:07:26 loading model_table.parquet ...
+23:07:26 full dataset: 29,698 rows, 770 companies
+23:07:26 sectors: {'Industrials': 4149, 'Financials': 4136, 'Consumer Discretionary': 3711, 'Information Technology': 3561, 'Health Care': 3551, 'Consumer Staples': 2468, 'Energy': 1964, 'Utilities': 1752, 'Materials': 1611, 'Real Estate': 1524, 'Communication Services': 1271}
+23:07:26 IT sector: 3,561 rows, 106 companies
+23:07:26 saved Option 1 (market-benchmarked CARs, IT only): /home/bhuvighosh3/earnings_it/model_table_opt1.parquet
+23:07:26 loading raw CRSP daily returns ...
+23:07:27 CRSP daily: 2,676,569 rows
+23:07:27 IT gvkeys: 110
+23:07:28 IT permnos (ever in S&P 500): 111
+23:07:28 IT sector VW daily returns: 4,026 days
+23:07:28   mean daily return: 0.001070
+23:07:28   annualized return: 0.2760
+23:07:28 IT event panel: 3,561 calls
+23:07:28   car_0_1: 3,105 valid
+23:07:28   car_2_5: 3,105 valid
+23:07:28   car_2_20: 3,096 valid
+23:07:28   car_2_60: 3,045 valid
+23:07:28 saved Option 2 (IT-benchmarked CARs): /home/bhuvighosh3/earnings_it/model_table_opt2.parquet
+23:07:28 
+Option 1 (market bench):
+23:07:28   calls: 3,561, companies: 106
+23:07:28   train (<=2021): 2,479
+23:07:28   test  (>2021):  1,082
+23:07:28   CAR[+2,+20] mean=0.0072, std=0.0656, median=0.0071
+23:07:28 
+Option 2 (IT bench):
+23:07:28   calls: 3,561, companies: 106
+23:07:28   train (<=2021): 2,479
+23:07:28   test  (>2021):  1,082
+23:07:28   CAR[+2,+20] mean=-0.0033, std=0.0663, median=-0.0040
+23:07:28 
+done.
+
+=== Step 2: Run Models A & B ===
+23:07:31 
+======================================================================
+23:07:31 Model A — Option 1 (S&P 500 bench)
+23:07:31 ======================================================================
+23:07:31 train: 2,479 (2010-01-13 to 2021-12-20)
+23:07:31 test:  617 (2022-01-25 to 2024-11-26)
+23:07:31 candidate features (18): sue, sue_price, surprise_pct, size, bm, mom, vol_pre, n_analysts, dispersion, car_0_1, n_questions, n_answers, words_prepared, words_answers, words_questions, avg_answer_words, share_answers_by_execs, prior_calls_with_target
+23:07:32 Feature                    |Spearman|    p-value       MI   RF imp  Avg rank
+23:07:32   vol_pre                       0.0239     2.34e-01   0.0670   0.1353       2.3
+23:07:32   car_0_1                       0.0441     2.79e-02   0.0122   0.0742       3.7
+23:07:32   mom                           0.0257     2.00e-01   0.0096   0.0895       4.3
+23:07:32   bm                            0.0143     4.78e-01   0.0157   0.0798       5.7
+23:07:32   dispersion                    0.0183     3.64e-01   0.0108   0.0769       6.0
+23:07:32   avg_answer_words              0.0173     3.90e-01   0.0210   0.0490       6.7
+23:07:32   size                          0.0209     2.98e-01   0.0079   0.0727       7.0
+23:07:32   prior_calls_with_target       0.0199     3.23e-01   0.0155   0.0481       7.0
+23:07:32   words_prepared                0.0268     1.82e-01   0.0082   0.0474       7.3
+23:07:32   share_answers_by_execs        0.0305     1.29e-01   0.0004   0.0032      11.3
+23:07:32   surprise_pct                  0.0148     4.61e-01   0.0000   0.0574      11.5
+23:07:32   n_answers                     0.0122     5.43e-01   0.0047   0.0306      12.0
+23:07:32   sue_price                     0.0043     8.29e-01   0.0027   0.0474      13.0
+23:07:32   words_questions               0.0021     9.18e-01   0.0000   0.0596      13.8
+23:07:32   n_questions                   0.0039     8.47e-01   0.0045   0.0300      14.0
+23:07:32   words_answers                 0.0073     7.16e-01   0.0000   0.0458      14.2
+23:07:32   n_analysts                    0.0068     7.33e-01   0.0010   0.0268      14.3
+23:07:32   sue                           0.0027     8.93e-01   0.0000   0.0264      16.8
+23:07:32 
+Selected 9 features: vol_pre, car_0_1, mom, bm, dispersion, avg_answer_words, size, prior_calls_with_target, words_prepared
+23:07:32 
+--- TEST RESULTS (train 2010-2021 → test 2022-2024) ---
+23:07:32 Algo                       IC   Rank IC       R²  Dir Acc    Q5-Q1
+23:07:32   Ridge                 +0.0571   +0.0158  +0.0025    0.540  +0.0159
+23:07:32   ElasticNet            +0.0908   +0.0451  +0.0055    0.548  +0.0192
+23:07:33   RandomForest          -0.0402   -0.0634  -0.0123    0.546  -0.0069
+23:07:34   GradientBoosting      -0.0997   -0.0551  -0.0832    0.514  -0.0129
+23:07:34   XGBoost               -0.0627   -0.0472  -0.0609    0.519  -0.0032
+23:07:34 
+>>> Best: ElasticNet (Rank IC=+0.0451, Q5-Q1=+0.0192)
+23:07:34 report: /home/bhuvighosh3/earnings_it/it_model_a_option_1_s&p_500_bench_report.txt
+23:07:34 
+======================================================================
+23:07:34 Model B — Option 1 (S&P 500 bench)
+23:07:34 ======================================================================
+23:07:34 train: 2,479 (2010-01-13 to 2021-12-20)
+23:07:34 test:  617 (2022-01-25 to 2024-11-26)
+23:07:34 candidate features (27): sue, sue_price, surprise_pct, size, bm, mom, vol_pre, n_analysts, dispersion, car_0_1, n_questions, n_answers, words_prepared, words_answers, words_questions, avg_answer_words, share_answers_by_execs, prior_calls_with_target, tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
+23:07:35 Feature                    |Spearman|    p-value       MI   RF imp  Avg rank
+23:07:35   car_0_1                       0.0441     2.79e-02   0.0121   0.0656       3.3
+23:07:35   vol_pre                       0.0239     2.34e-01   0.0672   0.0970       4.0
+23:07:35   mom                           0.0257     2.00e-01   0.0095   0.0693       6.3
+23:07:35   bm                            0.0143     4.78e-01   0.0157   0.0575       8.0
+23:07:35   prior_calls_with_target       0.0199     3.23e-01   0.0163   0.0392       8.0
+23:07:35   dispersion                    0.0183     3.64e-01   0.0111   0.0525       8.7
+23:07:35   size                          0.0209     2.98e-01   0.0080   0.0470       9.0
+23:07:35   uncertainty_answers           0.0296     1.41e-01   0.0039   0.0375      10.5
+23:07:35   avg_answer_words              0.0173     3.90e-01   0.0186   0.0310      10.7
+23:07:35   hedging_answers               0.0296     1.41e-01   0.0040   0.0316      11.5
+23:07:35   tone_prepared_chg             0.0106     5.97e-01   0.0112   0.0400      11.7
+23:07:35   tone_answers                  0.0334     9.61e-02   0.0064   0.0243      12.0
+23:07:35   tone_gap                      0.0458     2.25e-02   0.0000   0.0336      13.3
+23:07:35   hedging_answers_chg           0.0250     2.13e-01   0.0120   0.0210      13.3
+23:07:35   words_prepared                0.0268     1.82e-01   0.0015   0.0303      14.7
+23:07:35   tone_answers_chg              0.0141     4.82e-01   0.0040   0.0286      16.3
+23:07:35   sue_price                     0.0043     8.29e-01   0.0024   0.0384      17.3
+23:07:35   share_answers_by_execs        0.0305     1.29e-01   0.0001   0.0012      17.7
+23:07:35   words_answers                 0.0073     7.16e-01   0.0000   0.0410      17.7
+23:07:35   surprise_pct                  0.0148     4.61e-01   0.0000   0.0362      17.7
+23:07:35   n_answers                     0.0122     5.43e-01   0.0064   0.0212      18.0
+23:07:35   tone_prepared                 0.0133     5.08e-01   0.0026   0.0275      18.7
+23:07:35   hedging_prepared              0.0021     9.17e-01   0.0032   0.0297      20.0
+23:07:35   n_questions                   0.0039     8.47e-01   0.0030   0.0226      21.0
+23:07:35   words_questions               0.0021     9.18e-01   0.0000   0.0368      21.3
+23:07:35   sue                           0.0027     8.93e-01   0.0003   0.0218      23.0
+23:07:35   n_analysts                    0.0068     7.33e-01   0.0000   0.0176      24.3
+23:07:35 
+Selected 13 features: car_0_1, vol_pre, mom, bm, prior_calls_with_target, dispersion, size, uncertainty_answers, avg_answer_words, hedging_answers, tone_prepared_chg, tone_answers, tone_gap
+23:07:35 
+--- TEST RESULTS (train 2010-2021 → test 2022-2024) ---
+23:07:35 Algo                       IC   Rank IC       R²  Dir Acc    Q5-Q1
+23:07:35   Ridge                 +0.0114   -0.0074  -0.0061    0.525  -0.0011
+23:07:35   ElasticNet            +0.0330   +0.0104  -0.0011    0.538  +0.0015
+23:07:35   RandomForest          -0.0590   -0.0627  -0.0130    0.543  -0.0155
+23:07:36   GradientBoosting      -0.1317   -0.0466  -0.1030    0.506  -0.0081
+23:07:37   XGBoost               -0.1158   -0.0661  -0.0801    0.514  -0.0104
+23:07:37 
+>>> Best: ElasticNet (Rank IC=+0.0104, Q5-Q1=+0.0015)
+23:07:37 report: /home/bhuvighosh3/earnings_it/it_model_b_option_1_s&p_500_bench_report.txt
+23:07:37 
+======================================================================
+23:07:37 Model A — Option 2 (IT sector bench)
+23:07:37 ======================================================================
+23:07:37 train: 2,479 (2010-01-13 to 2021-12-20)
+23:07:37 test:  617 (2022-01-25 to 2024-11-26)
+23:07:37 candidate features (18): sue, sue_price, surprise_pct, size, bm, mom, vol_pre, n_analysts, dispersion, car_0_1, n_questions, n_answers, words_prepared, words_answers, words_questions, avg_answer_words, share_answers_by_execs, prior_calls_with_target
+23:07:37 Feature                    |Spearman|    p-value       MI   RF imp  Avg rank
+23:07:37   vol_pre                       0.0173     3.88e-01   0.0418   0.1003       3.7
+23:07:37   prior_calls_with_target       0.0477     1.75e-02   0.0064   0.0600       4.3
+23:07:37   avg_answer_words              0.0447     2.61e-02   0.0019   0.0524       6.3
+23:07:37   size                          0.0368     6.71e-02   0.0000   0.1019       6.5
+23:07:37   dispersion                    0.0026     8.95e-01   0.0210   0.0845       7.0
+23:07:37   words_questions               0.0117     5.62e-01   0.0089   0.0529       7.3
+23:07:37   car_0_1                       0.0424     3.48e-02   0.0000   0.0708       7.5
+23:07:37   n_questions                   0.0346     8.48e-02   0.0041   0.0418       8.0
+23:07:37   mom                           0.0055     7.83e-01   0.0017   0.0777       8.7
+23:07:37   bm                            0.0039     8.45e-01   0.0000   0.0818      10.5
+23:07:37   n_answers                     0.0410     4.13e-02   0.0000   0.0348      10.8
+23:07:37   surprise_pct                  0.0135     5.03e-01   0.0000   0.0462      11.2
+23:07:37   words_prepared                0.0195     3.33e-01   0.0000   0.0380      11.5
+23:07:37   words_answers                 0.0004     9.84e-01   0.0079   0.0402      11.7
+23:07:37   sue_price                     0.0037     8.55e-01   0.0000   0.0565      12.2
+23:07:37   sue                           0.0084     6.75e-01   0.0000   0.0323      13.5
+23:07:37   share_answers_by_execs        0.0080     6.92e-01   0.0000   0.0010      14.5
+23:07:37   n_analysts                    0.0015     9.41e-01   0.0000   0.0269      15.8
+23:07:37 
+Selected 10 features: vol_pre, prior_calls_with_target, avg_answer_words, size, dispersion, words_questions, car_0_1, n_questions, mom, n_answers
+23:07:37 
+--- TEST RESULTS (train 2010-2021 → test 2022-2024) ---
+23:07:37 Algo                       IC   Rank IC       R²  Dir Acc    Q5-Q1
+23:07:37   Ridge                 +0.1100   +0.0725  +0.0109    0.569  +0.0120
+23:07:37   ElasticNet            +0.1053   +0.0685  +0.0091    0.572  +0.0178
+23:07:38   RandomForest          +0.0329   +0.0033  -0.0008    0.549  +0.0049
+23:07:39   GradientBoosting      -0.0186   -0.0156  -0.0387    0.533  -0.0033
+23:07:39   XGBoost               -0.0180   -0.0138  -0.0331    0.533  -0.0083
+23:07:39 
+>>> Best: Ridge (Rank IC=+0.0725, Q5-Q1=+0.0120)
+23:07:39 report: /home/bhuvighosh3/earnings_it/it_model_a_option_2_it_sector_bench_report.txt
+23:07:39 
+======================================================================
+23:07:39 Model B — Option 2 (IT sector bench)
+23:07:39 ======================================================================
+23:07:39 train: 2,479 (2010-01-13 to 2021-12-20)
+23:07:39 test:  617 (2022-01-25 to 2024-11-26)
+23:07:39 candidate features (27): sue, sue_price, surprise_pct, size, bm, mom, vol_pre, n_analysts, dispersion, car_0_1, n_questions, n_answers, words_prepared, words_answers, words_questions, avg_answer_words, share_answers_by_execs, prior_calls_with_target, tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
+23:07:40 Feature                    |Spearman|    p-value       MI   RF imp  Avg rank
+23:07:40   prior_calls_with_target       0.0477     1.75e-02   0.0092   0.0420       4.7
+23:07:40   vol_pre                       0.0173     3.88e-01   0.0417   0.0802       5.0
+23:07:40   tone_prepared_chg             0.0247     2.20e-01   0.0121   0.0409       7.3
+23:07:40   avg_answer_words              0.0447     2.61e-02   0.0003   0.0390       8.7
+23:07:40   size                          0.0368     6.71e-02   0.0000   0.0765       9.5
+23:07:40   dispersion                    0.0026     8.95e-01   0.0213   0.0659       9.7
+23:07:40   car_0_1                       0.0424     3.48e-02   0.0000   0.0564       9.8
+23:07:40   uncertainty_answers           0.0239     2.35e-01   0.0035   0.0330      10.5
+23:07:40   hedging_answers               0.0239     2.35e-01   0.0033   0.0345      10.5
+23:07:40   n_questions                   0.0346     8.48e-02   0.0021   0.0288      11.3
+23:07:40   tone_gap                      0.0344     8.68e-02   0.0145   0.0225      11.3
+23:07:40   mom                           0.0055     7.83e-01   0.0017   0.0547      13.0
+23:07:40   n_answers                     0.0410     4.13e-02   0.0000   0.0309      13.2
+23:07:40   bm                            0.0039     8.45e-01   0.0001   0.0657      13.3
+23:07:40   words_questions               0.0117     5.62e-01   0.0019   0.0293      14.3
+23:07:40   words_answers                 0.0004     9.84e-01   0.0079   0.0312      15.3
+23:07:40   hedging_answers_chg           0.0064     7.50e-01   0.0044   0.0232      16.3
+23:07:40   hedging_prepared              0.0025     9.02e-01   0.0055   0.0267      16.7
+23:07:40   sue_price                     0.0037     8.55e-01   0.0000   0.0474      16.8
+23:07:40   surprise_pct                  0.0135     5.03e-01   0.0000   0.0306      16.8
+23:07:40   words_prepared                0.0195     3.33e-01   0.0000   0.0261      17.5
+23:07:40   tone_answers                  0.0252     2.10e-01   0.0000   0.0201      18.5
+23:07:40   tone_prepared                 0.0102     6.12e-01   0.0000   0.0243      19.5
+23:07:40   sue                           0.0084     6.75e-01   0.0000   0.0229      20.5
+23:07:40   tone_answers_chg              0.0030     8.81e-01   0.0000   0.0256      21.5
+23:07:40   share_answers_by_execs        0.0080     6.92e-01   0.0000   0.0005      22.2
+23:07:40   n_analysts                    0.0015     9.41e-01   0.0000   0.0210      24.2
+23:07:40 
+Selected 13 features: prior_calls_with_target, vol_pre, tone_prepared_chg, avg_answer_words, size, dispersion, car_0_1, hedging_answers, uncertainty_answers, n_questions, tone_gap, mom, n_answers
+23:07:40 
+--- TEST RESULTS (train 2010-2021 → test 2022-2024) ---
+23:07:40 Algo                       IC   Rank IC       R²  Dir Acc    Q5-Q1
+23:07:40   Ridge                 +0.0360   +0.0248  -0.0023    0.546  +0.0059
+23:07:40   ElasticNet            +0.0405   +0.0240  +0.0000    0.553  +0.0048
+23:07:40   RandomForest          -0.0246   -0.0321  -0.0080    0.558  +0.0000
+23:07:41   GradientBoosting      -0.0752   -0.0344  -0.0669    0.546  -0.0142
+23:07:41   XGBoost               -0.0715   -0.0295  -0.0513    0.556  -0.0159
+23:07:41 
+>>> Best: Ridge (Rank IC=+0.0248, Q5-Q1=+0.0059)
+23:07:41 report: /home/bhuvighosh3/earnings_it/it_model_b_option_2_it_sector_bench_report.txt
+23:07:41 
+======================================================================
+23:07:41 SUMMARY — IT Sector Analysis
+23:07:41 ======================================================================
+23:07:41 Config                                   Best Algo        Test Rank IC  Test Q5-Q1
+23:07:41 A_Option 1 (S&P 500 bench)               ElasticNet            +0.0451     +0.0192
+23:07:41 B_Option 1 (S&P 500 bench)               ElasticNet            +0.0104     +0.0015
+23:07:41 A_Option 2 (IT sector bench)             Ridge                 +0.0725     +0.0120
+23:07:41 B_Option 2 (IT sector bench)             Ridge                 +0.0248     +0.0059
+23:07:41 
+summary: /home/bhuvighosh3/earnings_it/it_summary.json
+
+=== Done ===
+Results in ~/earnings_it/
+-rw-rw-r-- 1 bhuvighosh3 bhuvighosh3   2500 Nov 16 23:07 /home/bhuvighosh3/earnings_it/it_model_a_option_1_s&p_500_bench_report.txt
+-rw-rw-r-- 1 bhuvighosh3 bhuvighosh3   1521 Nov 16 23:07 /home/bhuvighosh3/earnings_it/it_model_a_option_1_s&p_500_bench_results.json
+-rw-rw-r-- 1 bhuvighosh3 bhuvighosh3   2519 Nov 16 23:07 /home/bhuvighosh3/earnings_it/it_model_a_option_2_it_sector_bench_report.txt
+-rw-rw-r-- 1 bhuvighosh3 bhuvighosh3   1543 Nov 16 23:07 /home/bhuvighosh3/earnings_it/it_model_a_option_2_it_sector_bench_results.json
+-rw-rw-r-- 1 bhuvighosh3 bhuvighosh3   3304 Nov 16 23:07 /home/bhuvighosh3/earnings_it/it_model_b_option_1_s&p_500_bench_report.txt
+-rw-rw-r-- 1 bhuvighosh3 bhuvighosh3   1617 Nov 16 23:07 /home/bhuvighosh3/earnings_it/it_model_b_option_1_s&p_500_bench_results.json
+-rw-rw-r-- 1 bhuvighosh3 bhuvighosh3   3307 Nov 16 23:07 /home/bhuvighosh3/earnings_it/it_model_b_option_2_it_sector_bench_report.txt
+-rw-rw-r-- 1 bhuvighosh3 bhuvighosh3   1612 Nov 16 23:07 /home/bhuvighosh3/earnings_it/it_model_b_option_2_it_sector_bench_results.json
+-rw-rw-r-- 1 bhuvighosh3 bhuvighosh3  75741 Nov 16 23:07 /home/bhuvighosh3/earnings_it/it_sector_daily.parquet
+-rw-rw-r-- 1 bhuvighosh3 bhuvighosh3   1609 Nov 16 23:07 /home/bhuvighosh3/earnings_it/it_summary.json
+-rw-rw-r-- 1 bhuvighosh3 bhuvighosh3 892006 Nov 16 23:07 /home/bhuvighosh3/earnings_it/model_table_opt1.parquet
+-rw-rw-r-- 1 bhuvighosh3 bhuvighosh3 906125 Nov 16 23:07 /home/bhuvighosh3/earnings_it/model_table_opt2.parquet

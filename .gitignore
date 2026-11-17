@@ -229,3 +229,9 @@ panel.csv
 data/
 *.parquet
 earnings_*/
+
+# --- IT sector results: allow committed outputs ---
+!it_results/**
+!it_results/*.parquet
+!it_results/*.json
+!it_results/*.txt

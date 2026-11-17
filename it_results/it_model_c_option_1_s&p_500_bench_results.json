@@ -1,0 +1,88 @@
+{
+  "option": "Option 1 (S&P 500 bench)",
+  "model_a_baseline": {
+    "algo": "Lasso",
+    "rank_ic": 0.062126
+  },
+  "model_c_forward_selection": {
+    "algo": "Lasso",
+    "features": [
+      "vol_pre",
+      "car_0_1",
+      "mom",
+      "bm",
+      "dispersion",
+      "avg_answer_words",
+      "size",
+      "prior_calls_with_target",
+      "words_prepared"
+    ],
+    "added_finbert": [],
+    "metrics": {
+      "ic": 0.106251,
+      "rank_ic": 0.062126,
+      "r2": 0.004737,
+      "rmse": 0.068356,
+      "direction_accuracy": 0.551053,
+      "quintile_spread": 0.018616
+    },
+    "selection_log": [
+      {
+        "step": 0,
+        "added": null,
+        "rank_ic": 0.06212619737632997,
+        "improvement": 0.0
+      }
+    ]
+  },
+  "model_c_star_all_forced": {
+    "algo": "Lasso",
+    "features": [
+      "vol_pre",
+      "car_0_1",
+      "mom",
+      "bm",
+      "dispersion",
+      "avg_answer_words",
+      "size",
+      "prior_calls_with_target",
+      "words_prepared",
+      "fb_sent_prepared",
+      "fb_sent_answers",
+      "fb_pos_pct_prepared",
+      "fb_neg_pct_prepared",
+      "fb_pos_pct_answers",
+      "fb_neg_pct_answers",
+      "fb_sent_std_prepared",
+      "fb_sent_std_answers",
+      "fb_sent_gap",
+      "fb_sent_prepared_chg",
+      "fb_sent_answers_chg",
+      "fb_n_sent_prepared",
+      "fb_n_sent_answers"
+    ],
+    "added_finbert": [
+      "fb_sent_prepared",
+      "fb_sent_answers",
+      "fb_pos_pct_prepared",
+      "fb_neg_pct_prepared",
+      "fb_pos_pct_answers",
+      "fb_neg_pct_answers",
+      "fb_sent_std_prepared",
+      "fb_sent_std_answers",
+      "fb_sent_gap",
+      "fb_sent_prepared_chg",
+      "fb_sent_answers_chg",
+      "fb_n_sent_prepared",
+      "fb_n_sent_answers"
+    ],
+    "metrics": {
+      "ic": 0.102445,
+      "rank_ic": 0.061463,
+      "r2": 0.004679,
+      "rmse": 0.068358,
+      "direction_accuracy": 0.547812,
+      "quintile_spread": 0.021668
+    }
+  }
+}

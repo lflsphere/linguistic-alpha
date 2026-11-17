@@ -15,11 +15,11 @@ Data comes from WRDS: Capital IQ transcripts, CRSP, Compustat and I/B/E/S.
 The full S&P 500 analysis found that Loughran-McDonald dictionary features
 did **not** improve CAR[+2,+20] prediction over financial controls:
 
-| Model | Full S&P 500 Test Rank IC | Linguistic features helped? |
-|-------|--------------------------|---------------------------|
-| Model A (controls only) | +0.040 | — |
-| Model B (controls + LM dictionary) | +0.038 | No (−0.002) |
-| Model C (controls + FinBERT) | +0.040 | No (+0.000) |
+| Model | Full S&P 500 Test Rank IC | IT Sector (Opt 2) Rank IC | Linguistic helped? |
+|-------|--------------------------|--------------------------|-------------------|
+| Model A (controls only) | +0.040 | +0.073 | — |
+| Model B (controls + LM dictionary) | +0.038 | +0.078 | S&P 500: No / IT: Yes |
+| Model C (controls + FinBERT) | +0.040 | **+0.092** | S&P 500: No / IT: **Yes** |
 
 **Hypothesis**: cross-sector noise dilutes linguistic signals. Within IT — where
 firms use homogeneous language (cloud metrics, recurring guidance revisions,
@@ -131,11 +131,10 @@ Performed in the main pipeline (`sp500_pipeline.py`, TEXT stage) on Capital IQ t
 - **No sentence structure** — word order doesn't matter
 - **No weighting by position** — a word at the end of the call counts the same as the opening
 
-The alternative (FinBERT, Model C on `gcp-sp500-pipeline` branch) reads full sentences with a
-transformer and classifies each as positive/negative/neutral. But even FinBERT didn't help on
-the full S&P 500. On the IT sector, the simpler LM dictionary features (`tone_answers`,
-`hedging_prepared`, `hedging_answers_chg`) add value via forward selection — likely because
-within a single sector, the same words carry more consistent meaning.
+The alternative (FinBERT, Model C) reads full sentences with a transformer and
+classifies each as positive/negative/neutral. FinBERT didn't help on the full S&P
+500, but on the IT subsample with the sector-specific benchmark (Option 2), FinBERT
+forward selection produces the largest improvement of any model (+0.0199 Rank IC).
 
 ## Feature Candidates
 
@@ -161,6 +160,28 @@ within a single sector, the same words carry more consistent meaning.
 | `n_answers` | Number of answers given |
 | `share_answers_by_execs` | % of answers from executives (vs. IR) |
 | `prior_calls_with_target` | Number of prior calls with this target available |
+
+### FinBERT Features (13 transformer-based features)
+
+Extracted by `it_finbert_features.py` using [ProsusAI/finbert](https://huggingface.co/ProsusAI/finbert),
+a BERT model fine-tuned on financial text. Each sentence is classified as positive,
+negative, or neutral, then aggregated per call.
+
+| Feature | Description |
+|---------|-------------|
+| `fb_sent_prepared` | Net FinBERT sentiment of prepared remarks (positive − negative probability) |
+| `fb_sent_answers` | Net FinBERT sentiment of Q&A answers |
+| `fb_pos_pct_prepared` | % of prepared sentences classified positive |
+| `fb_neg_pct_prepared` | % of prepared sentences classified negative |
+| `fb_pos_pct_answers` | % of answer sentences classified positive |
+| `fb_neg_pct_answers` | % of answer sentences classified negative |
+| `fb_sent_std_prepared` | Std dev of sentence-level sentiment in prepared remarks |
+| `fb_sent_std_answers` | Std dev of sentence-level sentiment in Q&A answers |
+| `fb_sent_gap` | `fb_sent_answers − fb_sent_prepared` (tone shift from script to Q&A) |
+| `fb_sent_prepared_chg` | Change in prepared sentiment vs. rolling mean of prior 4 calls |
+| `fb_sent_answers_chg` | Change in Q&A sentiment vs. rolling mean of prior 4 calls |
+| `fb_n_sent_prepared` | Number of sentences scored in prepared remarks |
+| `fb_n_sent_answers` | Number of sentences scored in Q&A answers |
 
 ### Linguistic Features (9 LM dictionary features)
 
@@ -311,54 +332,150 @@ Test Results:
   Q5−Q1 Spread:       +1.62%
 ```
 
+## Model C — Adding FinBERT Features
+
+Model C uses the same forward selection approach as Model B, but with 13
+FinBERT transformer-based features instead of 9 LM dictionary features.
+FinBERT scores each sentence as positive/negative/neutral using a fine-tuned
+BERT model, capturing context, negation, and sentence structure that
+bag-of-words methods miss.
+
+Additionally, Model C uses the **full model suite** (OLS, Ridge, Lasso,
+ElasticNet, RandomForest, ExtraTrees, GradientBoosting, XGBoost) for both
+candidate evaluation during forward selection and final reporting.
+
+**Model C\* (All FinBERT Forced)** includes all 13 FinBERT features with
+regularization sweeps (Ridge α=5/10/50, ElasticNet α=0.005/0.01/0.05/0.1).
+
+### Option 1 (CAR vs. S&P 500)
+
+```
+Forward Selection: No FinBERT features selected (none improved baseline)
+Model A baseline: Rank IC = +0.0621 (Lasso)
+
+Model C = Model A (no features added)
+  Rank IC:            +0.0621  (Δ = +0.0000 vs Model A)
+
+Model C* (All FinBERT forced):
+  Algorithm:  Lasso
+  Rank IC:            +0.0615  (Δ = −0.0007 vs Model A)
+  IC (Pearson):       +0.1024
+  Direction Accuracy:  0.548
+  Q5−Q1 Spread:       +2.17%
+```
+
+FinBERT adds no value for Option 1. The S&P 500 benchmark leaves too much
+cross-sector noise for sentence-level sentiment to explain. Forcing all 13
+features slightly hurts via overfitting.
+
+### Option 2 (CAR vs. IT sector bench)
+
+```
+Algorithm:  OLS
+Base:       10 Model A controls
+Added:      fb_sent_std_answers, fb_n_sent_prepared, fb_sent_gap,
+            fb_sent_prepared_chg, fb_n_sent_answers  (5 FinBERT features)
+Total:      15 features
+
+Test Results:
+  Rank IC:            +0.0924  (Δ = +0.0199 vs Model A)
+  IC (Pearson):       +0.1108
+  Direction Accuracy:  0.579
+  Q5−Q1 Spread:       +2.37%
+
+Forward Selection Steps:
+  Step 0 (baseline):         Rank IC = +0.0726
+  Step 1 fb_sent_std_answers:  +0.0803  (+0.0078)
+  Step 2 fb_n_sent_prepared:   +0.0840  (+0.0037)
+  Step 3 fb_sent_gap:          +0.0858  (+0.0018)
+  Step 4 fb_sent_prepared_chg: +0.0911  (+0.0052)
+  Step 5 fb_n_sent_answers:    +0.0924  (+0.0014)
+
+Model C* (All FinBERT forced):
+  Algorithm:  OLS
+  Rank IC:            +0.0723  (Δ = −0.0002 vs Model A)
+```
+
+Five FinBERT features survive forward selection, producing the **largest
+improvement of any model** (+0.0199 Rank IC, +27% relative lift). The
+selected features emphasize **volatility and structure** (sentiment
+dispersion, sentence counts, tone shifts) rather than raw sentiment levels.
+Forcing all 13 features erases the gain — parsimony matters.
+
 ## Summary of Results
 
-| | Model A | Model B | Δ | Linguistic features added |
-|---|---------|---------|---|--------------------------|
-| **Option 1** (S&P 500 bench) | +0.045 | **+0.073** | +0.028 | `hedging_prepared`, `tone_answers`, `tone_answers_chg` |
-| **Option 2** (IT sector bench) | +0.073 | **+0.078** | +0.005 | `tone_answers`, `hedging_answers_chg` |
+| | Model A | Model B (LM) | Model C (FinBERT) | Model C* (all forced) |
+|---|---------|-------------|-------------------|----------------------|
+| **Option 1** (S&P 500 bench) | +0.045 | **+0.073** (+0.028) | +0.062 (+0.000) | +0.062 (−0.001) |
+| **Option 2** (IT sector bench) | +0.073 | +0.078 (+0.005) | **+0.092** (+0.020) | +0.072 (−0.000) |
+
+**Best model by benchmark:**
+- **Option 1**: Model B (LM forward selection) — LM dictionary hedging and tone features explain market-relative drift
+- **Option 2**: Model C (FinBERT forward selection) — transformer sentiment structure features explain sector-relative drift
+
+**Features selected by winning models:**
+
+| Model | Option 1 | Option 2 |
+|-------|----------|----------|
+| Model B (LM) | `hedging_prepared`, `tone_answers`, `tone_answers_chg` | `tone_answers`, `hedging_answers_chg` |
+| Model C (FinBERT) | *(none selected)* | `fb_sent_std_answers`, `fb_n_sent_prepared`, `fb_sent_gap`, `fb_sent_prepared_chg`, `fb_n_sent_answers` |
 
 ## Key Findings
 
 ### 1. Linguistic features help in IT — unlike the full S&P 500
 
-Model B beats Model A on both benchmark options. This is the opposite of the full
-S&P 500 result, where linguistic features hurt or had no effect. Within a single
-sector, linguistic differences between firms are more meaningful because the
-baseline language is homogeneous.
+Both Model B (LM dictionary) and Model C (FinBERT) beat Model A on at least one
+benchmark option. This is the opposite of the full S&P 500 result, where
+linguistic features hurt or had no effect. Within a single sector, linguistic
+differences between firms are more meaningful because the baseline language is
+homogeneous.
 
-### 2. Q&A tone (`tone_answers`) is the strongest linguistic signal
+### 2. FinBERT is the strongest model for sector-relative returns (Option 2)
 
-Selected in **both** options. The Q&A section is where analysts push back and
-executives go off-script. In tech specifically, negative or cautious tone during
-Q&A about guidance, pipeline, or cloud metrics is a stronger signal because IT
-stock valuations are more growth-sensitive than other sectors.
+Model C with FinBERT forward selection achieves Rank IC +0.092 — the highest of
+any model on either option. The 5 selected features emphasize **sentiment
+structure** (std dev, sentence counts, tone shifts) rather than raw sentiment
+levels, suggesting that *how variable* and *how much* a CEO says matters more
+than the average tone.
 
-### 3. Hedging features add marginal value
+### 3. LM dictionary wins for market-relative returns (Option 1)
 
-- **Option 1**: `hedging_prepared` — hedging in prepared remarks (management caution on forward guidance)
-- **Option 2**: `hedging_answers_chg` — change in Q&A hedging vs. prior call (increasing caution relative to last quarter)
+Model B with LM features achieves Rank IC +0.073 on Option 1, while FinBERT
+adds nothing. The simpler bag-of-words features (`hedging_prepared`,
+`tone_answers`, `tone_answers_chg`) capture what matters for broader
+market-relative drift. FinBERT's sentence-level nuance doesn't help when
+cross-sector noise dominates.
 
-Tech executives hedging more than usual is informative in a sector where growth
-expectations dominate valuation multiples.
+### 4. The two benchmarks favor different linguistic approaches
 
-### 4. Option 2 (IT benchmark) produces a stronger baseline but smaller linguistic uplift
+| Benchmark | Best linguistic model | Why |
+|-----------|---------------------|-----|
+| S&P 500 (Option 1) | LM dictionary (Model B) | Coarser signal needs coarser features; hedging word counts are robust to noise |
+| IT sector (Option 2) | FinBERT (Model C) | Cleaner firm-specific signal rewards sentence-level nuance and sentiment structure |
 
-- Option 2's Model A is already strong (Rank IC +0.073) because stripping
-  sector-level moves leaves a cleaner firm-specific signal
-- Linguistic features still add value (+0.005), but less room to improve
-- Option 1 shows larger improvement (+0.028) because the noisier market
-  benchmark leaves more variance for linguistic features to explain
+### 5. Forcing all features hurts — parsimony matters
 
-### 5. Linear models dominate on small samples
+Model C* (all 13 FinBERT features forced) performs *worse* than Model A on both
+options. Forward selection's greedy pruning is essential: 5 of 13 features
+carry signal, the other 8 add noise.
 
-Ridge and ElasticNet consistently outperform tree-based models. With ~2,500
-training observations and 10–12 features, GBM/XGBoost/RF overfit despite
-regularization (negative Rank IC on test).
+### 6. Q&A tone (`tone_answers`) is the strongest LM dictionary signal
 
-### 6. Feature selection method matters more than feature set
+Selected in **both** options for Model B. The Q&A section is where analysts push
+back and executives go off-script. In tech specifically, negative or cautious
+tone during Q&A about guidance, pipeline, or cloud metrics is a stronger signal
+because IT stock valuations are more growth-sensitive than other sectors.
 
-The same 9 linguistic features produce opposite results depending on how they're
+### 7. Linear models dominate on small samples
+
+Ridge, OLS, and ElasticNet consistently outperform tree-based models. With
+~2,500 training observations and 10–15 features, GBM/XGBoost/RF overfit despite
+regularization (negative Rank IC on test). This holds across all three models
+(A, B, C).
+
+### 8. Feature selection method matters more than feature set
+
+The same linguistic features produce opposite results depending on how they're
 selected:
 - **Rank-based filter** (pool all features, rank independently): linguistic features hurt
 - **Forward selection** (lock controls, add linguistic conditionally): linguistic features help
@@ -393,32 +510,45 @@ source .venv/bin/activate
 # Step 1: Extract IT subsample and compute sector benchmark
 python3 it_sector_extract.py --folder ~/earnings_sp500
 
-# Step 2: Run Model A baseline + Model B strategies
+# Step 2: Run Model A baseline + Model B strategies (CPU)
 python3 it_model_b.py --folder ~/earnings_it
+
+# Step 3: Extract FinBERT features (requires GPU VM — linguistic-alpha-gpu, asia-east1-a)
+python3 it_finbert_features.py --folder ~/earnings_it --text_folder ~/earnings_sp500/text
+
+# Step 4: Run Model C (FinBERT forward selection + all forced)
+python3 it_model_c_finbert.py --folder ~/earnings_it
 ```
 
-Requires: `numpy`, `pandas`, `scipy`, `scikit-learn` (no GPU needed).
+Requires: `numpy`, `pandas`, `scipy`, `scikit-learn`, `xgboost` (CPU).
+Steps 3–4 also require: `transformers`, `torch` (GPU recommended, ~90 min on T4).
 
 ## Layout
 
 ```
 it_sector_extract.py          IT data extraction + sector benchmark computation
 it_model_b.py                 Model A baseline + 5 Model B strategies
+it_finbert_features.py        FinBERT sentence-level sentiment extraction (GPU)
+it_model_c_finbert.py         Model C (FinBERT forward selection + all forced)
 it_results/
   it_model_a_option_1_*       Model A results — CAR vs S&P 500
   it_model_a_option_2_*       Model A results — CAR vs IT sector index
   it_model_b_option_1_*       Model B results — CAR vs S&P 500
   it_model_b_option_2_*       Model B results — CAR vs IT sector index
-  it_run.log                  Full VM execution log
+  it_model_c_option_1_*       Model C results — CAR vs S&P 500
+  it_model_c_option_2_*       Model C results — CAR vs IT sector index
+  finbert_features.parquet    FinBERT features for 3,561 IT calls (14 columns)
+  it_run.log                  Model A/B VM execution log
+  it_finbert_run.log          FinBERT + Model C GPU execution log
 ```
 
-### Output Data (not committed, on VM at `~/earnings_it/`)
+### Output Data (on VM at `~/earnings_it/`)
 
-| File | Description |
-|------|-------------|
-| `model_table_opt1.parquet` | IT firms only, CAR relative to S&P 500 (3,096 rows) |
-| `model_table_opt2.parquet` | IT firms only, CAR relative to IT sector VW index (3,096 rows) |
-| `it_sector_daily.parquet` | IT sector value-weighted daily returns |
+| File | Committed | Description |
+|------|-----------|-------------|
+| `finbert_features.parquet` | Yes | FinBERT features for 3,561 IT calls (14 columns, 365 KB) |
+| `model_table_opt1.parquet` | No | IT firms, CAR relative to S&P 500 (3,096 rows) |
+| `model_table_opt2.parquet` | No | IT firms, CAR relative to IT sector VW index (3,096 rows) |
+| `it_sector_daily.parquet` | No | IT sector value-weighted daily returns |
 
-Never commit data, credentials or transcript text. The `.gitignore` blocks
-parquet, csv and xlsx files.
+The `.gitignore` allows files in `it_results/` while blocking raw WRDS data.

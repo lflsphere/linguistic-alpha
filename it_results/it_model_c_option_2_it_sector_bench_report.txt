@@ -1,0 +1,55 @@
+======================================================================
+IT Sector — Model C (FinBERT) — Option 2 (IT sector bench)
+Generated: 2026-11-17 18:23
+Train: 2,479 | Test: 617
+FinBERT coverage: 3558/3561 (99.9%)
+Model A baseline: Rank IC=+0.0726 (OLS)
+======================================================================
+
+Model C (FinBERT forward selection)           OLS                  Rank IC=+0.0924 Q5-Q1=+0.0237 Delta=+0.0199
+  FinBERT features: fb_sent_std_answers, fb_n_sent_prepared, fb_sent_gap, fb_sent_prepared_chg, fb_n_sent_answers
+  All algorithms:
+    OLS                       Rank IC=+0.0924  IC=+0.1108  Q5-Q1=+0.0237  Dir Acc=0.579
+    Ridge                     Rank IC=+0.0923  IC=+0.1109  Q5-Q1=+0.0237  Dir Acc=0.579
+    ElasticNet                Rank IC=+0.0766  IC=+0.1071  Q5-Q1=+0.0187  Dir Acc=0.571
+    Lasso                     Rank IC=+0.0700  IC=+0.0984  Q5-Q1=+0.0200  Dir Acc=0.572
+    ExtraTrees                Rank IC=+0.0266  IC=+0.0419  Q5-Q1=+0.0071  Dir Acc=0.564
+    RandomForest              Rank IC=+0.0022  IC=+0.0186  Q5-Q1=+0.0035  Dir Acc=0.538
+    XGBoost                   Rank IC=-0.0208  IC=-0.0487  Q5-Q1=-0.0100  Dir Acc=0.535
+    GradientBoosting          Rank IC=-0.0419  IC=-0.0949  Q5-Q1=-0.0248  Dir Acc=0.525
+
+Model C* (All FinBERT forced)                 OLS                  Rank IC=+0.0723 Q5-Q1=+0.0223 Delta=-0.0002
+  FinBERT features: fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg, fb_n_sent_prepared, fb_n_sent_answers
+  All algorithms:
+    OLS                       Rank IC=+0.0723  IC=+0.0919  Q5-Q1=+0.0223  Dir Acc=0.558
+    ElasticNet                Rank IC=+0.0718  IC=+0.1015  Q5-Q1=+0.0177  Dir Acc=0.577
+    Ridge                     Rank IC=+0.0717  IC=+0.0920  Q5-Q1=+0.0240  Dir Acc=0.559
+    Ridge_a5                  Rank IC=+0.0708  IC=+0.0924  Q5-Q1=+0.0243  Dir Acc=0.562
+    Ridge_a50                 Rank IC=+0.0705  IC=+0.0982  Q5-Q1=+0.0213  Dir Acc=0.566
+    Ridge_a10                 Rank IC=+0.0695  IC=+0.0931  Q5-Q1=+0.0225  Dir Acc=0.561
+    Lasso                     Rank IC=+0.0694  IC=+0.0992  Q5-Q1=+0.0158  Dir Acc=0.567
+    EN_a0.005                 Rank IC=+0.0260  IC=+0.0252  Q5-Q1=+0.0112  Dir Acc=0.566
+    RandomForest              Rank IC=+0.0121  IC=+0.0247  Q5-Q1=+0.0100  Dir Acc=0.556
+    ExtraTrees                Rank IC=+0.0058  IC=+0.0161  Q5-Q1=-0.0017  Dir Acc=0.561
+    XGBoost                   Rank IC=-0.0733  IC=-0.1062  Q5-Q1=-0.0191  Dir Acc=0.512
+    GradientBoosting          Rank IC=-0.0759  IC=-0.1109  Q5-Q1=-0.0186  Dir Acc=0.532
+    EN_a0.01                  Rank IC=+nan  IC=+nan  Q5-Q1=+nan  Dir Acc=0.564
+    EN_a0.05                  Rank IC=+nan  IC=+nan  Q5-Q1=+nan  Dir Acc=0.564
+    EN_a0.1_l0.9              Rank IC=+nan  IC=+nan  Q5-Q1=+nan  Dir Acc=0.564
+
+--- FORWARD SELECTION LOG ---
+ Step Added                               Rank IC      Delta
+    0 (baseline)                          +0.0726    +0.0000
+    1 fb_sent_std_answers                 +0.0803    +0.0078
+    2 fb_n_sent_prepared                  +0.0840    +0.0037
+    3 fb_sent_gap                         +0.0858    +0.0018
+    4 fb_sent_prepared_chg                +0.0911    +0.0052
+    5 fb_n_sent_answers                   +0.0924    +0.0014
+
+Winner: Model C (FinBERT forward selection)
+  Algo: OLS
+  Features (15): vol_pre, prior_calls_with_target, avg_answer_words, size, dispersion, words_questions, car_0_1, n_questions, mom, n_answers, fb_sent_std_answers, fb_n_sent_prepared, fb_sent_gap, fb_sent_prepared_chg, fb_n_sent_answers
+  Rank IC: +0.0924
+  Q5-Q1: +0.0237
+  IC: +0.1108
+  Dir Acc: 0.579
