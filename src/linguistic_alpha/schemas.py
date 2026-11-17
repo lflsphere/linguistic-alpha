@@ -38,7 +38,10 @@ EVENTS = {
     "ibes_ticker": "string",
     "call_ts_utc": "datetime64[ns, UTC]",
     "call_date_et": "datetime64[ns]",
-    "day0": "datetime64[ns]",
+    "release_ts_utc": "datetime64[ns, UTC]",  # I/B/E/S anndats + anntims (New York time)
+    "release_date_et": "datetime64[ns]",
+    "day0": "datetime64[ns]",                 # first session whose close follows the release
+    "call_lag_sessions": "Int64",             # call's session minus Day 0; 0 or 1 in the main sample
 }
 
 TARGETS = {
@@ -57,10 +60,12 @@ CONTROLS = {
     "size": "float64",
     "bm": "float64",
     "mom": "float64",
-    "car_0_1": "float64",
+    "car_m1_1": "float64",       # reaction window [-1, +1] around Day 0 (main control)
+    "car_0_1": "float64",        # reaction window [0, +1] (comparison)
     "vol_pre": "float64",
     "n_analysts": "float64",
     "dispersion": "float64",
+    "version_final": "int64",     # 1 = chosen transcript is Final (Edited or later), 0 = Preliminary
 }
 
 

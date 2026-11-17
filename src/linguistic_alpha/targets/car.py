@@ -1,17 +1,21 @@
 """Cumulative abnormal returns and post-call volatility.
 
-Status: specified, not implemented (waits on crsp_dsf / crsp_dsi / crsp_dsedelist).
+Status: specified, not implemented (inputs: crsp_dsf_v2, crsp_dsp500_v2).
 
 Definitions (project scope §1, §4):
-  AR(i,t)          = R(i,t) - R(bench,t); bench = S&P 500 (crsp.dsi), FF4 for robustness.
+  AR(i,t)          = R(i,t) - R(bench,t); bench = S&P 500 total return, point in time
+                     (crsp_dsp500_v2.vwretd: the index's constituents on each day, dividends
+                     included like dlyret). CRSP VW market and FF4 for robustness only.
+  R(i,t)           = dlyret, which already includes delisting returns (no splice).
   CAR[a,b]         = sum of AR over sessions Day0+a .. Day0+b (offsets via events.timing).
   vol_post_2_20    = std(AR, +2..+20) * sqrt(252)
   vol_ratio_2_20   = vol_post_2_20 / std(AR, -60..-5) * sqrt(252)   (scope definition)
 
 Fixes vs. the legacy notebook (docs/data_audit.md §Targets):
-  * Merge delisting returns: R = (1+ret)(1+dlret)-1 on the delisting date.
-  * Benchmark consistency: ``sprtrn`` is a price return while CRSP ``ret`` includes dividends;
-    use ``vwretd`` or a total-return S&P series, or document the drift (~2%/yr).
+  * Delisting: the legacy file needed R = (1+ret)(1+dlret)-1; CIZ ``dlyret`` already includes
+    it, so splicing ``delret`` again would count it twice.
+  * Benchmark consistency: the legacy notebook used ``sprtrn`` (price only) against a return
+    that includes dividends (AR drifted up ~2%/yr); ``vwretd`` (total return) fixes it.
   * Coverage rule (``targets.min_window_coverage``) is reported per event, not only applied.
 """
 

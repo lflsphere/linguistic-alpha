@@ -1,24 +1,33 @@
-"""Pull raw WRDS tables for every S&P 500 member since 2005 (point-in-time universe).
+"""Pull raw WRDS tables for every S&P 500 member since 2008 (point-in-time universe).
 
 Universe = every PERMNO in ``crspq.msp500list_v2`` whose membership ends on or after
-2005-01-01. Rows are NOT trimmed to membership windows: lookbacks (momentum, pre-event
-volatility) need history outside them. Apply point-in-time membership downstream with
-``crsp_msp500list_v2`` (mbrstartdt <= event date <= mbrenddt).
+START (2008-01-01). Every table is restricted to dates on or after START (team decision,
+2026-11-17): there is no earlier lookback, so history-based features (momentum, prior-quarter
+SUE) are missing for the first events of 2008. Rows are NOT trimmed to membership windows;
+apply point-in-time membership downstream (mbrstartdt <= event date <= mbrenddt).
 
-Tables follow the columns of ``Linguistic_Alpha.ipynb``, with the fixes listed in
-``docs/data_audit.md``:
-  * CRSP from the QUARTERLY CIZ update (schema ``crspq``, through 2026-06-30) rather than
-    the annual ``crsp`` schema (through 2025-12-31); values agree on the overlap.
-    ``crspq.dsf_v2`` keeps ``shrout``. CIZ ``dlyret`` already includes the delisting
-    return, so do not splice ``stkdelists.delret`` in again.
-    CRSP VW market return = ``crspq.inddlyseriesdata`` indno 1000200.
-  * I/B/E/S adjusted (as in the notebook) AND unadjusted tables (audit finding 1).
-  * Transcript metadata keeps every version + speaker roles (findings 9, 12).
-  * No float32 downcast (finding 4).
+Choices follow ``docs/data_audit.md`` and ``docs/wrds_chatbot_answers.md`` (Qn below):
+  * CRSP from the quarterly CIZ update (``crspq``). ``dlyret`` already includes delisting
+    returns: never add ``stkdelists.delret`` again; ``dlyretmissflg`` DM/DP marks unpriced
+    delistings (Q3). Main benchmark = S&P 500 total return (dsp500_v2.vwretd, point in time); CRSP VW market (indno 1000200, Q4) is a robustness check.
+  * I/B/E/S adjusted AND unadjusted tables, plus split factors ``adj``/``adjsum`` (Q6);
+    non-EPS measures SAL, CPS, EBT, DPS (Q9, Q13); surprise history (Q12); company
+    guidance from ``det_guidance`` (Q10, Q11; reliable from 2007, so all of our sample).
+  * Capital IQ: every transcript version + speakers + text; Key Developments for earnings
+    releases (type 28) and expected release dates (55, 144) (Q18); GVKEY links from
+    ``ciq_common.wrds_gvkey`` (Q20). Every version is pulled; downstream picks the latest
+    version created by the Day 0 close (docs/pipeline.md, "Transcript version and timing").
+  * Compustat ``fundq`` keyed on (gvkey, datadate, fyr) (Q21).
 
-Usage (needs ``~/.pgpass`` or WRDS_USERNAME):
+Table locations are resolved at run time from information_schema (WRDS schema names vary
+between the data dictionary and PostgreSQL), and every filter column is checked before any
+data is pulled. One connection is used for the whole run; if login fails the script stops
+without retrying, to avoid locking the account (Q23).
+
+Usage (needs ~/.pgpass):
+    python scripts/pull_sp500_pit.py --check            # resolve tables + columns, pull nothing
     python scripts/pull_sp500_pit.py --groups core transcripts_meta
-    python scripts/pull_sp500_pit.py --groups transcripts_text --text-versions all|one
+    python scripts/pull_sp500_pit.py --groups transcripts_text
 Each file is skipped if it exists, so an interrupted run resumes. Row counts go to
 ``manifest.csv`` in the output folder.
 """
@@ -27,92 +36,180 @@ from __future__ import annotations
 
 import argparse
 import csv
-import os
+import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-START = "2005-01-01"
-LOOKBACK_START = {"crsp": 2004, "comp": 2002, "ibes": 2004}   # history before START
+START = "2008-01-01"
+START_YEAR = 2008
 END_YEAR = 2026
+XMEASURES = "('SAL','CPS','EBT','DPS')"   # revenue, cash flow/share, EBITDA, dividends/share
 
-P = f"select distinct permno from crspq.msp500list_v2 where mbrenddt >= '{START}'"
-G = f"""select distinct gvkey from crspq.ccmxpf_lnkhist
-        where lpermno in ({P}) and linktype in ('LU','LC')"""
-I = f"select distinct ticker from wrdsapps.ibcrsphist where permno in ({P})"
-C = f"select distinct companyid from ciq.wrds_gvkey where gvkey in ({G})"
-CALLS = f"""select transcriptid from ciq.wrds_transcript_detail
-            where keydeveventtypeid = 48 and companyid in ({C})"""
-
-# name -> (group, sql, shard) ; shard = (date column, first year) or None
-QUERIES: dict[str, tuple[str, str, tuple[str, int] | None]] = {
-    # Universe and identifier links
-    "crsp_msp500list_v2": ("core", f"""select permno, indno, mbrstartdt, mbrenddt, mbrflg
-        from crspq.msp500list_v2 where mbrenddt >= '{START}'""", None),
-    "crsp_ccmxpf_lnkhist": ("core", f"""select gvkey, lpermno as permno, lpermco as permco,
-        linktype, linkprim, linkdt, linkenddt from crspq.ccmxpf_lnkhist
-        where lpermno in ({P}) and linktype in ('LU','LC')""", None),
-    "wrdsapps_ibcrsphist": ("core", f"""select ticker, permno, ncusip, sdate, edate, score
-        from wrdsapps.ibcrsphist where permno in ({P})""", None),
-    "ciq_wrds_gvkey": ("core", f"""select companyid, gvkey, companyname, startdate, enddate,
-        primaryflag from ciq.wrds_gvkey where gvkey in ({G})""", None),
-    "crsp_stksecurityinfohist": ("core", f"""select * from crspq.stksecurityinfohist
-        where permno in ({P})""", None),
-    # CRSP market data (CIZ)
-    "crsp_dsp500_v2": ("core", """select caldt, spindx, sprtrn, vwretd, vwretx
-        from crspq.dsp500_v2 where caldt >= '2004-01-01'""", None),
-    "crsp_vwmkt_daily": ("core", """select dlycaldt, dlytotret as vwretd, dlyprcret as vwretx
-        from crspq.inddlyseriesdata where indno = 1000200 and dlycaldt >= '2004-01-01'""", None),
-    "crsp_dsf_v2": ("core", f"""select permno, permco, dlycaldt, dlyret, dlyretx, dlyprc,
-        dlyvol, dlycap, shrout, dlyfacprc, dlycumfacpr, dlycumfacshr, dlydelflg,
-        dlyretmissflg, sharetype, securitytype, primaryexch, siccd, ticker, cusip
-        from crspq.dsf_v2
-        where permno in ({P}) and dlycaldt between %(a)s and %(b)s""",
-        ("dlycaldt", LOOKBACK_START["crsp"])),
-    "crsp_stkdelists": ("core", f"""select permno, delistingdt, delret, delretmisstype,
-        delactiontype, delstatustype, delreasontype from crspq.stkdelists
-        where permno in ({P})""", None),
-    "ff_factors_daily": ("core", """select date, mktrf, smb, hml, umd, rf
-        from ff.factors_daily where date >= '2004-01-01'""", None),
-    # Compustat
-    "comp_fundq": ("core", f"""select gvkey, datadate, fyearq, fqtr, rdq, epspxq, ceqq, seqq,
-        txditcq, pstkq, cshoq, prccq from comp.fundq
-        where gvkey in ({G}) and datadate >= '{LOOKBACK_START["comp"]}-01-01'
-        and indfmt = 'INDL' and datafmt = 'STD' and consol = 'C' and popsrc = 'D'""", None),
-    "comp_co_hgic": ("core", f"""select gvkey, gsector, ggroup, gind, gsubind, indfrom, indthru
-        from comp.co_hgic where gvkey in ({G})""", None),
-    # I/B/E/S: adjusted (notebook) and unadjusted (audit finding 1)
-    "ibes_act_epsus": ("core", f"""select ticker, pends, pdicity, value, anndats, anntims
-        from ibes.act_epsus where ticker in ({I}) and pdicity = 'QTR'
-        and anndats >= '{LOOKBACK_START["ibes"]}-01-01'""", None),
-    "ibes_actu_epsus": ("core", f"""select ticker, pends, pdicity, value, anndats, anntims,
-        curr_act from ibes.actu_epsus where ticker in ({I}) and pdicity = 'QTR'
-        and anndats >= '{LOOKBACK_START["ibes"]}-01-01'""", None),
-    "ibes_statsum_epsus": ("core", f"""select ticker, statpers, fpedats, fpi, medest, meanest,
-        stdev, numest from ibes.statsum_epsus where ticker in ({I}) and fpi in ('6','7')
-        and statpers between %(a)s and %(b)s""", ("statpers", LOOKBACK_START["ibes"])),
-    "ibes_statsumu_epsus": ("core", f"""select ticker, statpers, fpedats, fpi, medest, meanest,
-        stdev, numest, curcode from ibes.statsumu_epsus where ticker in ({I})
-        and fpi in ('6','7') and statpers between %(a)s and %(b)s""",
-        ("statpers", LOOKBACK_START["ibes"])),
-    # Capital IQ transcripts: metadata for every version, speakers without text
-    "ciq_transcript_detail": ("transcripts_meta", f"""select * from ciq.wrds_transcript_detail
-        where keydeveventtypeid = 48 and companyid in ({C})
-        and mostimportantdateutc >= '{START}'""", None),
-    "ciq_transcript_person": ("transcripts_meta", f"""select p.transcriptid,
-        p.transcriptcomponentid, p.componentorder, p.transcriptcomponenttypeid,
-        p.transcriptcomponenttypename, p.transcriptpersonid, p.transcriptpersonname,
-        p.proid, p.companyofperson, p.speakertypeid, p.speakertypename
-        from ciq.wrds_transcript_person p join ciq.wrds_transcript_detail d
-          on d.transcriptid = p.transcriptid
-        where d.keydeveventtypeid = 48 and d.companyid in ({C})
-        and d.mostimportantdateutc between %(a)s and %(b)s""",
-        ("mostimportantdateutc", 2005)),
+# Candidate schemas per table, first match wins (data-dictionary vs. PostgreSQL names)
+WHERE = {
+    "msp500list_v2": ["crspq"], "ccmxpf_lnkhist": ["crspq", "crsp"],
+    "stksecurityinfohist": ["crspq"], "dsp500_v2": ["crspq"], "inddlyseriesdata": ["crspq"],
+    "dsf_v2": ["crspq"], "stkdelists": ["crspq"], "factors_daily": ["ff"],
+    "ibcrsphist": ["wrdsapps", "wrdsapps_link_crsp_ibes"],
+    "fundq": ["comp"], "co_hgic": ["comp"],
+    "act_epsus": ["ibes", "tr_ibes"], "actu_epsus": ["ibes", "tr_ibes"],
+    "statsum_epsus": ["ibes", "tr_ibes"], "statsumu_epsus": ["ibes", "tr_ibes"],
+    "act_xepsus": ["ibes", "tr_ibes"], "actu_xepsus": ["ibes", "tr_ibes"],
+    "statsum_xepsus": ["ibes", "tr_ibes"], "statsumu_xepsus": ["ibes", "tr_ibes"],
+    "surpsum": ["ibes", "tr_ibes"], "surpsumu": ["ibes", "tr_ibes"],
+    "adj": ["ibes", "tr_ibes"], "adjsum": ["ibes", "tr_ibes"],
+    "det_guidance": ["ibes_guidance", "tr_ibes_guidance", "ibes"],
+    "wrds_gvkey": ["ciq_common", "ciq"],
+    "wrds_keydev": ["ciq_keydev", "ciq"],
+    "wrds_transcript_detail": ["ciq_transcripts", "ciq"],
+    "wrds_transcript_person": ["ciq_transcripts", "ciq"],
+    "ciqtranscriptcomponent": ["ciq_transcripts", "ciq"],
 }
 
-TEXT_SQL = """select c.transcriptid, c.transcriptcomponentid, c.componentorder,
-    c.transcriptcomponenttypeid, c.transcriptpersonid, c.componenttext
-    from ciq.ciqtranscriptcomponent c where c.transcriptid = any(%(ids)s)"""
+# name -> (group, table, sql template, shard date column or None, columns that must exist)
+# {T} = resolved table, {P}/{G}/{I}/{C} = universe subqueries, %(a)s/%(b)s = shard dates.
+QUERIES: dict[str, tuple[str, str, str, str | None, list[str]]] = {
+    # Universe and identifier links
+    "crsp_msp500list_v2": ("core", "msp500list_v2", """select permno, indno, mbrstartdt,
+        mbrenddt, mbrflg from {T} where mbrenddt >= '{S}'""", None, ["mbrenddt"]),
+    "crsp_ccmxpf_lnkhist": ("core", "ccmxpf_lnkhist", """select gvkey, lpermno as permno,
+        lpermco as permco, linktype, linkprim, linkdt, linkenddt from {T}
+        where lpermno in ({P}) and linktype in ('LU','LC')""", None, ["lpermno", "linktype"]),
+    "wrdsapps_ibcrsphist": ("core", "ibcrsphist", """select ticker, permno, ncusip, sdate,
+        edate, score from {T} where permno in ({P})""", None, ["score", "sdate", "edate"]),
+    "ciq_wrds_gvkey": ("core", "wrds_gvkey", """select companyid, gvkey, companyname,
+        startdate, enddate, primaryflag from {T} where gvkey in ({G})""", None,
+        ["gvkey", "primaryflag"]),
+    "crsp_stksecurityinfohist": ("core", "stksecurityinfohist", """select * from {T}
+        where permno in ({P}) and secinfoenddt >= '{S}'""", None, ["secinfoenddt"]),
+    # CRSP market data
+    "crsp_dsp500_v2": ("core", "dsp500_v2", """select caldt, spindx, sprtrn, vwretd, vwretx
+        from {T} where caldt >= '{S}'""", None, ["caldt", "vwretd"]),
+    "crsp_vwmkt_daily": ("core", "inddlyseriesdata", """select dlycaldt, dlytotret as vwretd,
+        dlyprcret as vwretx from {T} where indno = 1000200 and dlycaldt >= '{S}'""", None,
+        ["indno", "dlytotret", "dlyprcret"]),
+    "crsp_dsf_v2": ("core", "dsf_v2", """select permno, permco, dlycaldt, dlyret, dlyretx,
+        dlyprc, dlyvol, dlycap, shrout, dlyfacprc, dlycumfacpr, dlycumfacshr, dlydelflg,
+        dlyretmissflg, sharetype, securitytype, primaryexch, siccd, ticker, cusip from {T}
+        where permno in ({P}) and dlycaldt between %(a)s and %(b)s""", "dlycaldt",
+        ["dlyretmissflg", "shrout"]),
+    "crsp_stkdelists": ("core", "stkdelists", """select permno, delistingdt, delret,
+        delretmisstype, delactiontype, delstatustype, delreasontype from {T}
+        where permno in ({P}) and delistingdt >= '{S}'""", None, ["delretmisstype"]),
+    "ff_factors_daily": ("core", "factors_daily", """select date, mktrf, smb, hml, umd, rf
+        from {T} where date >= '{S}'""", None, ["umd"]),
+    # Compustat (Q21: fyr is part of the key)
+    "comp_fundq": ("core", "fundq", """select gvkey, datadate, fyr, fyearq, fqtr, datafqtr,
+        datacqtr, rdq, epspxq, saleq, ceqq, seqq, txditcq, pstkq, cshoq, prccq from {T}
+        where gvkey in ({G}) and datadate >= '{S}' and indfmt = 'INDL' and datafmt = 'STD'
+        and consol = 'C' and popsrc = 'D'""", None, ["fyr", "datafqtr", "datacqtr", "rdq"]),
+    "comp_co_hgic": ("core", "co_hgic", """select gvkey, gsector, ggroup, gind, gsubind,
+        indfrom, indthru from {T} where gvkey in ({G})""", None, ["indfrom"]),
+    # I/B/E/S EPS: actuals and monthly consensus, adjusted and unadjusted
+    "ibes_act_epsus": ("core", "act_epsus", """select ticker, measure, pends, pdicity, value,
+        anndats, anntims, actdats, acttims from {T} where ticker in ({I})
+        and pdicity = 'QTR' and anndats >= '{S}'""", None, ["actdats", "acttims"]),
+    "ibes_actu_epsus": ("core", "actu_epsus", """select ticker, measure, pends, pdicity, value,
+        anndats, anntims, actdats, acttims, curr_act from {T} where ticker in ({I})
+        and pdicity = 'QTR' and anndats >= '{S}'""", None, ["curr_act"]),
+    "ibes_statsum_epsus": ("core", "statsum_epsus", """select ticker, measure, fiscalp,
+        statpers, fpedats, fpi, medest, meanest, stdev, highest, lowest, numest, numup,
+        numdown from {T} where ticker in ({I}) and fpi in ('6','7')
+        and statpers between %(a)s and %(b)s""", "statpers",
+        ["highest", "lowest", "numup", "numdown"]),
+    "ibes_statsumu_epsus": ("core", "statsumu_epsus", """select ticker, measure, fiscalp,
+        statpers, fpedats, fpi, medest, meanest, stdev, highest, lowest, numest, numup,
+        numdown, curcode from {T} where ticker in ({I}) and fpi in ('6','7')
+        and statpers between %(a)s and %(b)s""", "statpers", ["curcode"]),
+    # I/B/E/S non-EPS measures (Q9, Q13)
+    "ibes_act_xepsus": ("core", "act_xepsus", """select * from {T} where ticker in ({I})
+        and measure in {X} and pdicity = 'QTR' and anndats >= '{S}'""", None,
+        ["measure", "pdicity", "anndats"]),
+    "ibes_actu_xepsus": ("core", "actu_xepsus", """select * from {T} where ticker in ({I})
+        and measure in {X} and pdicity = 'QTR' and anndats >= '{S}'""", None,
+        ["measure", "pdicity", "anndats"]),
+    "ibes_statsum_xepsus": ("core", "statsum_xepsus", """select * from {T}
+        where ticker in ({I}) and measure in {X} and fpi in ('6','7')
+        and statpers between %(a)s and %(b)s""", "statpers", ["measure", "fpi", "statpers"]),
+    "ibes_statsumu_xepsus": ("core", "statsumu_xepsus", """select * from {T}
+        where ticker in ({I}) and measure in {X} and fpi in ('6','7')
+        and statpers between %(a)s and %(b)s""", "statpers", ["measure", "fpi", "statpers"]),
+    # I/B/E/S surprise history (Q12): quarterly EPS and non-EPS
+    "ibes_surpsum": ("core", "surpsum", """select * from {T} where ticker in ({I})
+        and measure in ('EPS','SAL','CPS','EBT','DPS') and fiscalp = 'QTR'
+        and anndats >= '{S}'""", None, ["measure", "fiscalp", "anndats"]),
+    "ibes_surpsumu": ("core", "surpsumu", """select * from {T} where ticker in ({I})
+        and measure in ('EPS','SAL','CPS','EBT','DPS') and fiscalp = 'QTR'
+        and anndats >= '{S}'""", None, ["measure", "fiscalp", "anndats"]),
+    # I/B/E/S split factors (Q6): small, no date filter so splits before 2008 are covered
+    "ibes_adj": ("core", "adj", "select * from {T} where ticker in ({I})", None, ["ticker"]),
+    "ibes_adjsum": ("core", "adjsum", "select * from {T} where ticker in ({I})", None,
+        ["ticker"]),
+    # I/B/E/S company guidance (Q10, Q11): all measures and periods
+    "ibes_det_guidance": ("core", "det_guidance", """select * from {T} where ticker in ({I})
+        and anndats >= '{S}'""", None,
+        ["val_1", "val_2", "measure", "pdicity", "anndats", "anntims", "actdats"]),
+    # Capital IQ Key Developments (Q18): 28 = earnings release, 55/144 = expected dates
+    "ciq_keydev_earnings": ("core", "wrds_keydev", """select * from {T}
+        where companyid in ({C}) and keydeveventtypeid in (28, 55, 144)
+        and announcedate >= '{S}'""", None,
+        ["keydeveventtypeid", "announcedate", "announcetime", "announceddateutc"]),
+    # Capital IQ transcripts: every version + speakers (Q15, Q16)
+    "ciq_transcript_detail": ("transcripts_meta", "wrds_transcript_detail", """select *
+        from {T} where keydeveventtypeid = 48 and companyid in ({C})
+        and mostimportantdateutc >= '{S}'""", None,
+        ["transcriptcreationdate_utc", "transcriptcreationtime_utc"]),
+    "ciq_transcript_person": ("transcripts_meta", "wrds_transcript_person", """select
+        p.transcriptid, p.transcriptcomponentid, p.componentorder,
+        p.transcriptcomponenttypeid, p.transcriptcomponenttypename, p.transcriptpersonid,
+        p.transcriptpersonname, p.proid, p.companyofperson, p.speakertypeid,
+        p.speakertypename from {T} p join {D} d on d.transcriptid = p.transcriptid
+        where d.keydeveventtypeid = 48 and d.companyid in ({C})
+        and d.mostimportantdateutc between %(a)s and %(b)s""", "mostimportantdateutc",
+        ["speakertypename"]),
+}
+
+TEXT_SQL = """select transcriptid, transcriptcomponentid, componentorder,
+    transcriptcomponenttypeid, transcriptpersonid, componenttext
+    from {T} where transcriptid = any(%(ids)s)"""
+
+
+def resolve(db) -> dict[str, tuple[str, set[str]]]:
+    """table -> (schema.table, its columns), using the first candidate schema that exists."""
+    names = "', '".join(WHERE)
+    cols = db.raw_sql(f"""select table_schema s, table_name t, column_name c
+        from information_schema.columns where table_name in ('{names}')""")
+    found = {}
+    for t, schemas in WHERE.items():
+        for s in schemas:
+            c = set(cols[(cols.s == s) & (cols.t == t)].c)
+            if c:
+                found[t] = (f"{s}.{t}", c)
+                break
+    return found
+
+
+def build(found) -> dict[str, tuple[str, str, str | None]]:
+    """Fill table names and universe subqueries; fail before pulling if anything is missing."""
+    T = {t: v[0] for t, v in found.items()}
+    missing = [t for t in WHERE if t not in T]
+    for name, (_, table, _, _, need) in QUERIES.items():
+        if table in found:
+            missing += [f"{table}.{c}" for c in need if c not in found[table][1]]
+    if missing:
+        sys.exit("Missing tables/columns, nothing pulled: " + ", ".join(missing))
+    P = f"select distinct permno from {T['msp500list_v2']} where mbrenddt >= '{START}'"
+    G = f"""select distinct gvkey from {T['ccmxpf_lnkhist']}
+            where lpermno in ({P}) and linktype in ('LU','LC')"""
+    I = f"select distinct ticker from {T['ibcrsphist']} where permno in ({P})"
+    C = f"select distinct companyid from {T['wrds_gvkey']} where gvkey in ({G})"
+    out = {}
+    for name, (group, table, sql, shard, _) in QUERIES.items():
+        out[name] = (group, sql.format(T=T[table], D=T["wrds_transcript_detail"], P=P, G=G,
+                                       I=I, C=C, S=START, X=XMEASURES), shard)
+    out["_text"] = ("transcripts_text", TEXT_SQL.format(T=T["ciqtranscriptcomponent"]), None)
+    return out
 
 
 def log(out: Path, name: str, rows: int, secs: float) -> None:
@@ -138,44 +235,53 @@ def save(db, out: Path, name: str, sql: str, params: dict | None = None) -> None
     print(f"saved {name}: {len(df):,} rows in {time.time() - t:.0f}s", flush=True)
 
 
-def pull_text(db, out: Path, versions: str) -> None:
+def pull_text(db, out: Path, sql: str) -> None:
+    """Text of every transcript version, one file per call year."""
     import pandas as pd
-    meta = pd.read_parquet(out / "ciq_transcript_detail.parquet")
+    meta = pd.read_parquet(out / "ciq_transcript_detail.parquet",
+                           columns=["transcriptid", "mostimportantdateutc"])
     meta["year"] = pd.to_datetime(meta["mostimportantdateutc"]).dt.year
-    if versions == "one":
-        # Latest-created version per call (not max transcriptid: audit finding 9)
-        meta["created"] = pd.to_datetime(meta["transcriptcreationdate_utc"].astype(str) + " "
-                                          + meta["transcriptcreationtime_utc"].astype(str),
-                                          errors="coerce")
-        meta = meta.sort_values(["keydevid", "created", "transcriptid"]).groupby("keydevid").tail(1)
     for y, grp in meta.groupby("year"):
         ids = [int(t) for t in grp["transcriptid"].unique()]
-        save(db, out, f"ciq_transcript_component_{versions}_{y}", TEXT_SQL, {"ids": ids})
+        save(db, out, f"ciq_transcript_component_{y}", sql, {"ids": ids})
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--groups", nargs="+", default=["core", "transcripts_meta"])
-    ap.add_argument("--text-versions", choices=["all", "one"], default="one")
+    ap.add_argument("--groups", nargs="+", default=["core", "transcripts_meta"],
+                    choices=["core", "transcripts_meta", "transcripts_text"])
+    ap.add_argument("--check", action="store_true", help="resolve tables/columns only")
+    ap.add_argument("--username", default="lf2883")
     ap.add_argument("--out", default=str(Path(__file__).resolve().parents[1]
-                                         / "data" / "raw" / "sp500_pit"))
+                                         / "data" / "raw" / "sp500_pit_2008"))
     a = ap.parse_args()
-    out = Path(a.out)
-    out.mkdir(parents=True, exist_ok=True)
 
     import wrds
-    db = wrds.Connection(wrds_username=os.environ.get("WRDS_USERNAME"))
+    try:   # one attempt only: repeated failed logins can lock the account (Q23)
+        db = wrds.Connection(wrds_username=a.username)
+    except BaseException as e:
+        sys.exit(f"WRDS login failed ({type(e).__name__}); not retrying. Refresh ~/.pgpass "
+                 "with wrds.Connection(...).create_pgpass_file() in a terminal.")
     try:
-        for name, (group, sql, shard) in QUERIES.items():
-            if group not in a.groups:
+        found = resolve(db)
+        queries = build(found)
+        for t, (full, _) in sorted(found.items()):
+            print(f"  {t:<24} -> {full}")
+        if a.check:
+            print("check passed: all tables and filter columns found")
+            return
+        out = Path(a.out)
+        out.mkdir(parents=True, exist_ok=True)
+        for name, (group, sql, shard) in queries.items():
+            if group not in a.groups or name == "_text":
                 continue
             if shard is None:
                 save(db, out, name, sql)
             else:
-                for y in range(shard[1], END_YEAR + 1):
+                for y in range(START_YEAR, END_YEAR + 1):
                     save(db, out, f"{name}_{y}", sql, {"a": f"{y}-01-01", "b": f"{y}-12-31"})
         if "transcripts_text" in a.groups:
-            pull_text(db, out, a.text_versions)
+            pull_text(db, out, queries["_text"][1])
     finally:
         db.close()
 

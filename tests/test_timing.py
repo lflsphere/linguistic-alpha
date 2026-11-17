@@ -40,3 +40,19 @@ def test_missing_time_is_conservative():
 
 def test_beyond_calendar_is_nat():
     assert pd.isna(day0("2024-01-16", "22:00:00")["day0"])
+
+
+def test_release_before_open_and_after_close():
+    from linguistic_alpha.events.timing import release_timestamp_utc
+    ts = release_timestamp_utc(pd.Series(["2024-01-11", "2024-01-11", "2024-01-12"]),
+                               pd.Series(["07:00:00", "16:05:00", "00:00:00"]))
+    out = assign_day0(ts, DAYS, call_date_fallback=pd.Series(pd.to_datetime(
+        ["2024-01-11", "2024-01-11", "2024-01-12"])))
+    assert list(out["day0"]) == list(pd.to_datetime(["2024-01-11", "2024-01-12", "2024-01-16"]))
+
+
+def test_call_lag_sessions():
+    from linguistic_alpha.events.timing import call_lag_sessions
+    lag = call_lag_sessions(pd.Series(pd.to_datetime(["2024-01-12"])),
+                            pd.Series(pd.to_datetime(["2024-01-11"])), DAYS)
+    assert lag.iloc[0] == 1

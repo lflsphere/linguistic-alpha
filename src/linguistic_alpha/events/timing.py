@@ -1,7 +1,13 @@
-"""Event timing: call timestamp -> New York call date -> Day 0 trading session.
+"""Event timing: event timestamp -> New York date -> Day 0 trading session.
 
-Day 0 is the first session in which the market can trade on the call: the call's own session
-if the call starts before the close (New York time) on a trading day, otherwise the next one.
+The earnings release and the call count as one event (``events.anchor: release``): Day 0 is
+the first session whose close comes after the **release**, i.e. the release's own session if
+it comes before the close (New York time) on a trading day, otherwise the next one. The call
+is then checked to fall in Day 0 or Day +1 (``events.max_call_lag_sessions``), so the target
+window starting at Day +2 never begins before the call text is out.
+
+``assign_day0`` works on any UTC timestamp: pass the release timestamp for the main sample,
+or the call timestamp (``anchor: call``) for the robustness check.
 """
 
 from __future__ import annotations
@@ -19,6 +25,27 @@ def call_timestamp_utc(date_utc: pd.Series, time_utc: pd.Series) -> pd.Series:
     ts = pd.to_datetime(date + " " + time.fillna(""), errors="coerce", utc=True)
     # a date with no time would parse as midnight UTC; treat it as unknown instead
     return ts.where(time.fillna("").ne("") & ~time.str.lower().isin(["nan", "none", "nat"]))
+
+
+def release_timestamp_utc(anndats: pd.Series, anntims: pd.Series,
+                          tz: str = NY) -> pd.Series:
+    """I/B/E/S ``anndats`` + ``anntims`` (local clock time, ``tz``) -> UTC timestamp.
+
+    ``anntims`` of 00:00:00 or missing is treated as unknown (NaT), so ``assign_day0`` falls
+    back to the date with ``missing_call_time``.
+    """
+    date = pd.to_datetime(anndats, errors="coerce").dt.strftime("%Y-%m-%d")
+    time = anntims.astype("string").str.strip()
+    known = time.notna() & ~time.isin(["", "00:00:00", "nan", "None", "NaT"])
+    local = pd.to_datetime(date + " " + time.fillna(""), errors="coerce")
+    local = local.dt.tz_localize(tz, ambiguous="NaT", nonexistent="shift_forward")
+    return local.dt.tz_convert("UTC").where(known)
+
+
+def call_lag_sessions(call_day0: pd.Series, day0: pd.Series,
+                      trading_days: pd.DatetimeIndex) -> pd.Series:
+    """Sessions from Day 0 (release) to the call's own first tradeable session."""
+    return event_day_index(call_day0, trading_days) - event_day_index(day0, trading_days)
 
 
 def assign_day0(

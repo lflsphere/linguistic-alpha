@@ -51,12 +51,22 @@ def test_call_sections_counts():
     assert s["words_prepared"] == 3
 
 
-def test_select_latest_version_uses_creation_time_not_id():
+def test_select_earliest_version_uses_creation_time_not_id():
     detail = pd.DataFrame({
-        "keydevid": [7, 7], "transcriptid": [900, 100],
-        "transcriptcreationdate_utc": ["2010-01-01", "2010-02-01"],
+        "keydevid": [7, 7, 7], "transcriptid": [900, 100, 50],
+        "transcriptcreationdate_utc": ["2010-01-01", "2010-02-01", None],
+        "transcriptcreationtime_utc": ["09:00:00", "08:00:00", None],
     })
-    assert transcripts.select_latest_version(detail)["transcriptid"].tolist() == [100]
+    assert transcripts.select_earliest_version(detail)["transcriptid"].tolist() == [900]
+
+
+def test_select_earliest_version_ties_take_lowest_id():
+    detail = pd.DataFrame({
+        "keydevid": [7, 7, 8], "transcriptid": [300, 200, 400],
+        "transcriptcreationdate_utc": ["2010-01-01"] * 3,
+        "transcriptcreationtime_utc": ["09:00:00"] * 3,
+    })
+    assert transcripts.select_earliest_version(detail)["transcriptid"].tolist() == [200, 400]
 
 
 def test_legacy_panel_round_trip():
@@ -70,3 +80,30 @@ def test_legacy_panel_round_trip():
     assert (c["section"] == "prepared").sum() == 2
     pairs = transcripts.pair_qa(c)
     assert pairs["n_answer_turns"].tolist() == [2, 1]
+
+
+def test_select_latest_before_takes_latest_by_cutoff_and_drops_late_calls():
+    detail = pd.DataFrame({
+        "keydevid": [7, 7, 7, 8],
+        "transcriptid": [10, 20, 30, 40],
+        "transcriptcreationdate_utc": ["2024-01-11", "2024-01-11", "2024-01-13", "2024-01-20"],
+        "transcriptcreationtime_utc": ["14:00:00", "18:00:00", "09:00:00", "09:00:00"],
+        "transcriptpresentationtypename": ["Preliminary", "Final", "Final", "Final"],
+        "transcriptcollectiontypename": ["Spellchecked Copy", "Edited Copy", "Audited Copy", "Edited Copy"],
+    })
+    cut = pd.Series(pd.to_datetime(["2024-01-11 21:00", "2024-01-12 21:00"]).tz_localize("UTC"), index=[7, 8])
+    out = transcripts.select_latest_before(detail, cut)
+    assert out["transcriptid"].tolist() == [20]                  # Edited by the cutoff; Audited too late
+    assert out["version_type"].iloc[0] == "Final / Edited Copy"
+    assert out["version_final"].iloc[0] == 1
+    kept = transcripts.select_latest_before(detail, cut, no_version="earliest")
+    assert kept.set_index("keydevid")["version_before_cutoff"].to_dict() == {7: True, 8: False}
+
+
+def test_day0_close_cutoff_after_close_call_moves_to_next_session():
+    days = pd.DatetimeIndex(["2024-01-11", "2024-01-12", "2024-01-16"])
+    detail = pd.DataFrame({"keydevid": [1, 2], "mostimportantdateutc": ["2024-01-11", "2024-01-11"],
+                           "mostimportanttimeutc": ["13:30:00", "22:00:00"]})       # 08:30 / 17:00 ET
+    cut = transcripts.day0_close_utc(detail, days)
+    assert cut.loc[1] == pd.Timestamp("2024-01-11 21:00", tz="UTC")   # 16:00 ET, same day
+    assert cut.loc[2] == pd.Timestamp("2024-01-12 21:00", tz="UTC")   # next session

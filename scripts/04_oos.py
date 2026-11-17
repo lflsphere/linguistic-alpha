@@ -1,6 +1,18 @@
 #!/usr/bin/env python
 """
-04: Step 4 of the framework. Out-of-sample prediction, Model A vs Model B, development sample only.
+04: Step 4 of the framework. Out-of-sample prediction, Models A / B / C / C_alone, development sample only.
+
+Models (common.spec_features; configs/default.yaml models.measures)
+  A        controls
+  B        A + dictionary measures (NLTK + Loughran-McDonald)
+  C        B + FinBERT sentence tone                     -> C - B: what FinBERT adds to the dictionary
+  C_alone  A + FinBERT only                              -> C_alone - B: dictionary vs. FinBERT head to head
+  C and C_alone need the FinBERT columns (01_build_features.py --finbert); without them only A and B run.
+
+Reaction legs (--legs, default both): every model runs once per leg, with the announcement reaction added
+to Model A's controls: m1_1 = CAR[-1,+1] (AR_M11, main) and 0_1 = CAR[0,+1] (AR01, comparison). Outputs go
+to outputs/oos/<tag>_<leg>/. A leg whose column is missing is skipped with a warning (the legacy panel has
+CAR[0,+1] only). --freeze selects on the main leg when it ran, and freezes both legs.
 
 Design
   * Expanding windows: train 2012..y-1, test y, for y = FIRST_TEST_YEAR..DEV_END (Section 6).
@@ -8,15 +20,17 @@ Design
     fold (a 60-day CAR from a November call is not known in January).
   * All preprocessing (winsorize, impute, z-score) is fitted on the training fold only. Firm dummies stand in
     for industry FE; year FE cannot be estimated for an unseen year.
-  * Models: OLS (A vs A + LING_CORE), Elastic Net (A vs A + LING_ALL, inner TimeSeriesSplit CV),
-    optional XGBoost; plus single-signal OLS (A vs A + s) for every linguistic factor.
+  * Estimators: OLS (full-rank subsets), Elastic Net (every measure, inner TimeSeriesSplit CV), optional
+    XGBoost; plus single-signal OLS (A vs A + s) for every linguistic factor, embeddings and LLM ones included.
   * Metrics: pooled Rank IC, annual IC and ICIR over test years, OOS R^2 (vs training mean and vs zero),
-    RMSE, MAE; increments Delta IC / Delta R^2 with quarter-block bootstrap p-values; Clark-West for nesting.
+    RMSE, MAE; increments Delta IC / Delta R^2 with quarter-block bootstrap p-values for every pair in
+    common.COMPARISONS; Clark-West only for nested pairs (not for C_alone vs B).
 
   --freeze writes outputs/frozen_spec.json (target, model, features, tuning procedure, data hash), the only
   input 05_backtest_holdout.py --stage holdout accepts.
 
-Options: --targets, --models ols,enet[,xgb], --delayed, --sample all|highprec, --sue, --freeze, --freeze-model
+Options: --targets, --models ols,enet[,xgb], --legs m1_1,0_1, --sample all|highprec, --sue, --freeze,
+         --freeze-model
 """
 from __future__ import annotations
 
@@ -80,29 +94,32 @@ def folds(ev: pd.DataFrame, target: str, first: int = C.FIRST_TEST_YEAR, last: i
         yield yr, train[train[target].notna()], test
 
 
-def specs(models: list[str], a_cols: list[str]) -> list[tuple[str, str, list[str]]]:
+def single_signals(fb: bool) -> list[str]:
+    return C.LING_ALL + (C.LING_FB if fb else [])
+
+
+def specs(models: list[str], a_cols: list[str], fb: bool) -> list[tuple[str, str, list[str]]]:
     out = []
     for k in models:
-        out.append((k, "A", a_cols))
-        out.append((k, "B", a_cols + (C.LING_CORE if k == "ols" else C.LING_ALL)))
-    out += [("ols", f"B:{s}", a_cols + [s]) for s in C.LING_ALL]
+        out += [(k, name, feats) for name, feats in C.spec_features(a_cols, k, fb).items()]
+    out += [("ols", f"B:{s}", a_cols + [s]) for s in single_signals(fb)]
     return out
 
 
-def run_oos(ev: pd.DataFrame, targets: list[str], models: list[str], a_cols: list[str]):
+def run_oos(ev: pd.DataFrame, targets: list[str], models: list[str], a_cols: list[str], fb: bool):
     firms = sorted(ev["firm"].astype(str).unique())
     preds, coefs, tuning = [], [], []
     for target in targets:
         for yr, train, test in folds(ev, target):
             ytr = train[target].to_numpy()
-            for kind, spec, feats in specs(models, a_cols):
+            for kind, spec, feats in specs(models, a_cols, fb):
                 Xtr, Xte = design(train, test, feats, firms)
                 p, coef, info = fit_predict(kind, Xtr, ytr, Xte)
                 preds.append(test[["transcriptid", "ticker", "day0", "year", "event_q", target]]
                              .rename(columns={target: "y"})
                              .assign(target=target, model=kind, spec=spec, pred=p, bench=ytr.mean(),
                                      n_train=len(train)))
-                if spec in ("A", "B") and coef is not None:
+                if (spec == "A" or spec in C.MAIN_SPECS) and coef is not None:
                     coefs.append(coef.rename("value").to_frame().assign(target=target, model=kind, spec=spec,
                                                                           test_year=yr).reset_index(names="feature"))
                 if info:
@@ -121,32 +138,40 @@ def metrics(d: pd.DataFrame) -> dict:
                 rmse=float(np.sqrt(np.mean((y - f) ** 2))), mae=float(np.mean(np.abs(y - f))))
 
 
+def increment(g: pd.DataFrame, base: str, alt: str, reps: int, nested: bool) -> dict:
+    """alt minus base on the same test events; Clark-West only when base is nested in alt."""
+    A = g[g.spec == base].set_index("transcriptid")
+    B = g[g.spec == alt].set_index("transcriptid").loc[A.index]
+    d = A[["y", "pred", "bench", "event_q", "year"]].rename(columns={"pred": "fA"}).assign(fB=B["pred"])
+    d = d.reset_index(drop=True)
+    y, fa, fb, bm = (d[c].to_numpy(float) for c in ("y", "fA", "fB", "bench"))
+
+    def d_ic(i):
+        return C.spearman(fb[i], y[i]) - C.spearman(fa[i], y[i])
+
+    def d_r2(i):
+        return C.oos_r2(y[i], fb[i], bm[i]) - C.oos_r2(y[i], fa[i], bm[i])
+
+    draws = C.block_indices(d, reps=reps)
+    b_ic, b_r2 = C.bootstrap(d_ic, draws), C.bootstrap(d_r2, draws)
+    cw_t, cw_p = C.clark_west(y, fa, fb) if nested else (np.nan, np.nan)
+    ia = C.ic_stats(C.ic_series(d.rename(columns={"fA": "f"}), "f", "y"))
+    ib = C.ic_stats(C.ic_series(d.rename(columns={"fB": "f"}), "f", "y"))
+    return dict(base=base, spec=alt, nested=nested,
+                signal=alt.split(":", 1)[1] if ":" in alt else "ALL",
+                d_ic=d_ic(np.arange(len(d))), d_ic_p=C.boot_p_two_sided(b_ic), d_icir=ib["icir"] - ia["icir"],
+                d_oos_r2=d_r2(np.arange(len(d))), d_r2_p=C.boot_p_two_sided(b_r2), cw_t=cw_t, cw_p=cw_p, n=len(d))
+
+
 def compare(preds: pd.DataFrame, reps: int) -> tuple[pd.DataFrame, pd.DataFrame]:
     rows = [dict(target=t, model=m, spec=s, **metrics(g)) for (t, m, s), g in preds.groupby(["target", "model", "spec"])]
     met = pd.DataFrame(rows)
     inc = []
     for (t, m), g in preds.groupby(["target", "model"]):
-        A = g[g.spec == "A"].set_index("transcriptid")
-        for s in sorted(set(g.spec) - {"A"}):
-            B = g[g.spec == s].set_index("transcriptid").loc[A.index]
-            d = A[["y", "pred", "bench", "event_q", "year"]].rename(columns={"pred": "fA"}).assign(fB=B["pred"])
-            d = d.reset_index(drop=True)
-            y, fa, fb, bm = (d[c].to_numpy(float) for c in ("y", "fA", "fB", "bench"))
-
-            def d_ic(i):
-                return C.spearman(fb[i], y[i]) - C.spearman(fa[i], y[i])
-
-            def d_r2(i):
-                return C.oos_r2(y[i], fb[i], bm[i]) - C.oos_r2(y[i], fa[i], bm[i])
-
-            draws = C.block_indices(d, reps=reps)
-            b_ic, b_r2 = C.bootstrap(d_ic, draws), C.bootstrap(d_r2, draws)
-            cw_t, cw_p = C.clark_west(y, fa, fb)
-            ia = C.ic_stats(C.ic_series(d.rename(columns={"fA": "f"}), "f", "y"))
-            ib = C.ic_stats(C.ic_series(d.rename(columns={"fB": "f"}), "f", "y"))
-            inc.append(dict(target=t, model=m, spec=s, signal=s.split(":", 1)[1] if ":" in s else "ALL",
-                            d_ic=d_ic(np.arange(len(d))), d_ic_p=C.boot_p_two_sided(b_ic),
-                            d_icir=ib["icir"] - ia["icir"], d_oos_r2=d_r2(np.arange(len(d))), d_r2_p=C.boot_p_two_sided(b_r2), cw_t=cw_t, cw_p=cw_p, n=len(d)))
+        have = set(g.spec)
+        pairs = [p for p in C.COMPARISONS if {p[0], p[1]} <= have]
+        pairs += [("A", s, True) for s in sorted(have) if s.startswith("B:")]
+        inc += [dict(target=t, model=m, **increment(g, b, a, reps, n)) for b, a, n in pairs]
     inc = pd.DataFrame(inc)
     single = inc["spec"].str.startswith("B:")
     inc.loc[single, "cw_q_fdr"] = C.bh_qvalues(inc.loc[single, "cw_p"])
@@ -155,22 +180,26 @@ def compare(preds: pd.DataFrame, reps: int) -> tuple[pd.DataFrame, pd.DataFrame]
 
 def plots(preds: pd.DataFrame, coefs: pd.DataFrame, out_dir) -> None:
     keys = [(t, m) for t, m in preds[preds.spec == "B"][["target", "model"]].drop_duplicates().itertuples(index=False)]
+    mains = [s for s in C.MAIN_SPECS if s in set(preds.spec)]
     fig, axes = plt.subplots(1, len({t for t, _ in keys}), figsize=(4.5 * len({t for t, _ in keys}), 3.6), squeeze=False)
     for ax, t in zip(axes.ravel(), sorted({t for t, _ in keys})):
         for _, m in [k for k in keys if k[0] == t]:
             g = preds[(preds.target == t) & (preds.model == m)]
             A = g[g.spec == "A"].sort_values("day0").set_index("transcriptid")
-            B = g[g.spec == "B"].set_index("transcriptid").loc[A.index]
-            ax.plot(A["day0"], np.cumsum((A.y - A.pred) ** 2 - (A.y - B.pred) ** 2), label=m)
+            for s in mains:
+                B = g[g.spec == s].set_index("transcriptid").loc[A.index]
+                ax.plot(A["day0"], np.cumsum((A.y - A.pred) ** 2 - (A.y - B.pred) ** 2), label=f"{m} {s}")
         ax.axhline(0, color="grey", lw=0.8)
-        ax.set_title(f"{t}: cumulative SSE(A) - SSE(B)", fontsize=9)
+        ax.set_title(f"{t}: cumulative SSE(A) - SSE(model)", fontsize=9)
         ax.legend(fontsize=7)
     C.savefig(fig, out_dir / "cumulative_sse_diff.png")
 
-    en = coefs[(coefs.model == "enet") & (coefs.spec == "B") & coefs.feature.isin(C.LING_ALL)]
+    widest = "C" if "C" in mains else "B"                  # dictionary + FinBERT when available
+    ling = C.LING_DICT + (C.LING_FB if widest == "C" else [])
+    en = coefs[(coefs.model == "enet") & (coefs.spec == widest) & coefs.feature.isin(ling)]
     if len(en):
         sel = en.assign(nz=en.value.abs() > 1e-10).pivot_table(index="feature", columns="target", values="nz",
-                                                               aggfunc="mean").reindex(C.LING_ALL)
+                                                               aggfunc="mean").reindex(ling)
         sel.to_csv(out_dir / "enet_selection_frequency.csv")
         fig, ax = plt.subplots(figsize=(8, 4))
         sel.plot.barh(ax=ax)
@@ -178,42 +207,81 @@ def plots(preds: pd.DataFrame, coefs: pd.DataFrame, out_dir) -> None:
         C.savefig(fig, out_dir / "enet_selection_frequency.png")
 
 
-def freeze(met: pd.DataFrame, inc: pd.DataFrame, args, a_cols: list[str], out_dir) -> dict:
+def freeze(met: pd.DataFrame, inc: pd.DataFrame, args, leg: str, legs: list[str], out_dir, fb: bool) -> dict:
+    """Freeze A and every language model for one target and estimator; the holdout scores all of them once.
+    The estimator is the one whose best language model (B, C or C_alone) beats A most on dev."""
     target = args.freeze_target
-    cand = inc[(inc.target == target) & (inc.spec == "B")].copy()
+    cand = inc[(inc.target == target) & (inc.base == "A") & inc.spec.isin(C.MAIN_SPECS)].copy()
     if args.freeze_model:
         cand = cand[cand.model == args.freeze_model]
     if cand.empty:
-        raise SystemExit(f"no Model B results for {target} to freeze")
+        raise SystemExit(f"no language-model results for {target} to freeze")
     best = cand.sort_values(["d_oos_r2", "d_ic"], ascending=False).iloc[0]
     k = best.model
-    feats_b = a_cols + (C.LING_CORE if k == "ols" else C.LING_ALL)
-    mA = met[(met.target == target) & (met.model == k) & (met.spec == "A")].iloc[0].to_dict()
-    mB = met[(met.target == target) & (met.model == k) & (met.spec == "B")].iloc[0].to_dict()
+    by_leg = {g: C.spec_features(C.model_a_cols(leg=g), k, fb) for g in legs}
+    feats = by_leg[leg]
+    mets = {s: met[(met.target == target) & (met.model == k) & (met.spec == s)].iloc[0].to_dict() for s in feats}
+    incs = inc[(inc.target == target) & (inc.model == k) & ~inc.spec.str.startswith("B:")]
+    cols = ("d_ic", "d_ic_p", "d_oos_r2", "d_r2_p", "cw_t", "cw_p")
     spec = dict(
         frozen_at=datetime.now(timezone.utc).isoformat(timespec="seconds"),
         features_sha256=C.file_sha256(C.FEATURES_PATH), features_meta=C.load_meta(),
-        target=target, model=k, sue_variant=C.SUE_VARIANT, sample=args.sample, delayed=bool(args.delayed),
-        firm_fe=True, features_A=a_cols, features_B=feats_b,
+        reaction_sha256=C.file_sha256(C.REACTION_PATH) if C.REACTION_PATH.exists() else None,
+        target=target, model=k, sue_variant=C.SUE_VARIANT, sample=args.sample,
+        firm_fe=True, selected_leg=leg, legs=by_leg, features=feats, selected_spec=best.spec,
+        features_A=feats["A"], features_B=feats["B"],              # kept for older readers
         tuning=("ElasticNetCV, inner TimeSeriesSplit(3), l1_ratio grid " + str(L1_GRID) + ", 40 alphas; "
                 "re-tuned on the full purged dev sample") if k == "enet" else "none",
         selection_rule=("forced by --freeze-model" if args.freeze_model else
-                        "max dev OOS Delta R^2 (B - A) for the target, ties by Delta IC"),
+                        f"estimator with the max dev OOS Delta R^2 vs A over B / C / C_alone on leg {leg}, "
+                        "ties by Delta IC"),
         source_run=out_dir.name,
-        validation=dict(model_A=mA, model_B=mB, increment={c: best[c] for c in
-                                                           ("d_ic", "d_ic_p", "d_oos_r2", "d_r2_p", "cw_t", "cw_p")}),
-        verdict=("B beats A in validation" if best.d_oos_r2 > 0 and best.cw_p < 0.10 else
-                 "B does NOT beat A in validation; holdout acts as a confirmation of the negative"))
+        validation=dict(metrics=mets, increments=[dict(base=r.base, spec=r.spec, **{c: r[c] for c in cols})
+                                                  for _, r in incs.iterrows()]),
+        verdict=(f"{best.spec} beats A in validation" if best.d_oos_r2 > 0 and best.cw_p < 0.10 else
+                 f"no language model beats A in validation (best: {best.spec}); "
+                 "holdout acts as a confirmation of the negative"))
     C.FROZEN_SPEC_PATH.write_text(json.dumps(spec, indent=2, default=float))
     log.info("frozen spec: %s / %s -> %s (%s)", target, k, C.FROZEN_SPEC_PATH, spec["verdict"])
     return spec
+
+
+def run_leg(ev, leg: str, targets, models, fb: bool, args, tag: str):
+    a_cols = C.model_a_cols(leg=leg)
+    out_dir = C.stage_dir(f"oos/{tag}_{leg}")
+    preds, coefs, tuning = run_oos(ev, targets, models, a_cols, fb)
+    met, inc = compare(preds, args.reps)
+    preds.to_csv(out_dir / "predictions.csv", index=False)
+    coefs.to_csv(out_dir / "coefficients.csv", index=False)
+    tuning.to_csv(out_dir / "tuning.csv", index=False)
+    met.to_csv(out_dir / "metrics.csv", index=False)
+    inc.to_csv(out_dir / "increments.csv", index=False)
+    plots(preds, coefs, out_dir)
+
+    main_tab = met[~met.spec.str.startswith("B:")].sort_values(["target", "model", "spec"])
+    inc_main = inc[~inc.spec.str.startswith("B:")].drop(columns=["signal", "cw_q_fdr"], errors="ignore")
+    inc_single = inc[inc.spec.str.startswith("B:")].sort_values(["target", "cw_p"])
+    md = [f"# Step 4: out-of-sample Models A / B / C / C_alone (tag `{tag}`, leg `{leg}`)", "",
+          f"Reaction control in every model: {C.REACTION_LEGS[leg]}. Purged expanding windows, test years "
+          f"{C.FIRST_TEST_YEAR}-{C.DEV_END}; OOS R^2 vs training-mean forecast. {len(ev)} dev events.", "",
+          "## Model metrics", C.md_table(main_tab, index=False), "",
+          "## Increments (spec minus base): B, C, C_alone vs A; C vs B (FinBERT added); "
+          "C_alone vs B (FinBERT vs dictionary, not nested: no Clark-West)",
+          C.md_table(inc_main, index=False), "",
+          "## Single-signal increments (OLS, A + s vs A)",
+          C.md_table(inc_single[["target", "signal", "d_ic", "d_oos_r2", "cw_t", "cw_p", "cw_q_fdr"]], index=False), ""]
+    pd.set_option("display.width", 220)
+    print(f"--- leg {leg}")
+    print(main_tab.round(4).to_string(index=False))
+    print(inc_main.round(4).to_string(index=False))
+    return met, inc, out_dir, md
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--targets", default=",".join(C.OOS_TARGETS))
     ap.add_argument("--models", default="ols,enet")
-    ap.add_argument("--delayed", action="store_true")
+    ap.add_argument("--legs", default=",".join(C.REACTION_LEGS))
     ap.add_argument("--sample", default="all", choices=["all", "highprec"])
     ap.add_argument("--sue", default=C.SUE_VARIANT, choices=["SUE_TS", "SUE_PCT", "SUE_IBES"])
     ap.add_argument("--reps", type=int, default=C.BOOT_REPS)
@@ -230,42 +298,35 @@ def main():
         except ImportError:
             log.warning("xgboost not installed: skipping")
             models.remove("xgb")
-    tag = "_".join(p for p, d in (("delayed", args.delayed), (args.sample, args.sample != "all"),
+    tag = "_".join(p for p, d in ((args.sample, args.sample != "all"),
                                   (args.sue, args.sue != "SUE_TS")) if d) or "base"
-    out_dir = C.stage_dir(f"oos/{tag}")
 
     ev = C.load_events("dev", args.sample)
     C.assert_no_holdout(ev)
-    a_cols = C.model_a_cols(args.delayed)
+    wanted = [g for g in args.legs.split(",") if g]
+    legs = C.available_legs(ev, wanted)
+    for g in sorted(set(wanted) - set(legs)):
+        log.warning("leg %s skipped: column %s not in data/features.csv", g, C.REACTION_LEGS[g])
+    if not legs:
+        raise SystemExit("no reaction leg available")
+    fb = C.has_finbert(ev)
+    if not fb:
+        log.warning("no FinBERT columns (%s): running A and B only; build them with "
+                    "01_build_features.py --finbert to add C and C_alone", ", ".join(C.LING_FB))
     targets = [t for t in args.targets.split(",") if t]
-    preds, coefs, tuning = run_oos(ev, targets, models, a_cols)
-    met, inc = compare(preds, args.reps)
+    runs = {g: run_leg(ev, g, targets, models, fb, args, tag) for g in legs}
 
-    preds.to_csv(out_dir / "predictions.csv", index=False)
-    coefs.to_csv(out_dir / "coefficients.csv", index=False)
-    tuning.to_csv(out_dir / "tuning.csv", index=False)
-    met.to_csv(out_dir / "metrics.csv", index=False)
-    inc.to_csv(out_dir / "increments.csv", index=False)
-    plots(preds, coefs, out_dir)
-
-    main_tab = met[~met.spec.str.startswith("B:")].sort_values(["target", "model", "spec"])
-    inc_main = inc[inc.spec == "B"].drop(columns=["signal", "cw_q_fdr"], errors="ignore")
-    inc_single = inc[inc.spec.str.startswith("B:")].sort_values(["target", "cw_p"])
-    md = [f"# Step 4: out-of-sample Model A vs Model B (tag `{tag}`)", "",
-          f"Purged expanding windows, test years {C.FIRST_TEST_YEAR}-{C.DEV_END}; OOS R^2 vs training-mean "
-          f"forecast. {len(ev)} dev events.", "",
-          "## Model metrics", C.md_table(main_tab, index=False), "",
-          "## Increment of Model B over Model A", C.md_table(inc_main, index=False), "",
-          "## Single-signal increments (OLS, A + s vs A)",
-          C.md_table(inc_single[["target", "signal", "d_ic", "d_oos_r2", "cw_t", "cw_p", "cw_q_fdr"]], index=False), ""]
     if args.freeze:
-        spec = freeze(met, inc, args, a_cols, out_dir)
-        md += ["## Frozen specification", f"`{spec['target']}` / `{spec['model']}`: {spec['verdict']}", ""]
-    (out_dir / "summary.md").write_text("\n".join(md))
-    pd.set_option("display.width", 220)
-    print(main_tab.round(4).to_string(index=False))
-    print(inc_main.round(4).to_string(index=False))
-    log.info("outputs in %s", out_dir)
+        leg = C.MAIN_LEG if C.MAIN_LEG in runs else legs[0]
+        if leg != C.MAIN_LEG:
+            log.warning("main leg %s did not run: selecting on leg %s", C.MAIN_LEG, leg)
+        met, inc, out_dir, md = runs[leg]
+        spec = freeze(met, inc, args, leg, legs, out_dir, fb)
+        md += ["## Frozen specification", f"`{spec['target']}` / `{spec['model']}` (selected on leg `{leg}`, "
+               f"frozen legs {legs}): {spec['verdict']}", ""]
+    for g, (_, _, out_dir, md) in runs.items():
+        (out_dir / "summary.md").write_text("\n".join(md))
+        log.info("outputs in %s", out_dir)
 
 
 if __name__ == "__main__":

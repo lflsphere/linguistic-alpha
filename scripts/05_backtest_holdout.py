@@ -3,9 +3,11 @@
 05: economic evaluation (Section 7) and the final untouched holdout (Section 6).
 
   --stage dev      backtest the development-period OOS predictions written by 04_oos.py
-                   (outputs/oos/<tag>/predictions.csv), every return horizon, Model A vs Model B
+                   (outputs/oos/<tag>_<leg>/predictions.csv, for each reaction leg m1_1 / 0_1 that ran),
+                   every return horizon, Models A / B / C / C_alone
   --stage holdout  load outputs/frozen_spec.json, check that data/features.csv is unchanged since freezing,
-                   refit A and B once on the purged 2012-2023 sample, predict the 2024 calls, evaluate
+                   refit every frozen model (A, B and, with FinBERT, C and C_alone) once on the purged
+                   2012-2023 sample in every frozen reaction leg, predict the 2024 calls, evaluate
                    statistically and economically. Each run is appended to outputs/holdout/holdout_log.json;
                    a second run is refused without --force because repeated looks void the holdout.
 
@@ -72,17 +74,20 @@ def backtest(d: pd.DataFrame, rule: str, cost_bps: float) -> tuple[dict, pd.Data
     return res, d, cum
 
 
+SPECS = ("A",) + C.MAIN_SPECS
+
+
 def evaluate_block(preds: pd.DataFrame, cost_bps: float) -> tuple[pd.DataFrame, dict]:
-    """Backtests for every (target, model) with A/B x rule, plus the long benchmark."""
+    """Backtests for every (target, model) with each of A / B / C / C_alone x rule, plus the long benchmark."""
     rows, curves = [], {}
-    for (t, m), g in preds[preds["spec"].isin(["A", "B"])].groupby(["target", "model"]):
+    for (t, m), g in preds[preds["spec"].isin(SPECS)].groupby(["target", "model"]):
         if t not in TRADE_TARGETS:
             continue
         A = g[g.spec == "A"]
         r, _, cum = backtest(A, "long", cost_bps)
         rows.append(dict(target=t, model=m, strategy="long", **r))
         curves[(t, m, "long")] = cum
-        for spec in ("A", "B"):
+        for spec in [s for s in SPECS if s in set(g.spec)]:
             for rule in ("directional", "balanced"):
                 r, _, cum = backtest(g[g.spec == spec], rule, cost_bps)
                 rows.append(dict(target=t, model=m, strategy=f"{spec}-{rule}", **r))
@@ -94,7 +99,7 @@ def plot_curves(curves: dict, out_path, title: str) -> None:
     keys = sorted({(t, m) for t, m, _ in curves})
     fig, axes = plt.subplots(1, len(keys), figsize=(4.6 * len(keys), 3.6), squeeze=False)
     for ax, (t, m) in zip(axes.ravel(), keys):
-        for s in ("long", "A-balanced", "B-balanced", "B-directional"):
+        for s in ("long", "A-balanced", "B-balanced", "C-balanced", "C_alone-balanced"):
             if (t, m, s) in curves:
                 c = curves[(t, m, s)]
                 ax.plot(pd.PeriodIndex(c.index, freq="Q").to_timestamp(), c.values, label=s,
@@ -108,31 +113,65 @@ def plot_curves(curves: dict, out_path, title: str) -> None:
 
 # ============================================================================ stages
 def stage_dev(args, cost_bps: float) -> None:
-    src = C.OUT_DIR / "oos" / args.tag / "predictions.csv"
-    if not src.exists():
-        raise SystemExit(f"{src} not found: run 04_oos.py first")
-    preds = pd.read_csv(src, parse_dates=["day0"])
-    C.assert_no_holdout(preds)
-    out_dir = C.stage_dir(f"backtest/{args.tag}")
-    res, curves = evaluate_block(preds, cost_bps)
-    res.to_csv(out_dir / "backtest_dev.csv", index=False)
-    plot_curves(curves, out_dir / "cumulative_net_dev.png",
-                f"Dev OOS ({C.FIRST_TEST_YEAR}-{C.DEV_END}), net of {cost_bps:.0f} bps per side")
-    decay = res[res.strategy.isin(["long", "A-balanced", "B-balanced"])].pivot_table(
-        index=["model", "strategy"], columns="target", values="sharpe_ann")
-    decay.to_csv(out_dir / "sharpe_by_horizon.csv")
-    cols = ["target", "model", "strategy", "n_trades", "hit_rate", "long_share", "mean_gross_bps", "mean_net_bps",
-            "t_net", "sharpe_ann", "max_drawdown", "breakeven_bps_per_side"]
-    md = [f"# Section 7: economic evaluation on dev OOS predictions (tag `{args.tag}`)", "",
-          f"Costs: {cost_bps:.1f} bps per side (stock + hedge). Trades enter at the close of day +1.", "",
-          C.md_table(res[cols], index=False), "", "## Net Sharpe by horizon (decay vs tradability)",
-          C.md_table(decay), "",
-          "Read B-balanced against A-balanced (the incremental value of language) and against long "
-          "(the universe's post-call drift, large for these three names over 2018-2023)."]
-    (out_dir / "summary.md").write_text("\n".join(md))
-    pd.set_option("display.width", 220)
-    print(res[cols].round(3).to_string(index=False))
-    log.info("outputs in %s", out_dir)
+    srcs = {g: C.OUT_DIR / "oos" / f"{args.tag}_{g}" / "predictions.csv" for g in C.REACTION_LEGS}
+    srcs = {g: p for g, p in srcs.items() if p.exists()}
+    if not srcs:
+        raise SystemExit(f"no outputs/oos/{args.tag}_<leg>/predictions.csv found: run 04_oos.py first")
+    for leg, src in srcs.items():
+        preds = pd.read_csv(src, parse_dates=["day0"])
+        C.assert_no_holdout(preds)
+        out_dir = C.stage_dir(f"backtest/{args.tag}_{leg}")
+        res, curves = evaluate_block(preds, cost_bps)
+        res.to_csv(out_dir / "backtest_dev.csv", index=False)
+        plot_curves(curves, out_dir / "cumulative_net_dev.png",
+                    f"Dev OOS ({C.FIRST_TEST_YEAR}-{C.DEV_END}), leg {leg}, net of {cost_bps:.0f} bps per side")
+        decay = res[res.strategy.isin(["long"] + [f"{s}-balanced" for s in SPECS])].pivot_table(
+            index=["model", "strategy"], columns="target", values="sharpe_ann")
+        decay.to_csv(out_dir / "sharpe_by_horizon.csv")
+        cols = ["target", "model", "strategy", "n_trades", "hit_rate", "long_share", "mean_gross_bps", "mean_net_bps",
+                "t_net", "sharpe_ann", "max_drawdown", "breakeven_bps_per_side"]
+        md = [f"# Section 7: economic evaluation on dev OOS predictions (tag `{args.tag}`, leg `{leg}`)", "",
+              f"Reaction control in every model: {C.REACTION_LEGS[leg]}. Costs: {cost_bps:.1f} bps per side "
+              "(stock + hedge). Trades enter at the close of day +1.", "",
+              C.md_table(res[cols], index=False), "", "## Net Sharpe by horizon (decay vs tradability)",
+              C.md_table(decay), "",
+              "Read B-balanced against A-balanced (the incremental value of dictionary language), C-balanced "
+              "against B-balanced (what FinBERT adds), C_alone-balanced against B-balanced (FinBERT vs. "
+              "dictionary), and all of them against long (the universe's post-call drift, large for these "
+              "three names over 2018-2023). Compare the same line across legs for the effect of the "
+              "reaction window."]
+        (out_dir / "summary.md").write_text("\n".join(md))
+        pd.set_option("display.width", 220)
+        print(f"--- leg {leg}")
+        print(res[cols].round(3).to_string(index=False))
+        log.info("outputs in %s", out_dir)
+
+
+def holdout_leg(leg: str, frozen: dict, spec: dict, train, test, t: str, firms, cost_bps: float, out_dir):
+    preds = []
+    for name, feats in frozen.items():
+        Xtr, Xte = oos.design(train, test, feats, firms)
+        p, coef, info = oos.fit_predict(spec["model"], Xtr, train[t].to_numpy(), Xte)
+        preds.append(test[["transcriptid", "ticker", "day0", "year", "event_q", t]].rename(columns={t: "y"})
+                     .assign(target=t, model=spec["model"], spec=name, pred=p, bench=train[t].mean()))
+        if coef is not None:
+            coef.rename("value").to_csv(out_dir / f"coefficients_{leg}_{name}.csv")
+    preds = pd.concat(preds, ignore_index=True).assign(leg=leg)
+    met = pd.DataFrame([dict(leg=leg, spec=s, **oos.metrics(g)) for s, g in preds.groupby("spec")])
+    incs = []
+    for base, alt, nested in [p for p in C.COMPARISONS if {p[0], p[1]} <= set(frozen)]:
+        A, B = (preds[preds.spec == s].set_index("transcriptid") for s in (base, alt))
+        B = B.loc[A.index]
+        cw_t, cw_p = C.clark_west(A["y"], A["pred"], B["pred"]) if nested else (np.nan, np.nan)
+        incs.append(dict(leg=leg, base=base, spec=alt, nested=nested,
+                         d_ic=C.spearman(B["pred"], A["y"]) - C.spearman(A["pred"], A["y"]),
+                         d_oos_r2=C.oos_r2(A["y"], B["pred"], A["bench"]) - C.oos_r2(A["y"], A["pred"], A["bench"]),
+                         cw_t=cw_t, cw_p=cw_p, n=len(A)))
+    bt, curves = (evaluate_block(preds, cost_bps) if t in TRADE_TARGETS else (pd.DataFrame(), {}))
+    if len(bt):
+        bt = bt.assign(leg=leg)
+        plot_curves(curves, out_dir / f"cumulative_net_holdout_{leg}.png", f"Holdout {C.HOLDOUT_START}, leg {leg}, net")
+    return preds, met, pd.DataFrame(incs), bt
 
 
 def stage_holdout(args, cost_bps: float) -> None:
@@ -148,6 +187,9 @@ def stage_holdout(args, cost_bps: float) -> None:
     sha = C.file_sha256(C.FEATURES_PATH)
     if sha != spec["features_sha256"] and not args.force:
         raise SystemExit("data/features.csv changed since the spec was frozen; re-freeze or pass --force")
+    r_sha = C.file_sha256(C.REACTION_PATH) if C.REACTION_PATH.exists() else None
+    if r_sha != spec.get("reaction_sha256", r_sha) and not args.force:
+        raise SystemExit("data/reaction_windows.csv changed since the spec was frozen; re-freeze or pass --force")
 
     C.SUE_VARIANT = spec["sue_variant"]
     ev = C.load_events("dev+holdout", spec["sample"])
@@ -161,32 +203,22 @@ def stage_holdout(args, cost_bps: float) -> None:
              len(train), train["year"].min(), train["year"].max(), len(test), test["day0"].min().date(),
              test["day0"].max().date())
 
-    preds = []
-    for name, feats in (("A", spec["features_A"]), ("B", spec["features_B"])):
-        Xtr, Xte = oos.design(train, test, feats, firms)
-        p, coef, info = oos.fit_predict(spec["model"], Xtr, train[t].to_numpy(), Xte)
-        preds.append(test[["transcriptid", "ticker", "day0", "year", "event_q", t]].rename(columns={t: "y"})
-                     .assign(target=t, model=spec["model"], spec=name, pred=p, bench=train[t].mean()))
-        if coef is not None:
-            coef.rename("value").to_csv(out_dir / f"coefficients_{name}.csv")
-    preds = pd.concat(preds, ignore_index=True)
-    met = pd.DataFrame([dict(spec=s, **oos.metrics(g)) for s, g in preds.groupby("spec")])
-    A, B = (preds[preds.spec == s].set_index("transcriptid") for s in ("A", "B"))
-    B = B.loc[A.index]
-    cw_t, cw_p = C.clark_west(A["y"], A["pred"], B["pred"])
-    inc = dict(d_ic=C.spearman(B["pred"], A["y"]) - C.spearman(A["pred"], A["y"]),
-               d_oos_r2=C.oos_r2(A["y"], B["pred"], A["bench"]) - C.oos_r2(A["y"], A["pred"], A["bench"]),
-               cw_t=cw_t, cw_p=cw_p, n=len(A))
-    bt, curves = (evaluate_block(preds, cost_bps) if t in TRADE_TARGETS else (pd.DataFrame(), {}))
+    # older specs: one set of models, no legs
+    legs = spec.get("legs") or {spec.get("selected_leg", "single"):
+                                spec.get("features") or {"A": spec["features_A"], "B": spec["features_B"]}}
+    parts = [holdout_leg(g, f, spec, train, test, t, firms, cost_bps, out_dir) for g, f in legs.items()]
+    preds, met, inc, bt = (pd.concat([p[i] for p in parts], ignore_index=True) for i in range(4))
 
     preds.to_csv(out_dir / "holdout_predictions.csv", index=False)
     met.to_csv(out_dir / "holdout_metrics.csv", index=False)
+    inc.to_csv(out_dir / "holdout_increments.csv", index=False)
     if len(bt):
         bt.to_csv(out_dir / "holdout_backtest.csv", index=False)
-        plot_curves(curves, out_dir / "cumulative_net_holdout.png", f"Holdout {C.HOLDOUT_START}, net")
     record = dict(run_at=datetime.now(timezone.utc).isoformat(timespec="seconds"), spec_frozen_at=spec["frozen_at"],
-                  features_sha256=sha, target=t, model=spec["model"], n_test=len(test), increment=inc,
-                  metrics=met.to_dict(orient="records"), forced=bool(args.force))
+                  features_sha256=sha, target=t, model=spec["model"], n_test=len(test),
+                  selected_leg=spec.get("selected_leg"), selected_spec=spec.get("selected_spec", "B"),
+                  increments=inc.to_dict(orient="records"), metrics=met.to_dict(orient="records"),
+                  forced=bool(args.force))
     history.append(record)
     log_path.write_text(json.dumps(history, indent=2, default=float))
 
@@ -195,16 +227,19 @@ def stage_holdout(args, cost_bps: float) -> None:
           f"{' (FORCED: holdout no longer untouched)' if len(history) > 1 else ''}.", "",
           f"Train: {len(train)} purged dev events; test: {len(test)} calls. With N = {len(test)}, read these as "
           "a sign check, not as inference.", "",
+          f"Selected on dev: `{spec.get('selected_spec', 'B')}` on leg `{spec.get('selected_leg')}`. Every model "
+          f"is scored in each frozen leg ({', '.join(legs)}). Increments are spec minus base; C_alone vs B is "
+          "not nested, so it has no Clark-West test.", "",
           "## Statistical", C.md_table(met, index=False), "",
-          C.md_table(pd.Series(inc, name="value").to_frame()), ""]
+          C.md_table(inc, index=False), ""]
     if len(bt):
-        md += ["## Economic (net of costs)", C.md_table(bt[["strategy", "n_trades", "hit_rate", "mean_net_bps",
+        md += ["## Economic (net of costs)", C.md_table(bt[["leg", "strategy", "n_trades", "hit_rate", "mean_net_bps",
                                                             "sharpe_ann", "total_net"]], index=False)]
     (out_dir / "summary.md").write_text("\n".join(md))
     print(met.round(4).to_string(index=False))
-    print(pd.Series(inc).round(4).to_string())
+    print(inc.round(4).to_string(index=False))
     if len(bt):
-        print(bt[["strategy", "n_trades", "hit_rate", "mean_net_bps", "total_net"]].round(3).to_string(index=False))
+        print(bt[["leg", "strategy", "n_trades", "hit_rate", "mean_net_bps", "total_net"]].round(3).to_string(index=False))
     log.info("outputs in %s", out_dir)
 
 

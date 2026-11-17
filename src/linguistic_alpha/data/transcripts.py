@@ -23,13 +23,13 @@ SECTION_BY_TYPE = {1: "operator", 2: "prepared", 3: "question", 4: "answer"}
 ROLE_PATTERNS = [("operator", "operator"), ("analyst", "analyst"), ("executive", "executive")]
 
 
-def select_latest_version(detail: pd.DataFrame) -> pd.DataFrame:
-    """Keep one transcript per call (keydevid): the most recently created version.
+def select_earliest_version(detail: pd.DataFrame) -> pd.DataFrame:
+    """Keep one transcript per call (keydevid): the earliest created version.
 
-    The legacy notebook took the max ``transcriptid``, which is not a version order
-    (re-collected transcripts get new, larger ids). Ties fall back to ``transcriptid``.
-    TODO: rank by transcriptpresentationtypeid (final > edited > preliminary) once the
-    type table is pulled, and decide whether to mix redacted/unredacted collections.
+    Robustness only (``transcripts.version_rule: earliest``); the main rule is
+    ``select_latest_before``. Creation time only orders versions. Never order by max
+    ``transcriptid`` (re-collected transcripts get new, larger ids). Ties fall back to the
+    lowest ``transcriptid``; versions without a creation time come last.
     """
     d = detail.copy()
     created = pd.to_datetime(d.get("transcriptcreationdate_utc"), errors="coerce")
@@ -37,8 +37,70 @@ def select_latest_version(detail: pd.DataFrame) -> pd.DataFrame:
         created = created + pd.to_timedelta(d["transcriptcreationtime_utc"].astype(str),
                                             errors="coerce").fillna(pd.Timedelta(0))
     d["_created"] = created
-    d = d.sort_values(["keydevid", "_created", "transcriptid"], na_position="first")
-    return d.groupby("keydevid").tail(1).drop(columns="_created").reset_index(drop=True)
+    d = d.sort_values(["keydevid", "_created", "transcriptid"], na_position="last")
+    return d.groupby("keydevid").head(1).drop(columns="_created").reset_index(drop=True)
+
+
+def _created_utc(d: pd.DataFrame) -> pd.Series:
+    date = pd.to_datetime(d.get("transcriptcreationdate_utc"), errors="coerce")
+    if "transcriptcreationtime_utc" in d:
+        date = date + pd.to_timedelta(d["transcriptcreationtime_utc"].astype(str),
+                                      errors="coerce").fillna(pd.Timedelta(0))
+    return date.dt.tz_localize("UTC")
+
+
+def day0_close_utc(detail: pd.DataFrame, trading_days: pd.DatetimeIndex,
+                   market_close_et: str = "16:00") -> pd.Series:
+    """Close of Day 0 (UTC) per call, Day 0 taken from the call time (``events.timing``).
+
+    The release and the call count as one event, and the call falls on the release's Day 0
+    or Day +1, so this cutoff is never later than the trade entry (Day +1 close of the
+    release). Indexed by ``keydevid``.
+    """
+    from linguistic_alpha.events.timing import NY, assign_day0, call_timestamp_utc
+    calls = detail.drop_duplicates("keydevid").set_index("keydevid")
+    ts = call_timestamp_utc(calls["mostimportantdateutc"], calls["mostimportanttimeutc"])
+    d0 = assign_day0(ts, trading_days, call_date_fallback=calls["mostimportantdateutc"],
+                     market_close_et=market_close_et)["day0"]
+    return (d0 + pd.Timedelta(market_close_et + ":00")).dt.tz_localize(NY).dt.tz_convert("UTC")
+
+
+def select_latest_before(detail: pd.DataFrame, cutoff_utc: pd.Series,
+                         no_version: str = "drop") -> pd.DataFrame:
+    """Keep one transcript per call: the LATEST version created at or before the cutoff.
+
+    Spec (docs/pipeline.md, "Transcript version and timing"): the cutoff is the close of
+    Day 0 (``day0_close_utc``), so the text is one a trader could have read before the
+    position opens at the Day +1 close. Versions are ordered by creation time, never by
+    ``transcriptid``; ties take the highest ``transcriptid`` among equal times.
+    ``no_version``: "drop" leaves out calls with no version by the cutoff (main sample);
+    "earliest" keeps their earliest version, flagged ``version_before_cutoff`` = False.
+    Adds ``version_created_utc``, ``version_type`` (presentation / collection),
+    ``version_before_cutoff`` and ``version_final``.
+
+    ``version_final`` is the single text-quality control: 1 when the chosen version has
+    reached the Final stage (Edited or later: Edited, Proofed, Audited and their SA / EV
+    variants), 0 when it is still Preliminary (Spellchecked). Capital IQ ties the two fields
+    together: Preliminary versions are always Spellchecked and Final versions never are.
+    """
+    d = detail.copy()
+    d["version_created_utc"] = _created_utc(d)
+    d["_cut"] = d["keydevid"].map(cutoff_utc)
+    d["version_before_cutoff"] = d["version_created_utc"].le(d["_cut"])
+    if {"transcriptpresentationtypename", "transcriptcollectiontypename"} <= set(d.columns):
+        d["version_type"] = (d["transcriptpresentationtypename"].astype(str) + " / "
+                             + d["transcriptcollectiontypename"].astype(str))
+        d["version_final"] = d["transcriptpresentationtypename"].eq("Final").astype(int)
+    ok = d[d["version_before_cutoff"]].sort_values(["keydevid", "version_created_utc", "transcriptid"])
+    out = ok.groupby("keydevid").tail(1)
+    if no_version == "earliest":
+        rest = d[~d["keydevid"].isin(out["keydevid"])]
+        rest = rest.sort_values(["keydevid", "version_created_utc", "transcriptid"],
+                                na_position="last").groupby("keydevid").head(1)
+        out = pd.concat([out, rest])
+    elif no_version != "drop":
+        raise ValueError(no_version)
+    return out.drop(columns="_cut").sort_values("keydevid").reset_index(drop=True)
 
 
 def speaker_role(speakertypename: pd.Series) -> pd.Series:

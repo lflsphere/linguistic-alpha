@@ -219,13 +219,19 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-# --- Project data: WRDS-licensed, never commit ---
-data/panel.csv
-!data/**/
-!data/raw/sp500_pit
-!data/**/.gitkeep
-*.parquet
+# --- Project data: WRDS-licensed raw exports, never commit ---
+# Raw pulls live locally (or on the team Drive) and are rebuilt with scripts/pull_sp500_pit.py.
+data/raw/
+# Files derived from WRDS data (transcript text, returns, features) are licensed too
+data/interim/
+data/processed/
+data/features.csv
+data/reaction_windows.csv
+data/qa_pairs.csv
+data/qa_label_sample.csv
+!data/
 *.xlsx
+.DS_Store
 !tests/fixtures/*.csv
 wrds_access_report.csv
 .pgpass

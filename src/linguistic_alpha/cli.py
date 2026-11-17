@@ -27,8 +27,15 @@ def stage_transcripts(cfg: Config, args: argparse.Namespace) -> None:
         panel = pd.read_excel(cfg.paths.legacy_panel, dtype={"gvkey": str})
         components = transcripts.components_from_legacy_panel(panel)
     else:
-        detail = transcripts.select_latest_version(read_table(cfg.paths.raw,
-                                                              "ciq_transcript_detail"))
+        all_versions = read_table(cfg.paths.raw, "ciq_transcript_detail")
+        tcfg = cfg["transcripts"]
+        if tcfg["version_rule"] == "earliest":
+            detail = transcripts.select_earliest_version(all_versions)
+        else:   # latest_before_day0_close
+            days = pd.DatetimeIndex(read_table(cfg.paths.raw, "crsp_dsf_v2")["dlycaldt"].unique())
+            cutoff = transcripts.day0_close_utc(all_versions, days, cfg["events"]["market_close_et"])
+            detail = transcripts.select_latest_before(all_versions, cutoff,
+                                                      tcfg["no_version_before_cutoff"])
         raw = read_table(cfg.paths.raw, "ciq_transcript_component")
         raw = raw[raw["transcriptid"].isin(detail["transcriptid"])]
         try:

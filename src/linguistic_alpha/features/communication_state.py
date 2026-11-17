@@ -14,7 +14,8 @@ class CommunicationState(FeatureFamily):
     tone_gap                     : tone_answers - tone_prepared
     uncertainty                  : LM Uncertainty words per 1,000 (safe harbor removed)
     hedging                      : LM Weak_Modal + hedge phrases per 1,000
-    Extensions (nlp extra): FinBERT sentence scores averaged per section.
+    Model C (nlp extra): finbert_tone_prepared / finbert_tone_answers / finbert_tone_gap =
+    FinBERT sentence scores (pos - neg) averaged per section.
     """
 
     name = "communication_state"

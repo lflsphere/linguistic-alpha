@@ -34,6 +34,8 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
 PANEL_PATH = DATA_DIR / "panel.csv"
 FEATURES_PATH = DATA_DIR / "features.csv"
+REACTION_PATH = DATA_DIR / "reaction_windows.csv"   # AR_M11 = CAR[-1,+1], scripts/build_reaction_windows.py
+TR_WINDOWS = ["AR01", "CAR_2_5", "CAR_2_20", "CAR_2_60", "CAR_6_20", "CAR_21_60"]   # rebuilt on total return
 PAIRS_PATH = DATA_DIR / "qa_pairs.csv"
 META_PATH = DATA_DIR / "features_meta.json"
 LABEL_SAMPLE_PATH = DATA_DIR / "qa_label_sample.csv"   # written by 02_validate (blind, no model scores)
@@ -50,7 +52,8 @@ HIST_WINDOW = 4                      # prior calls used by the Delta features
 SUE_HIST = (8, 4)                    # (window, min periods) of the time-series SUE scale
 
 # ============================================================================ targets (Section 2.2)
-# CAR_a_b is the market-adjusted CAR over trading days [+a, +b] relative to day 0.
+# CAR_a_b is the CAR over trading days [+a, +b] relative to day 0, against the S&P 500 total return
+# (rebuilt by build_reaction_windows.py; the panel's price-return versions are kept as CAR_a_b_PX).
 TARGETS = ["CAR_2_5", "CAR_2_20", "CAR_2_60", "CAR_6_20", "CAR_21_60", "LOGVOL_2_20"]
 CUM_TARGETS = ["CAR_2_5", "CAR_2_20", "CAR_2_60"]
 BUCKET_TARGETS = ["CAR_2_5", "CAR_6_20", "CAR_21_60"]          # non-overlapping decay buckets
@@ -66,7 +69,14 @@ OOS_TARGETS = ["CAR_2_5", "CAR_2_20", "CAR_2_60", "LOGVOL_2_20"]
 # SUE_IBES: surprise / SD of analyst forecasts, as delivered in the panel (missing when SD rounds to 0)
 SUE_VARIANT = "SUE_TS"
 MODEL_A = ["SUE", "DISP", "COV", "SIZE", "BM", "MOM", "VOL"]
-DELAYED_EXTRA = ["AR01"]             # CAR[0,+1]: only in the delayed-signal robustness spec
+DELAYED_EXTRA = ["AR01"]             # CAR[0,+1]: 03_cross_section.py --delayed only
+# Reaction legs (configs/default.yaml controls.reaction_legs): every model in 04/05 runs once per leg,
+# with this column added to Model A's controls. AR_M11 = CAR[-1,+1] needs daily returns, so it is not
+# in the legacy panel (which has CAR[0,+1] only): scripts/build_reaction_windows.py builds it, and every other
+# window, from the 2008 daily pull against the S&P 500 total return into REACTION_PATH; load_events merges it.
+# Without that file the main leg is skipped and windows stay on the panel's price-return benchmark.
+REACTION_LEGS = {"m1_1": "AR_M11", "0_1": "AR01"}   # main leg first, then comparison
+MAIN_LEG = "m1_1"
 
 # ============================================================================ Model B (Section 4)
 LING_FAMILIES = {
@@ -78,6 +88,37 @@ LING_ALL = [f for fam in LING_FAMILIES.values() for f in fam]
 # Full-rank subset for joint OLS: TONE_GAP = TONE_Q - TONE_P, and EVADE = 1 - REL.
 LING_CORE = ["TONE_P", "TONE_GAP", "UNC", "HEDGE", "EVADE", "NONANS", "dTONE", "NOVEL"]
 FAMILY_OF = {f: fam for fam, fs in LING_FAMILIES.items() for f in fs}
+
+# Model sets, as in configs/default.yaml (models.measures) and docs/pipeline.md:
+#   A        = controls
+#   B        = A + dictionary measures (method 1: NLTK tokens + Loughran-McDonald lists)
+#   C        = B + FinBERT sentence tone (method 2): what FinBERT adds on top of the dictionary
+#   C_alone  = A + FinBERT only: head-to-head with B (dictionary vs. FinBERT)
+# Embedding / LLM measures (methods 3-4) stay out of A/B/C; they are only tested one by one.
+LING_DICT = ["TONE_P", "TONE_Q", "TONE_GAP", "UNC", "HEDGE", "NONANS", "dTONE", "dUNC"]
+LING_DICT_CORE = ["TONE_P", "TONE_GAP", "UNC", "HEDGE", "NONANS", "dTONE", "dUNC"]   # TONE_GAP = Q - P
+LING_FB = ["TONE_P_FB", "TONE_Q_FB", "TONE_GAP_FB"]      # finbert_tone_prepared / _answers / _gap
+LING_FB_CORE = ["TONE_P_FB", "TONE_GAP_FB"]
+LING_LATER = ["EVADE", "dEVADE", "NOVEL", "DIV_QP"]
+MAIN_SPECS = ("B", "C", "C_alone")
+# (base, alternative, nested): increments are alternative minus base; Clark-West only when nested
+COMPARISONS = [("A", "B", True), ("A", "C", True), ("A", "C_alone", True),
+               ("B", "C", True), ("B", "C_alone", False)]
+
+
+def spec_features(a_cols: list[str], kind: str, has_finbert: bool) -> dict[str, list[str]]:
+    """Regressors per model. OLS uses full-rank subsets; penalised models take every measure."""
+    d = LING_DICT_CORE if kind == "ols" else LING_DICT
+    fb = LING_FB_CORE if kind == "ols" else LING_FB
+    out = {"A": list(a_cols), "B": list(a_cols) + d}
+    if has_finbert:
+        out["C"] = list(a_cols) + d + fb
+        out["C_alone"] = list(a_cols) + fb
+    return out
+
+
+def has_finbert(df: pd.DataFrame) -> bool:
+    return all(c in df.columns and df[c].notna().any() for c in LING_FB)
 
 # ============================================================================ estimation defaults
 FE_DEFAULT = ("firm", "year")
@@ -120,8 +161,14 @@ def load_meta() -> dict:
     return json.loads(META_PATH.read_text()) if META_PATH.exists() else {}
 
 
-def model_a_cols(delayed: bool = False) -> list[str]:
+def model_a_cols(delayed: bool = False, leg: str | None = None) -> list[str]:
+    if leg is not None:
+        return MODEL_A + [REACTION_LEGS[leg]]
     return MODEL_A + (DELAYED_EXTRA if delayed else [])
+
+
+def available_legs(df: pd.DataFrame, wanted: list[str]) -> list[str]:
+    return [g for g in wanted if REACTION_LEGS[g] in df.columns and df[REACTION_LEGS[g]].notna().any()]
 
 
 def load_events(scope: str = "dev", sample: str = "all") -> pd.DataFrame:
@@ -130,6 +177,14 @@ def load_events(scope: str = "dev", sample: str = "all") -> pd.DataFrame:
         raise SystemExit("data/features.csv not found: run scripts/01_build_features.py first")
     df = pd.read_csv(FEATURES_PATH, parse_dates=["call_date", "day0"])
     df["SUE"] = df[SUE_VARIANT]
+    if REACTION_PATH.exists():
+        # Benchmark = S&P 500 total return (scripts/build_reaction_windows.py says why): replace the panel's
+        # price-return windows, keep them as <name>_PX, and add AR_M11 = CAR[-1,+1].
+        r = pd.read_csv(REACTION_PATH, usecols=["transcriptid", "AR_M11"] + TR_WINDOWS)
+        df = df.rename(columns={c: f"{c}_PX" for c in TR_WINDOWS if c in df.columns})
+        df = df.merge(r, on="transcriptid", how="left")
+    if {"TONE_P_FB", "TONE_Q_FB"} <= set(df.columns):     # built by 01_build_features.py --finbert
+        df["TONE_GAP_FB"] = df["TONE_Q_FB"] - df["TONE_P_FB"]
     if scope == "dev":
         df = df[(df["year"] >= DEV_START) & (df["year"] <= DEV_END)]
     elif scope == "holdout":

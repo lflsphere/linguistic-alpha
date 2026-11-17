@@ -33,10 +33,10 @@ the legacy notebook ([docs/data_audit.md](docs/data_audit.md)).
 | Split-adjusted I/B/E/S rounds consensus to 2 decimals (94/179 legacy rows; 13 with consensus 0) | SUE, the main control, is wrong | Unadjusted `actu_epsus` / `statsumu_epsus` + CRSP `cfacshr`; scale SUE by price |
 | `panel.xlsx` truncated text at Excel's 32,767-char cell limit (59/179 calls) | Biased language features | Never store text in xlsx; parquet only |
 | CRSP ends 2024-12-31 | Planned 2024–2026 holdout is only 2024 | Refresh CRSP, or move holdout to 2023–2024 (needs sign-off) |
-| `sprtrn` excludes dividends, CRSP `ret` includes them | AR drifts up by ~dividend yield | Use `vwretd` / total-return S&P; FF4 as robustness |
+| `sprtrn` excludes dividends, CRSP `ret` includes them | AR drifts up by ~dividend yield (+0.18 pp over [+2,+20]) | Done: S&P 500 total return (`vwretd`), windows rebuilt by `scripts/build_reaction_windows.py`; FF4 as robustness |
 | Delisting returns pulled but not used | Survivorship bias | Merge `dlret` into returns |
 | Links ignore valid dates; duplicates dropped arbitrarily | Wrong firm/ticker matches | Date-valid, ranked links with attrition log |
-| No rule for transcript versions (redacted/unredacted, re-collected ids) | Wrong or mixed text per call | Rank by creation time / presentation type; agree a precedence rule |
+| No rule for transcript versions (redacted/unredacted, re-collected ids) | Wrong or mixed text per call | **Decided:** earliest version per call by creation time, dated by call time |
 | Biotech exclusion needs GICS history | Universe not as agreed | Pull `comp.co_hgic`, exclude GICS 352010 on the call date |
 | No GCP credits for audio features | Vocal features out of reach | Defer; use cheaper text features (readability, complexity) |
 

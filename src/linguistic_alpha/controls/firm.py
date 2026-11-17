@@ -1,4 +1,4 @@
-"""Firm characteristics: size, book-to-market, momentum, pre-event volatility, CAR[0,+1].
+"""Firm characteristics: size, book-to-market, momentum, pre-event volatility, CAR[-1,+1] and CAR[0,+1].
 
 Status: specified, not implemented.
 
@@ -8,7 +8,11 @@ Definitions:
             BE = seqq + txditcq - pstkq (fallback ceqq); negative BE -> NaN
   mom     = prod(1+ret) over months -12..-2 relative to the call month
   vol_pre = std(AR, -60..-5) * sqrt(252)
-  car_0_1 = sum AR over Day 0 and Day +1 (control, not target)
+  car_m1_1 = sum AR over Day -1 .. Day +1 (``targets.reaction_window``; control, not target).
+             Day -1 is the last close before the release, so the window holds the whole reaction
+             whether the release came before the open or after the close.
+  car_0_1  = sum AR over Day 0 .. Day +1, the comparison window. Both are always computed;
+             Model A uses the one named in ``controls.include``.
 
 Fixes vs. the legacy notebook (docs/data_audit.md §Controls): missing returns inside the
 momentum window are not filled with 0; fundq rows with NULL rdq use datadate + 90 days lag.

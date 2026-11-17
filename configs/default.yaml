@@ -10,19 +10,19 @@ paths:
 
 wrds:
   username_env: WRDS_USERNAME   # never hard-code credentials
-  start_year: 2010              # pull 2 extra years before sample.start for F4 + MOM history
+  start_year: 2008              # team decision 2026-11-17: pull from 2008 (scripts/pull_sp500_pit.py)
   end_year: 2026
 
 sample:
   start: "2012-01-01"
-  end: "2024-12-31"             # CRSP daily ends 2024-12-31 on our subscription
+  end: "2026-06-30"             # CRSP quarterly update (crspq) ends 2026-06-30
   universe: sp500_historical    # crsp.msp500list membership on the call date
   exclude_gics_industries: ["352010"]   # Biotechnology (meeting 10/23)
   min_prior_return_days: 60
 
 split:
-  # Scope doc says 2012-2023 build / 2024-2026 holdout; with CRSP ending 2024-12-31
-  # the holdout is effectively 2024 only. Revisit once CRSP is refreshed.
+  # Scope doc: 2012-2023 build / 2024-2026 holdout. CRSP now runs to 2026-06-30, so the holdout
+  # covers 2024-01 to 2026-06 (events whose target window ends after that have no target yet).
   build_end: "2023-12-31"
   holdout_start: "2024-01-01"
   walk_forward:
@@ -31,15 +31,30 @@ split:
     embargo_trading_days: 20    # target window length, avoids overlap leakage
 
 events:
-  market_close_et: "16:00"      # calls at/after this (America/New_York) -> Day 0 = next session
-  missing_call_time: next_session   # conservative: assume after close when time unknown
+  # The earnings release and the call count as one event; there is no call-timing control.
+  # Day 0 = the first session whose close comes after the release (I/B/E/S anndats + anntims).
+  anchor: release               # release (main) | call (CIQ scheduled time, robustness only)
+  release_time_tz: America/New_York   # checked: anntims is New York time with daylight saving
+                                      # (80% within 15 min of CIQ Key Dev type 28; docs/pipeline.md)
+  market_close_et: "16:00"      # release at/after this (New York time) -> Day 0 = next session
+  missing_call_time: next_session   # time unknown -> assume after close (no same-day reaction)
+  max_call_lag_sessions: 1      # the call must fall in Day 0 or Day +1; otherwise flag the event
+                                # and leave it out of the main sample
 
 targets:
-  benchmark: sp500              # sp500 (crsp.dsi) | ff4 (robustness)
+  # AR = R(stock) - R(S&P 500). The S&P 500 index is point-in-time by construction (its
+  # constituents on each day); use its total return (crsp_dsp500_v2.vwretd, dividends included,
+  # like CRSP dlyret), not the price-only sprtrn: with sprtrn the index dividend yield stays in every AR
+  # (+0.18 pp over [+2,+20], +0.46 pp over [+2,+60] on the legacy events). docs/pipeline.md has the detail.
+  benchmark: sp500              # sp500 (main) | vwmkt (crsp_vwmkt_daily) | ff4 (robustness only)
+  benchmark_column: vwretd
   car_windows:
     car_2_20: [2, 20]           # primary
     car_2_5: [2, 5]
     car_2_60: [2, 60]
+  reaction_window:              # announcement reaction around Day 0: a control, never a target
+    car_m1_1: [-1, 1]           # main leg: Day -1 = last close before the news
+    car_0_1: [0, 1]             # comparison leg
   min_window_coverage: 0.8
   vol_post_window: [2, 20]
   vol_pre_window: [-60, -5]
@@ -48,7 +63,16 @@ controls:
   sue_scaler: price             # price (scope doc) | stdev (legacy notebook) -- keep both columns
   ibes_unadjusted: true         # statsumu_epsus / actu_epsus, avoids split-rounding
   mom_window_months: [-12, -2]
-  include: [sue, size, bm, mom, car_0_1, vol_pre, n_analysts, dispersion]
+  include: [sue, size, bm, mom, vol_pre, n_analysts, dispersion, version_final]
+  # version_final: single text-quality control (1 = transcript at the Final stage, Edited or later)
+  # Every model (A, B, C, C_alone) runs in two legs that differ only in the reaction control
+  # added to these controls: main = car_m1_1, comparison = car_0_1.
+  reaction_legs: {main: car_m1_1, comparison: car_0_1}
+
+transcripts:
+  # One version per call: the latest created by the close of Day 0 (docs/pipeline.md).
+  version_rule: latest_before_day0_close   # latest_before_day0_close (main) | earliest (robustness)
+  no_version_before_cutoff: drop           # drop (main) | earliest (keep, flagged)
 
 features:
   # Level-1 families from the research framework; each lists its Level-2 measures.
@@ -60,5 +84,13 @@ features:
 
 models:
   model_a: controls
-  model_b: controls + features
+  model_b: controls + measures.dictionary                 # method 1: NLTK tokens + Loughran-McDonald lists
+  model_c: controls + measures.dictionary + measures.finbert  # method 2 added: FinBERT sentence sentiment
+  model_c_alone: controls + measures.finbert   # FinBERT only: head-to-head with B (dictionary vs. FinBERT)
+  measures:                     # which feature measures each method produces
+    dictionary: [tone_prepared, tone_answers, tone_gap, uncertainty, hedging, non_answer_rate,
+                 d_tone, d_uncertainty]
+    finbert: [finbert_tone_prepared, finbert_tone_answers, finbert_tone_gap]
+    # methods 3-4 (embeddings, LLM rating): not in A/B/C yet
+    later: [qa_relevance, evasiveness, d_evasiveness, novelty, div_qa_prepared, div_press_release]
   fixed_effects: [industry, quarter]
