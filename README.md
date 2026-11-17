@@ -397,6 +397,56 @@ FinBERT features account for **24.3%** of total importance. `fb_n_sent_answers`
 content predicts higher drift. `fb_sent_prepared_chg` and `fb_sent_std_answers`
 (sentiment change and dispersion) each contribute ~3.7%.
 
+### Why Selected Features Matter
+
+#### Model B Option 1 — LM Dictionary Features
+
+- **`tone_answers`** (14.1%, negative coef): When executives express more negative or
+  cautious tone during live Q&A — where they go off-script and face analyst pushback —
+  stocks drift lower over the next 20 days. In IT, where valuations hinge on growth
+  expectations, cautious Q&A language about pipeline, cloud metrics, or guidance
+  revisions is a leading indicator of disappointment.
+
+- **`hedging_prepared`** (6.5%, negative coef): More hedging words ("may", "could",
+  "might") in scripted prepared remarks signals management uncertainty about forward
+  guidance. When IT executives hedge more in their prepared script, the market
+  eventually prices in that uncertainty.
+
+- **`tone_answers_chg`** (5.0%, positive coef): When Q&A tone improves relative to the
+  firm's recent history (prior 4 calls), it signals a positive shift in management
+  confidence. The market rewards firms whose executives sound more optimistic than
+  their recent baseline.
+
+#### Model C Option 2 — FinBERT Features
+
+The selected features emphasize **sentiment structure and dynamics** rather than raw
+sentiment levels — none of the 5 selected features are simple positive/negative
+percentages.
+
+- **`fb_n_sent_answers`** (11.8%, positive coef): More sentences in Q&A answers means
+  executives are giving more substantive, detailed responses to analysts. In IT, where
+  information asymmetry is high, greater disclosure predicts positive drift.
+
+- **`fb_sent_prepared_chg`** (3.7%, negative coef): When FinBERT-measured sentiment in
+  prepared remarks *decreases* relative to the firm's prior 4 calls, the stock drifts
+  *higher*. This counterintuitive result suggests the market is already pricing in
+  obvious sentiment shifts — a prepared-remarks tone that drops from an elevated
+  baseline is corrective, not alarming.
+
+- **`fb_sent_std_answers`** (3.7%, negative coef): Higher sentence-level sentiment
+  dispersion in Q&A — meaning sentiment swings wildly from sentence to sentence —
+  predicts lower drift. Inconsistent tone during live questioning signals uncertainty
+  or evasion.
+
+- **`fb_n_sent_prepared`** (3.1%, negative coef): Longer prepared remarks (more
+  sentences) predict lower drift. When IT executives over-explain in their script, it
+  may signal defensive communication — trying to frame a weaker quarter.
+
+- **`fb_sent_gap`** (1.0%, positive coef): When Q&A sentiment exceeds prepared-remarks
+  sentiment (a positive gap), the stock drifts higher. Executives who are *more*
+  positive in live Q&A than in their script signal genuine confidence beyond what
+  was scripted.
+
 ## Key Findings
 
 ### 1. Linguistic features help in IT — unlike the full S&P 500
@@ -502,30 +552,41 @@ Steps 3–4 also require: `transformers`, `torch` (GPU recommended, ~90 min on T
 
 ## Layout
 
-```
-it_sector_extract.py          IT data extraction + sector benchmark computation
-it_model_b.py                 Model A baseline + 5 Model B strategies
-it_finbert_features.py        FinBERT sentence-level sentiment extraction (GPU)
-it_model_c_finbert.py         Model C (FinBERT forward selection + all forced)
-it_results/
-  it_model_a_option_1_*       Model A results — CAR vs S&P 500
-  it_model_a_option_2_*       Model A results — CAR vs IT sector index
-  it_model_b_option_1_*       Model B results — CAR vs S&P 500
-  it_model_b_option_2_*       Model B results — CAR vs IT sector index
-  it_model_c_option_1_*       Model C results — CAR vs S&P 500
-  it_model_c_option_2_*       Model C results — CAR vs IT sector index
-  finbert_features.parquet    FinBERT features for 3,561 IT calls (14 columns)
-  it_run.log                  Model A/B VM execution log
-  it_finbert_run.log          FinBERT + Model C GPU execution log
-```
+### Scripts
 
-### Output Data (on VM at `~/earnings_it/`)
+| File | Description |
+|------|-------------|
+| [`it_sector_extract.py`](it_sector_extract.py) | IT data extraction + sector benchmark computation |
+| [`it_model_b.py`](it_model_b.py) | Model A baseline + 5 Model B strategies |
+| [`it_finbert_features.py`](it_finbert_features.py) | FinBERT sentence-level sentiment extraction (GPU) |
+| [`it_model_c_finbert.py`](it_model_c_finbert.py) | Model C (FinBERT forward selection + all forced) |
 
-| File | Committed | Description |
-|------|-----------|-------------|
-| `finbert_features.parquet` | Yes | FinBERT features for 3,561 IT calls (14 columns, 365 KB) |
-| `model_table_opt1.parquet` | No | IT firms, CAR relative to S&P 500 (3,096 rows) |
-| `model_table_opt2.parquet` | No | IT firms, CAR relative to IT sector VW index (3,096 rows) |
-| `it_sector_daily.parquet` | No | IT sector value-weighted daily returns |
+### Datasets (committed)
+
+| File | Rows | Description |
+|------|------|-------------|
+| [`model_table_opt1.parquet`](it_results/model_table_opt1.parquet) | 3,561 | IT firms, CAR relative to S&P 500, all controls + LM features |
+| [`model_table_opt2.parquet`](it_results/model_table_opt2.parquet) | 3,561 | IT firms, CAR relative to IT sector VW index, all controls + LM features |
+| [`finbert_features.parquet`](it_results/finbert_features.parquet) | 3,561 | FinBERT features (14 columns, 365 KB) |
+
+### Results (committed)
+
+| File | Description |
+|------|-------------|
+| [`it_model_a_option_1_s&p_500_bench_report.txt`](it_results/it_model_a_option_1_s%26p_500_bench_report.txt) | Model A results — CAR vs S&P 500 |
+| [`it_model_a_option_2_it_sector_bench_report.txt`](it_results/it_model_a_option_2_it_sector_bench_report.txt) | Model A results — CAR vs IT sector index |
+| [`it_model_b_option_1_s&p_500_bench_report.txt`](it_results/it_model_b_option_1_s%26p_500_bench_report.txt) | Model B results — CAR vs S&P 500 |
+| [`it_model_b_option_2_it_sector_bench_report.txt`](it_results/it_model_b_option_2_it_sector_bench_report.txt) | Model B results — CAR vs IT sector index |
+| [`it_model_c_option_1_s&p_500_bench_report.txt`](it_results/it_model_c_option_1_s%26p_500_bench_report.txt) | Model C results — CAR vs S&P 500 |
+| [`it_model_c_option_2_it_sector_bench_report.txt`](it_results/it_model_c_option_2_it_sector_bench_report.txt) | Model C results — CAR vs IT sector index |
+| [`feature_importance.json`](it_results/feature_importance.json) | Standardized coefficients for all winning models |
+| [`it_run.log`](it_results/it_run.log) | Model A/B VM execution log |
+| [`it_finbert_run.log`](it_results/it_finbert_run.log) | FinBERT + Model C GPU execution log |
+
+### Not committed (on VM at `~/earnings_it/`)
+
+| File | Description |
+|------|-------------|
+| `it_sector_daily.parquet` | IT sector value-weighted daily returns |
 
 The `.gitignore` allows files in `it_results/` while blocking raw WRDS data.
