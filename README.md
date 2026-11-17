@@ -81,6 +81,62 @@ Single sector — sector fixed effects are unnecessary.
 ### Relaxed Significance Threshold
 p < 0.10 instead of 0.05 for individual feature significance, given smaller sample.
 
+## Linguistic Feature Extraction
+
+All linguistic features are extracted using the **Loughran-McDonald (LM) Master Dictionary**
+(1993–2025 edition, 86,553 words) — a finance-specific bag-of-words approach. Unlike
+general-purpose sentiment dictionaries (e.g., Harvard General Inquirer), LM classifies words
+by how they function in financial disclosure: "liability" is neutral, "risk" is uncertainty,
+"tax" is not negative.
+
+### Extraction Process
+
+Performed in the main pipeline (`sp500_pipeline.py`, TEXT stage) on Capital IQ transcripts:
+
+1. **Split transcript into sections** — Capital IQ tags each component: prepared remarks
+   (CEO/CFO presentation) and Q&A (analyst questions + executive answers)
+
+2. **Tokenize** — lowercase each section, split into individual words
+
+3. **Count dictionary matches** — for each section, count words in each LM category:
+   ```
+   positive_count   = words matching LM Positive list
+   negative_count   = words matching LM Negative list
+   hedging_count    = words matching LM Weak_Modal list ("may", "could", "might", "possibly")
+   uncertainty_count = words matching LM Uncertainty list ("risk", "uncertain", "volatile")
+   ```
+
+4. **Normalize** — convert raw counts to comparable rates:
+   ```
+   tone        = (positive - negative) / (positive + negative)   # net sentiment [-1, +1]
+   hedging     = hedging_count / total_words × 1000               # per 1,000 words
+   uncertainty = uncertainty_count / total_words × 1000            # per 1,000 words
+   ```
+
+5. **Compute per section** — separately for prepared remarks and Q&A answers:
+   - `tone_prepared`, `tone_answers`
+   - `hedging_prepared`, `hedging_answers`
+   - `uncertainty_answers`
+
+6. **Derive change and gap features** — capture dynamics across sections and over time:
+   - `tone_gap` = `tone_answers − tone_prepared` (how much tone drops in live Q&A vs script)
+   - `tone_prepared_chg` = current prepared tone − rolling mean of prior 4 calls (same firm)
+   - `tone_answers_chg` = same for Q&A tone
+   - `hedging_answers_chg` = same for Q&A hedging
+
+### Limitations of Bag-of-Words
+
+- **No context** — "not good" counts "good" as positive
+- **No negation handling** — negators are ignored
+- **No sentence structure** — word order doesn't matter
+- **No weighting by position** — a word at the end of the call counts the same as the opening
+
+The alternative (FinBERT, Model C on `gcp-sp500-pipeline` branch) reads full sentences with a
+transformer and classifies each as positive/negative/neutral. But even FinBERT didn't help on
+the full S&P 500. On the IT sector, the simpler LM dictionary features (`tone_answers`,
+`hedging_prepared`, `hedging_answers_chg`) add value via forward selection — likely because
+within a single sector, the same words carry more consistent meaning.
+
 ## Feature Candidates
 
 ### Financial Controls (18 candidates)
