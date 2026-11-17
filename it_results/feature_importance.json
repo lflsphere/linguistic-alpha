@@ -1,0 +1,416 @@
+{
+  "Model A - Option 1 (ElasticNet)": [
+    {
+      "feature": "vol_pre",
+      "std_coef": 0.0020464542142736067,
+      "abs_std_coef": 0.0020464542142736067,
+      "rel_importance_pct": 19.15156645813276
+    },
+    {
+      "feature": "car_0_1",
+      "std_coef": 0.0019922812494985644,
+      "abs_std_coef": 0.0019922812494985644,
+      "rel_importance_pct": 18.644593407923782
+    },
+    {
+      "feature": "avg_answer_words",
+      "std_coef": -0.001924014410725923,
+      "abs_std_coef": 0.001924014410725923,
+      "rel_importance_pct": 18.005724045236892
+    },
+    {
+      "feature": "mom",
+      "std_coef": -0.0017010944026337876,
+      "abs_std_coef": 0.0017010944026337876,
+      "rel_importance_pct": 15.919546245583843
+    },
+    {
+      "feature": "bm",
+      "std_coef": -0.00149890684071872,
+      "abs_std_coef": 0.00149890684071872,
+      "rel_importance_pct": 14.027391267467854
+    },
+    {
+      "feature": "dispersion",
+      "std_coef": 0.0009553092068029979,
+      "abs_std_coef": 0.0009553092068029979,
+      "rel_importance_pct": 8.940179376868098
+    },
+    {
+      "feature": "words_prepared",
+      "std_coef": -0.0005675105854197897,
+      "abs_std_coef": 0.0005675105854197897,
+      "rel_importance_pct": 5.310999198786768
+    },
+    {
+      "feature": "size",
+      "std_coef": -0.0,
+      "abs_std_coef": 0.0,
+      "rel_importance_pct": 0.0
+    },
+    {
+      "feature": "prior_calls_with_target",
+      "std_coef": 0.0,
+      "abs_std_coef": 0.0,
+      "rel_importance_pct": 0.0
+    }
+  ],
+  "Model B - Option 1 (ElasticNet)": [
+    {
+      "feature": "car_0_1",
+      "std_coef": 0.002298041731286962,
+      "abs_std_coef": 0.002298041731286962,
+      "rel_importance_pct": 14.755043621992487
+    },
+    {
+      "feature": "tone_answers",
+      "std_coef": -0.0021893290521658236,
+      "abs_std_coef": 0.0021893290521658236,
+      "rel_importance_pct": 14.057031788326716
+    },
+    {
+      "feature": "vol_pre",
+      "std_coef": 0.0017704828839668833,
+      "abs_std_coef": 0.0017704828839668833,
+      "rel_importance_pct": 11.36774490613474
+    },
+    {
+      "feature": "avg_answer_words",
+      "std_coef": -0.001725436848439637,
+      "abs_std_coef": 0.001725436848439637,
+      "rel_importance_pct": 11.078517687084146
+    },
+    {
+      "feature": "bm",
+      "std_coef": -0.0016789562703812555,
+      "abs_std_coef": 0.0016789562703812555,
+      "rel_importance_pct": 10.780079696385531
+    },
+    {
+      "feature": "mom",
+      "std_coef": -0.001485511912674098,
+      "abs_std_coef": 0.001485511912674098,
+      "rel_importance_pct": 9.538030913050793
+    },
+    {
+      "feature": "dispersion",
+      "std_coef": 0.0010438114874294685,
+      "abs_std_coef": 0.0010438114874294685,
+      "rel_importance_pct": 6.702003632254947
+    },
+    {
+      "feature": "hedging_prepared",
+      "std_coef": -0.0010104629785902166,
+      "abs_std_coef": 0.0010104629785902166,
+      "rel_importance_pct": 6.487882758838085
+    },
+    {
+      "feature": "words_prepared",
+      "std_coef": -0.0009507099186344576,
+      "abs_std_coef": 0.0009507099186344576,
+      "rel_importance_pct": 6.104226102742024
+    },
+    {
+      "feature": "tone_answers_chg",
+      "std_coef": 0.000781242465691685,
+      "abs_std_coef": 0.000781242465691685,
+      "rel_importance_pct": 5.016125905676315
+    },
+    {
+      "feature": "prior_calls_with_target",
+      "std_coef": 0.0006406327992865597,
+      "abs_std_coef": 0.0006406327992865597,
+      "rel_importance_pct": 4.113312987514229
+    },
+    {
+      "feature": "size",
+      "std_coef": 0.0,
+      "abs_std_coef": 0.0,
+      "rel_importance_pct": 0.0
+    }
+  ],
+  "Model A - Option 2 (Ridge)": [
+    {
+      "feature": "vol_pre",
+      "std_coef": 0.0024795624858065936,
+      "abs_std_coef": 0.0024795624858065936,
+      "rel_importance_pct": 18.21522096391875
+    },
+    {
+      "feature": "car_0_1",
+      "std_coef": 0.0024157385006306578,
+      "abs_std_coef": 0.0024157385006306578,
+      "rel_importance_pct": 17.746360832572083
+    },
+    {
+      "feature": "avg_answer_words",
+      "std_coef": -0.002336332812709642,
+      "abs_std_coef": 0.002336332812709642,
+      "rel_importance_pct": 17.16303528237819
+    },
+    {
+      "feature": "n_questions",
+      "std_coef": 0.0018162905498362097,
+      "abs_std_coef": 0.0018162905498362097,
+      "rel_importance_pct": 13.34273037655749
+    },
+    {
+      "feature": "mom",
+      "std_coef": -0.0012171406605346428,
+      "abs_std_coef": 0.0012171406605346428,
+      "rel_importance_pct": 8.941289522936364
+    },
+    {
+      "feature": "dispersion",
+      "std_coef": 0.001156167684756203,
+      "abs_std_coef": 0.001156167684756203,
+      "rel_importance_pct": 8.493373314738585
+    },
+    {
+      "feature": "prior_calls_with_target",
+      "std_coef": -0.0006959318061434955,
+      "abs_std_coef": 0.0006959318061434955,
+      "rel_importance_pct": 5.1124146688318675
+    },
+    {
+      "feature": "n_answers",
+      "std_coef": -0.000681207900861148,
+      "abs_std_coef": 0.000681207900861148,
+      "rel_importance_pct": 5.004250752937437
+    },
+    {
+      "feature": "size",
+      "std_coef": 0.0006464181638076022,
+      "abs_std_coef": 0.0006464181638076022,
+      "rel_importance_pct": 4.7486803644780275
+    },
+    {
+      "feature": "words_questions",
+      "std_coef": 0.00016779470477237425,
+      "abs_std_coef": 0.00016779470477237425,
+      "rel_importance_pct": 1.2326439206512136
+    }
+  ],
+  "Model B - Option 2 (Ridge)": [
+    {
+      "feature": "n_questions",
+      "std_coef": 0.0031599620377216137,
+      "abs_std_coef": 0.0031599620377216137,
+      "rel_importance_pct": 18.131548672716303
+    },
+    {
+      "feature": "car_0_1",
+      "std_coef": 0.0026773283701011347,
+      "abs_std_coef": 0.0026773283701011347,
+      "rel_importance_pct": 15.36224456998036
+    },
+    {
+      "feature": "vol_pre",
+      "std_coef": 0.0022116333779304007,
+      "abs_std_coef": 0.0022116333779304007,
+      "rel_importance_pct": 12.690132906489616
+    },
+    {
+      "feature": "avg_answer_words",
+      "std_coef": -0.002149230440004146,
+      "abs_std_coef": 0.002149230440004146,
+      "rel_importance_pct": 12.332071039662196
+    },
+    {
+      "feature": "size",
+      "std_coef": 0.0014329132641827623,
+      "abs_std_coef": 0.0014329132641827623,
+      "rel_importance_pct": 8.22191415060266
+    },
+    {
+      "feature": "mom",
+      "std_coef": -0.0012935217696346498,
+      "abs_std_coef": 0.0012935217696346498,
+      "rel_importance_pct": 7.4220995839112
+    },
+    {
+      "feature": "dispersion",
+      "std_coef": 0.0012112397726671532,
+      "abs_std_coef": 0.0012112397726671532,
+      "rel_importance_pct": 6.949973648505931
+    },
+    {
+      "feature": "tone_answers",
+      "std_coef": -0.0010567046131551724,
+      "abs_std_coef": 0.0010567046131551724,
+      "rel_importance_pct": 6.063266234654301
+    },
+    {
+      "feature": "n_answers",
+      "std_coef": -0.0008019894816890729,
+      "abs_std_coef": 0.0008019894816890729,
+      "rel_importance_pct": 4.601736080581676
+    },
+    {
+      "feature": "hedging_answers_chg",
+      "std_coef": -0.0006653720209816445,
+      "abs_std_coef": 0.0006653720209816445,
+      "rel_importance_pct": 3.8178386448562565
+    },
+    {
+      "feature": "words_questions",
+      "std_coef": -0.0005628513608407768,
+      "abs_std_coef": 0.0005628513608407768,
+      "rel_importance_pct": 3.2295852680392945
+    },
+    {
+      "feature": "prior_calls_with_target",
+      "std_coef": -0.00020522996877983613,
+      "abs_std_coef": 0.00020522996877983613,
+      "rel_importance_pct": 1.1775892000002155
+    }
+  ],
+  "Model C - Option 1 (Lasso)": [
+    {
+      "feature": "car_0_1",
+      "std_coef": 0.0015088318900948407,
+      "abs_std_coef": 0.0015088318900948407,
+      "rel_importance_pct": 23.819098803016924
+    },
+    {
+      "feature": "vol_pre",
+      "std_coef": 0.0014823122713677145,
+      "abs_std_coef": 0.0014823122713677145,
+      "rel_importance_pct": 23.40044817478819
+    },
+    {
+      "feature": "avg_answer_words",
+      "std_coef": -0.0013142627603662702,
+      "abs_std_coef": 0.0013142627603662702,
+      "rel_importance_pct": 20.747543015095097
+    },
+    {
+      "feature": "mom",
+      "std_coef": -0.0009293292112106537,
+      "abs_std_coef": 0.0009293292112106537,
+      "rel_importance_pct": 14.670808887108658
+    },
+    {
+      "feature": "bm",
+      "std_coef": -0.00045797030380837866,
+      "abs_std_coef": 0.00045797030380837866,
+      "rel_importance_pct": 7.229725184674998
+    },
+    {
+      "feature": "dispersion",
+      "std_coef": 0.0003460170374544545,
+      "abs_std_coef": 0.0003460170374544545,
+      "rel_importance_pct": 5.462380571858675
+    },
+    {
+      "feature": "words_prepared",
+      "std_coef": -0.00029582302795129966,
+      "abs_std_coef": 0.00029582302795129966,
+      "rel_importance_pct": 4.669995363457448
+    },
+    {
+      "feature": "size",
+      "std_coef": -0.0,
+      "abs_std_coef": 0.0,
+      "rel_importance_pct": 0.0
+    },
+    {
+      "feature": "prior_calls_with_target",
+      "std_coef": 0.0,
+      "abs_std_coef": 0.0,
+      "rel_importance_pct": 0.0
+    }
+  ],
+  "Model C - Option 2 (OLS)": [
+    {
+      "feature": "avg_answer_words",
+      "std_coef": -0.005356002309080599,
+      "abs_std_coef": 0.005356002309080599,
+      "rel_importance_pct": 16.902744346857745
+    },
+    {
+      "feature": "n_answers",
+      "std_coef": -0.0043117392758440206,
+      "abs_std_coef": 0.0043117392758440206,
+      "rel_importance_pct": 13.607205983898746
+    },
+    {
+      "feature": "n_questions",
+      "std_coef": 0.0037844145816720224,
+      "abs_std_coef": 0.0037844145816720224,
+      "rel_importance_pct": 11.943047908712206
+    },
+    {
+      "feature": "fb_n_sent_answers",
+      "std_coef": 0.0037365292046175635,
+      "abs_std_coef": 0.0037365292046175635,
+      "rel_importance_pct": 11.791928801662502
+    },
+    {
+      "feature": "car_0_1",
+      "std_coef": 0.002324395277806483,
+      "abs_std_coef": 0.002324395277806483,
+      "rel_importance_pct": 7.335444772903875
+    },
+    {
+      "feature": "vol_pre",
+      "std_coef": 0.002135097483095527,
+      "abs_std_coef": 0.002135097483095527,
+      "rel_importance_pct": 6.7380491698440075
+    },
+    {
+      "feature": "mom",
+      "std_coef": -0.0017371913044074876,
+      "abs_std_coef": 0.0017371913044074876,
+      "rel_importance_pct": 5.482316624509548
+    },
+    {
+      "feature": "size",
+      "std_coef": 0.001542884343355849,
+      "abs_std_coef": 0.001542884343355849,
+      "rel_importance_pct": 4.869112839682488
+    },
+    {
+      "feature": "words_questions",
+      "std_coef": -0.0014981639250109433,
+      "abs_std_coef": 0.0014981639250109433,
+      "rel_importance_pct": 4.727981870211673
+    },
+    {
+      "feature": "dispersion",
+      "std_coef": 0.0014758793407043552,
+      "abs_std_coef": 0.0014758793407043552,
+      "rel_importance_pct": 4.6576550462721755
+    },
+    {
+      "feature": "fb_sent_prepared_chg",
+      "std_coef": -0.0011814476416283405,
+      "abs_std_coef": 0.0011814476416283405,
+      "rel_importance_pct": 3.7284725235807095
+    },
+    {
+      "feature": "fb_sent_std_answers",
+      "std_coef": -0.001179835050294779,
+      "abs_std_coef": 0.001179835050294779,
+      "rel_importance_pct": 3.7233834258779437
+    },
+    {
+      "feature": "fb_n_sent_prepared",
+      "std_coef": -0.0009691963799902339,
+      "abs_std_coef": 0.0009691963799902339,
+      "rel_importance_pct": 3.058639202806287
+    },
+    {
+      "feature": "fb_sent_gap",
+      "std_coef": 0.000317580442499634,
+      "abs_std_coef": 0.000317580442499634,
+      "rel_importance_pct": 1.0022365039000007
+    },
+    {
+      "feature": "prior_calls_with_target",
+      "std_coef": -0.0001368191977932393,
+      "abs_std_coef": 0.0001368191977932393,
+      "rel_importance_pct": 0.431780979280098
+    }
+  ]
+}

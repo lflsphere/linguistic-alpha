@@ -204,36 +204,11 @@ Feature selection uses rank-based filtering (same as full pipeline):
 - Average the 3 ranks
 - Keep features above median rank OR individually significant (p < 0.10)
 
-### Option 1 (CAR vs. S&P 500)
+**Option 1**: ElasticNet (α=0.001), 9 features → Rank IC +0.0451
+- `vol_pre`, `car_0_1`, `mom`, `bm`, `dispersion`, `avg_answer_words`, `size`, `prior_calls_with_target`, `words_prepared`
 
-```
-Algorithm:  ElasticNet (α=0.001, l1_ratio=0.5)
-Features:   vol_pre, car_0_1, mom, bm, dispersion, avg_answer_words,
-            size, prior_calls_with_target, words_prepared  (9 features)
-
-Test Results:
-  Rank IC:            +0.0451
-  IC (Pearson):       +0.0908
-  R²:                 +0.0055
-  Direction Accuracy:  0.548
-  Q5−Q1 Spread:       +1.92%
-```
-
-### Option 2 (CAR vs. IT sector index)
-
-```
-Algorithm:  Ridge (α=1.0)
-Features:   vol_pre, prior_calls_with_target, avg_answer_words, size,
-            dispersion, words_questions, car_0_1, n_questions, mom,
-            n_answers  (10 features)
-
-Test Results:
-  Rank IC:            +0.0725
-  IC (Pearson):       +0.1100
-  R²:                 +0.0109
-  Direction Accuracy:  0.569
-  Q5−Q1 Spread:       +1.20%
-```
+**Option 2**: Ridge (α=1.0), 10 features → Rank IC +0.0725
+- `vol_pre`, `prior_calls_with_target`, `avg_answer_words`, `size`, `dispersion`, `words_questions`, `car_0_1`, `n_questions`, `mom`, `n_answers`
 
 ## Model B — Adding Linguistic Features
 
@@ -300,37 +275,11 @@ selection beat Model A on both options:
 
 ### Model B Final Results
 
-#### Option 1
+**Option 1**: ElasticNet, 12 features → Rank IC +0.0726 (Δ +0.0275)
+- Added: `hedging_prepared`, `tone_answers`, `tone_answers_chg`
 
-```
-Algorithm:  ElasticNet (α=0.001, l1_ratio=0.5)
-Base:       9 Model A controls
-Added:      hedging_prepared, tone_answers, tone_answers_chg  (3 linguistic)
-Total:      12 features
-
-Test Results:
-  Rank IC:            +0.0726  (Δ = +0.0275 vs Model A)
-  IC (Pearson):       +0.0994
-  R²:                 +0.0073
-  Direction Accuracy:  0.546
-  Q5−Q1 Spread:       +1.02%
-```
-
-#### Option 2
-
-```
-Algorithm:  Ridge (α=1.0)
-Base:       10 Model A controls
-Added:      tone_answers, hedging_answers_chg  (2 linguistic)
-Total:      12 features
-
-Test Results:
-  Rank IC:            +0.0776  (Δ = +0.0051 vs Model A)
-  IC (Pearson):       +0.1134
-  R²:                 +0.0114
-  Direction Accuracy:  0.575
-  Q5−Q1 Spread:       +1.62%
-```
+**Option 2**: Ridge, 12 features → Rank IC +0.0776 (Δ +0.0051)
+- Added: `tone_answers`, `hedging_answers_chg`
 
 ## Model C — Adding FinBERT Features
 
@@ -347,54 +296,24 @@ candidate evaluation during forward selection and final reporting.
 **Model C\* (All FinBERT Forced)** includes all 13 FinBERT features with
 regularization sweeps (Ridge α=5/10/50, ElasticNet α=0.005/0.01/0.05/0.1).
 
-### Option 1 (CAR vs. S&P 500)
+**Option 1**: Lasso, 9 features → Rank IC +0.0621 (Δ +0.0000)
+- No FinBERT features selected — none improve the Lasso baseline
+- Model C* (all forced): Rank IC +0.0615 (Δ −0.0007)
 
-```
-Forward Selection: No FinBERT features selected (none improved baseline)
-Model A baseline: Rank IC = +0.0621 (Lasso)
+**Option 2**: OLS, 15 features → Rank IC +0.0924 (Δ +0.0199)
+- Added: `fb_sent_std_answers`, `fb_n_sent_prepared`, `fb_sent_gap`, `fb_sent_prepared_chg`, `fb_n_sent_answers`
+- Model C* (all forced): Rank IC +0.0723 (Δ −0.0002)
 
-Model C = Model A (no features added)
-  Rank IC:            +0.0621  (Δ = +0.0000 vs Model A)
+Forward selection steps (Option 2):
 
-Model C* (All FinBERT forced):
-  Algorithm:  Lasso
-  Rank IC:            +0.0615  (Δ = −0.0007 vs Model A)
-  IC (Pearson):       +0.1024
-  Direction Accuracy:  0.548
-  Q5−Q1 Spread:       +2.17%
-```
-
-FinBERT adds no value for Option 1. The S&P 500 benchmark leaves too much
-cross-sector noise for sentence-level sentiment to explain. Forcing all 13
-features slightly hurts via overfitting.
-
-### Option 2 (CAR vs. IT sector bench)
-
-```
-Algorithm:  OLS
-Base:       10 Model A controls
-Added:      fb_sent_std_answers, fb_n_sent_prepared, fb_sent_gap,
-            fb_sent_prepared_chg, fb_n_sent_answers  (5 FinBERT features)
-Total:      15 features
-
-Test Results:
-  Rank IC:            +0.0924  (Δ = +0.0199 vs Model A)
-  IC (Pearson):       +0.1108
-  Direction Accuracy:  0.579
-  Q5−Q1 Spread:       +2.37%
-
-Forward Selection Steps:
-  Step 0 (baseline):         Rank IC = +0.0726
-  Step 1 fb_sent_std_answers:  +0.0803  (+0.0078)
-  Step 2 fb_n_sent_prepared:   +0.0840  (+0.0037)
-  Step 3 fb_sent_gap:          +0.0858  (+0.0018)
-  Step 4 fb_sent_prepared_chg: +0.0911  (+0.0052)
-  Step 5 fb_n_sent_answers:    +0.0924  (+0.0014)
-
-Model C* (All FinBERT forced):
-  Algorithm:  OLS
-  Rank IC:            +0.0723  (Δ = −0.0002 vs Model A)
-```
+| Step | Feature Added | Rank IC | Improvement |
+|------|--------------|---------|-------------|
+| 0 | *(baseline — 10 controls)* | +0.0726 | — |
+| 1 | `fb_sent_std_answers` | +0.0803 | +0.0078 |
+| 2 | `fb_n_sent_prepared` | +0.0840 | +0.0037 |
+| 3 | `fb_sent_gap` | +0.0858 | +0.0018 |
+| 4 | `fb_sent_prepared_chg` | +0.0911 | +0.0052 |
+| 5 | `fb_n_sent_answers` | +0.0924 | +0.0014 |
 
 Five FinBERT features survive forward selection, producing the **largest
 improvement of any model** (+0.0199 Rank IC, +27% relative lift). The
@@ -404,21 +323,79 @@ Forcing all 13 features erases the gain — parsimony matters.
 
 ## Summary of Results
 
-| | Model A | Model B (LM) | Model C (FinBERT) | Model C* (all forced) |
-|---|---------|-------------|-------------------|----------------------|
-| **Option 1** (S&P 500 bench) | +0.045 | **+0.073** (+0.028) | +0.062 (+0.000) | +0.062 (−0.001) |
-| **Option 2** (IT sector bench) | +0.073 | +0.078 (+0.005) | **+0.092** (+0.020) | +0.072 (−0.000) |
+### Option 1 — CAR vs. S&P 500
 
-**Best model by benchmark:**
-- **Option 1**: Model B (LM forward selection) — LM dictionary hedging and tone features explain market-relative drift
-- **Option 2**: Model C (FinBERT forward selection) — transformer sentiment structure features explain sector-relative drift
+| Model | Algorithm | Features | Rank IC | Δ vs A | IC | Q5−Q1 | Dir Acc |
+|-------|-----------|----------|---------|--------|-----|-------|---------|
+| Model A (controls) | ElasticNet | 9 | +0.0451 | — | +0.0908 | +1.92% | 54.8% |
+| **Model B (LM)** | **ElasticNet** | **12** | **+0.0726** | **+0.0275** | **+0.0994** | **+1.02%** | **54.6%** |
+| Model C (FinBERT) | Lasso | 9 | +0.0621 | +0.0000 | +0.1063 | +1.86% | 55.1% |
+| Model C* (all forced) | Lasso | 22 | +0.0615 | −0.0007 | +0.1024 | +2.17% | 54.8% |
 
-**Features selected by winning models:**
+Model B adds 3 LM features: `hedging_prepared`, `tone_answers`, `tone_answers_chg`.
+Model C selects no FinBERT features — none improve the Lasso baseline.
 
-| Model | Option 1 | Option 2 |
-|-------|----------|----------|
-| Model B (LM) | `hedging_prepared`, `tone_answers`, `tone_answers_chg` | `tone_answers`, `hedging_answers_chg` |
-| Model C (FinBERT) | *(none selected)* | `fb_sent_std_answers`, `fb_n_sent_prepared`, `fb_sent_gap`, `fb_sent_prepared_chg`, `fb_n_sent_answers` |
+### Option 2 — CAR vs. IT Sector Index
+
+| Model | Algorithm | Features | Rank IC | Δ vs A | IC | Q5−Q1 | Dir Acc |
+|-------|-----------|----------|---------|--------|-----|-------|---------|
+| Model A (controls) | Ridge | 10 | +0.0725 | — | +0.1100 | +1.20% | 56.9% |
+| Model B (LM) | Ridge | 12 | +0.0776 | +0.0051 | +0.1134 | +1.62% | 57.5% |
+| **Model C (FinBERT)** | **OLS** | **15** | **+0.0924** | **+0.0199** | **+0.1108** | **+2.37%** | **57.9%** |
+| Model C* (all forced) | OLS | 23 | +0.0723 | −0.0002 | +0.0919 | +2.23% | 55.8% |
+
+Model C adds 5 FinBERT features: `fb_sent_std_answers`, `fb_n_sent_prepared`,
+`fb_sent_gap`, `fb_sent_prepared_chg`, `fb_n_sent_answers`.
+
+### Feature Importance (Standardized Coefficients)
+
+Relative importance = |standardized coefficient| / sum |standardized coefficients| × 100.
+Features are trained on standardized inputs, so coefficients are directly comparable.
+
+#### Model B Option 1 — Winner (ElasticNet, Rank IC +0.0726)
+
+| Feature | Std Coef | Rel % | Type |
+|---------|----------|-------|------|
+| `car_0_1` | +0.0023 | 14.8% | Control |
+| `tone_answers` | −0.0022 | 14.1% | **LM** |
+| `vol_pre` | +0.0018 | 11.4% | Control |
+| `avg_answer_words` | −0.0017 | 11.1% | Control |
+| `bm` | −0.0017 | 10.8% | Control |
+| `mom` | −0.0015 | 9.5% | Control |
+| `dispersion` | +0.0010 | 6.7% | Control |
+| `hedging_prepared` | −0.0010 | 6.5% | **LM** |
+| `words_prepared` | −0.0010 | 6.1% | Control |
+| `tone_answers_chg` | +0.0008 | 5.0% | **LM** |
+| `prior_calls_with_target` | +0.0006 | 4.1% | Control |
+| `size` | +0.0000 | 0.0% | Control |
+
+LM features account for **25.6%** of total importance. `tone_answers` is the
+2nd most important feature overall — negative Q&A tone predicts lower drift.
+
+#### Model C Option 2 — Winner (OLS, Rank IC +0.0924)
+
+| Feature | Std Coef | Rel % | Type |
+|---------|----------|-------|------|
+| `avg_answer_words` | −0.0054 | 16.9% | Control |
+| `n_answers` | −0.0043 | 13.6% | Control |
+| `n_questions` | +0.0038 | 11.9% | Control |
+| `fb_n_sent_answers` | +0.0037 | 11.8% | **FinBERT** |
+| `car_0_1` | +0.0023 | 7.3% | Control |
+| `vol_pre` | +0.0021 | 6.7% | Control |
+| `mom` | −0.0017 | 5.5% | Control |
+| `size` | +0.0015 | 4.9% | Control |
+| `words_questions` | −0.0015 | 4.7% | Control |
+| `dispersion` | +0.0015 | 4.7% | Control |
+| `fb_sent_prepared_chg` | −0.0012 | 3.7% | **FinBERT** |
+| `fb_sent_std_answers` | −0.0012 | 3.7% | **FinBERT** |
+| `fb_n_sent_prepared` | −0.0010 | 3.1% | **FinBERT** |
+| `fb_sent_gap` | +0.0003 | 1.0% | **FinBERT** |
+| `prior_calls_with_target` | −0.0001 | 0.4% | Control |
+
+FinBERT features account for **24.3%** of total importance. `fb_n_sent_answers`
+(number of scored answer sentences) is the 4th most important feature — more Q&A
+content predicts higher drift. `fb_sent_prepared_chg` and `fb_sent_std_answers`
+(sentiment change and dispersion) each contribute ~3.7%.
 
 ## Key Findings
 
