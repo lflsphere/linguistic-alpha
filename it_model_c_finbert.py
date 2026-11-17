@@ -18,8 +18,15 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from scipy import stats
-from sklearn.linear_model import Ridge, ElasticNet
+from sklearn.linear_model import Ridge, Lasso, ElasticNet, LinearRegression
+from sklearn.ensemble import (RandomForestRegressor, ExtraTreesRegressor,
+                              GradientBoostingRegressor)
 from sklearn.preprocessing import StandardScaler
+try:
+    from xgboost import XGBRegressor
+    HAS_XGB = True
+except ImportError:
+    HAS_XGB = False
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
@@ -101,6 +108,34 @@ def evaluate(y_true, y_pred):
             "direction_accuracy": dir_acc, "quintile_spread": spread}
 
 
+def get_algos(full=False):
+    """Return model dict. full=True includes tree-based models."""
+    algos = {
+        "OLS": LinearRegression(),
+        "Ridge": Ridge(alpha=1.0),
+        "Lasso": Lasso(alpha=0.001, max_iter=5000),
+        "ElasticNet": ElasticNet(alpha=0.001, l1_ratio=0.5, max_iter=5000),
+    }
+    if full:
+        algos.update({
+            "RandomForest": RandomForestRegressor(
+                n_estimators=300, max_depth=6, min_samples_leaf=50,
+                max_features="sqrt", random_state=RANDOM_STATE, n_jobs=-1),
+            "ExtraTrees": ExtraTreesRegressor(
+                n_estimators=300, max_depth=6, min_samples_leaf=50,
+                max_features="sqrt", random_state=RANDOM_STATE, n_jobs=-1),
+            "GradientBoosting": GradientBoostingRegressor(
+                n_estimators=200, max_depth=3, learning_rate=0.05,
+                min_samples_leaf=50, subsample=0.8, random_state=RANDOM_STATE),
+        })
+        if HAS_XGB:
+            algos["XGBoost"] = XGBRegressor(
+                n_estimators=200, max_depth=3, learning_rate=0.05,
+                min_child_weight=50, subsample=0.8, colsample_bytree=0.8,
+                random_state=RANDOM_STATE, verbosity=0, n_jobs=-1)
+    return algos
+
+
 def fit_and_eval(X_tr, X_te, y_tr, y_te, algos):
     results = {}
     for name, model in algos.items():
@@ -124,7 +159,7 @@ def forward_selection(train, test, base_features, y_tr, y_te):
 
     current = list(base_features)
     X_tr_base, X_te_base, _, _ = preprocess(train, test, current)
-    algos = {"Ridge": Ridge(alpha=1.0), "ElasticNet": ElasticNet(alpha=0.001, l1_ratio=0.5, max_iter=5000)}
+    algos = get_algos(full=True)
     base_results = fit_and_eval(X_tr_base, X_te_base, y_tr, y_te, algos)
     base_best_name, base_best = best_result(base_results)
     log_msg(f"  Baseline ({len(current)} features): Rank IC={base_best['rank_ic']:+.4f} ({base_best_name})")
@@ -161,7 +196,8 @@ def forward_selection(train, test, base_features, y_tr, y_te):
             break
 
     X_tr_f, X_te_f, _, _ = preprocess(train, test, current)
-    final_results = fit_and_eval(X_tr_f, X_te_f, y_tr, y_te, algos)
+    final_algos = get_algos(full=True)
+    final_results = fit_and_eval(X_tr_f, X_te_f, y_tr, y_te, final_algos)
     best_name, best_metrics = best_result(final_results)
     log_msg(f"  Final: {len(current)} features, Rank IC={best_metrics['rank_ic']:+.4f} ({best_name})")
     log_msg(f"  Added FinBERT: {added if added else 'none'}")
@@ -172,7 +208,7 @@ def forward_selection(train, test, base_features, y_tr, y_te):
 
 
 def all_finbert_forced(train, test, base_features, y_tr, y_te):
-    """Force all FinBERT features with multiple regularization strengths."""
+    """Force all FinBERT features with all model types + regularization sweeps."""
     log_msg("\n--- Model C* (All FinBERT forced) ---")
     available_fb = [f for f in FINBERT_CANDIDATES if f in train.columns]
     all_features = list(base_features) + available_fb
@@ -180,9 +216,8 @@ def all_finbert_forced(train, test, base_features, y_tr, y_te):
 
     X_tr, X_te, _, _ = preprocess(train, test, all_features)
 
-    algos = {
-        "Ridge_a0.5": Ridge(alpha=0.5),
-        "Ridge_a1": Ridge(alpha=1.0),
+    algos = get_algos(full=True)
+    algos.update({
         "Ridge_a5": Ridge(alpha=5.0),
         "Ridge_a10": Ridge(alpha=10.0),
         "Ridge_a50": Ridge(alpha=50.0),
@@ -190,7 +225,7 @@ def all_finbert_forced(train, test, base_features, y_tr, y_te):
         "EN_a0.01": ElasticNet(alpha=0.01, l1_ratio=0.5, max_iter=5000),
         "EN_a0.05": ElasticNet(alpha=0.05, l1_ratio=0.5, max_iter=5000),
         "EN_a0.1_l0.9": ElasticNet(alpha=0.1, l1_ratio=0.9, max_iter=5000),
-    }
+    })
     results = fit_and_eval(X_tr, X_te, y_tr, y_te, algos)
     best_name, best_metrics = best_result(results)
 
@@ -228,7 +263,7 @@ def run_option(opt_name, opt_file, base_features, out_dir, fb_df):
 
     # Model A baseline
     X_tr_a, X_te_a, _, _ = preprocess(train, test, base_features)
-    algos_a = {"Ridge": Ridge(alpha=1.0), "ElasticNet": ElasticNet(alpha=0.001, l1_ratio=0.5, max_iter=5000)}
+    algos_a = get_algos(full=True)
     res_a = fit_and_eval(X_tr_a, X_te_a, y_tr, y_te, algos_a)
     a_best_name, a_best = best_result(res_a)
     log_msg(f"\nModel A baseline: Rank IC={a_best['rank_ic']:+.4f} ({a_best_name})")
@@ -270,6 +305,12 @@ def run_option(opt_name, opt_file, base_features, out_dir, fb_df):
         report_lines.append(f"{m['name']:45s} {m['algo']:20s} Rank IC={m['metrics']['rank_ic']:+.4f} "
                             f"Q5-Q1={m['metrics']['quintile_spread']:+.4f} Delta={delta:+.4f}")
         report_lines.append(f"  FinBERT features: {', '.join(m['added_finbert'])}")
+        report_lines.append(f"  All algorithms:")
+        for aname, ametrics in sorted(m["all_results"].items(),
+                                       key=lambda x: x[1]["rank_ic"], reverse=True):
+            report_lines.append(f"    {aname:25s} Rank IC={ametrics['rank_ic']:+.4f}  "
+                                f"IC={ametrics['ic']:+.4f}  Q5-Q1={ametrics['quintile_spread']:+.4f}  "
+                                f"Dir Acc={ametrics['direction_accuracy']:.3f}")
         report_lines.append("")
 
     if model_c.get("selection_log"):
