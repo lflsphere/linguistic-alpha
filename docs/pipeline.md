@@ -463,7 +463,7 @@ pairs) is not labelled.
   `NONANS_RULE`), fitted out of fold with folds grouped by call (`EVADE_CLF`, `NONANS_CLF`).
   F3 is kept if its out-of-fold AUC is about 0.7 or more.
 - **Open:** `scripts/01_build_features.py` and `02_validate.py` still read the legacy panel, so
-  agent C adds `--source full`, which reads the full-history pairs (`data/interim/qa_pairs`, built by `la transcripts --config configs/full.yaml`), so the labelled `pair_id`s match.
+  agent C adds `--source full`, which reads the full-history pairs (`data/interim/qa_pairs`, built by `la transcripts`), so the labelled `pair_id`s match.
 - Handoffs: `docs/labeling_handoff.md` (labeller A), `docs/labeling_handoff_calibration.md` (agent C: calibrate, rerun 01/02), `docs/labeling_handoff_teammate.md`
   (labeller B).
 

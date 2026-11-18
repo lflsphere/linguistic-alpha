@@ -32,7 +32,7 @@ existing `label_classifiers()` merge works with no side file.
    - `data/interim/{transcript_calls,qa_pairs,call_sections}.parquet`
    - `data/raw/sp500_pit_2008/` (`ciq_wrds_gvkey`, `comp_co_hgic`, `crsp_ccmxpf_lnkhist`,
      `crsp_msp500list_v2`)
-   - Config: `configs/full.yaml`
+   - Config: `configs/default.yaml` (reads `data/raw/sp500_pit_2008`)
 2. **Call table** (replaces `panel.csv`): one row per `keydevid`, earnings calls only, with
    - `transcriptid, keydevid, companyid, companyname, gvkey, permno, gsector`
    - `call_date` and `call_time_utc` (from `mostimportantdateutc` / `mostimportanttimeutc`)

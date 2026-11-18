@@ -29,9 +29,8 @@ S&P 500, 2011 Q1 – 2023 Q4. The legacy 150-pair sample (`data/qa_label_sample.
    same pairs and `pair_id`s. Do not parse the text yourself.
    - Move the legacy interim files aside first:
      `mkdir -p data/interim/legacy && mv data/interim/*.parquet data/interim/legacy/`.
-   - Use `configs/full.yaml`: an override of `configs/default.yaml` that sets only
-     `paths.raw: data/raw/sp500_pit_2008` (everything else comes from the default).
-   - Run `la transcripts --config configs/full.yaml`. It applies the spec's version rule (the
+   - `configs/default.yaml` already reads the full pull (`paths.raw: data/raw/sp500_pit_2008`).
+   - Run `la transcripts`. It applies the spec's version rule (the
      latest version created by the call session's close) and writes
      `data/interim/{transcript_calls,components,qa_pairs,call_sections}.parquet`.
 1. From `data/interim/qa_pairs.parquet` joined to `transcript_calls`, keep earnings calls only

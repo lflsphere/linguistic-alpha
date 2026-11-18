@@ -1,7 +1,0 @@
-# Full S&P 500 point-in-time run: an override of configs/default.yaml, not a copy.
-# load_config merges each section over the default (one level deep), so only the settings that
-# differ belong here; everything else (sample, splits, controls, models) comes from default.yaml.
-# Usage: la <stage> --config configs/full.yaml
-
-paths:
-  raw: data/raw/sp500_pit_2008   # full S&P 500 PIT pull from 2008 (scripts/pull_sp500_pit.py)

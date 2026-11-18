@@ -5,7 +5,7 @@ from linguistic_alpha.models.specs import model_specs
 
 def test_default_config_paths_resolve_inside_repo():
     cfg = load_config()
-    assert cfg.paths.raw == REPO_ROOT / "data" / "raw"
+    assert cfg.paths.raw == REPO_ROOT / "data" / "raw" / "sp500_pit_2008"
     assert cfg["targets"]["car_windows"]["car_2_20"] == [2, 20]
 
 

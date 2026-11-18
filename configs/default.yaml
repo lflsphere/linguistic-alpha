@@ -2,7 +2,8 @@
 # Every path is relative to the repo root unless absolute.
 
 paths:
-  raw: data/raw              # WRDS exports (parquet/CSV), one file per source table
+  raw: data/raw/sp500_pit_2008   # WRDS exports: the point-in-time S&P 500 pull from 2008
+                                 # (scripts/pull_sp500_pit.py); one parquet per table, big ones sharded
   interim: data/interim      # cleaned / linked tables
   processed: data/processed  # event panel, features, model table
   external: data/external    # Loughran-McDonald dictionary, labeled Q&A samples
