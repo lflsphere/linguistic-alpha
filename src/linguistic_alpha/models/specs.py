@@ -1,12 +1,14 @@
 """Model specifications: which columns enter Models A, B, C and C_alone.
 
-  A       = controls (earnings surprise and firm controls)
+  A       = controls (earnings surprise, firm controls) + release metrics (``controls.release_metrics``)
   B       = A + dictionary measures (method 1: NLTK tokens + Loughran-McDonald lists)
+            + release x call interactions (``models.measures.interactions``, built on dictionary tone)
   C       = B + FinBERT sentence-level sentiment (method 2)
-  C_alone = A + FinBERT only
+  C_alone = A + FinBERT + FinBERT-tone interactions (``models.measures.finbert_interactions``)
 
-A, B and C nest, so B - A is the value of dictionary language and C - B the value FinBERT
-adds on top. C_alone vs. B compares the two methods head to head; they are not nested, so
+A, B and C nest, so B - A is the value of dictionary language (with its interactions) and C - B
+the value FinBERT adds on top; dictionary interactions are in both B and C, so they never enter
+C - B. C_alone vs. B compares each tone method with its own interactions. C_alone vs. B compares the two methods head to head; they are not nested, so
 that comparison uses Delta IC / Delta R^2 with bootstrap p-values, not Clark-West.
 ``COMPARISONS`` lists every (base, alternative, nested) pair that is reported.
 
@@ -37,15 +39,18 @@ def model_specs(cfg: dict, target: str = "car_2_20",
                 reaction: str | None = None) -> dict[str, ModelSpec]:
     """Models A / B / C / C_alone for one leg; ``reaction`` defaults to the main leg."""
     reaction = reaction or cfg["controls"]["reaction_legs"]["main"]
-    controls = tuple(cfg["controls"]["include"]) + (reaction,)
+    c = cfg["controls"]
+    controls = tuple(c["include"]) + tuple(c.get("release_metrics", ())) + (reaction,)
     m = cfg["models"]["measures"]
-    dictionary, finbert = tuple(m["dictionary"]), tuple(m["finbert"])
+    dictionary = tuple(m["dictionary"]) + tuple(m.get("interactions", ()))
+    finbert = tuple(m["finbert"])
     fe = tuple(cfg["models"]["fixed_effects"])
     return {
         "A": ModelSpec("A", target, controls, fe),
         "B": ModelSpec("B", target, controls + dictionary, fe),
         "C": ModelSpec("C", target, controls + dictionary + finbert, fe),
-        "C_alone": ModelSpec("C_alone", target, controls + finbert, fe),
+        "C_alone": ModelSpec("C_alone", target,
+                             controls + finbert + tuple(m.get("finbert_interactions", ())), fe),
     }
 
 

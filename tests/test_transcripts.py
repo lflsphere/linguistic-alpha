@@ -1,4 +1,5 @@
 import pandas as pd
+import pytest
 
 from linguistic_alpha.data import transcripts
 
@@ -107,3 +108,37 @@ def test_day0_close_cutoff_after_close_call_moves_to_next_session():
     cut = transcripts.day0_close_utc(detail, days)
     assert cut.loc[1] == pd.Timestamp("2024-01-11 21:00", tz="UTC")   # 16:00 ET, same day
     assert cut.loc[2] == pd.Timestamp("2024-01-12 21:00", tz="UTC")   # next session
+
+
+def test_call_on_day_plus1_keeps_transcript_and_cutoff_is_entry():
+    # Release before the open on Thu 2024-01-11 -> release Day 0 = 01-11, entry = Fri 01-12 close.
+    # Call at 10:00 ET on 01-12 (Day +1); Preliminary version created 12:00 ET the same day.
+    days = pd.DatetimeIndex(["2024-01-11", "2024-01-12", "2024-01-16"])
+    calls = pd.DataFrame({"keydevid": [1], "mostimportantdateutc": ["2024-01-12"],
+                          "mostimportanttimeutc": ["15:00:00"]})                  # 10:00 ET
+    cut = transcripts.day0_close_utc(calls, days)
+    entry = transcripts.entry_close_utc(pd.Series(pd.to_datetime(["2024-01-11"]), index=[1]), days)
+    assert cut.loc[1] == entry.loc[1] == pd.Timestamp("2024-01-12 21:00", tz="UTC")
+    detail = pd.DataFrame({
+        "keydevid": [1, 1], "transcriptid": [10, 20],
+        "transcriptcreationdate_utc": ["2024-01-12", "2024-01-12"],
+        "transcriptcreationtime_utc": ["17:00:00", "22:00:00"],                    # 12:00 / 17:00 ET
+        "transcriptpresentationtypename": ["Preliminary", "Final"],
+        "transcriptcollectiontypename": ["Spellchecked Copy", "Edited Copy"],
+    })
+    out = transcripts.select_latest_before(detail, cut, entry_close_utc=entry)
+    assert out["transcriptid"].tolist() == [10]          # kept; the 17:00 ET Final is after entry
+    assert out["version_final"].iloc[0] == 0
+
+
+def test_cutoff_after_entry_is_capped():
+    # Call after the close on Day +1 (lag 2): its own session is Day +2, past the entry.
+    days = pd.DatetimeIndex(["2024-01-11", "2024-01-12", "2024-01-16"])
+    cut = pd.Series([pd.Timestamp("2024-01-16 21:00", tz="UTC")], index=[1])
+    entry = pd.Series([pd.Timestamp("2024-01-12 21:00", tz="UTC")], index=[1])
+    detail = pd.DataFrame({"keydevid": [1], "transcriptid": [10],
+                           "transcriptcreationdate_utc": ["2024-01-13"],
+                           "transcriptcreationtime_utc": ["09:00:00"]})
+    with pytest.warns(UserWarning, match="capped"):
+        out = transcripts.select_latest_before(detail, cut, entry_close_utc=entry)
+    assert out.empty

@@ -14,21 +14,32 @@ wrds:
   end_year: 2026
 
 sample:
-  start: "2012-01-01"
-  end: "2026-06-30"             # CRSP quarterly update (crspq) ends 2026-06-30
-  universe: sp500_historical    # crsp.msp500list membership on the call date
-  exclude_gics_industries: ["352010"]   # Biotechnology (meeting 10/23)
+  start: "2011-01-01"           # first quarter with >= 90% of calls having a transcript by the Day 0
+                                #   close (2010: 41-67%); 2008-10 data feed lookbacks only. docs/pipeline.md
+  end: "2026-08-31"             # last event date. CRSP (crspq, released 2026-11-12) ends 2026-09-30;
+                                # team decision 2026-11-17: drop Sep 2026 events entirely, since
+                                # their CAR[+2,+20] is incomplete (CAR[+2,+60] is missing from ~June)
+  universe: sp500_historical    # crsp.msp500list membership on Day 0 (index changes fall mostly
+                                # in late December, outside earnings season, so call date ~ Day 0)
+  exclude_gics_industries: []   # team decision 2026-11-17: keep biotech (was 352010, meeting 10/23)
   min_prior_return_days: 60
+  share_class_rule: ccm_primary_then_mktcap   # one permno per event: CCM linkprim P, else the
+                                              # largest market cap on Day -1 (e.g. GOOGL vs GOOG)
 
 split:
-  # Scope doc: 2012-2023 build / 2024-2026 holdout. CRSP now runs to 2026-06-30, so the holdout
-  # covers 2024-01 to 2026-06 (events whose target window ends after that have no target yet).
+  # Sample 2011 Q1 - 2026 Aug: build 2011 Q1 - 2023 Q4 (52 quarters) /
+  # holdout 2024 Q1 - 2026 Aug (10 quarters + 2 months), scored once after freezing.
   build_end: "2023-12-31"
   holdout_start: "2024-01-01"
-  walk_forward:
+  walk_forward:                 # rolling for now; the train / validation / test design is under discussion
+    scheme: rolling
     train_quarters: 8
     test_quarters: 2
-    embargo_trading_days: 20    # target window length, avoids overlap leakage
+    embargo: target_window      # per target: drop training events whose window ends on or after the
+                                # first test Day 0 (20 sessions for car_2_20, 60 for car_2_60)
+  inner_cv:                     # validation set: time-ordered folds inside each training window
+    scheme: forward_chaining    # fold k validates on one of the window's last quarters, trains on
+    folds: 3                    # the quarters before it, same embargo; penalties are chosen here
 
 events:
   # The earnings release and the call count as one event; there is no call-timing control.
@@ -38,6 +49,7 @@ events:
                                       # (80% within 15 min of CIQ Key Dev type 28; docs/pipeline.md)
   market_close_et: "16:00"      # release at/after this (New York time) -> Day 0 = next session
   missing_call_time: next_session   # time unknown -> assume after close (no same-day reaction)
+  duplicate_calls: keep_first  # several calls for one release: keep the first by call time
   max_call_lag_sessions: 1      # the call must fall in Day 0 or Day +1; otherwise flag the event
                                 # and leave it out of the main sample
 
@@ -46,8 +58,12 @@ targets:
   # constituents on each day); use its total return (crsp_dsp500_v2.vwretd, dividends included,
   # like CRSP dlyret), not the price-only sprtrn: with sprtrn the index dividend yield stays in every AR
   # (+0.18 pp over [+2,+20], +0.46 pp over [+2,+60] on the legacy events). docs/pipeline.md has the detail.
-  benchmark: sp500              # sp500 (main) | vwmkt (crsp_vwmkt_daily) | ff4 (robustness only)
+  benchmark: sp500              # sp500 (main, market-adjusted: beta = 1) | market_model (robustness)
+                                # | vwmkt (crsp_vwmkt_daily, index check). FF4: future risk-management leg.
   benchmark_column: vwretd
+  market_model:                 # robustness: same S&P 500 total return, beta estimated per event
+    estimation_window: [-250, -30]   # sessions relative to Day 0; ends before any run-up
+    min_coverage: 0.8                # valid days needed, else AR missing
   car_windows:
     car_2_20: [2, 20]           # primary
     car_2_5: [2, 5]
@@ -60,17 +76,32 @@ targets:
   vol_pre_window: [-60, -5]
 
 controls:
-  sue_scaler: price             # price (scope doc) | stdev (legacy notebook) -- keep both columns
+  sue_scaler: ts                # SUE_TS (primary): surprise / SD of the firm's prior surprises
+                                # (rolling, shifted: window 8, at least 4) | stdev (analyst SD, NaN when 0)
+                                # | price (robustness)
   ibes_unadjusted: true         # statsumu_epsus / actu_epsus, avoids split-rounding
   mom_window_months: [-12, -2]
   include: [sue, size, bm, mom, vol_pre, n_analysts, dispersion, version_final]
+  # Release metrics (I/B/E/S, all dated before Day 0's close): Model A controls, so language must
+  # add value beyond the numbers the release already gave (docs/pipeline.md, Release metrics).
+  release_metrics: [rev_sue, guidance_given, guidance_vs_consensus, guidance_width, guidance_change,
+                    net_revisions, forecast_range]
+  # Missing guidance (team decision 2026-11-17): every guidance metric that is missing is set to 0,
+  # with guidance_given = 0 when the firm gave no guidance within 1 day of the release, so no event
+  # is dropped for missing guidance (dropping would lose ~55%). Point guidance (no range) has
+  # guidance_width = 0. Events are dropped only when the EPS consensus is missing (0.3%).
+  # rev_sue: SAL from the adjusted act_xepsus / statsum_xepsus (amounts are not split-affected;
+  # the unadjusted *u_xepsus tables hold per-share measures only). 99.5% of events have it.
+  release_missing: flag_and_zero   # flag_and_zero (decided) | drop
   # version_final: single text-quality control (1 = transcript at the Final stage, Edited or later)
   # Every model (A, B, C, C_alone) runs in two legs that differ only in the reaction control
   # added to these controls: main = car_m1_1, comparison = car_0_1.
   reaction_legs: {main: car_m1_1, comparison: car_0_1}
 
 transcripts:
-  # One version per call: the latest created by the close of Day 0 (docs/pipeline.md).
+  # One version per call: the latest created by the close of the CALL's own session
+  # (release Day 0 close for calls on Day 0, Day +1 close = entry for calls on Day +1),
+  # capped at the trade entry (docs/pipeline.md).
   version_rule: latest_before_day0_close   # latest_before_day0_close (main) | earliest (robustness)
   no_version_before_cutoff: drop           # drop (main) | earliest (keep, flagged)
 
@@ -78,19 +109,59 @@ features:
   # Level-1 families from the research framework; each lists its Level-2 measures.
   communication_state: [tone_prepared, tone_answers, tone_gap, uncertainty, hedging]
   interaction_quality: [qa_relevance, evasiveness, non_answer_rate]
-  consistency: [d_tone, d_uncertainty, d_evasiveness, novelty, div_qa_prepared, div_press_release]
+  consistency: [d_tone, d_uncertainty, d_evasiveness, novelty, div_qa_prepared]
+  future: [div_press_release]   # F5 vs. 8-K Ex.99.1: needs 8-K text, not in the pull (further feature work)
   history_calls: 4              # F4 baseline: mean of previous N calls
   history_min_calls: 4
 
 models:
-  model_a: controls
-  model_b: controls + measures.dictionary                 # method 1: NLTK tokens + Loughran-McDonald lists
-  model_c: controls + measures.dictionary + measures.finbert  # method 2 added: FinBERT sentence sentiment
-  model_c_alone: controls + measures.finbert   # FinBERT only: head-to-head with B (dictionary vs. FinBERT)
+  model_a: controls + release_metrics
+  model_b: A + measures.dictionary + measures.interactions   # method 1 + release x call interactions
+  model_c: B + measures.finbert                 # C - B isolates FinBERT (interactions are in both)
+  model_c_alone: A + measures.finbert + measures.finbert_interactions   # FinBERT, with its own
+                                                # interactions: head-to-head with B
+  estimators:
+    primary: [ols, lasso, ridge, enet]
+    exploratory: [xgb, fama_macbeth, shap]      # tree-based models, Fama-MacBeth slopes, SHAP interactions
   measures:                     # which feature measures each method produces
     dictionary: [tone_prepared, tone_answers, tone_gap, uncertainty, hedging, non_answer_rate,
                  d_tone, d_uncertainty]
     finbert: [finbert_tone_prepared, finbert_tone_answers, finbert_tone_gap]
-    # methods 3-4 (embeddings, LLM rating): not in A/B/C yet
-    later: [qa_relevance, evasiveness, d_evasiveness, novelty, div_qa_prepared, div_press_release]
+    # Release x call interactions, fixed before testing (quarter-ranked inputs). *_resid terms are
+    # fitted inside each training window, so they are built in the model stage, not in features.
+    interactions: [tone_resid, beat_neg_tone, miss_pos_tone, sue_x_tone_prepared,
+                   sue_x_tone_answers, sue_x_tone_gap, guidance_change_x_tone_gap,
+                   guidance_width_x_uncertainty]
+    # The same interactions on FinBERT tone, for C_alone only (guidance width x uncertainty has no
+    # FinBERT version). C keeps the dictionary interactions only, so C - B is FinBERT alone.
+    finbert_interactions: [finbert_tone_resid, beat_neg_finbert, miss_pos_finbert,
+                           sue_x_finbert_prepared, sue_x_finbert_answers, sue_x_finbert_gap,
+                           guidance_change_x_finbert_gap]
+    # Methods 3-4 (embeddings, LLM rating): outside A/B/C. Each measure is tested one at a time,
+    # added to A and to B, in both reaction legs.
+    later: [qa_relevance, evasiveness, d_evasiveness, novelty, div_qa_prepared]
   fixed_effects: [industry, quarter]
+  unpenalized: [controls, release_metrics, reaction]   # Model A's regressors are never shrunk, in
+                                # any model: A is plain OLS under every estimator, and in B, C and
+                                # C_alone the penalty applies only to language measures and interactions
+  fe_method: demean             # within transformation: demean target and regressors by industry
+                                # and by quarter inside each training window, then fit with no dummies,
+                                # so the lasso / ridge / enet penalty never touches the fixed effects
+                                # (same as unpenalised dummies). Industry means from the training
+                                # window are subtracted in the test window; the test quarter's own
+                                # effect is unknown and drops out of the prediction.
+
+future_targets:
+  # Volatility (vol_post_2_20, vol_ratio_2_20) becomes a target only if the CAR / PEAD
+  # results are inconclusive. It is built in the targets stage but not modelled yet.
+  volatility: [vol_post_2_20, vol_ratio_2_20]
+
+backtest:
+  # Further work: portfolio rules and cost sources are to be decided. Trading costs enter only
+  # here, in the last stage; IC and OOS R2 are gross by construction.
+  entry: day_plus_1_close
+  exit_day: 20
+  costs:
+    spread_source: null          # open: half-spread data source (TAQ / CRSP bid-ask) not chosen yet
+    borrow_source: null          # open: borrow fee data for the short leg
+    fallback_bps_per_side: null  # open: flat assumption if no source is available

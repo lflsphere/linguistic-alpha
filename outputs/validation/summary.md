@@ -12,11 +12,11 @@ Events: 167 (2010-2023), Q-A pairs: 2740. wrote 150 blind pairs to data/qa_label
 ## Leakage and bias checks
 | check | status | detail |
 |---|---|---|
-| day 0 consistent with call time (post-close -> next session, pre-open -> same day) | PASS | 0 inconsistent; sessions: {'post': 178, 'pre': 1} |
-| no intraday calls (reaction day ambiguous) | PASS | 0 intraday calls |
+| day 0 consistent with call time (post-close -> next session, pre-open / intraday -> same day) | PASS | 0 inconsistent; sessions: {'post': 178, 'pre': 1} |
+| intraday calls kept: Day 0 from the release (before the open -> same session), call on Day 0 | PASS | 0 intraday calls (in the full sample ~28-45% of calls are during the session) |
 | fiscal period ends before the call | PASS | min gap 5 days |
 | no post-event quantity in Model A / Model B feature lists | PASS | [] |
-| CAR[0,+1] excluded from the primary specification | PASS | AR01 only enters with --delayed |
+| reaction windows are controls only: CAR[-1,+1] main leg, CAR[0,+1] comparison leg, never a target | PASS | legs {'m1_1': 'AR_M11', '0_1': 'AR01'}; each model adds one leg's window to Model A |
 | Delta features use only the previous calls of the same firm | PASS | max |recomputed - stored| = 2.22e-16 |
 | NOVEL uses the previous call only | PASS | first call of each firm is NaN |
 | time-series SUE scale uses prior surprises only | PASS | rolling SD of shifted surprises, window (8, 4) |
@@ -25,7 +25,7 @@ Events: 167 (2010-2023), Q-A pairs: 2740. wrote 150 blind pairs to data/qa_label
 | historical S&P 500 membership on the call date | UNVERIFIABLE | tickers ['AAPL', 'MSFT', 'NVDA']: all three were members over 2010-2024; no membership table in the panel |
 | split-adjusted consensus rounding (Payne-Thomas) | WARN | 40 events with |consensus| < 0.05, by ticker {'NVDA': 40}; robustness: --sample highprec |
 | transcript text truncated at the Excel cell limit | WARN | Q&A truncated in 47 calls, prepared in 12; densities stay unbiased only if language is homogeneous within the call |
-| lexicon | PASS | MasterDictionary.csv |
+| lexicon | PASS | data/external/MasterDictionary.csv |
 | LLM look-ahead | WARN | no generative LLM scoring; pre-trained encoders receive anonymised text and are version-pinned in config |
 | holdout coverage | WARN | 12 holdout events (2024-2024); CAR_2_60 missing for 3 |
 | alternative abnormal-return benchmark (Fama-French) | UNVERIFIABLE | needs daily stock and factor returns, not in the panel; market-adjusted CAR only |

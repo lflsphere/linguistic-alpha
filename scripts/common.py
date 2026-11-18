@@ -32,6 +32,7 @@ from scipy import stats
 # ============================================================================ paths
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
+EXTERNAL_DIR = DATA_DIR / "external"          # Loughran-McDonald Master Dictionary (configs paths.external)
 PANEL_PATH = DATA_DIR / "panel.csv"
 FEATURES_PATH = DATA_DIR / "features.csv"
 REACTION_PATH = DATA_DIR / "reaction_windows.csv"   # AR_M11 = CAR[-1,+1], scripts/build_reaction_windows.py
@@ -45,9 +46,9 @@ OUT_DIR = ROOT / "outputs"
 FROZEN_SPEC_PATH = OUT_DIR / "frozen_spec.json"
 
 # ============================================================================ sample and splits (Sections 2.1, 6)
-DEV_START, DEV_END = 2012, 2023      # 2010-2011 calls only feed history-based features (burn-in)
+DEV_START, DEV_END = 2011, 2023      # sample start (docs/pipeline.md); 2010 calls only feed history-based features (burn-in)
 HOLDOUT_START = 2024                 # panel ends Nov 2024: 2025-2026 are not available
-FIRST_TEST_YEAR = 2018               # expanding windows 2012-2017 -> 2018, ..., 2012-2022 -> 2023
+FIRST_TEST_YEAR = 2018               # expanding windows 2011-2017 -> 2018, ..., 2011-2022 -> 2023
 HIST_WINDOW = 4                      # prior calls used by the Delta features
 SUE_HIST = (8, 4)                    # (window, min periods) of the time-series SUE scale
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-03: Steps 2 and 3 of the framework on the development sample (2012-2023). Never reads the holdout.
+03: Steps 2 and 3 of the framework on the development sample (2011-2023). Never reads the holdout.
 
   Step 2  Model A baseline; single-signal, family and joint Model B regressions with FE and clustered SEs;
           annual Fama-MacBeth; pooled, partial and annual Rank IC (ICIR); point-in-time quantile sorts;

@@ -18,12 +18,12 @@ class Consistency(FeatureFamily):
         (legacy notebook used min_periods=1, i.e. a 1-call baseline)
     novelty            : 1 - cos(emb_t, emb_{t-1}) for comparable sections
     div_qa_prepared    : tone / embedding distance, Q&A vs. prepared remarks
-    div_press_release  : tone / embedding distance, prepared remarks vs. same-day 8-K Ex.99.1
+    Further feature work (``features.future``, not built): div_press_release, tone / embedding
+    distance between prepared remarks and the same-day 8-K Ex.99.1 (needs 8-K text).
     """
 
     name = "consistency"
-    measures = ("d_tone", "d_uncertainty", "d_evasiveness", "novelty",
-                "div_qa_prepared", "div_press_release")
+    measures = ("d_tone", "d_uncertainty", "d_evasiveness", "novelty", "div_qa_prepared")
     depends_on = ("communication_state", "interaction_quality")
 
     def compute(self, inputs: FeatureInputs) -> pd.DataFrame:

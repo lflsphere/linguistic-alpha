@@ -7,7 +7,7 @@
                    every return horizon, Models A / B / C / C_alone
   --stage holdout  load outputs/frozen_spec.json, check that data/features.csv is unchanged since freezing,
                    refit every frozen model (A, B and, with FinBERT, C and C_alone) once on the purged
-                   2012-2023 sample in every frozen reaction leg, predict the 2024 calls, evaluate
+                   2011-2023 sample in every frozen reaction leg, predict the 2024 calls, evaluate
                    statistically and economically. Each run is appended to outputs/holdout/holdout_log.json;
                    a second run is refused without --force because repeated looks void the holdout.
 

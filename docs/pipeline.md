@@ -6,38 +6,116 @@ surprise and standard controls (Model A), out of sample and net of costs?
 
 ```
 data/raw  (WRDS exports: CRSP, Compustat, I/B/E/S, CIQ transcripts, links)
-   │  la pull              data/wrds_pull.py         (optional; files can come from the web UI)
+   │  scripts/pull_sp500_pit.py                     point-in-time S&P 500 from 2008   ✅
    ▼
 data/interim
-   │  la transcripts       data/transcripts.py      components, qa_pairs, call_sections   ✅
-   │  la events            data/linking.py, data/universe.py, events/timing.py (Day 0 ✅)
+   │  la transcripts  (1) parse   data/transcripts.py   every version: components, speakers  ✅
+   │                  (2) clean   features/lexicons.py  operator lines, safe harbor, anonymise
+   │  la events       data/linking.py, data/universe.py, events/timing.py (Day 0 ✅)
+   │  la transcripts  (3) select  data/transcripts.py   one version per keydevid, capped at
+   │                              the entry close; then qa_pairs, call_sections  ✅ (select)
    ▼
 data/processed
    │  la targets           targets/car.py           CAR windows, post-call vol
-   │  la controls          controls/earnings.py, controls/firm.py
-   │  la features          features/*               F1–F5 by family
+   │  la controls          controls/earnings.py, controls/firm.py   + release metrics
+   │  la features          features/*               F1–F4, interactions, standardised
+   │  la select            (EDA + 5 filters, inside each training window)
    │  la model             models/specs.py, splits.py, regression.py
    ▼
-   la evaluate             evaluation/metrics.py, backtest.py
+   la evaluate             evaluation/metrics.py (gross)   →   backtest.py (net of costs)
+   la holdout              once, on frozen models
 ```
 
 ✅ = implemented and tested. All other stages have fixed signatures and a docstring spec,
 and raise `NotImplementedError` until their data arrives.
 
+**Stage order.** Version selection needs the release's Day 0 and the entry close
+(`transcripts.entry_close_utc`), which only exist after `la events`. So transcripts run in two
+passes: parse and clean every version first, then select one version per call after events, and
+build `qa_pairs` / `call_sections` from the selected versions only. (`la transcripts` today
+selects before events, without the entry cap; it must be split.)
+
+**Two tracks today.** `scripts/01–05` run on the legacy 179-event panel (`data/panel.csv`:
+AAPL, MSFT, NVDA, 2010–2024). The full pull has not been through stages 5–12. Connecting it means
+writing `data/processed/{events,targets,controls,features_*}` with the panel's column names (or
+mapping them in `scripts/common.py`), then pointing `common.load_events` there instead of
+`panel.csv`; `HOLDOUT_START` and the "panel ends Nov 2024" note go with it.
+
 ## Stage contracts
 
 | Stage | Reads | Writes | Key |
 |-------|-------|--------|-----|
-| transcripts | `ciq_transcript_detail`, `ciq_transcript_component`, `ciq_transcript_person` | `interim/transcript_calls`, `components`, `qa_pairs`, `call_sections` | transcriptid |
+| transcripts (parse, clean) | `ciq_transcript_detail`, `ciq_transcript_component`, `ciq_transcript_person` | `interim/transcript_versions`, `components` (all versions) | transcriptid |
 | events | `interim/transcript_calls`, `ibes_actu_epsus` (release time), `ciq_wrds_gvkey`, `crsp_ccmxpf_lnkhist`, `wrdsapps_ibcrsphist`, `crsp_msp500list_v2`, `comp_co_hgic`, `crsp_dsf_v2` (trading calendar) | `processed/events` (`schemas.EVENTS`) | keydevid |
-| targets | `processed/events`, `crsp_dsf_v2`, `crsp_dsp500_v2` / `crsp_vwmkt_daily`, `ff_factors_daily` | `processed/targets` (`schemas.TARGETS`) | keydevid |
-| controls | `processed/events`, `crsp_dsf_v2`, `comp_fundq`, `ibes_actu_epsus`, `ibes_statsumu_epsus` | `processed/controls` (`schemas.CONTROLS`) | keydevid |
-| features | `interim/*`, `processed/events`, (8-K text for F5) | `processed/features_<family>` | transcriptid |
-| model | `processed/{targets,controls,features_*}` | `processed/predictions`, coefficient tables | keydevid × model |
-| evaluate | predictions, returns, cost data | reports | |
+| transcripts (select) | `interim/transcript_versions`, `components`, `processed/events` | `interim/transcript_calls`, `qa_pairs`, `call_sections` | keydevid → transcriptid |
+| targets | `processed/events`, `crsp_dsf_v2`, `crsp_dsp500_v2` (main and market model), `crsp_vwmkt_daily` (index check) | `processed/targets` (`schemas.TARGETS`) | keydevid |
+| controls | `processed/events`, `crsp_dsf_v2`, `comp_fundq`, `ibes_actu_epsus`, `ibes_statsumu_epsus`, `ibes_act_xepsus`, `ibes_statsum_xepsus`, `ibes_det_guidance`, `ibes_surpsum` | `processed/controls` (`schemas.CONTROLS`) | keydevid |
+| features | `interim/*`, `processed/events`, `processed/controls` (interactions) | `processed/features_<family>` | transcriptid |
+| select | features, targets, controls, splits | `processed/selection` (one row per feature × window, reason kept or dropped) | feature × window |
+| model | `processed/{targets,controls,features_*,selection}` | `processed/predictions`, coefficient tables | keydevid × model × leg |
+| evaluate | predictions, targets | IC, OOS R², bootstrap and Clark-West tables (gross) | model pair × leg |
+| backtest | predictions, CRSP returns, spread and borrow data | portfolio returns gross and net of costs | |
 
 Raw file names mirror WRDS tables (`library_table`). Big tables are sharded `name_<yyyy>`.
 `io.read_table` reads both parquet and CSV, single files or shards.
+
+## Sample period
+
+**Sample: 2011 Q1 – 2026 Aug** (`sample.start` 2011-01-01, `sample.end` 2026-08-31): build
+2011 Q1 – 2023 Q4 (52 quarters, 13 years), holdout 2024 Q1 – 2026 Aug (10 quarters + 2 months).
+CRSP ends 2026-09-30, so September 2026 events have no complete CAR[+2, +20]; they are dropped
+entirely rather than kept without a target. CAR[+2, +60] is still incomplete for events from
+about June 2026: the [+2, +60] holdout results use the events that have it, and say so. Data are pulled from 2008, so 2008–10 feed lookbacks only (momentum,
+pre-event volatility, the SUE scale, F4's prior calls).
+
+Why 2011: the sample starts when the text does. Under the version rule (latest version created
+by the Day 0 close), the share of S&P 500 calls with a usable transcript is:
+
+| Period | Calls per quarter | Covered by Day 0 close |
+|---|---|---|
+| 2009 | about 660 | 26–36% |
+| 2010 Q1–Q2 | 681 | 41–44% |
+| 2010 Q3–Q4 | about 695 | 55–67% |
+| 2011 Q1 | 709 | 93% |
+| 2011 Q2–Q4 | about 710 | 81–91% |
+| 2012 onward | about 710 | 87–98% |
+
+- **Coverage:** 2011 Q1 is the first quarter above 90%, and coverage never falls back below 80%.
+- **Selection:** in 2010 only the calls Capital IQ transcribed fastest are covered, likely the
+  larger, more heavily covered firms. Text features from 2010 would describe a different set of
+  firms from later years, so 2010 calls would bias the sample rather than add to it.
+- **Lookbacks:** three years of 2008–10 data give every history-based feature its full window
+  in 2011 (`history_min_calls` = 4 needs one year of calls).
+- **Thresholds:** the build period has 13 years, so feature selection's sign-stability rule is
+  "same sign in at least 9 of 13 years" (two-thirds, as 8 of 12 was).
+
+Coverage figures approximate Day 0 by the call time (calls follow releases by a median 2 h),
+on the 2026-11-17 pull (`data/raw/sp500_pit_2008`).
+
+## Universe
+
+- **Membership:** S&P 500 on Day 0 (`crsp_msp500list_v2`), never today's list. Index changes
+  fall mostly in late December, outside earnings season, so Day 0 vs. call date rarely matters.
+- **One call per release** (`events.duplicate_calls: keep_first`): when several calls map to
+  one release, keep the first by call time and log the others.
+- **Biotech is kept** (team decision 2026-11-17; `sample.exclude_gics_industries: []`). The 10/23
+  concern (news comes from medical conferences) is checked in EDA by sector, not by exclusion.
+- **One permno per event** (`sample.share_class_rule`): firms with two share classes (GOOGL /
+  GOOG, FOXA / FOX, NWSA / NWS, BRK.B) map one call to two permnos. Keep the CCM primary link
+  (`linkprim = P`); when that is ambiguous, keep the class with the largest market cap on Day -1.
+  Market cap is preferred to volume because it is what the size control and the index weight use.
+- Every exclusion keeps an `exclusion_reason` instead of dropping rows silently.
+
+## Text cleaning (before any feature)
+
+Run on every version, before selection, so the robustness versions are cleaned the same way.
+
+1. Drop operator turns and call-logistics lines (speaker role `Operator`; "next question").
+2. Strip the safe-harbor / forward-looking-statement block from prepared remarks
+   (`lexicons.strip_safe_harbor`; the legacy regex is in `scripts/01_build_features.py`).
+3. Remove bracketed transcription notes (`[indiscernible]`, `[technical difficulty]`).
+4. Anonymise firm, ticker and person names before any pre-trained model (FinBERT, embeddings).
+5. Record words removed per step per call, so heavy trimming is visible.
 
 ## Event timing (Day 0 and windows)
 
@@ -47,7 +125,7 @@ The earnings release and the call count as one event. There is no call-timing co
   `anntims`, New York time). A release before the open or during the session gets that day.
   A release after 16:00, or on a non-trading day, gets the next session. When the time is
   unknown, assume the release came after the close.
-- **Call check:** the call must fall in Day 0 or Day +1 (`call_lag_sessions`). Otherwise the
+- **Call check:** the call must fall in Day 0 or Day +1 (`events.max_call_lag_sessions`). Otherwise the
   event is flagged and left out of the main sample. In the S&P 500 sample, 98% of calls
   come within a day of their release (median 2 hours).
 - **Reaction legs (two):** every model runs twice, differing only in the reaction control
@@ -65,7 +143,20 @@ The earnings release and the call count as one event. There is no call-timing co
     so Rank IC is nearly unchanged.
   - **Trade consistency:** the backtest's S&P 500 hedge (futures or an ETF) also earns
     dividends.
-  - The CRSP value-weighted market and FF4 are robustness checks only.
+  - **Robustness: market model.** Same index, but beta is estimated instead of fixed at 1:
+    AR = R(i) − (α̂ + β̂ · R(S&P 500 total return)), with α̂, β̂ from OLS on sessions −250 to −30
+    before Day 0 (`targets.market_model`; at least 80% valid days, else missing). The window ends
+    before any announcement run-up, so the estimate uses only past data. This isolates the effect
+    of beta, one step at a time. Events in about the first year of 2008 have no full window (the
+    pull has no earlier data), so their market-model AR is missing.
+    Precision: 2 parameters on 177–221 days. With typical daily volatilities (1.5% idiosyncratic,
+    1.1% market), SE(β̂) ≈ 1.5 / (1.1 · √220) ≈ 0.09, which moves CAR[+2, +20] by about 0.4 pp,
+    small against its idiosyncratic noise (about 6.5 pp). FF4 (5 parameters) would be noisier.
+  - The CRSP value-weighted market is only an index check (correlation 0.994 with the S&P 500).
+  - **FF4 is left for a future risk-management leg.** It is a risk model (size, value, momentum
+    loadings), not a market benchmark, so it is not comparable with the main AR. Model A's size,
+    B/M and momentum controls partly cover factor exposure meanwhile. Note it would need about a
+    year of returns before 2008 for its estimation window.
 - **Target:** CAR[+2, +20] (also [+2, +5] and [+2, +60]) starts after the reaction and
   after the call text is out.
 - **Robustness:** rerun with `events.anchor: call`, which takes Day 0 from the Capital IQ
@@ -75,8 +166,13 @@ The earnings release and the call count as one event. There is no call-timing co
   `announceddateutc` is 5 h off when `announcedatetimezone` is blank; use `announcedate` +
   `announcetime` as UTC for those rows.
 - **Transcript version and timing:** each call (`keydevid`) uses the **latest version
-  created by the close of Day 0** (`transcripts.select_latest_before`, cutoff from
-  `day0_close_utc`). Versions are ordered by `transcriptcreationdate_utc` +
+  created by the close of the call's own session** (`transcripts.select_latest_before`,
+  cutoff from `day0_close_utc`, which takes Day 0 from the call time). For a call on the
+  release's Day 0 that is the Day 0 close. For a call on Day +1 (e.g. release before the
+  open, call after the close or the next morning) it is the Day +1 close, the trade entry,
+  so these calls keep their transcript. The cutoff is capped at the entry
+  (`entry_close_utc`), so no text created after the position opens is used even if a call
+  time is wrong. "Day 0 close" below means this cutoff. Versions are ordered by `transcriptcreationdate_utc` +
   `transcriptcreationtime_utc`, never by `transcriptid`. Calls with no version by then are
   left out of the main sample (`transcripts.no_version_before_cutoff: drop`).
 - **Robustness: the earliest version** of each call (`transcripts.version_rule: earliest`).
@@ -98,7 +194,7 @@ The earnings release and the call count as one event. There is no call-timing co
 
   - **Coverage:** the latest version by Day 0 close exists for 86% of calls overall, and for
     94–99% from 2011. In 2008–10 versions were mostly created later (17–52% coverage), which
-    is why the text sample effectively starts in 2010–11.
+    is why the sample starts on 2011-01-01 (see Sample period).
   - **Version picked:** Final / Edited 55%, Final / Proofed 25%, Preliminary / Spellchecked
     12% (the only text by Day 0 close for those calls), other 8%.
   - **The mix shifts over time:** 2013–17 mostly Proofed; from 2020 about 88% Edited, as Final
@@ -113,6 +209,8 @@ The earnings release and the call count as one event. There is no call-timing co
 CRSP `dlyret` is null on 3,932 rows. 3,851 fall outside membership; 81 fall inside it, at most
 one per firm (75 `NS`, the first day of a new security such as a spin-off).
 
+- **CAR = compounded stock return minus compounded index return** over the window
+  (`targets/car.py`): the two legs are compounded separately, then differenced.
 - **Compounding:** never drop a null day and carry on. Compound the stock's valid returns and
   compound the benchmark over every day of the window. The return after a null day does not
   reliably cover the gap (only half match the price change since the last valid price).
@@ -121,14 +219,130 @@ one per firm (75 `NS`, the first day of a new security such as a spin-off).
   the coverage share is stored per event.
 - **Lookback features** (momentum, `vol_pre`, beta): same 80% valid-day minimum, else missing.
 
+## Release metrics and interactions
+
+The call matters only where it adds to what the release already told the market.
+
+- **Release metrics are Model A controls** (`controls.release_metrics`), all from I/B/E/S and
+  dated before the Day 0 close: revenue surprise (`rev_sue`, SAL from the adjusted `act_xepsus` /
+  `statsum_xepsus`),
+  guidance midpoint vs. consensus, guidance width, guidance raised / kept / cut
+  (`det_guidance`), net revisions before the release ((numup − numdown) / numest) and the
+  forecast range ((highest − lowest) / price). `surpsum` is only a cross-check on our SUE.
+- **Dictionary interactions are in Model B, so also in C but not in C − B**
+  (`models.measures.interactions`): the tone residual on release metrics, beat-but-negative /
+  miss-but-positive flags, surprise × section tone, guidance change × tone gap, guidance width ×
+  uncertainty.
+- **C_alone gets the same interactions on FinBERT tone** (`models.measures.finbert_interactions`,
+  7 terms; guidance width × uncertainty has no FinBERT version). C keeps only the dictionary
+  interactions, so C − B is FinBERT alone, and C_alone vs. B compares each tone method with its
+  own interactions.
+- **Residual terms are model-stage features.** `tone_resid` and `finbert_tone_resid` regress tone
+  on the release metrics, so they are fitted inside each training window and applied to its test
+  window (`models/regression.py`), never computed once in the features stage.
+
+### Coverage of release metrics (drop vs. keep)
+
+S&P 500 releases with an I/B/E/S quarterly EPS actual, member on the release date,
+2011-01 to 2026-08: **30,102 events** (2026-11-17 pull; ticker links with score ≤ 2). Share of
+events lost if each metric had to be present:
+
+| Metric | Source | Available | Lost if dropped |
+|---|---|---|---|
+| EPS consensus (SUE), net revisions, forecast range | `statsumu_epsus` (fpi 6, last statpers before the release) | 99.7% | 0.3% |
+| Cash flow per share actual | `actu_xepsus` (CPS) | 87.7% | 12.3% |
+| Any guidance within ±1 day of the release | `det_guidance` | 76.4% | 23.6% |
+| EPS guidance with consensus at date (`guidance_vs_consensus`) | `det_guidance` (EPS, `mean_at_date`) | 50.0% | 50.0% |
+| EPS guidance as a range (`guidance_width`) | `det_guidance` (EPS, `val_2`) | 45.9% | 54.1% |
+| Revenue surprise (`rev_sue`: actual and consensus) | `act_xepsus`, `statsum_xepsus` (SAL) | 99.5% | 0.5% |
+| EBITDA surprise (actual and consensus) | `act_xepsus`, `statsum_xepsus` (EBT) | 89.9% | 10.1% |
+| Every EPS, revenue and guidance metric above | | about 45% | **about 55%** |
+
+EPS guidance coverage is steady at 50–54% a year, except 2020–22 (37–45%, guidance withdrawn
+during COVID).
+
+- **Rule (decided, `controls.release_missing: flag_and_zero`): every missing guidance metric is
+  set to 0**, with `guidance_given = 0` when the firm gave no guidance within 1 day of the release.
+  Partial guidance is zero-filled the same way (point guidance has `guidance_width` = 0; no
+  consensus at the date gives `guidance_vs_consensus` = 0). No event is dropped for missing
+  guidance: "no guidance" is itself information, and dropping would halve the sample and keep
+  only firms that guide (larger, more stable ones). Events are dropped only when the EPS
+  consensus is missing (0.3%).
+- **Revenue and EBITDA come from the adjusted tables.** SAL and EBT are in `act_xepsus`,
+  `statsum_xepsus` and `surpsum`, but not in the unadjusted `actu_xepsus` / `statsumu_xepsus`,
+  which hold per-share measures (CPS, DPS) only. Amounts are not affected by splits, so the
+  adjusted tables are correct for them; no re-pull is needed.
+
+## Standardisation (per feature)
+
+All schemes are computed **within the call's calendar quarter** (the cross-section the model
+ranks), so they use no future data and need no training-window fit, except where noted.
+
+| Feature group | Examples | Scheme | Why |
+|---|---|---|---|
+| Bounded tone ratios | tone_prepared, tone_answers, finbert_tone_* | Winsorise 1/99%, then z-score | Already in [-1, 1], roughly symmetric |
+| Differences | tone_gap, d_tone, d_uncertainty, div_qa_prepared | Winsorise 1/99%, z-score, no demeaning by firm | Already relative; demeaning would double-count F4 |
+| Word densities | uncertainty, hedging (per 1,000 words) | log(1 + x), then z-score | Right-skewed counts |
+| Shares | non_answer_rate, evasiveness | Rank to [0, 1] | Many zeros; ranks handle ties |
+| Similarities | qa_relevance, novelty | z-score | Near-normal cosine ranges |
+| Interactions | sue_x_tone_*, guidance_x_* | Rank each input to [-0.5, 0.5] first, then multiply | Products of ranks are comparable across years |
+| Tone residuals | tone_resid, finbert_tone_resid | z-score of the residual; built in the model stage, fitted inside each training window | Its regression must not see the test quarter |
+| Flags | beat_neg_tone, guidance_given, guidance_change, version_final | None (0/1 or −1/0/+1; 0 when no guidance) | Categorical |
+| Surprises | sue, rev_sue | Winsorise 1/99%, then rank | Heavy tails, a few huge surprises |
+| Firm controls | size (log), bm, mom, vol_pre, dispersion, n_analysts | Winsorise 1/99%, z-score (log for dispersion, n_analysts) | Standard in the PEAD literature |
+| Reaction windows | car_m1_1, car_0_1 | Winsorise 1/99% only | Kept in return units so coefficients read as drift per unit reaction |
+| Targets | car_2_20 etc. | Winsorise 1/99% for fitting; never for the backtest | Raw returns are what is traded |
+
 ## Models
 
 | Model | Regressors | Question it answers |
 |-------|------------|---------------------|
-| A | Controls: SUE, size, B/M, momentum, pre-event volatility, coverage, dispersion, plus the leg's reaction window | Baseline |
-| B | A + dictionary measures (method 1: NLTK tokens + Loughran-McDonald lists) | Does dictionary language add to A? |
+| A | Controls: SUE (SUE_TS), size, B/M, momentum, pre-event volatility, coverage, dispersion, `version_final`, release metrics, plus the leg's reaction window | Baseline |
+| B | A + dictionary measures (method 1: NLTK tokens + Loughran-McDonald lists) + release × call interactions | Does dictionary language add to A? |
 | C | B + FinBERT sentence tone per section (method 2) | Does FinBERT add to the dictionary? |
-| C_alone | A + FinBERT only | Dictionary or FinBERT: which is better on its own? |
+| C_alone | A + FinBERT + FinBERT-tone interactions | Dictionary or FinBERT: which is better on its own? |
+
+**Fixed effects by demeaning** (`models.fe_method: demean`): inside each training window, the
+target and every regressor are demeaned by industry and by quarter (alternating until stable,
+since the panel is unbalanced), and the model is fitted with no dummies. This equals unpenalised
+dummies, so the penalty shrinks only predictors: penalised dummies would leave industry and
+quarter levels in the residual for language features to pick up, lasso would drop dummies
+arbitrarily, and B − A would partly reflect how much the dummies were shrunk. In the test window,
+the training industry means are subtracted from the regressors; the test quarter's effect cannot
+be estimated and drops out of the prediction (harmless for IC, which ranks within the quarter, but
+it shifts the level in OOS R²). OLS uses the same transformation so all estimators see identical
+inputs.
+
+**Only language is penalised** (`models.unpenalized`): the controls, release metrics and
+reaction window are never shrunk, in any model. Model A therefore reduces to OLS under every
+estimator, and in B, C and C_alone the penalty falls only on the dictionary, interaction and
+FinBERT measures. Model A's regressors are thus estimated the same way in every model, so B − A
+measures language rather than a different treatment of the controls, and the penalty cannot trade
+a control off against a correlated language feature (e.g. tone against SUE). With about 15
+regressors on 3,500–4,000 training events per window, Model A needs no shrinkage.
+
+**Estimators** (`models.estimators`): primary OLS, lasso, ridge and elastic net. Exploratory: tree-based models (XGBoost), Fama-MacBeth slopes by
+quarter, and SHAP interaction values; these are reported but do not decide the A/B/C comparison.
+
+**SUE:** SUE_TS is primary (`controls.sue_scaler: ts`): surprise over the SD of the firm's prior
+surprises (previous 8 quarters, at least 4, shifted so the current surprise is not in its own
+scale). Analyst-SD scaling (NaN when the SD is 0) and price scaling are robustness runs.
+
+### Splits and validation
+
+- **Rolling windows for now** (`split.walk_forward.scheme: rolling`): train on 8 quarters, test on
+  the next 2, roll by 2. **The train / validation / test design is still under discussion**
+  (rolling vs. expanding, window lengths); `models/splits.py` keeps it in config.
+- **Validation set:** time-ordered cross-validation inside each training window
+  (`split.inner_cv`, forward chaining, 3 folds): each fold validates on one of the window's last
+  quarters and trains on the quarters before it. Penalties are chosen there, never on the test block.
+- **Embargo per target** (`split.walk_forward.embargo: target_window`): a training event is dropped
+  when its target window ends on or after the first test Day 0, so CAR[+2, +20] gets 20 sessions
+  and CAR[+2, +60] gets 60. The same rule applies inside validation folds and before the holdout.
+- **Leakage tests** (`tests/test_splits.py`): for CAR[+2, +5], [+2, +20] and [+2, +60], no training
+  target window reaches the test block; the longer target always has the smaller training set;
+  dev splits never touch the holdout; the holdout is one embargoed split; validation folds are
+  time-ordered and embargoed.
 
 Each model exists in both reaction legs (`model_specs_by_leg`): CAR[-1, +1] (main) and
 CAR[0, +1] (comparison). Comparisons (`models.specs.COMPARISONS`, mirrored in `scripts/common.py`)
@@ -136,7 +350,7 @@ are made within a leg; comparing the same model across legs shows the effect of 
 each vs. A; C vs. B; C_alone vs. B. Every increment is ΔIC and ΔOOS R² with quarter-block
 bootstrap p-values. Clark-West is used only for nested pairs, so not for C_alone vs. B.
 Measures from methods 3–4 (embeddings, LLM rating) stay out of A/B/C and are tested one at
-a time. The current runs are `scripts/04_oos.py` (dev) and `scripts/05_backtest_holdout.py`
+a time, each added to A and to B, in both reaction legs. The current runs are `scripts/04_oos.py` (dev) and `scripts/05_backtest_holdout.py`
 (dev backtest, then a single holdout run that scores every frozen model). C and C_alone need
 the FinBERT columns from `01_build_features.py --finbert`; without them only A and B run.
 The scripts write one folder per leg (`outputs/oos/<tag>_m1_1`, `<tag>_0_1`).
@@ -148,14 +362,52 @@ panel), `AR01` and the `CAR_2_h` targets, written to `data/reaction_windows.csv`
 which shows the panel used `sprtrn`. `LOGVOL_2_20` stays the panel's. `--freeze` selects on the main leg, freezes both, and records the hashes of
 `features.csv` and `reaction_windows.csv`.
 
+### Regressor counts and sample size
+
+| Model | Controls + release + reaction | Dictionary + interactions | FinBERT | Regressors | Parameters with FE* | Events per parameter* |
+|-------|-------------------------------|---------------------------|---------|------------|---------------------|-----------------------|
+| A | 8 + 7 + 1 = 16 | – | – | 16 | ≈ 34 | ≈ 110 |
+| B | 16 | 8 + 8 = 16 | – | 32 | ≈ 50 | ≈ 75 |
+| C | 16 | 16 | 3 | 35 | ≈ 53 | ≈ 70 |
+| C_alone | 16 | – | 3 + 7 interactions | 26 | ≈ 44 | ≈ 85 |
+
+Controls (`controls.include`): sue, size, bm, mom, vol_pre, n_analysts, dispersion, version_final;
+release metrics (`controls.release_metrics`); plus the leg's reaction window. Dictionary,
+interaction and FinBERT lists: `models.measures`. Counts are before feature selection.
+\* Per walk-forward window: intercept + 10 industry dummies (if industry = 11 GICS sectors) + 7 quarter
+dummies (8 training quarters), on about 3,500–4,000 training events (≈ 500 firms × 8 quarters).
+The interactions are now in B and C; with about 70 events per parameter, ridge or elastic net
+is the safer primary fit for B and C.
+
+The binding constraint is signal, not observations: post-earnings CAR R² is well under 1%, so a
+single window's coefficients are imprecise. Keep the measure lists fixed and small, use shrinkage
+(ridge) or ranked features if interactions are added, and judge models on out-of-sample IC pooled
+across windows, not on one window's t-stats.
+
 ## Look-ahead rules
 
-- Features use only the call's own text, plus the same firm's **earlier** calls (F4).
-- Controls use only data dated before Day 0: `rdq < day0`, `statpers < anndats`, prices at
-  the end of the month before the call.
+- Everything is known by the **trade entry, the Day +1 close**; the target starts at Day +2.
+- Features use only the call's own text (version created by the transcript cutoff, at the
+  latest the entry), plus the same firm's **earlier** calls (F4).
+- Controls: consensus dated before the release (`statpers < anndats`), fundamentals
+  reported before Day 0 (`rdq < day0`), prices at the end of the month before the call. The
+  reported EPS in SUE and the reaction window (CAR[-1, +1] or CAR[0, +1]) are known by the
+  entry. Day -1 holds no news (it ends before the release); it guards the window against
+  wrong or missing release times.
 - Targets start at Day +2. Walk-forward training drops events whose target window overlaps
-  the test period (embargo = 20 sessions).
+  the test period (embargo = the target's window: 20 sessions for CAR[+2, +20], 60 for
+  CAR[+2, +60]); `tests/test_splits.py` checks it.
 - The holdout (`split.holdout_start`) is excluded from every split until the final run.
+
+## Evaluation and backtest
+
+- **Evaluation is gross:** ΔIC and ΔOOS R² with quarter-block bootstrap p-values, Clark-West for
+  nested pairs, all within a leg.
+- **Backtest: further work.** Portfolio rules and cost sources are still to be decided.
+- **Trading costs enter only in the backtest, the last stage** (`backtest`): enter at the Day +1
+  close, exit at Day +20, long-short by predicted CAR within the week. Spreads, borrow fees and
+  the S&P 500 hedge are applied there, so IC results stay comparable with the literature. The cost
+  data source is still open (`backtest.costs`).
 
 ## Feature families (research framework v2)
 
@@ -163,11 +415,57 @@ which shows the panel used `sprtrn`. `LOGVOL_2_20` stays the panel's. `--freeze`
 |--------|----------|----------|
 | Communication state | tone_prepared, tone_answers, tone_gap, uncertainty, hedging | F1, F2 |
 | Interaction quality | qa_relevance, evasiveness, non_answer_rate | F3 |
-| Consistency / deviation | d_tone, d_uncertainty, d_evasiveness, novelty, div_qa_prepared, div_press_release | F4, F5 |
+| Consistency / deviation | d_tone, d_uncertainty, d_evasiveness, novelty, div_qa_prepared | F4, F5 |
 
 Consistency measures are transformations of the first two families (`depends_on`), not
-primitive factors. Later extensions are kept out of the core path: FinBERT and embeddings
-(`nlp` extra), and the professor's suggestions of a RavenPack benchmark and audio/readability.
+primitive factors. FinBERT and embeddings need the `nlp` extra.
+
+**F3 labels:** see "Q&A labels for F3" below (build period only, never the holdout).
+
+## Future work (out of the core path)
+
+- **RavenPack: dropped.** It holds no call text (only short news tags), so it cannot supply
+  language features, and its earnings sentiment largely restates the beat or miss. A benchmark
+  comparison with the professor's counterfactual test is left for future work.
+- **F5 `div_press_release`:** prepared remarks vs. the same-day 8-K Ex.99.1; needs 8-K text
+  (`features.future`).
+- **Volatility target** (`future_targets`): `vol_post_2_20` and `vol_ratio_2_20` are built but
+  modelled only if the CAR / PEAD results are inconclusive.
+- **FF4 risk-management leg**, audio features (no GCP credits) and readability.
+
+## Q&A labels for F3
+
+F3 (`evasiveness`, `non_answer_rate`) is calibrated and validated on hand labels for a sample of
+question–answer pairs. The classifier then scores every pair; the full history (about 800,000
+pairs) is not labelled.
+
+- **Labels (binary, per pair):**
+  - `evasive = 1`: the answer does not give the specific information requested (it changes the
+    topic, falls back on generic talking points, answers an easier question, or skips the main
+    ask of a multi-part question).
+  - `non_answer = 1`: management explicitly declines or cannot answer ("we don't disclose",
+    "too early", "we'll follow up offline").
+  - A refusal is usually both labels. A frank answer with bad news is `evasive = 0`.
+  - Each pair is judged from its question and answer alone, blind to returns, features and
+    scores. `notes` gives a reason for every 1 and marks borderline cases.
+- **Sample:** about 450 pairs, build period only (2011 Q1 – 2023 Q4, never the holdout).
+  Pairs are stratified by year × GICS sector (about 3 per cell), with at most 1 call per firm
+  per year and 2 pairs per call, seed 42. Calls are S&P 500 members on the call date, biotech
+  included (team decision 2026-11-17), using the latest transcript version. The sample is
+  `data/qa_label_sample_full.csv` and the labels are `data/qa_labels.csv`. This replaces the
+  legacy 150-pair, 3-firm sample.
+- **Reliability:** an independent, blind second labeller relabels 90 overlapping pairs
+  (seed 7, at least 6 per year). Cohen's kappa per label goes to
+  `outputs/validation/label_interrater.csv`, and disagreements to `label_disagreements.csv`.
+  Target kappa ≥ 0.6; below 0.4, the rules are reworded before F3 is used. Both labellers are
+  LLM agents, so a person checks the disagreements plus 20 random pairs.
+- **Use:** a logistic classifier on pair features (`REL`, `REL_JAC`, lengths, hedging,
+  `NONANS_RULE`), fitted out of fold with folds grouped by call (`EVADE_CLF`, `NONANS_CLF`).
+  F3 is kept if its out-of-fold AUC is about 0.7 or more.
+- **Open:** `scripts/01_build_features.py` and `02_validate.py` still read the legacy panel, so
+  agent C adds `--source full`, which reads the full-history pairs (`data/interim/qa_pairs`, built by `la transcripts --config configs/full.yaml`), so the labelled `pair_id`s match.
+- Handoffs: `docs/labeling_handoff.md` (labeller A), `docs/labeling_handoff_calibration.md` (agent C: calibrate, rerun 01/02), `docs/labeling_handoff_teammate.md`
+  (labeller B).
 
 ## Raw data
 

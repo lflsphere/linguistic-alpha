@@ -101,7 +101,7 @@ EXCEL_CELL_LIMIT = 32767
 
 
 def load_lexicons() -> tuple[dict, str]:
-    files = sorted(C.DATA_DIR.glob("*MasterDictionary*.csv"))
+    files = sorted(C.EXTERNAL_DIR.glob("*MasterDictionary*.csv"))
     if files:
         lm = pd.read_csv(files[-1])
         cols = {c.lower(): c for c in lm.columns}

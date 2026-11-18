@@ -51,11 +51,15 @@ def _created_utc(d: pd.DataFrame) -> pd.Series:
 
 def day0_close_utc(detail: pd.DataFrame, trading_days: pd.DatetimeIndex,
                    market_close_et: str = "16:00") -> pd.Series:
-    """Close of Day 0 (UTC) per call, Day 0 taken from the call time (``events.timing``).
+    """Close of the call's own session (UTC) per call, i.e. Day 0 taken from the CALL time.
 
-    The release and the call count as one event, and the call falls on the release's Day 0
-    or Day +1, so this cutoff is never later than the trade entry (Day +1 close of the
-    release). Indexed by ``keydevid``.
+    This is not the release's Day 0. With the release as anchor it equals:
+      - the release's Day 0 close when the call falls on Day 0 (call lag 0);
+      - the release's Day +1 close, the trade entry, when the call falls on Day +1
+        (call lag 1, e.g. release before the open, call after the close or next morning).
+    So calls on Day +1 keep a transcript. The bound "never after entry" holds only after the
+    call-lag filter (``events.max_call_lag_sessions`` = 1); ``select_latest_before`` enforces
+    it when given ``entry_close_utc``. Indexed by ``keydevid``.
     """
     from linguistic_alpha.events.timing import NY, assign_day0, call_timestamp_utc
     calls = detail.drop_duplicates("keydevid").set_index("keydevid")
@@ -65,13 +69,28 @@ def day0_close_utc(detail: pd.DataFrame, trading_days: pd.DatetimeIndex,
     return (d0 + pd.Timedelta(market_close_et + ":00")).dt.tz_localize(NY).dt.tz_convert("UTC")
 
 
+def entry_close_utc(day0: pd.Series, trading_days: pd.DatetimeIndex,
+                    market_close_et: str = "16:00") -> pd.Series:
+    """Trade entry (UTC) per event: the close of the session after the release's Day 0."""
+    from linguistic_alpha.events.timing import NY
+    days = pd.DatetimeIndex(trading_days).normalize().sort_values().unique()
+    pos = days.searchsorted(pd.to_datetime(day0).dt.normalize(), side="left") + 1
+    nxt = pd.to_datetime(pd.Series([days[p] if p < len(days) else pd.NaT for p in pos],
+                                   index=day0.index))
+    return (nxt + pd.Timedelta(market_close_et + ":00")).dt.tz_localize(NY).dt.tz_convert("UTC")
+
+
 def select_latest_before(detail: pd.DataFrame, cutoff_utc: pd.Series,
-                         no_version: str = "drop") -> pd.DataFrame:
+                         no_version: str = "drop",
+                         entry_close_utc: pd.Series | None = None) -> pd.DataFrame:
     """Keep one transcript per call: the LATEST version created at or before the cutoff.
 
-    Spec (docs/pipeline.md, "Transcript version and timing"): the cutoff is the close of
-    Day 0 (``day0_close_utc``), so the text is one a trader could have read before the
-    position opens at the Day +1 close. Versions are ordered by creation time, never by
+    Spec (docs/pipeline.md, "Transcript version and timing"): the cutoff is the close of the
+    call's own session (``day0_close_utc``): the release's Day 0 close for calls on Day 0,
+    the Day +1 close (entry) for calls on Day +1. ``entry_close_utc`` (release Day +1 close,
+    per ``keydevid``, from :func:`entry_close_utc`) caps the cutoff, so no text created after
+    the position opens is ever used, even if a call time or the lag filter is wrong; capped
+    calls are counted in a warning. Versions are ordered by creation time, never by
     ``transcriptid``; ties take the highest ``transcriptid`` among equal times.
     ``no_version``: "drop" leaves out calls with no version by the cutoff (main sample);
     "earliest" keeps their earliest version, flagged ``version_before_cutoff`` = False.
@@ -83,6 +102,13 @@ def select_latest_before(detail: pd.DataFrame, cutoff_utc: pd.Series,
     variants), 0 when it is still Preliminary (Spellchecked). Capital IQ ties the two fields
     together: Preliminary versions are always Spellchecked and Final versions never are.
     """
+    if entry_close_utc is not None:
+        entry = entry_close_utc.reindex(cutoff_utc.index)
+        late = cutoff_utc.gt(entry)
+        if late.any():
+            warnings.warn(f"{int(late.sum())} calls had a transcript cutoff after the trade "
+                          "entry (call after Day +1?); capped at the Day +1 close", stacklevel=2)
+        cutoff_utc = cutoff_utc.where(~late, entry)
     d = detail.copy()
     d["version_created_utc"] = _created_utc(d)
     d["_cut"] = d["keydevid"].map(cutoff_utc)

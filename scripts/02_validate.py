@@ -232,20 +232,27 @@ def leakage_checks(ev_all: pd.DataFrame) -> pd.DataFrame:
         rows.append(dict(check=check, status=status, detail=detail))
 
     post_ok = ((ev_all["session"] == "post") & (ev_all["day0_gap_days"].between(1, 4))) | \
-              ((ev_all["session"] == "pre") & (ev_all["day0_gap_days"] == 0))
-    add("day 0 consistent with call time (post-close -> next session, pre-open -> same day)",
+              (ev_all["session"].isin(["pre", "intraday"]) & (ev_all["day0_gap_days"] == 0))
+    add("day 0 consistent with call time (post-close -> next session, pre-open / intraday -> same day)",
         "PASS" if post_ok.all() else "FAIL",
         f"{int((~post_ok).sum())} inconsistent; sessions: {ev_all['session'].value_counts().to_dict()}")
-    add("no intraday calls (reaction day ambiguous)", "PASS" if (ev_all["session"] != "intraday").all() else "WARN",
-        f"{int((ev_all['session'] == 'intraday').sum())} intraday calls")
+    n_intra = int((ev_all["session"] == "intraday").sum())
+    add("intraday calls kept: Day 0 from the release (before the open -> same session), call on Day 0",
+        "PASS" if post_ok[ev_all["session"] == "intraday"].all() else "FAIL",
+        f"{n_intra} intraday calls (in the full sample ~28-45% of calls are during the session)")
     fpe = pd.to_datetime(ev_all["fiscal_period_end"])
     add("fiscal period ends before the call", "PASS" if (fpe < ev_all["call_date"]).all() else "FAIL",
         f"min gap {(ev_all['call_date'] - fpe).dt.days.min()} days")
     feats = set(C.LING_ALL + C.MODEL_A)
     leaky = [f for f in feats if f.upper().startswith(("CAR", "LOGVOL", "AR01"))]
     add("no post-event quantity in Model A / Model B feature lists", "PASS" if not leaky else "FAIL", str(leaky))
-    add("CAR[0,+1] excluded from the primary specification", "PASS" if "AR01" not in C.MODEL_A else "FAIL",
-        "AR01 only enters with --delayed")
+    react = set(C.REACTION_LEGS.values())
+    legs_ok = (C.REACTION_LEGS == {"m1_1": "AR_M11", "0_1": "AR01"} and not react & set(C.TARGETS)
+               and not react & set(C.MODEL_A))
+    add("reaction windows are controls only: CAR[-1,+1] main leg, CAR[0,+1] comparison leg, never a target",
+        "PASS" if legs_ok else "FAIL",
+        f"legs {C.REACTION_LEGS}; each model adds one leg's window to Model A; "
+        f"legs with data here: {C.available_legs(ev_all, list(C.REACTION_LEGS))}")
     # Delta features must use strictly prior calls: recompute dTONE independently
     s = ev_all.sort_values(["ticker", "call_date"])
     recomputed = []

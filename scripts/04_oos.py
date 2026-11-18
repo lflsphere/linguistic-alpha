@@ -15,7 +15,7 @@ to outputs/oos/<tag>_<leg>/. A leg whose column is missing is skipped with a war
 CAR[0,+1] only). --freeze selects on the main leg when it ran, and freezes both legs.
 
 Design
-  * Expanding windows: train 2012..y-1, test y, for y = FIRST_TEST_YEAR..DEV_END (Section 6).
+  * Expanding windows: train 2011..y-1, test y, for y = FIRST_TEST_YEAR..DEV_END (Section 6).
   * Purging: a training event is used only if its target window closed before the first test event of the
     fold (a 60-day CAR from a November call is not known in January).
   * All preprocessing (winsorize, impute, z-score) is fitted on the training fold only. Firm dummies stand in

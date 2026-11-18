@@ -9,9 +9,13 @@ apply point-in-time membership downstream (mbrstartdt <= event date <= mbrenddt)
 Choices follow ``docs/data_audit.md`` and ``docs/wrds_chatbot_answers.md`` (Qn below):
   * CRSP from the quarterly CIZ update (``crspq``). ``dlyret`` already includes delisting
     returns: never add ``stkdelists.delret`` again; ``dlyretmissflg`` DM/DP marks unpriced
-    delistings (Q3). Main benchmark = S&P 500 total return (dsp500_v2.vwretd, point in time); CRSP VW market (indno 1000200, Q4) is a robustness check.
+    delistings (Q3). Main benchmark = S&P 500 total return (dsp500_v2.vwretd, point in time); robustness = market
+    model on the same index; CRSP VW market (indno 1000200, Q4) is an index check only; FF factors
+    are pulled for a future risk-management leg.
   * I/B/E/S adjusted AND unadjusted tables, plus split factors ``adj``/``adjsum`` (Q6);
-    non-EPS measures SAL, CPS, EBT, DPS (Q9, Q13); surprise history (Q12); company
+    non-EPS measures SAL, CPS, EBT, DPS (Q9, Q13; the unadjusted ``*u_xepsus`` tables hold
+    only the per-share CPS and DPS, so SAL and EBT come from the adjusted tables, which are
+    correct for amounts); surprise history (Q12); company
     guidance from ``det_guidance`` (Q10, Q11; reliable from 2007, so all of our sample).
   * Capital IQ: every transcript version + speakers + text; Key Developments for earnings
     releases (type 28) and expected release dates (55, 144) (Q18); GVKEY links from

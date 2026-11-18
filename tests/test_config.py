@@ -28,7 +28,9 @@ def test_c_alone_is_a_plus_finbert_and_comparisons_flag_nesting():
     from linguistic_alpha.models.specs import COMPARISONS
     cfg = load_config().raw
     s = model_specs(cfg)
-    assert set(s["C_alone"].regressors) == set(s["A"].regressors) | set(cfg["models"]["measures"]["finbert"])
+    m = cfg["models"]["measures"]
+    assert set(s["C_alone"].regressors) == (set(s["A"].regressors) | set(m["finbert"])
+                                            | set(m["finbert_interactions"]))
     for base, alt, nested in COMPARISONS:
         assert nested == (set(s[base].regressors) < set(s[alt].regressors))
 
@@ -36,7 +38,7 @@ def test_c_alone_is_a_plus_finbert_and_comparisons_flag_nesting():
 def test_every_family_measure_is_assigned_to_one_method():
     cfg = load_config().raw
     by_method = cfg["models"]["measures"]
-    family = {m for v in cfg["features"].values() if isinstance(v, list) for m in v}
+    family = {m for k, v in cfg["features"].items() if isinstance(v, list) and k != "future" for m in v}
     assigned = set(by_method["dictionary"]) | set(by_method["later"])
     assert family == assigned
     assert not set(by_method["dictionary"]) & set(by_method["later"])
@@ -51,6 +53,18 @@ def test_feature_families_registered_and_match_config():
     assert set(FEATURE_FAMILIES) == {"communication_state", "interaction_quality", "consistency"}
     for name, family in FEATURE_FAMILIES.items():
         assert list(family.measures) == cfg[name]
+
+
+def test_release_metrics_in_a_and_interactions_only_in_b_and_c():
+    cfg = load_config().raw
+    s = model_specs(cfg)
+    rel = set(cfg["controls"]["release_metrics"])
+    inter = set(cfg["models"]["measures"]["interactions"])
+    assert rel <= set(s["A"].regressors)
+    fb_inter = set(cfg["models"]["measures"]["finbert_interactions"])
+    assert not inter & set(s["A"].regressors) and not inter & set(s["C_alone"].regressors)
+    assert inter <= set(s["B"].regressors) and inter <= set(s["C"].regressors)
+    assert fb_inter <= set(s["C_alone"].regressors) and not fb_inter & set(s["C"].regressors)
 
 
 def test_every_model_has_both_reaction_legs():

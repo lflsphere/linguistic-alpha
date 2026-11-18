@@ -13,11 +13,11 @@ Severity: **H** = changes results, **M** = bias or loss of sample, **L** = hygie
 
 | # | Area | Issue | Evidence | Sev | Fix (module) |
 |---|------|-------|----------|-----|--------------|
-| 1 | SUE | Split-adjusted I/B/E/S rounds consensus to 2 decimals while actuals keep 4. Surprises are then nonsense (AAPL Q1-2010: actual 0.1311 vs consensus 0.07 → +87%) | 94/179 rows; 13 rows with consensus = 0 (NVDA) | H | Unadjusted `actu_epsus` / `statsumu_epsus` + CRSP `cfacshr` (`controls.earnings`) |
+| 1 | SUE | Split-adjusted I/B/E/S rounds consensus to 2 decimals while actuals keep 4. Surprises are then nonsense (AAPL Q1-2010: actual 0.1311 vs consensus 0.07 → +87%) | 94/179 rows; 13 rows with consensus = 0 (NVDA) | H | Unadjusted `actu_epsus` / `statsumu_epsus`, put on one split basis with I/B/E/S `adj` / `adjsum`; never CRSP share factors on EPS (`controls.earnings`) |
 | 2 | SUE | Scaled by forecast stdev, not by price as in the scope doc. Undefined when stdev = 0 | 54/179 `sue` NaN | H | `sue` = surprise / price; keep `sue_std` for robustness |
 | 3 | Text | `panel.xlsx` cuts every cell at Excel's 32,767-character limit | 47 Q&A and 12 prepared texts truncated | H | Never store text in xlsx; use parquet (`io`) |
 | 4 | Precision | Every float64 is downcast to float32 at pull time (EPS, prices, returns) | notebook `pull()` | M | No downcast (`data.wrds_pull`) |
-| 5 | Survivorship | `crsp_dsedelist` is pulled but never merged into returns | notebook step 3 | M | Fold `dlret` into returns (`targets.car`) |
+| 5 | Survivorship | `crsp_dsedelist` is pulled but never merged into returns | notebook step 3 | M | **Resolved by CIZ:** quarterly CRSP `dlyret` already includes the delisting return, so never add `delret` again. The 2008 pull has no unpriced delistings (`DM`/`DP`) |
 | 6 | Benchmark | `sprtrn` is a price return; CRSP `ret` includes dividends, so AR drifts up by roughly the dividend yield | definition | M | **Done:** S&P 500 total return (`vwretd`); `scripts/build_reaction_windows.py` rebuilds AR01 and CAR_2_h (price-return CARs were 0.18 pp too high over [+2,+20]) |
 | 7 | Timing | Day 0 used the **UTC** calendar date with the NY clock time. A call after 20:00 ET lands a day late | 0 rows hit in this sample; it will hit on the full universe | M | NY date (`events.timing`, tested) |
 | 8 | Timing | A missing call time defaults to "before close", i.e. same-day reaction | 0 rows here | M | Configurable; conservative `next_session` default |
@@ -35,7 +35,7 @@ Severity: **H** = changes results, **M** = bias or loss of sample, **L** = hygie
 Still open, needing raw data to verify:
 - whether CAR / size / mom values match a clean recomputation;
 - CIQ component type ids beyond 1–4;
-- the share of calls with no time stamp.
+- the share of calls with no time stamp (releases: no I/B/E/S `anntims` is missing in the 2008 pull; 15% of Capital IQ type-28 rows have no time).
 
 ## Rebuild plan
 
@@ -52,15 +52,20 @@ are expected where a finding above applies, and should match within tolerance el
    the legacy value within 1e-6 when using `sprtrn` (same definition), then switch the benchmark.
 5. **Controls.** `controls.firm`, then `controls.earnings` on the unadjusted basis. Check: the
    AAPL Q1-2010 surprise is small and positive, and no consensus is 0.
-6. **Scale to the full S&P 500 (2010–2024),** on WRDS Cloud. Re-run the audit-style checks
-   (coverage per year, link attrition, missing times, truncation = 0).
+6. **Scale to the full S&P 500.** Done: `scripts/pull_sp500_pit.py` pulled 2008–2026 (CRSP to
+   2026-09-30) into `data/raw/sp500_pit_2008`, and its validation is in that folder's README.
+   Still to re-run on the built panel: link attrition per step and truncation = 0.
 7. Only after 1–6: features (structure in place), then models and evaluation.
 
-## Decisions to confirm with the team
+## Decisions (settled)
 
-- **Holdout:** CRSP ends 2024-12-31 on our subscription, so the scope's 2024–2026 holdout is
-  2024 only. Options: refresh CRSP, or move to 2023–2024 as the notebook suggests.
-- **AR benchmark:** `sprtrn` (scope) vs. `vwretd` / total return (dividend consistency).
-- **Transcript versions:** mixing redacted and unredacted / edited collections (meeting 10/23
-  says yes). This needs a precedence rule.
-- **Biotech exclusion** via GICS 352010 (meeting 10/23). This requires `comp.co_hgic`.
+- **Sample and holdout:** 2011 Q1 – 2026 Q3, 63 quarters (quarterly CRSP runs to 2026-09-30):
+  build 2011–2023 (52 quarters), holdout 2024 Q1 – 2026 Q3 (11 quarters, `split.holdout_start` = 2024-01-01).
+- **AR benchmark:** S&P 500 total return (`crsp_dsp500_v2.vwretd`, beta = 1); market model on the
+  same index for robustness (finding 6); CRSP VW market as an index check only. FF4 is left for a
+  future risk-management leg.
+- **Transcript versions:** latest version created by the Day 0 close, earliest as robustness,
+  `version_final` as a control (finding 9, `docs/pipeline.md`).
+- **Sample start:** 2011-01-01, the first quarter in which at least 90% of calls have a
+  transcript by the Day 0 close; 2008–10 data feed lookbacks only (`docs/pipeline.md`, Sample period).
+- **Biotech kept** (team decision 2026-11-17, reversing meeting 10/23). `comp_co_hgic` is in the 2008 pull for sector EDA.
