@@ -229,6 +229,9 @@ data/features.csv
 data/reaction_windows.csv
 data/qa_pairs.csv
 data/qa_label_sample.csv
+data/qa_labels.csv
+data/qa_label_sample_full.csv
+outputs/validation/manual_read/   # full transcript excerpts
 !data/
 *.xlsx
 .DS_Store
