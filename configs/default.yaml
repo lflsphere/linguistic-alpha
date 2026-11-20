@@ -47,7 +47,7 @@ controls:
   sue_scaler: price             # price (scope doc) | stdev (legacy notebook) -- keep both columns
   ibes_unadjusted: true         # statsumu_epsus / actu_epsus, avoids split-rounding
   mom_window_months: [-12, -2]
-  include: [sue, size, bm, mom, car_0_1, vol_pre, n_analysts, dispersion]
+  include: [sue, size, bm, mom, car_-1_1, vol_pre, n_analysts, dispersion]
 
 features:
   # Level-1 families from the research framework; each lists its Level-2 measures.

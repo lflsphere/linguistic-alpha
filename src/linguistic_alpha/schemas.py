@@ -57,7 +57,7 @@ CONTROLS = {
     "size": "float64",
     "bm": "float64",
     "mom": "float64",
-    "car_0_1": "float64",
+    "car_-1_1": "float64",
     "vol_pre": "float64",
     "n_analysts": "float64",
     "dispersion": "float64",

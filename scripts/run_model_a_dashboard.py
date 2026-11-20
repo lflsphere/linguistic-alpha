@@ -25,7 +25,7 @@ from linguistic_alpha.config import load_config
 from linguistic_alpha.io import read_table
 
 
-CONTROLS = ["sue", "size", "bm", "mom", "car_0_1", "vol_pre", "n_analysts", "dispersion"]
+CONTROLS = ["sue", "size", "bm", "mom", "car_-1_1", "vol_pre", "n_analysts", "dispersion"]
 TARGETS = {"CAR[+2,+5]": "car_2_5", "CAR[+2,+20]": "car_2_20", "CAR[+2,+60]": "car_2_60"}
 MODELS = ["zero", "train_mean", "ols_controls", "ols_industry_year_fe", "ridge_industry_year_fe",
           "random_forest", "extra_trees"]

@@ -271,7 +271,7 @@ def build_panel(cfg, run_features: bool = True) -> pd.DataFrame:
     pairs_path = cfg.paths.processed / "qa_pairs.parquet"
     meta_path = cfg.paths.processed / "language_features_meta.json"
     needed = ["transcriptid", "ticker", "firm", "companyname", "call_date", "call_date_et", "call_time_utc", "call_ts_utc", "day0",
-              "car_0_1", "car_2_5", "car_2_20", "car_2_60", "vol_post_2_20", "eps_surprise",
+              "car_-1_1", "car_2_5", "car_2_20", "car_2_60", "vol_post_2_20", "eps_surprise",
               "surprise_pct", "sue", "consensus_eps", "dispersion", "n_analysts", "size", "bm",
               "mom", "vol_pre", "fiscal_period_end", "prepared_text", "qa_text"]
     feature_events["call_date"] = feature_events["call_date_et"]

@@ -1,14 +1,14 @@
-"""Firm characteristics: size, book-to-market, momentum, pre-event volatility, CAR[0,+1].
+"""Firm characteristics: size, book-to-market, momentum, pre-event volatility, CAR[-1,+1].
 
 Implemented from CRSP daily data and Compustat quarterly fundamentals.
 
 Definitions:
-  size    = ln(|prc| * shrout * 1000) at the last trading day of the month before the call
-  bm      = book equity / market cap, book equity from the latest fundq with rdq < Day 0;
-            BE = seqq + txditcq - pstkq (fallback ceqq); negative BE -> NaN
-  mom     = prod(1+ret) over months -12..-2 relative to the call month
-  vol_pre = std(AR, -60..-5) * sqrt(252)
-  car_0_1 = sum AR over Day 0 and Day +1 (control, not target)
+  size      = ln(|prc| * shrout * 1000) at the last trading day of the month before the call
+  bm        = book equity / market cap, book equity from the latest fundq with rdq < Day 0;
+              BE = seqq + txditcq - pstkq (fallback ceqq); negative BE -> NaN
+  mom       = prod(1+ret) over months -12..-2 relative to the call month
+  vol_pre   = std(AR, -60..-5) * sqrt(252)
+  car_-1_1  = sum AR over Day -1, Day 0 and Day +1 (control, not target)
 
 Fixes vs. the legacy notebook (docs/data_audit.md §Controls): missing returns inside the
 momentum window are not filled with 0; fundq rows with NULL rdq use datadate + 90 days lag.
@@ -76,9 +76,9 @@ def firm_controls(events: pd.DataFrame, dsf: pd.DataFrame, fundq: pd.DataFrame,
             if i >= 60:
                 pre = arstock.reindex(cal[i - 60:i - 4])
                 row["vol_pre"] = float(pre.std(ddof=1) * np.sqrt(252)) if pre.notna().sum() == 56 else np.nan
-            if i >= 0 and i + 1 < len(cal):
-                immediate = arstock.reindex(cal[i:i + 2])
-                row["car_0_1"] = float(immediate.sum()) if immediate.notna().all() else np.nan
+            if i >= 1 and i + 1 < len(cal):
+                immediate = arstock.reindex(cal[i - 1:i + 2])
+                row["car_-1_1"] = float(immediate.sum()) if immediate.notna().all() else np.nan
         gvkey = str(getattr(r, "gvkey", "")).zfill(6)
         fq = fundies.get(gvkey)
         if fq is not None and pd.notna(day0) and pd.notna(row.get("mcap_m")):

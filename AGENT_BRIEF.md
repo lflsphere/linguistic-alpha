@@ -48,7 +48,7 @@ If WRDS returns "column does not exist" or a table is missing, fix that query in
 | IDs / timing (not model inputs) | `keydevid`, `transcriptid`, `companyid`, `companyname`, `headline`, `call_date`, `call_time_utc`, `gvkey`, `permno`, `ticker`, `day0` |
 | Sector (for industry controls) | `sector` (GICS), `gind`, `sic` |
 | **Targets** | `car_2_5`, **`car_2_20` (primary)**, `car_2_60`, `vol_post_2_20` |
-| **Controls** | `car_0_1`, `sue`, `sue_price`, `surprise_pct`, `size`, `bm`, `mom`, `n_analysts`, `dispersion`, `vol_pre` |
+| **Controls** | `car_-1_1`, `sue`, `sue_price`, `surprise_pct`, `size`, `bm`, `mom`, `n_analysts`, `dispersion`, `vol_pre` |
 | Earnings inputs | `fiscal_period_end`, `actual_eps`, `consensus_eps`, `eps_surprise`, `split_adjusted_consensus`, `mcap_m` |
 | **Language features** | `n_questions`, `n_answers`, `words_*`, `avg_answer_words`, `share_answers_by_execs`, `share_other_sections`; with the dictionary: `tone_prepared`, `tone_answers`, `tone_gap`, `hedging_prepared`, `hedging_answers`, `uncertainty_answers`, `*_chg` (vs. the company's previous 4 calls) |
 | Split | `period`, **`sample`**, `prior_calls_with_target` |

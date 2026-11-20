@@ -4,8 +4,8 @@ on top of Model A controls. Whichever strategy beats Model A becomes Model B.
 
 Strategies:
   1. Forward selection: lock Model A features, greedily add linguistic features
-  2. Interaction features: tone × sue, tone_chg × car_0_1, hedging × vol_pre, etc.
-  3. Residualized tone: regress tone on SUE/car_0_1, use residual as "unexpected tone"
+  2. Interaction features: tone × sue, tone_chg × car_-1_1, hedging × vol_pre, etc.
+  3. Residualized tone: regress tone on SUE/car_-1_1, use residual as "unexpected tone"
   4. All linguistic forced in with strong regularization (ElasticNet with higher alpha)
   5. PCA on linguistic features: compress 9 LM features into 2-3 components
 
@@ -35,12 +35,12 @@ RANDOM_STATE = 42
 WINSOR_LOW, WINSOR_HIGH = 0.01, 0.99
 
 MODEL_A_FEATURES_OPT1 = [
-    "vol_pre", "car_0_1", "mom", "bm", "dispersion",
+    "vol_pre", "car_-1_1", "mom", "bm", "dispersion",
     "avg_answer_words", "size", "prior_calls_with_target", "words_prepared",
 ]
 MODEL_A_FEATURES_OPT2 = [
     "vol_pre", "prior_calls_with_target", "avg_answer_words", "size",
-    "dispersion", "words_questions", "car_0_1", "n_questions", "mom", "n_answers",
+    "dispersion", "words_questions", "car_-1_1", "n_questions", "mom", "n_answers",
 ]
 
 LINGUISTIC_FEATURES = [
@@ -176,7 +176,7 @@ def strategy_interactions(train, test, base_features, y_tr, y_te):
 
     interactions = [
         ("tone_answers", "sue", "tone×sue"),
-        ("tone_answers_chg", "car_0_1", "tone_chg×car01"),
+        ("tone_answers_chg", "car_-1_1", "tone_chg×car01"),
         ("tone_answers_chg", "sue", "tone_chg×sue"),
         ("hedging_answers", "vol_pre", "hedge×vol"),
         ("tone_gap", "sue", "gap×sue"),
@@ -223,14 +223,14 @@ def strategy_interactions(train, test, base_features, y_tr, y_te):
 
 
 def strategy_residualized_tone(train, test, base_features, y_tr, y_te):
-    """Regress tone on SUE/car_0_1 to get 'unexpected tone', use that as a feature."""
+    """Regress tone on SUE/car_-1_1 to get 'unexpected tone', use that as a feature."""
     log_msg("\n--- Strategy 3: Residualized Tone ---")
     tr = train.copy()
     te = test.copy()
 
     tone_cols = [c for c in ["tone_answers", "tone_prepared", "tone_answers_chg", "tone_prepared_chg"]
                  if c in tr.columns]
-    control_cols = [c for c in ["sue", "car_0_1", "size"] if c in tr.columns]
+    control_cols = [c for c in ["sue", "car_-1_1", "size"] if c in tr.columns]
 
     resid_names = []
     for tc in tone_cols:

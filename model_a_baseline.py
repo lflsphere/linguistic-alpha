@@ -29,7 +29,7 @@ FINANCIAL_CONTROLS = [
     "sue", "sue_price", "surprise_pct",
     "size", "bm", "mom", "vol_pre",
     "n_analysts", "dispersion",
-    "car_0_1",
+    "car_-1_1",
 ]
 
 CALL_STRUCTURE = [

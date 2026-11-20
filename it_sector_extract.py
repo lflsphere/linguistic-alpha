@@ -17,6 +17,8 @@ import argparse, gc, os, sys, time, warnings
 import numpy as np
 import pandas as pd
 
+from linguistic_alpha.events.timing import call_timestamp_utc, assign_day0
+
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 START_YEAR = 2010
@@ -155,11 +157,14 @@ def main():
     cs_ar = csum(ar_it)
     cs_n = csum(ok.astype(float))
 
-    cd = panel_it["call_date"].dt.normalize().values
-    i = np.searchsorted(days, cd, side="right")
-    d0 = np.minimum(i, nd - 1)
+    call_ts = call_timestamp_utc(panel_it["call_date"], panel_it["call_time_utc"])
+    day0_df = assign_day0(call_ts, pd.DatetimeIndex(days),
+                          call_date_fallback=panel_it["call_date"])
+    panel_it["day0"] = day0_df["day0"].values
+    d0 = np.searchsorted(days, panel_it["day0"].values.astype("datetime64[ns]"))
+    d0 = np.minimum(d0, nd - 1)
     row = panel_it["permno"].map(pidx).fillna(-1).astype(int).values
-    valid = (row >= 0) & (d0 < nd)
+    valid = (row >= 0) & (d0 < nd) & panel_it["day0"].notna().values
     rr = np.where(valid, row, 0)
 
     def window_sum(cs, a, b):
@@ -173,7 +178,7 @@ def main():
 
     # Compute IT-benchmarked CARs
     it_cars = {}
-    for name, (a, b) in {"car_0_1": (0, 1), "car_2_5": (2, 5), "car_2_20": (2, 20), "car_2_60": (2, 60)}.items():
+    for name, (a, b) in {"car_-1_1": (-1, 1), "car_2_5": (2, 5), "car_2_20": (2, 20), "car_2_60": (2, 60)}.items():
         s = window_sum(cs_ar, a, b)
         n = window_sum(cs_n, a, b)
         delisted_in = (dlday >= d0 + a) & (dlday < d0 + b)
@@ -192,7 +197,7 @@ def main():
         car_map[f"{name}_it"] = it_cars[name]
 
     opt2 = opt2.merge(car_map, on="keydevid", how="left")
-    for name in ["car_0_1", "car_2_5", "car_2_20", "car_2_60"]:
+    for name in ["car_-1_1", "car_2_5", "car_2_20", "car_2_60"]:
         if f"{name}_it" in opt2.columns:
             opt2[name] = opt2[f"{name}_it"]
             opt2 = opt2.drop(columns=f"{name}_it")

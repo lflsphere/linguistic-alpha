@@ -39,6 +39,8 @@ from collections import Counter
 import numpy as np
 import pandas as pd
 
+from linguistic_alpha.events.timing import call_timestamp_utc, assign_day0
+
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 # Settings
@@ -337,15 +339,15 @@ def stage_targets():
     cs_lr = csum(np.log1p(np.where(np.isnan(ret), 0, ret)))
     cs_rn = csum((~np.isnan(ret)).astype(float))
 
-    # Day 0: always the next trading day after the call date
-    cd = panel["call_date"].dt.normalize().values
-    i = np.searchsorted(days, cd, side="right")
-    d0 = np.minimum(i, nd - 1)
+    # Day 0: same trading day if call is before 4pm ET, next session otherwise
+    call_ts = call_timestamp_utc(panel["call_date"], panel["call_time_utc"])
+    day0_df = assign_day0(call_ts, pd.DatetimeIndex(days),
+                          call_date_fallback=panel["call_date"])
+    panel["day0"] = day0_df["day0"].values
+    d0 = np.searchsorted(days, panel["day0"].values.astype("datetime64[ns]"))
+    d0 = np.minimum(d0, nd - 1)
     row = panel["permno"].map(pidx).fillna(-1).astype(int).values
-    valid = (row >= 0) & (d0 < nd)
-    panel["day0"] = pd.NaT
-    panel.loc[valid, "day0"] = days[d0[valid]]
-    panel["day0"] = pd.to_datetime(panel["day0"]).astype("datetime64[ns]")
+    valid = (row >= 0) & (d0 < nd) & panel["day0"].notna().values
     rr = np.where(valid, row, 0)
 
     def window_sum(cs, a, b):
@@ -356,7 +358,7 @@ def stage_targets():
         return out
 
     dlday = panel["permno"].map(delisted_day).fillna(-1).astype(int).values
-    for name, (a, b) in {"car_0_1": (0, 1), "car_2_5": (2, 5), "car_2_20": (2, 20), "car_2_60": (2, 60)}.items():
+    for name, (a, b) in {"car_-1_1": (-1, 1), "car_2_5": (2, 5), "car_2_20": (2, 20), "car_2_60": (2, 60)}.items():
         s, n = window_sum(cs_ar, a, b), window_sum(cs_n, a, b)
         delisted_in = (dlday >= d0 + a) & (dlday < d0 + b)              # stock stopped trading inside the window
         lo, hi = d0 + a, np.minimum(d0 + b, dlday) + 1
@@ -612,7 +614,7 @@ def report(model, full):
     ho = set(model.loc[model["sample"] == "holdout", "permno"])
     lines.append(f"  check: every holdout company is in train: {ho <= tr}")
     usable = model[model["sample"].isin(["train", "holdout"])].dropna(
-        subset=[c for c in ["car_2_20", "sue", "size", "bm", "mom", "car_0_1"] if c in model.columns])
+        subset=[c for c in ["car_2_20", "sue", "size", "bm", "mom", "car_-1_1"] if c in model.columns])
     lines.append("usable with target + core controls: " +
                  ", ".join(f"{k} {v:,}" for k, v in usable["sample"].value_counts().items()))
     if "split_adjusted_consensus" in model.columns:
@@ -628,7 +630,7 @@ def report(model, full):
     if "sector" in model.columns:
         lines.append("\ncalls per sector:")
         lines.append(model["sector"].value_counts(dropna=False).to_string())
-    num = [c for c in ["car_0_1", "car_2_20", "sue", "size", "bm", "mom", "tone_answers", "hedging_answers"]
+    num = [c for c in ["car_-1_1", "car_2_20", "sue", "size", "bm", "mom", "tone_answers", "hedging_answers"]
            if c in model.columns]
     lines.append("\nkey variables:")
     lines.append(model[num].describe(percentiles=[.01, .5, .99]).T.round(4).to_string())

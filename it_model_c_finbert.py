@@ -37,12 +37,12 @@ RANDOM_STATE = 42
 WINSOR_LOW, WINSOR_HIGH = 0.01, 0.99
 
 MODEL_A_FEATURES_OPT1 = [
-    "vol_pre", "car_0_1", "mom", "bm", "dispersion",
+    "vol_pre", "car_-1_1", "mom", "bm", "dispersion",
     "avg_answer_words", "size", "prior_calls_with_target", "words_prepared",
 ]
 MODEL_A_FEATURES_OPT2 = [
     "vol_pre", "prior_calls_with_target", "avg_answer_words", "size",
-    "dispersion", "words_questions", "car_0_1", "n_questions", "mom", "n_answers",
+    "dispersion", "words_questions", "car_-1_1", "n_questions", "mom", "n_answers",
 ]
 
 FINBERT_CANDIDATES = [

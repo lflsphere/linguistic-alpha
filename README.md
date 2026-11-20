@@ -149,7 +149,7 @@ forward selection produces the largest improvement of any model (+0.0199 Rank IC
 | `bm` | Book-to-market ratio |
 | `mom` | 12-month momentum (prior return) |
 | `vol_pre` | Pre-call return volatility (20-day) |
-| `car_0_1` | Immediate earnings announcement return (day 0–1) |
+| `car_-1_1` | Immediate earnings announcement return (day -1 to +1) |
 | `dispersion` | Analyst forecast dispersion |
 | `n_analysts` | Number of covering analysts |
 | `words_prepared` | Word count in prepared remarks |
@@ -205,10 +205,10 @@ Feature selection uses rank-based filtering (same as full pipeline):
 - Keep features above median rank OR individually significant (p < 0.10)
 
 **Option 1**: ElasticNet (α=0.001), 9 features → Rank IC +0.0451
-- `vol_pre`, `car_0_1`, `mom`, `bm`, `dispersion`, `avg_answer_words`, `size`, `prior_calls_with_target`, `words_prepared`
+- `vol_pre`, `car_-1_1`, `mom`, `bm`, `dispersion`, `avg_answer_words`, `size`, `prior_calls_with_target`, `words_prepared`
 
 **Option 2**: Ridge (α=1.0), 10 features → Rank IC +0.0725
-- `vol_pre`, `prior_calls_with_target`, `avg_answer_words`, `size`, `dispersion`, `words_questions`, `car_0_1`, `n_questions`, `mom`, `n_answers`
+- `vol_pre`, `prior_calls_with_target`, `avg_answer_words`, `size`, `dispersion`, `words_questions`, `car_-1_1`, `n_questions`, `mom`, `n_answers`
 
 ## Model B — Adding Linguistic Features
 
@@ -268,8 +268,8 @@ selection beat Model A on both options:
 | Strategy | What it does | Why it failed (except forward selection) |
 |----------|-------------|----------------------------------------|
 | **Forward Selection** | Lock controls, greedily add one linguistic feature at a time | Won — evaluates features in context |
-| Interactions | Create cross-terms: tone×sue, hedge×vol, tone_chg×car_0_1, etc. | Too many noisy features for small sample |
-| Residualized Tone | Regress tone on SUE/car_0_1/size, use residual as "unexpected tone" | Removed the useful part of tone's correlation with fundamentals |
+| Interactions | Create cross-terms: tone×sue, hedge×vol, tone_chg×car_-1_1, etc. | Too many noisy features for small sample |
+| Residualized Tone | Regress tone on SUE/car_-1_1/size, use residual as "unexpected tone" | Removed the useful part of tone's correlation with fundamentals |
 | Strong Regularization | Force all 9 linguistic features, sweep α (Ridge 0.5–50, EN 0.005–0.1) | Can't shrink 9 features enough — noise still dominates |
 | PCA Compression | PCA on 9 linguistic features → 2–3 components, add to base | Compressed away the specific features that mattered |
 
@@ -356,7 +356,7 @@ Features are trained on standardized inputs, so coefficients are directly compar
 
 | Feature | Std Coef | Rel % | Type |
 |---------|----------|-------|------|
-| `car_0_1` | +0.0023 | 14.8% | Control |
+| `car_-1_1` | +0.0023 | 14.8% | Control |
 | `tone_answers` | −0.0022 | 14.1% | **LM** |
 | `vol_pre` | +0.0018 | 11.4% | Control |
 | `avg_answer_words` | −0.0017 | 11.1% | Control |
@@ -380,7 +380,7 @@ LM features account for **25.6%** of total importance. `tone_answers` is the
 | `n_answers` | −0.0043 | 13.6% | Control |
 | `n_questions` | +0.0038 | 11.9% | Control |
 | `fb_n_sent_answers` | +0.0037 | 11.8% | **FinBERT** |
-| `car_0_1` | +0.0023 | 7.3% | Control |
+| `car_-1_1` | +0.0023 | 7.3% | Control |
 | `vol_pre` | +0.0021 | 6.7% | Control |
 | `mom` | −0.0017 | 5.5% | Control |
 | `size` | +0.0015 | 4.9% | Control |

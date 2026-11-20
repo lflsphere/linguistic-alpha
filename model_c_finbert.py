@@ -28,7 +28,7 @@ SECTOR_COL = "sector"
 
 MODEL_A_CONTROLS = [
     "dispersion", "vol_pre", "size", "prior_calls_with_target",
-    "mom", "car_0_1", "bm", "sue_price", "sue",
+    "mom", "car_-1_1", "bm", "sue_price", "sue",
     "words_answers", "share_answers_by_execs", "n_answers",
 ]
 

@@ -364,7 +364,7 @@ def base_table(df: pd.DataFrame) -> pd.DataFrame:
     out["BM"] = np.log(df["bm"])
     out["MOM"] = df["mom"]
     out["VOL"] = df["vol_pre"]
-    out["AR01"] = df["car_0_1"]
+    out["AR01"] = df["car_-1_1"]
     return out
 
 

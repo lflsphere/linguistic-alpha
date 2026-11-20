@@ -24,7 +24,7 @@ PRIMARY_TARGET = "car_2_20"
 
 MODEL_A_FEATURES = [
     "dispersion", "mom", "prior_calls_with_target", "vol_pre",
-    "car_0_1", "size", "sue_price", "sue", "bm",
+    "car_-1_1", "size", "sue_price", "sue", "bm",
     "words_answers", "n_answers",
 ]
 
