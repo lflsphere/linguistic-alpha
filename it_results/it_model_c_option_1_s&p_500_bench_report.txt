@@ -1,6 +1,6 @@
 ======================================================================
 IT Sector — Model C (FinBERT) — Option 1 (S&P 500 bench)
-Generated: 2026-11-17 18:20
+Generated: 2026-11-20 07:49
 Train: 2,479 | Test: 617
 FinBERT coverage: 3558/3561 (99.9%)
 Model A baseline: Rank IC=+0.0621 (Lasso)
@@ -43,7 +43,7 @@ Model C* (All FinBERT forced)                 Lasso                Rank IC=+0.06
 
 Winner: Model C (FinBERT forward selection)
   Algo: Lasso
-  Features (9): vol_pre, car_0_1, mom, bm, dispersion, avg_answer_words, size, prior_calls_with_target, words_prepared
+  Features (9): vol_pre, car_-1_1, mom, bm, dispersion, avg_answer_words, size, prior_calls_with_target, words_prepared
   Rank IC: +0.0621
   Q5-Q1: +0.0186
   IC: +0.1063

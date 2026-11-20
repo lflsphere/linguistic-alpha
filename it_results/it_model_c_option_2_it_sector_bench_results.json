@@ -1,8 +1,8 @@
 {
   "option": "Option 2 (IT sector bench)",
   "model_a_baseline": {
-    "algo": "OLS",
-    "rank_ic": 0.072553
+    "algo": "Ridge",
+    "rank_ic": 0.03962
   },
   "model_c_forward_selection": {
     "algo": "OLS",
@@ -13,72 +13,72 @@
       "size",
       "dispersion",
       "words_questions",
-      "car_0_1",
+      "car_-1_1",
       "n_questions",
       "mom",
       "n_answers",
-      "fb_sent_std_answers",
+      "fb_neg_pct_answers",
+      "fb_sent_answers_chg",
       "fb_n_sent_prepared",
-      "fb_sent_gap",
-      "fb_sent_prepared_chg",
-      "fb_n_sent_answers"
+      "fb_n_sent_answers",
+      "fb_sent_gap"
     ],
     "added_finbert": [
-      "fb_sent_std_answers",
+      "fb_neg_pct_answers",
+      "fb_sent_answers_chg",
       "fb_n_sent_prepared",
-      "fb_sent_gap",
-      "fb_sent_prepared_chg",
-      "fb_n_sent_answers"
+      "fb_n_sent_answers",
+      "fb_sent_gap"
     ],
     "metrics": {
-      "ic": 0.110758,
-      "rank_ic": 0.092447,
-      "r2": 0.010711,
-      "rmse": 0.070081,
-      "direction_accuracy": 0.578606,
-      "quintile_spread": 0.023677
+      "ic": 0.089274,
+      "rank_ic": 0.067495,
+      "r2": 0.007357,
+      "rmse": 0.071036,
+      "direction_accuracy": 0.554295,
+      "quintile_spread": 0.013965
     },
     "selection_log": [
       {
         "step": 0,
         "added": null,
-        "rank_ic": 0.07255250535127938,
+        "rank_ic": 0.03961973018677903,
         "improvement": 0.0
       },
       {
         "step": 1,
-        "added": "fb_sent_std_answers",
-        "rank_ic": 0.08030453709784593,
-        "improvement": 0.007752031746566551
+        "added": "fb_neg_pct_answers",
+        "rank_ic": 0.04900001761291289,
+        "improvement": 0.009380287426133858
       },
       {
         "step": 2,
-        "added": "fb_n_sent_prepared",
-        "rank_ic": 0.08401497370918332,
-        "improvement": 0.003710436611337381
+        "added": "fb_sent_answers_chg",
+        "rank_ic": 0.058836427115767795,
+        "improvement": 0.009836409502854908
       },
       {
         "step": 3,
-        "added": "fb_sent_gap",
-        "rank_ic": 0.08583808261462585,
-        "improvement": 0.0018231089054425303
+        "added": "fb_n_sent_prepared",
+        "rank_ic": 0.06345361581925166,
+        "improvement": 0.004617188703483863
       },
       {
         "step": 4,
-        "added": "fb_sent_prepared_chg",
-        "rank_ic": 0.09107538889956583,
-        "improvement": 0.005237306284939985
+        "added": "fb_n_sent_answers",
+        "rank_ic": 0.06680563795598818,
+        "improvement": 0.003352022136736521
       },
       {
         "step": 5,
-        "added": "fb_n_sent_answers",
-        "rank_ic": 0.09244664165496812,
-        "improvement": 0.0013712527554022858
+        "added": "fb_sent_gap",
+        "rank_ic": 0.06749454679823112,
+        "improvement": 0.000688908842242944
       }
     ]
   },
   "model_c_star_all_forced": {
-    "algo": "OLS",
+    "algo": "Ridge",
     "features": [
       "vol_pre",
       "prior_calls_with_target",
@@ -86,7 +86,7 @@
       "size",
       "dispersion",
       "words_questions",
-      "car_0_1",
+      "car_-1_1",
       "n_questions",
       "mom",
       "n_answers",
@@ -120,12 +120,12 @@
       "fb_n_sent_answers"
     ],
     "metrics": {
-      "ic": 0.091911,
-      "rank_ic": 0.072343,
-      "r2": 0.008087,
-      "rmse": 0.070174,
-      "direction_accuracy": 0.557536,
-      "quintile_spread": 0.022279
+      "ic": 0.066951,
+      "rank_ic": 0.040081,
+      "r2": 0.003017,
+      "rmse": 0.071191,
+      "direction_accuracy": 0.534846,
+      "quintile_spread": 0.017387
     }
   }
 }

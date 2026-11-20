@@ -1,0 +1,71 @@
+{
+  "option": "Option 2 (IT sector bench)",
+  "model_a_baseline": {
+    "algo": "Ridge",
+    "rank_ic": 0.03962
+  },
+  "winner": {
+    "strategy": "Forward Selection",
+    "algo": "Ridge",
+    "features": [
+      "vol_pre",
+      "prior_calls_with_target",
+      "avg_answer_words",
+      "size",
+      "dispersion",
+      "words_questions",
+      "car_-1_1",
+      "n_questions",
+      "mom",
+      "n_answers",
+      "hedging_answers",
+      "tone_answers",
+      "uncertainty_answers"
+    ],
+    "added_ling": [
+      "hedging_answers",
+      "tone_answers",
+      "uncertainty_answers"
+    ],
+    "metrics": {
+      "ic": 0.092353,
+      "rank_ic": 0.046097,
+      "r2": 0.007933,
+      "rmse": 0.071015,
+      "direction_accuracy": 0.564019,
+      "quintile_spread": 0.015713
+    }
+  },
+  "all_strategies": [
+    {
+      "name": "Forward Selection",
+      "algo": "Ridge",
+      "rank_ic": 0.046097,
+      "quintile_spread": 0.015713
+    },
+    {
+      "name": "Interactions (no raw ling)",
+      "algo": "ElasticNet",
+      "rank_ic": 0.010233,
+      "quintile_spread": 0.009269
+    },
+    {
+      "name": "Residualized Tone",
+      "algo": "Ridge",
+      "rank_ic": 0.012011,
+      "quintile_spread": 0.000694
+    },
+    {
+      "name": "Strong Regularization",
+      "algo": "Ridge_a50",
+      "rank_ic": 0.005036,
+      "quintile_spread": -4.2e-05
+    },
+    {
+      "name": "PCA(3) Linguistic",
+      "algo": "ElasticNet",
+      "rank_ic": 0.025521,
+      "quintile_spread": 0.002044
+    }
+  ]
+}

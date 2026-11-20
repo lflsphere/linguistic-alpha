@@ -8,7 +8,7 @@
     "algo": "Lasso",
     "features": [
       "vol_pre",
-      "car_0_1",
+      "car_-1_1",
       "mom",
       "bm",
       "dispersion",
@@ -39,7 +39,7 @@
     "algo": "Lasso",
     "features": [
       "vol_pre",
-      "car_0_1",
+      "car_-1_1",
       "mom",
       "bm",
       "dispersion",

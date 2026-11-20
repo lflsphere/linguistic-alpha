@@ -1,0 +1,211 @@
+=== Model C (FinBERT) RERUN ===
+Fri Nov 20 07:48:41 UTC 2026
+07:48:42 loaded FinBERT features: 3,561 rows, 14 columns
+07:48:42 columns: transcriptid, fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_n_sent_prepared, fb_n_sent_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg
+07:48:42 
+######################################################################
+07:48:42 # Option 1 (S&P 500 bench)
+07:48:42 ######################################################################
+07:48:42 merged FinBERT: 3561 rows, 3558 with FinBERT scores (99.9%)
+07:48:42 train: 2,479, test: 617
+07:48:45 
+Model A baseline: Rank IC=+0.0621 (Lasso)
+07:48:45 
+--- Model C: Forward Selection (FinBERT) ---
+07:48:45   Base features (9): vol_pre, car_-1_1, mom, bm, dispersion, avg_answer_words, size, prior_calls_with_target, words_prepared
+07:48:45   FinBERT candidates (13): fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg, fb_n_sent_prepared, fb_n_sent_answers
+07:48:47   Baseline (9 features): Rank IC=+0.0621 (Lasso)
+07:48:50     + fb_sent_prepared              : Rank IC=+0.0621 (Lasso)
+07:48:53     + fb_sent_answers               : Rank IC=+0.0621 (Lasso)
+07:48:56     + fb_pos_pct_prepared           : Rank IC=+0.0621 (Lasso)
+07:48:59     + fb_neg_pct_prepared           : Rank IC=+0.0621 (Lasso)
+07:49:02     + fb_pos_pct_answers            : Rank IC=+0.0621 (Lasso)
+07:49:05     + fb_neg_pct_answers            : Rank IC=+0.0621 (Lasso)
+07:49:08     + fb_sent_std_prepared          : Rank IC=+0.0621 (Lasso)
+07:49:11     + fb_sent_std_answers           : Rank IC=+0.0621 (Lasso)
+07:49:14     + fb_sent_gap                   : Rank IC=+0.0621 (Lasso)
+07:49:16     + fb_sent_prepared_chg          : Rank IC=+0.0621 (Lasso)
+07:49:19     + fb_sent_answers_chg           : Rank IC=+0.0621 (Lasso)
+07:49:22     + fb_n_sent_prepared            : Rank IC=+0.0615 (Lasso)
+07:49:25     + fb_n_sent_answers             : Rank IC=+0.0621 (Lasso)
+07:49:25   Step 1: no improvement, stopping
+07:49:28   Final: 9 features, Rank IC=+0.0621 (Lasso)
+07:49:28   Added FinBERT: none
+07:49:28 
+--- Model C* (All FinBERT forced) ---
+07:49:28   Features (22): 9 controls + 13 FinBERT
+/home/bhuvighosh3/linguistic-alpha/it_model_c_finbert.py:97: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = stats.pearsonr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_c_finbert.py:98: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rank_ic = stats.spearmanr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_c_finbert.py:97: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = stats.pearsonr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_c_finbert.py:98: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rank_ic = stats.spearmanr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_c_finbert.py:97: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = stats.pearsonr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_c_finbert.py:98: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rank_ic = stats.spearmanr(y_pred, y_true)[0]
+07:49:32   Results (22 features):
+07:49:32     Lasso               : Rank IC=+0.0615  Q5-Q1=+0.0217
+07:49:32     EN_a0.005           : Rank IC=+0.0430  Q5-Q1=+0.0112
+07:49:32     ElasticNet          : Rank IC=+0.0413  Q5-Q1=+0.0169
+07:49:32     OLS                 : Rank IC=-0.0016  Q5-Q1=+0.0081
+07:49:32     Ridge               : Rank IC=-0.0017  Q5-Q1=+0.0081
+07:49:32     Ridge_a50           : Rank IC=-0.0017  Q5-Q1=+0.0136
+07:49:32     Ridge_a5            : Rank IC=-0.0031  Q5-Q1=+0.0071
+07:49:32     Ridge_a10           : Rank IC=-0.0037  Q5-Q1=+0.0096
+07:49:32     ExtraTrees          : Rank IC=-0.0398  Q5-Q1=-0.0014
+07:49:32     RandomForest        : Rank IC=-0.0742  Q5-Q1=-0.0122
+07:49:32     XGBoost             : Rank IC=-0.0894  Q5-Q1=-0.0231
+07:49:32     GradientBoosting    : Rank IC=-0.1250  Q5-Q1=-0.0232
+07:49:32     EN_a0.01            : Rank IC=+nan  Q5-Q1=+nan
+07:49:32     EN_a0.05            : Rank IC=+nan  Q5-Q1=+nan
+07:49:32     EN_a0.1_l0.9        : Rank IC=+nan  Q5-Q1=+nan
+07:49:32 
+======================================================================
+07:49:32 SUMMARY — Option 1 (S&P 500 bench)
+07:49:32 ======================================================================
+07:49:32 Model                                         Algo                   Rank IC     Q5-Q1      vs A
+07:49:32 Model A (baseline)                            Lasso                  +0.0621   +0.0186       ---
+07:49:32 Model C (FinBERT forward selection)           Lasso                  +0.0621   +0.0186   +0.0000
+07:49:32 Model C* (All FinBERT forced)                 Lasso                  +0.0615   +0.0217   -0.0007
+07:49:32 saved reports to /home/bhuvighosh3/earnings_it/it_model_c_option_1_s&p_500_bench_*
+07:49:32 
+######################################################################
+07:49:32 # Option 2 (IT sector bench)
+07:49:32 ######################################################################
+07:49:32 merged FinBERT: 3561 rows, 3558 with FinBERT scores (99.9%)
+07:49:32 train: 2,479, test: 617
+07:49:35 
+Model A baseline: Rank IC=+0.0396 (Ridge)
+07:49:35 
+--- Model C: Forward Selection (FinBERT) ---
+07:49:35   Base features (10): vol_pre, prior_calls_with_target, avg_answer_words, size, dispersion, words_questions, car_-1_1, n_questions, mom, n_answers
+07:49:35   FinBERT candidates (13): fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg, fb_n_sent_prepared, fb_n_sent_answers
+07:49:37   Baseline (10 features): Rank IC=+0.0396 (Ridge)
+07:49:40     + fb_sent_prepared              : Rank IC=+0.0376 (OLS)
+07:49:43     + fb_sent_answers               : Rank IC=+0.0371 (ElasticNet)
+07:49:45     + fb_pos_pct_prepared           : Rank IC=+0.0364 (ElasticNet)
+07:49:48     + fb_neg_pct_prepared           : Rank IC=+0.0420 (OLS)
+07:49:51     + fb_pos_pct_answers            : Rank IC=+0.0388 (OLS)
+07:49:54     + fb_neg_pct_answers            : Rank IC=+0.0490 (Ridge)
+07:49:56     + fb_sent_std_prepared          : Rank IC=+0.0348 (Lasso)
+07:49:59     + fb_sent_std_answers           : Rank IC=+0.0454 (OLS)
+07:50:02     + fb_sent_gap                   : Rank IC=+0.0441 (OLS)
+07:50:05     + fb_sent_prepared_chg          : Rank IC=+0.0399 (Ridge)
+07:50:07     + fb_sent_answers_chg           : Rank IC=+0.0422 (OLS)
+07:50:10     + fb_n_sent_prepared            : Rank IC=+0.0452 (OLS)
+07:50:13     + fb_n_sent_answers             : Rank IC=+0.0398 (Ridge)
+07:50:13   Step 1: added fb_neg_pct_answers -> Rank IC=+0.0490
+07:50:16     + fb_sent_prepared              : Rank IC=+0.0455 (OLS)
+07:50:19     + fb_sent_answers               : Rank IC=+0.0476 (OLS)
+07:50:22     + fb_pos_pct_prepared           : Rank IC=+0.0429 (Ridge)
+07:50:24     + fb_neg_pct_prepared           : Rank IC=+0.0479 (OLS)
+07:50:27     + fb_pos_pct_answers            : Rank IC=+0.0484 (OLS)
+07:50:30     + fb_sent_std_prepared          : Rank IC=+0.0430 (OLS)
+07:50:33     + fb_sent_std_answers           : Rank IC=+0.0438 (ElasticNet)
+07:50:36     + fb_sent_gap                   : Rank IC=+0.0510 (OLS)
+07:50:39     + fb_sent_prepared_chg          : Rank IC=+0.0539 (Ridge)
+07:50:41     + fb_sent_answers_chg           : Rank IC=+0.0588 (OLS)
+07:50:44     + fb_n_sent_prepared            : Rank IC=+0.0516 (Ridge)
+07:50:47     + fb_n_sent_answers             : Rank IC=+0.0491 (OLS)
+07:50:47   Step 2: added fb_sent_answers_chg -> Rank IC=+0.0588
+07:50:50     + fb_sent_prepared              : Rank IC=+0.0561 (Ridge)
+07:50:53     + fb_sent_answers               : Rank IC=+0.0540 (OLS)
+07:50:56     + fb_pos_pct_prepared           : Rank IC=+0.0543 (OLS)
+07:50:59     + fb_neg_pct_prepared           : Rank IC=+0.0587 (OLS)
+07:51:02     + fb_pos_pct_answers            : Rank IC=+0.0557 (OLS)
+07:51:05     + fb_sent_std_prepared          : Rank IC=+0.0563 (OLS)
+07:51:08     + fb_sent_std_answers           : Rank IC=+0.0455 (OLS)
+07:51:11     + fb_sent_gap                   : Rank IC=+0.0593 (OLS)
+07:51:14     + fb_sent_prepared_chg          : Rank IC=+0.0607 (Ridge)
+07:51:18     + fb_n_sent_prepared            : Rank IC=+0.0635 (Ridge)
+07:51:21     + fb_n_sent_answers             : Rank IC=+0.0626 (OLS)
+07:51:21   Step 3: added fb_n_sent_prepared -> Rank IC=+0.0635
+07:51:24     + fb_sent_prepared              : Rank IC=+0.0597 (Ridge)
+07:51:27     + fb_sent_answers               : Rank IC=+0.0560 (Ridge)
+07:51:30     + fb_pos_pct_prepared           : Rank IC=+0.0591 (OLS)
+07:51:33     + fb_neg_pct_prepared           : Rank IC=+0.0625 (OLS)
+07:51:36     + fb_pos_pct_answers            : Rank IC=+0.0583 (OLS)
+07:51:39     + fb_sent_std_prepared          : Rank IC=+0.0598 (OLS)
+07:51:42     + fb_sent_std_answers           : Rank IC=+0.0486 (OLS)
+07:51:45     + fb_sent_gap                   : Rank IC=+0.0638 (OLS)
+07:51:48     + fb_sent_prepared_chg          : Rank IC=+0.0638 (Ridge)
+07:51:51     + fb_n_sent_answers             : Rank IC=+0.0668 (OLS)
+07:51:51   Step 4: added fb_n_sent_answers -> Rank IC=+0.0668
+07:51:54     + fb_sent_prepared              : Rank IC=+0.0622 (OLS)
+07:51:57     + fb_sent_answers               : Rank IC=+0.0613 (OLS)
+07:52:00     + fb_pos_pct_prepared           : Rank IC=+0.0594 (OLS)
+07:52:03     + fb_neg_pct_prepared           : Rank IC=+0.0638 (OLS)
+07:52:06     + fb_pos_pct_answers            : Rank IC=+0.0641 (OLS)
+07:52:09     + fb_sent_std_prepared          : Rank IC=+0.0571 (OLS)
+07:52:12     + fb_sent_std_answers           : Rank IC=+0.0544 (Ridge)
+07:52:15     + fb_sent_gap                   : Rank IC=+0.0675 (OLS)
+07:52:18     + fb_sent_prepared_chg          : Rank IC=+0.0644 (OLS)
+07:52:18   Step 5: added fb_sent_gap -> Rank IC=+0.0675
+07:52:21     + fb_sent_prepared              : Rank IC=+0.0562 (OLS)
+07:52:24     + fb_sent_answers               : Rank IC=+0.0620 (Ridge)
+07:52:27     + fb_pos_pct_prepared           : Rank IC=+0.0563 (Ridge)
+07:52:30     + fb_neg_pct_prepared           : Rank IC=+0.0657 (OLS)
+07:52:33     + fb_pos_pct_answers            : Rank IC=+0.0638 (OLS)
+07:52:37     + fb_sent_std_prepared          : Rank IC=+0.0608 (Ridge)
+07:52:40     + fb_sent_std_answers           : Rank IC=+0.0539 (Ridge)
+07:52:43     + fb_sent_prepared_chg          : Rank IC=+0.0666 (Ridge)
+07:52:43   Step 6: no improvement, stopping
+07:52:46   Final: 15 features, Rank IC=+0.0675 (OLS)
+07:52:46   Added FinBERT: ['fb_neg_pct_answers', 'fb_sent_answers_chg', 'fb_n_sent_prepared', 'fb_n_sent_answers', 'fb_sent_gap']
+07:52:46 
+--- Model C* (All FinBERT forced) ---
+07:52:46   Features (23): 10 controls + 13 FinBERT
+/home/bhuvighosh3/linguistic-alpha/it_model_c_finbert.py:97: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = stats.pearsonr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_c_finbert.py:98: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rank_ic = stats.spearmanr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_c_finbert.py:97: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = stats.pearsonr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_c_finbert.py:98: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rank_ic = stats.spearmanr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_c_finbert.py:97: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = stats.pearsonr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_c_finbert.py:98: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rank_ic = stats.spearmanr(y_pred, y_true)[0]
+07:52:50   Results (23 features):
+07:52:50     Ridge               : Rank IC=+0.0401  Q5-Q1=+0.0174
+07:52:50     OLS                 : Rank IC=+0.0399  Q5-Q1=+0.0165
+07:52:50     ElasticNet          : Rank IC=+0.0394  Q5-Q1=+0.0160
+07:52:50     Ridge_a50           : Rank IC=+0.0391  Q5-Q1=+0.0167
+07:52:50     Ridge_a5            : Rank IC=+0.0380  Q5-Q1=+0.0182
+07:52:50     Ridge_a10           : Rank IC=+0.0372  Q5-Q1=+0.0185
+07:52:50     Lasso               : Rank IC=+0.0370  Q5-Q1=+0.0134
+07:52:50     RandomForest        : Rank IC=+0.0079  Q5-Q1=+0.0100
+07:52:50     EN_a0.005           : Rank IC=+0.0040  Q5-Q1=+0.0060
+07:52:50     ExtraTrees          : Rank IC=-0.0121  Q5-Q1=-0.0019
+07:52:50     GradientBoosting    : Rank IC=-0.0427  Q5-Q1=-0.0139
+07:52:50     XGBoost             : Rank IC=-0.0646  Q5-Q1=-0.0222
+07:52:50     EN_a0.01            : Rank IC=+nan  Q5-Q1=+nan
+07:52:50     EN_a0.05            : Rank IC=+nan  Q5-Q1=+nan
+07:52:50     EN_a0.1_l0.9        : Rank IC=+nan  Q5-Q1=+nan
+07:52:50 
+======================================================================
+07:52:50 SUMMARY — Option 2 (IT sector bench)
+07:52:50 ======================================================================
+07:52:50 Model                                         Algo                   Rank IC     Q5-Q1      vs A
+07:52:50 Model A (baseline)                            Ridge                  +0.0396   +0.0103       ---
+07:52:50 Model C (FinBERT forward selection)           OLS                    +0.0675   +0.0140   +0.0279 ***
+07:52:50 Model C* (All FinBERT forced)                 Ridge                  +0.0401   +0.0174   +0.0005 ***
+07:52:50 saved reports to /home/bhuvighosh3/earnings_it/it_model_c_option_2_it_sector_bench_*
+07:52:50 
+======================================================================
+07:52:50 FINAL SUMMARY
+07:52:50 ======================================================================
+07:52:50 Option 1 (S&P 500 bench):
+07:52:50   Model A:  Rank IC=+0.0621
+07:52:50   Model C:  Rank IC=+0.0621 (Lasso) Delta=+0.0000
+07:52:50   Model C*: Rank IC=+0.0615 (Lasso) Delta=-0.0007
+07:52:50 Option 2 (IT sector bench):
+07:52:50   Model A:  Rank IC=+0.0396
+07:52:50   Model C:  Rank IC=+0.0675 (OLS) Delta=+0.0279
+07:52:50   Model C*: Rank IC=+0.0401 (Ridge) Delta=+0.0005
+=== Model C DONE ===
+Fri Nov 20 07:52:50 UTC 2026

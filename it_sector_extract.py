@@ -51,6 +51,9 @@ def main():
     log(f"sectors: {mt['sector'].value_counts().to_dict()}")
 
     it = mt[mt["sector"] == IT_SECTOR_NAME].copy().reset_index(drop=True)
+    if "car_0_1" in it.columns and "car_-1_1" not in it.columns:
+        it = it.rename(columns={"car_0_1": "car_-1_1"})
+        log("renamed car_0_1 -> car_-1_1 (inherited from pre-update model_table)")
     log(f"IT sector: {len(it):,} rows, {it['permno'].nunique()} companies")
 
     it.to_parquet(f"{OUT}/model_table_opt1.parquet", index=False)

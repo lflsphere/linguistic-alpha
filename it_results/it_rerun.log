@@ -1,0 +1,281 @@
+=== IT PIPELINE RERUN (with rename fix) ===
+Fri Nov 20 07:47:07 UTC 2026
+--- Step 1: Regenerate IT model tables ---
+07:47:07 loading model_table.parquet ...
+07:47:07 full dataset: 29,698 rows, 770 companies
+07:47:07 sectors: {'Industrials': 4149, 'Financials': 4136, 'Consumer Discretionary': 3711, 'Information Technology': 3561, 'Health Care': 3551, 'Consumer Staples': 2468, 'Energy': 1964, 'Utilities': 1752, 'Materials': 1611, 'Real Estate': 1524, 'Communication Services': 1271}
+07:47:07 renamed car_0_1 -> car_-1_1 (inherited from pre-update model_table)
+07:47:07 IT sector: 3,561 rows, 106 companies
+07:47:07 saved Option 1 (market-benchmarked CARs, IT only): /home/bhuvighosh3/earnings_it/model_table_opt1.parquet
+07:47:07 loading raw CRSP daily returns ...
+07:47:08 CRSP daily: 2,676,569 rows
+07:47:08 IT gvkeys: 110
+07:47:08 IT permnos (ever in S&P 500): 111
+07:47:09 IT sector VW daily returns: 4,026 days
+07:47:09   mean daily return: 0.001070
+07:47:09   annualized return: 0.2760
+07:47:09 IT event panel: 3,561 calls
+07:47:09   car_-1_1: 3,105 valid
+07:47:09   car_2_5: 3,105 valid
+07:47:09   car_2_20: 3,096 valid
+07:47:09   car_2_60: 3,045 valid
+07:47:09 saved Option 2 (IT-benchmarked CARs): /home/bhuvighosh3/earnings_it/model_table_opt2.parquet
+07:47:09 
+Option 1 (market bench):
+07:47:09   calls: 3,561, companies: 106
+07:47:09   train (<=2021): 2,479
+07:47:09   test  (>2021):  1,082
+07:47:09   CAR[+2,+20] mean=0.0072, std=0.0656, median=0.0071
+07:47:09 
+Option 2 (IT bench):
+07:47:09   calls: 3,561, companies: 106
+07:47:09   train (<=2021): 2,479
+07:47:09   test  (>2021):  1,082
+07:47:09   CAR[+2,+20] mean=-0.0038, std=0.0669, median=-0.0045
+07:47:09 
+done.
+--- Step 2: Model A + B ---
+07:47:10 
+######################################################################
+07:47:10 # Option 1 (S&P 500 bench)
+07:47:10 ######################################################################
+07:47:10 train: 2,479, test: 617
+07:47:10 
+Model A baseline: Rank IC=+0.0451 (ElasticNet)
+07:47:10 
+--- Strategy 1: Forward Selection ---
+07:47:10   Baseline (9 features): Rank IC=+0.0451 (ElasticNet)
+07:47:10     + tone_prepared            : Rank IC=+0.0412 (ElasticNet)
+07:47:10     + tone_answers             : Rank IC=+0.0568 (ElasticNet)
+07:47:11     + hedging_prepared         : Rank IC=+0.0586 (ElasticNet)
+07:47:11     + hedging_answers          : Rank IC=+0.0451 (ElasticNet)
+07:47:11     + uncertainty_answers      : Rank IC=+0.0451 (ElasticNet)
+07:47:11     + tone_gap                 : Rank IC=+0.0374 (ElasticNet)
+07:47:11     + tone_prepared_chg        : Rank IC=+0.0271 (ElasticNet)
+07:47:11     + tone_answers_chg         : Rank IC=+0.0451 (ElasticNet)
+07:47:11     + hedging_answers_chg      : Rank IC=+0.0376 (ElasticNet)
+07:47:11   Step 1: added hedging_prepared → Rank IC=+0.0586
+07:47:11     + tone_prepared            : Rank IC=+0.0568 (ElasticNet)
+07:47:11     + tone_answers             : Rank IC=+0.0705 (ElasticNet)
+07:47:11     + hedging_answers          : Rank IC=+0.0575 (ElasticNet)
+07:47:11     + uncertainty_answers      : Rank IC=+0.0575 (ElasticNet)
+07:47:11     + tone_gap                 : Rank IC=+0.0520 (ElasticNet)
+07:47:11     + tone_prepared_chg        : Rank IC=+0.0447 (ElasticNet)
+07:47:11     + tone_answers_chg         : Rank IC=+0.0586 (ElasticNet)
+07:47:11     + hedging_answers_chg      : Rank IC=+0.0488 (ElasticNet)
+07:47:11   Step 2: added tone_answers → Rank IC=+0.0705
+07:47:11     + tone_prepared            : Rank IC=+0.0644 (ElasticNet)
+07:47:11     + hedging_answers          : Rank IC=+0.0705 (ElasticNet)
+07:47:11     + uncertainty_answers      : Rank IC=+0.0705 (ElasticNet)
+07:47:11     + tone_gap                 : Rank IC=+0.0574 (ElasticNet)
+07:47:11     + tone_prepared_chg        : Rank IC=+0.0582 (ElasticNet)
+07:47:11     + tone_answers_chg         : Rank IC=+0.0726 (ElasticNet)
+07:47:11     + hedging_answers_chg      : Rank IC=+0.0637 (ElasticNet)
+07:47:11   Step 3: added tone_answers_chg → Rank IC=+0.0726
+07:47:11     + tone_prepared            : Rank IC=+0.0669 (ElasticNet)
+07:47:11     + hedging_answers          : Rank IC=+0.0726 (ElasticNet)
+07:47:11     + uncertainty_answers      : Rank IC=+0.0726 (ElasticNet)
+07:47:12     + tone_gap                 : Rank IC=+0.0615 (ElasticNet)
+07:47:12     + tone_prepared_chg        : Rank IC=+0.0582 (ElasticNet)
+07:47:12     + hedging_answers_chg      : Rank IC=+0.0652 (ElasticNet)
+07:47:12   Step 4: no improvement, stopping
+07:47:12   Final: 12 features, Rank IC=+0.0726 (ElasticNet)
+07:47:12   Added linguistic: ['hedging_prepared', 'tone_answers', 'tone_answers_chg']
+07:47:12 
+--- Strategy 2: Interaction Features ---
+/home/bhuvighosh3/linguistic-alpha/it_model_b.py:92: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = stats.pearsonr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_b.py:93: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rank_ic = stats.spearmanr(y_pred, y_true)[0]
+07:47:12   All features + interactions (26): Rank IC=+0.0229 (ElasticNet)
+/home/bhuvighosh3/linguistic-alpha/it_model_b.py:92: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = stats.pearsonr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_b.py:93: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rank_ic = stats.spearmanr(y_pred, y_true)[0]
+07:47:12   Base + interactions only (17): Rank IC=+0.0434 (ElasticNet)
+07:47:12 
+--- Strategy 3: Residualized Tone ---
+07:47:12   tone_answers → tone_answers_resid (R²=0.0461)
+07:47:12   tone_prepared → tone_prepared_resid (R²=0.0762)
+07:47:12   tone_answers_chg → tone_answers_chg_resid (R²=0.0145)
+07:47:12   tone_prepared_chg → tone_prepared_chg_resid (R²=0.0503)
+07:47:12   Base + residualized tone (13): Rank IC=+0.0352 (ElasticNet)
+07:47:12 
+--- Strategy 4: All Linguistic + Strong Regularization ---
+/home/bhuvighosh3/linguistic-alpha/it_model_b.py:92: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = stats.pearsonr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_b.py:93: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rank_ic = stats.spearmanr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_b.py:92: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = stats.pearsonr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_b.py:93: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rank_ic = stats.spearmanr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_b.py:92: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = stats.pearsonr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_b.py:93: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rank_ic = stats.spearmanr(y_pred, y_true)[0]
+07:47:12   Results (18 features):
+07:47:12     EN_a0.005           : Rank IC=+0.0430  Q5-Q1=+0.0112
+07:47:12     Ridge_a50           : Rank IC=+0.0222  Q5-Q1=+0.0050
+07:47:12     Ridge_a5            : Rank IC=+0.0220  Q5-Q1=+0.0039
+07:47:12     Ridge_a0.5          : Rank IC=+0.0219  Q5-Q1=+0.0039
+07:47:12     Ridge_a1            : Rank IC=+0.0219  Q5-Q1=+0.0039
+07:47:12     Ridge_a10           : Rank IC=+0.0219  Q5-Q1=+0.0039
+07:47:12     EN_a0.01            : Rank IC=+nan  Q5-Q1=+nan
+07:47:12     EN_a0.05            : Rank IC=+nan  Q5-Q1=+nan
+07:47:12     EN_a0.1_l0.9        : Rank IC=+nan  Q5-Q1=+nan
+07:47:12 
+--- Strategy 5: PCA on Linguistic Features ---
+07:47:12   PCA(2): 55.6% variance explained
+07:47:12     Base + PCA(2): Rank IC=+0.0240 (ElasticNet)
+07:47:12   PCA(3): 75.0% variance explained
+07:47:12     Base + PCA(3): Rank IC=+0.0240 (ElasticNet)
+07:47:12   PCA(4): 85.9% variance explained
+07:47:12     Base + PCA(4): Rank IC=+0.0267 (ElasticNet)
+07:47:12 
+  PCA loadings (top 3 components):
+07:47:12     PC1: hedging_answers=+0.475, uncertainty_answers=+0.475, tone_answers=-0.380, hedging_answers_chg=+0.357
+07:47:12     PC2: tone_gap=+0.641, tone_prepared=-0.543, tone_prepared_chg=-0.463, tone_answers_chg=+0.163
+07:47:12     PC3: tone_answers_chg=+0.519, tone_answers=+0.470, hedging_answers=+0.359, uncertainty_answers=+0.359
+07:47:12 
+======================================================================
+07:47:12 STRATEGY COMPARISON — Option 1 (S&P 500 bench)
+07:47:12 ======================================================================
+07:47:12 Strategy                            Algo                   Rank IC     Q5-Q1      vs A
+07:47:12 Model A (baseline)                  ElasticNet             +0.0451   +0.0192       ---
+07:47:12 Forward Selection                   ElasticNet             +0.0726   +0.0102   +0.0275 ***
+07:47:12 Interactions (no raw ling)          ElasticNet             +0.0434   +0.0253   -0.0016
+07:47:12 Residualized Tone                   ElasticNet             +0.0352   +0.0032   -0.0098
+07:47:12 Strong Regularization               EN_a0.005              +0.0430   +0.0112   -0.0021
+07:47:12 PCA(3) Linguistic                   ElasticNet             +0.0240   +0.0011   -0.0210
+07:47:12 
+>>> Winner: Forward Selection (Rank IC=+0.0726, Δ=+0.0275 vs Model A)
+07:47:12 
+######################################################################
+07:47:12 # Option 2 (IT sector bench)
+07:47:12 ######################################################################
+07:47:12 train: 2,479, test: 617
+07:47:12 
+Model A baseline: Rank IC=+0.0396 (Ridge)
+07:47:12 
+--- Strategy 1: Forward Selection ---
+07:47:12   Baseline (10 features): Rank IC=+0.0396 (Ridge)
+07:47:12     + tone_prepared            : Rank IC=+0.0341 (Ridge)
+07:47:12     + tone_answers             : Rank IC=+0.0409 (Ridge)
+07:47:12     + hedging_prepared         : Rank IC=+0.0390 (Ridge)
+07:47:12     + hedging_answers          : Rank IC=+0.0431 (Ridge)
+07:47:12     + uncertainty_answers      : Rank IC=+0.0431 (Ridge)
+07:47:13     + tone_gap                 : Rank IC=+0.0394 (Ridge)
+07:47:13     + tone_prepared_chg        : Rank IC=+0.0082 (Ridge)
+07:47:13     + tone_answers_chg         : Rank IC=+0.0340 (Ridge)
+07:47:13     + hedging_answers_chg      : Rank IC=+0.0409 (Ridge)
+07:47:13   Step 1: added hedging_answers → Rank IC=+0.0431
+07:47:13     + tone_prepared            : Rank IC=+0.0368 (Ridge)
+07:47:13     + tone_answers             : Rank IC=+0.0461 (Ridge)
+07:47:13     + hedging_prepared         : Rank IC=+0.0411 (Ridge)
+07:47:13     + uncertainty_answers      : Rank IC=+0.0431 (Ridge)
+07:47:13     + tone_gap                 : Rank IC=+0.0426 (Ridge)
+07:47:13     + tone_prepared_chg        : Rank IC=+0.0095 (Ridge)
+07:47:13     + tone_answers_chg         : Rank IC=+0.0380 (Ridge)
+07:47:13     + hedging_answers_chg      : Rank IC=+0.0378 (ElasticNet)
+07:47:13   Step 2: added tone_answers → Rank IC=+0.0461
+07:47:13     + tone_prepared            : Rank IC=+0.0424 (Ridge)
+07:47:13     + hedging_prepared         : Rank IC=+0.0456 (Ridge)
+07:47:13     + uncertainty_answers      : Rank IC=+0.0461 (Ridge)
+07:47:13     + tone_gap                 : Rank IC=+0.0413 (Ridge)
+07:47:13     + tone_prepared_chg        : Rank IC=+0.0144 (Ridge)
+07:47:13     + tone_answers_chg         : Rank IC=+0.0407 (Ridge)
+07:47:13     + hedging_answers_chg      : Rank IC=+0.0378 (ElasticNet)
+07:47:13   Step 3: added uncertainty_answers → Rank IC=+0.0461
+07:47:13     + tone_prepared            : Rank IC=+0.0425 (Ridge)
+07:47:13     + hedging_prepared         : Rank IC=+0.0456 (Ridge)
+07:47:13     + tone_gap                 : Rank IC=+0.0413 (Ridge)
+07:47:14     + tone_prepared_chg        : Rank IC=+0.0144 (Ridge)
+07:47:14     + tone_answers_chg         : Rank IC=+0.0407 (Ridge)
+07:47:14     + hedging_answers_chg      : Rank IC=+0.0378 (ElasticNet)
+07:47:14   Step 4: no improvement, stopping
+07:47:14   Final: 13 features, Rank IC=+0.0461 (Ridge)
+07:47:14   Added linguistic: ['hedging_answers', 'tone_answers', 'uncertainty_answers']
+07:47:14 
+--- Strategy 2: Interaction Features ---
+/home/bhuvighosh3/linguistic-alpha/it_model_b.py:92: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = stats.pearsonr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_b.py:93: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rank_ic = stats.spearmanr(y_pred, y_true)[0]
+07:47:14   All features + interactions (27): Rank IC=-0.0232 (Ridge)
+/home/bhuvighosh3/linguistic-alpha/it_model_b.py:92: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = stats.pearsonr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_b.py:93: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rank_ic = stats.spearmanr(y_pred, y_true)[0]
+07:47:14   Base + interactions only (18): Rank IC=+0.0102 (ElasticNet)
+07:47:14 
+--- Strategy 3: Residualized Tone ---
+07:47:14   tone_answers → tone_answers_resid (R²=0.0495)
+07:47:14   tone_prepared → tone_prepared_resid (R²=0.0765)
+07:47:14   tone_answers_chg → tone_answers_chg_resid (R²=0.0200)
+07:47:14   tone_prepared_chg → tone_prepared_chg_resid (R²=0.0555)
+07:47:14   Base + residualized tone (14): Rank IC=+0.0120 (Ridge)
+07:47:14 
+--- Strategy 4: All Linguistic + Strong Regularization ---
+/home/bhuvighosh3/linguistic-alpha/it_model_b.py:92: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = stats.pearsonr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_b.py:93: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rank_ic = stats.spearmanr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_b.py:92: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = stats.pearsonr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_b.py:93: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rank_ic = stats.spearmanr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_b.py:92: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = stats.pearsonr(y_pred, y_true)[0]
+/home/bhuvighosh3/linguistic-alpha/it_model_b.py:93: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  rank_ic = stats.spearmanr(y_pred, y_true)[0]
+07:47:14   Results (19 features):
+07:47:14     Ridge_a50           : Rank IC=+0.0050  Q5-Q1=-0.0000
+07:47:14     Ridge_a10           : Rank IC=+0.0045  Q5-Q1=+0.0006
+07:47:14     EN_a0.005           : Rank IC=+0.0040  Q5-Q1=+0.0060
+07:47:14     Ridge_a5            : Rank IC=+0.0034  Q5-Q1=-0.0006
+07:47:14     Ridge_a0.5          : Rank IC=+0.0021  Q5-Q1=-0.0015
+07:47:14     Ridge_a1            : Rank IC=+0.0021  Q5-Q1=-0.0015
+07:47:14     EN_a0.01            : Rank IC=+nan  Q5-Q1=+nan
+07:47:14     EN_a0.05            : Rank IC=+nan  Q5-Q1=+nan
+07:47:14     EN_a0.1_l0.9        : Rank IC=+nan  Q5-Q1=+nan
+07:47:14 
+--- Strategy 5: PCA on Linguistic Features ---
+07:47:14   PCA(2): 55.6% variance explained
+07:47:14     Base + PCA(2): Rank IC=+0.0255 (ElasticNet)
+07:47:14   PCA(3): 75.0% variance explained
+07:47:14     Base + PCA(3): Rank IC=+0.0255 (ElasticNet)
+07:47:14   PCA(4): 85.9% variance explained
+07:47:14     Base + PCA(4): Rank IC=+0.0255 (ElasticNet)
+07:47:14 
+  PCA loadings (top 3 components):
+07:47:14     PC1: hedging_answers=+0.475, uncertainty_answers=+0.475, tone_answers=-0.380, hedging_answers_chg=+0.357
+07:47:14     PC2: tone_gap=+0.641, tone_prepared=-0.543, tone_prepared_chg=-0.463, tone_answers_chg=+0.163
+07:47:14     PC3: tone_answers_chg=+0.519, tone_answers=+0.470, hedging_answers=+0.359, uncertainty_answers=+0.359
+07:47:14 
+======================================================================
+07:47:14 STRATEGY COMPARISON — Option 2 (IT sector bench)
+07:47:14 ======================================================================
+07:47:14 Strategy                            Algo                   Rank IC     Q5-Q1      vs A
+07:47:14 Model A (baseline)                  Ridge                  +0.0396   +0.0103       ---
+07:47:14 Forward Selection                   Ridge                  +0.0461   +0.0157   +0.0065 ***
+07:47:14 Interactions (no raw ling)          ElasticNet             +0.0102   +0.0093   -0.0294
+07:47:14 Residualized Tone                   Ridge                  +0.0120   +0.0007   -0.0276
+07:47:14 Strong Regularization               Ridge_a50              +0.0050   -0.0000   -0.0346
+07:47:14 PCA(3) Linguistic                   ElasticNet             +0.0255   +0.0020   -0.0141
+07:47:14 
+>>> Winner: Forward Selection (Rank IC=+0.0461, Δ=+0.0065 vs Model A)
+07:47:14 
+======================================================================
+07:47:14 FINAL SUMMARY
+07:47:14 ======================================================================
+07:47:14 Option 1 (S&P 500 bench):
+07:47:14   Model A: Rank IC=+0.0451
+07:47:14   Best B:  Rank IC=+0.0726 (Forward Selection, ElasticNet) Δ=+0.0275
+07:47:14 Option 2 (IT sector bench):
+07:47:14   Model A: Rank IC=+0.0396
+07:47:14   Best B:  Rank IC=+0.0461 (Forward Selection, Ridge) Δ=+0.0065
+--- Step 3: Model C (FinBERT) ---
+07:47:16 ERROR: /home/bhuvighosh3/earnings_it/finbert_features.parquet not found. Run it_finbert_features.py first.
+=== IT PIPELINE DONE ===
+Fri Nov 20 07:47:16 UTC 2026
