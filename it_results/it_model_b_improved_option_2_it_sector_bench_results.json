@@ -6,7 +6,7 @@
   },
   "winner": {
     "strategy": "Forward Selection",
-    "algo": "Ridge",
+    "algo": "ElasticNet",
     "features": [
       "vol_pre",
       "prior_calls_with_target",
@@ -18,30 +18,28 @@
       "n_questions",
       "mom",
       "n_answers",
-      "hedging_answers",
-      "tone_answers",
-      "uncertainty_answers"
+      "tone_gap",
+      "tone_answers_chg"
     ],
     "added_ling": [
-      "hedging_answers",
-      "tone_answers",
-      "uncertainty_answers"
+      "tone_gap",
+      "tone_answers_chg"
     ],
     "metrics": {
-      "ic": 0.092353,
-      "rank_ic": 0.046097,
-      "r2": 0.007933,
-      "rmse": 0.071015,
-      "direction_accuracy": 0.564019,
-      "quintile_spread": 0.015713
+      "ic": 0.067221,
+      "rank_ic": 0.027582,
+      "r2": 0.003742,
+      "rmse": 0.071165,
+      "direction_accuracy": 0.559157,
+      "quintile_spread": 0.008458
     }
   },
   "all_strategies": [
     {
       "name": "Forward Selection",
-      "algo": "Ridge",
-      "rank_ic": 0.046097,
-      "quintile_spread": 0.015713
+      "algo": "ElasticNet",
+      "rank_ic": 0.027582,
+      "quintile_spread": 0.008458
     },
     {
       "name": "Interactions (no raw ling)",

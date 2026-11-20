@@ -23,6 +23,7 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 from sklearn.linear_model import Ridge, ElasticNet, LinearRegression
+from sklearn.model_selection import KFold
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 
@@ -118,32 +119,57 @@ def best_result(results):
     return best_name, results[best_name]
 
 
+N_CV_FOLDS = 5
+
+
+def cv_rank_ic(train_df, features, y_col, algos, n_folds=N_CV_FOLDS):
+    """Evaluate features via k-fold CV within training set. Returns best (mean_rank_ic, algo_name)."""
+    kf = KFold(n_splits=n_folds, shuffle=True, random_state=RANDOM_STATE)
+    algo_scores = {name: [] for name in algos}
+    X_all = train_df[features].copy()
+    y_all = train_df[y_col].values
+
+    for fold_tr, fold_val in kf.split(X_all):
+        fold_train = train_df.iloc[fold_tr]
+        fold_test = train_df.iloc[fold_val]
+        y_tr_f = y_all[fold_tr]
+        y_val_f = y_all[fold_val]
+        X_tr_f, X_te_f, _, _ = preprocess(fold_train, fold_test, features)
+        for name, model_cls in algos.items():
+            import copy
+            model = copy.deepcopy(model_cls)
+            model.fit(X_tr_f, y_tr_f)
+            preds = model.predict(X_te_f)
+            ric = stats.spearmanr(preds, y_val_f)[0]
+            algo_scores[name].append(ric if not np.isnan(ric) else 0.0)
+
+    best_name = max(algo_scores, key=lambda k: np.mean(algo_scores[k]))
+    best_mean = np.mean(algo_scores[best_name])
+    return best_mean, best_name
+
+
 def strategy_forward_selection(train, test, base_features, y_tr, y_te):
-    """Lock base features, greedily add linguistic features one at a time."""
-    log_msg("\n--- Strategy 1: Forward Selection ---")
+    """Lock base features, greedily add linguistic features using CV within training set."""
+    log_msg("\n--- Strategy 1: Forward Selection (5-fold CV) ---")
     available_ling = [f for f in LINGUISTIC_FEATURES if f in train.columns]
 
     current = list(base_features)
-    X_tr_base, X_te_base, _, _ = preprocess(train, test, current)
-
     algos = {"Ridge": Ridge(alpha=1.0), "ElasticNet": ElasticNet(alpha=0.001, l1_ratio=0.5, max_iter=5000)}
-    base_results = fit_and_eval(X_tr_base, X_te_base, y_tr, y_te, algos)
-    base_best_name, base_best = best_result(base_results)
-    log_msg(f"  Baseline ({len(current)} features): Rank IC={base_best['rank_ic']:+.4f} ({base_best_name})")
+
+    base_cv_ric, base_algo = cv_rank_ic(train, current, PRIMARY_TARGET, algos)
+    log_msg(f"  Baseline ({len(current)} features): CV Rank IC={base_cv_ric:+.4f} ({base_algo})")
 
     added = []
     remaining = list(available_ling)
-    best_so_far = base_best["rank_ic"]
+    best_so_far = base_cv_ric
 
     for step in range(len(remaining)):
         candidates = {}
         for feat in remaining:
             trial = current + [feat]
-            X_tr_t, X_te_t, _, _ = preprocess(train, test, trial)
-            res = fit_and_eval(X_tr_t, X_te_t, y_tr, y_te, algos)
-            bn, bm = best_result(res)
-            candidates[feat] = (bm["rank_ic"], bn)
-            log_msg(f"    + {feat:25s}: Rank IC={bm['rank_ic']:+.4f} ({bn})")
+            cv_ric, algo_name = cv_rank_ic(train, trial, PRIMARY_TARGET, algos)
+            candidates[feat] = (cv_ric, algo_name)
+            log_msg(f"    + {feat:25s}: CV Rank IC={cv_ric:+.4f} ({algo_name})")
 
         best_feat = max(candidates, key=lambda f: candidates[f][0])
         best_ric, best_algo = candidates[best_feat]
@@ -153,16 +179,16 @@ def strategy_forward_selection(train, test, base_features, y_tr, y_te):
             remaining.remove(best_feat)
             added.append(best_feat)
             best_so_far = best_ric
-            log_msg(f"  Step {step+1}: added {best_feat} → Rank IC={best_ric:+.4f}")
+            log_msg(f"  Step {step+1}: added {best_feat} → CV Rank IC={best_ric:+.4f}")
         else:
             log_msg(f"  Step {step+1}: no improvement, stopping")
             break
 
-    # Final evaluation
+    # Final evaluation on holdout
     X_tr_f, X_te_f, _, _ = preprocess(train, test, current)
     final_results = fit_and_eval(X_tr_f, X_te_f, y_tr, y_te, algos)
     best_name, best_metrics = best_result(final_results)
-    log_msg(f"  Final: {len(current)} features, Rank IC={best_metrics['rank_ic']:+.4f} ({best_name})")
+    log_msg(f"  Final: {len(current)} features, Holdout Rank IC={best_metrics['rank_ic']:+.4f} ({best_name})")
     log_msg(f"  Added linguistic: {added if added else 'none'}")
 
     return {"name": "Forward Selection", "features": current, "added_ling": added,

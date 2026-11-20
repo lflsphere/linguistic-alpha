@@ -1,12 +1,14 @@
 """
 IT Sector Extraction — builds two model tables for the IT-only subsample.
 
-Option 1: CAR relative to S&P 500 (market benchmark) — just filters existing model_table.
-Option 2: CAR relative to IT sector value-weighted index — recomputes CARs from raw CRSP data.
+Option 1: CAR relative to S&P 500 (market benchmark) — recomputed with corrected day0.
+Option 2: CAR relative to IT sector value-weighted index — recomputed with corrected day0.
 
-Requires: ~/earnings_sp500/ with raw/ parquets and model_table.parquet
+Both options use assign_day0() (4pm ET cutoff) and car_-1_1 [-1,+1] EA window.
+
+Requires: ~/earnings_sp500/ with raw/ parquets and model_table.parquet (for non-CAR columns)
 Outputs:  ~/earnings_it/
-            model_table_opt1.parquet   (same CARs, IT firms only)
+            model_table_opt1.parquet   (market-benchmarked CARs, IT only)
             model_table_opt2.parquet   (IT-benchmarked CARs)
             it_sector_daily.parquet    (IT sector VW daily returns)
 
@@ -43,7 +45,7 @@ def main():
     OUT = os.path.expanduser("~/earnings_it")
     os.makedirs(OUT, exist_ok=True)
 
-    # --- OPTION 1: Filter existing model_table to IT sector ---
+    # --- Load base model_table for non-CAR columns ---
     log("loading model_table.parquet ...")
     mt = pd.read_parquet(f"{BASE}/model_table.parquet")
     to_dt(mt, "call_date")
@@ -51,15 +53,9 @@ def main():
     log(f"sectors: {mt['sector'].value_counts().to_dict()}")
 
     it = mt[mt["sector"] == IT_SECTOR_NAME].copy().reset_index(drop=True)
-    if "car_0_1" in it.columns and "car_-1_1" not in it.columns:
-        it = it.rename(columns={"car_0_1": "car_-1_1"})
-        log("renamed car_0_1 -> car_-1_1 (inherited from pre-update model_table)")
     log(f"IT sector: {len(it):,} rows, {it['permno'].nunique()} companies")
 
-    it.to_parquet(f"{OUT}/model_table_opt1.parquet", index=False)
-    log(f"saved Option 1 (market-benchmarked CARs, IT only): {OUT}/model_table_opt1.parquet")
-
-    # --- OPTION 2: Recompute CARs relative to IT sector VW index ---
+    # --- Load raw CRSP for recomputing CARs with corrected day0 ---
     log("loading raw CRSP daily returns ...")
     import glob
     crsp_files = sorted(glob.glob(f"{RAW}/crsp_daily_*.parquet"))
@@ -138,6 +134,10 @@ def main():
 
     ret = grid(crsp_sub["ret"].values)
 
+    # S&P 500 market return for Option 1 benchmark
+    spx_ret = spx["vwretd"].values if "vwretd" in spx.columns else spx["sprtrn"].values
+    ar_mkt = ret - spx_ret[None, :]
+
     # Abnormal returns relative to IT sector index
     ar_it = ret - it_bench[None, :]
 
@@ -151,14 +151,17 @@ def main():
         dl["date"] = days[di[di < nd]]
         delisted_day = dict(zip(dl["permno"], np.searchsorted(days, dl["date"].values)))
 
-    ok = ~np.isnan(ar_it)
+    ok_mkt = ~np.isnan(ar_mkt)
+    ok_it = ~np.isnan(ar_it)
 
     def csum(a):
         z = np.nan_to_num(a)
         return np.concatenate([np.zeros((a.shape[0], 1)), np.cumsum(z, axis=1)], axis=1)
 
+    cs_ar_mkt = csum(ar_mkt)
+    cs_n_mkt = csum(ok_mkt.astype(float))
     cs_ar = csum(ar_it)
-    cs_n = csum(ok.astype(float))
+    cs_n = csum(ok_it.astype(float))
 
     call_ts = call_timestamp_utc(panel_it["call_date"], panel_it["call_time_utc"])
     day0_df = assign_day0(call_ts, pd.DatetimeIndex(days),
@@ -179,7 +182,21 @@ def main():
 
     dlday = panel_it["permno"].map(delisted_day).fillna(-1).astype(int).values
 
-    # Compute IT-benchmarked CARs
+    # Compute market-benchmarked CARs (Option 1: S&P 500)
+    log("  computing Option 1 CARs (S&P 500 benchmark, corrected day0) ...")
+    mkt_cars = {}
+    for name, (a, b) in {"car_-1_1": (-1, 1), "car_2_5": (2, 5), "car_2_20": (2, 20), "car_2_60": (2, 60)}.items():
+        s = window_sum(cs_ar_mkt, a, b)
+        n = window_sum(cs_n_mkt, a, b)
+        delisted_in = (dlday >= d0 + a) & (dlday < d0 + b)
+        lo, hi = d0 + a, np.minimum(d0 + b, dlday) + 1
+        g = valid & delisted_in & (lo >= 0) & (hi <= nd)
+        s[g] = cs_ar_mkt[rr[g], hi[g]] - cs_ar_mkt[rr[g], lo[g]]
+        mkt_cars[name] = np.where((n >= 0.8 * (b - a + 1)) | g, s, np.nan)
+        log(f"    {name}: {np.sum(~np.isnan(mkt_cars[name])):,} valid")
+
+    # Compute IT-benchmarked CARs (Option 2: IT sector VW index)
+    log("  computing Option 2 CARs (IT sector benchmark) ...")
     it_cars = {}
     for name, (a, b) in {"car_-1_1": (-1, 1), "car_2_5": (2, 5), "car_2_20": (2, 20), "car_2_60": (2, 60)}.items():
         s = window_sum(cs_ar, a, b)
@@ -189,27 +206,42 @@ def main():
         g = valid & delisted_in & (lo >= 0) & (hi <= nd)
         s[g] = cs_ar[rr[g], hi[g]] - cs_ar[rr[g], lo[g]]
         it_cars[name] = np.where((n >= 0.8 * (b - a + 1)) | g, s, np.nan)
-        log(f"  {name}: {np.sum(~np.isnan(it_cars[name])):,} valid")
+        log(f"    {name}: {np.sum(~np.isnan(it_cars[name])):,} valid")
 
-    # Build Option 2 table: start from Option 1, replace CAR columns
-    opt2 = it.copy()
-
-    # Map keydevid -> new CARs
+    # Build CAR map from panel_it
     car_map = panel_it[["keydevid"]].copy()
+    for name in mkt_cars:
+        car_map[f"{name}_mkt"] = mkt_cars[name]
     for name in it_cars:
         car_map[f"{name}_it"] = it_cars[name]
 
-    opt2 = opt2.merge(car_map, on="keydevid", how="left")
-    for name in ["car_-1_1", "car_2_5", "car_2_20", "car_2_60"]:
-        if f"{name}_it" in opt2.columns:
-            opt2[name] = opt2[f"{name}_it"]
-            opt2 = opt2.drop(columns=f"{name}_it")
+    # --- OPTION 1: Replace old CARs with recomputed market-benchmarked CARs ---
+    opt1 = it.copy()
+    # Drop old CAR columns (may still have car_0_1 from unregenerated model_table)
+    old_car_cols = [c for c in opt1.columns if c.startswith("car_")]
+    opt1 = opt1.drop(columns=old_car_cols)
+    opt1 = opt1.merge(car_map[["keydevid"] + [f"{n}_mkt" for n in mkt_cars]], on="keydevid", how="left")
+    for name in mkt_cars:
+        opt1[name] = opt1[f"{name}_mkt"]
+        opt1 = opt1.drop(columns=f"{name}_mkt")
+
+    opt1.to_parquet(f"{OUT}/model_table_opt1.parquet", index=False)
+    log(f"saved Option 1 (S&P 500 bench, recomputed with corrected day0): {OUT}/model_table_opt1.parquet")
+
+    # --- OPTION 2: Replace old CARs with IT-benchmarked CARs ---
+    opt2 = it.copy()
+    old_car_cols = [c for c in opt2.columns if c.startswith("car_")]
+    opt2 = opt2.drop(columns=old_car_cols)
+    opt2 = opt2.merge(car_map[["keydevid"] + [f"{n}_it" for n in it_cars]], on="keydevid", how="left")
+    for name in it_cars:
+        opt2[name] = opt2[f"{name}_it"]
+        opt2 = opt2.drop(columns=f"{name}_it")
 
     opt2.to_parquet(f"{OUT}/model_table_opt2.parquet", index=False)
     log(f"saved Option 2 (IT-benchmarked CARs): {OUT}/model_table_opt2.parquet")
 
     # Summary stats
-    for label, df in [("Option 1 (market bench)", it), ("Option 2 (IT bench)", opt2)]:
+    for label, df in [("Option 1 (market bench)", opt1), ("Option 2 (IT bench)", opt2)]:
         valid_car = df["car_2_20"].dropna()
         log(f"\n{label}:")
         log(f"  calls: {len(df):,}, companies: {df['permno'].nunique()}")

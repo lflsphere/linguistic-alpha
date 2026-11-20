@@ -17,63 +17,47 @@
       "n_questions",
       "mom",
       "n_answers",
-      "fb_neg_pct_answers",
-      "fb_sent_answers_chg",
-      "fb_n_sent_prepared",
       "fb_n_sent_answers",
-      "fb_sent_gap"
+      "fb_pos_pct_prepared",
+      "fb_sent_answers"
     ],
     "added_finbert": [
-      "fb_neg_pct_answers",
-      "fb_sent_answers_chg",
-      "fb_n_sent_prepared",
       "fb_n_sent_answers",
-      "fb_sent_gap"
+      "fb_pos_pct_prepared",
+      "fb_sent_answers"
     ],
     "metrics": {
-      "ic": 0.089274,
-      "rank_ic": 0.067495,
-      "r2": 0.007357,
-      "rmse": 0.071036,
-      "direction_accuracy": 0.554295,
-      "quintile_spread": 0.013965
+      "ic": 0.066253,
+      "rank_ic": 0.036537,
+      "r2": 0.003775,
+      "rmse": 0.071164,
+      "direction_accuracy": 0.538088,
+      "quintile_spread": 0.012551
     },
     "selection_log": [
       {
         "step": 0,
         "added": null,
-        "rank_ic": 0.03961973018677903,
+        "cv_rank_ic": 0.053964285194706765,
         "improvement": 0.0
       },
       {
         "step": 1,
-        "added": "fb_neg_pct_answers",
-        "rank_ic": 0.04900001761291289,
-        "improvement": 0.009380287426133858
+        "added": "fb_n_sent_answers",
+        "cv_rank_ic": 0.05660421566684269,
+        "improvement": 0.0026399304721359262
       },
       {
         "step": 2,
-        "added": "fb_sent_answers_chg",
-        "rank_ic": 0.058836427115767795,
-        "improvement": 0.009836409502854908
+        "added": "fb_pos_pct_prepared",
+        "cv_rank_ic": 0.06244564991271033,
+        "improvement": 0.005841434245867638
       },
       {
         "step": 3,
-        "added": "fb_n_sent_prepared",
-        "rank_ic": 0.06345361581925166,
-        "improvement": 0.004617188703483863
-      },
-      {
-        "step": 4,
-        "added": "fb_n_sent_answers",
-        "rank_ic": 0.06680563795598818,
-        "improvement": 0.003352022136736521
-      },
-      {
-        "step": 5,
-        "added": "fb_sent_gap",
-        "rank_ic": 0.06749454679823112,
-        "improvement": 0.000688908842242944
+        "added": "fb_sent_answers",
+        "cv_rank_ic": 0.06382635991904505,
+        "improvement": 0.0013807100063347177
       }
     ]
   },

@@ -2,7 +2,7 @@
   "option": "Option 1 (S&P 500 bench)",
   "model_a_baseline": {
     "algo": "Lasso",
-    "rank_ic": 0.062126
+    "rank_ic": 0.013468
   },
   "model_c_forward_selection": {
     "algo": "Lasso",
@@ -15,23 +15,40 @@
       "avg_answer_words",
       "size",
       "prior_calls_with_target",
-      "words_prepared"
+      "words_prepared",
+      "fb_sent_answers",
+      "fb_sent_prepared_chg"
     ],
-    "added_finbert": [],
+    "added_finbert": [
+      "fb_sent_answers",
+      "fb_sent_prepared_chg"
+    ],
     "metrics": {
-      "ic": 0.106251,
-      "rank_ic": 0.062126,
-      "r2": 0.004737,
-      "rmse": 0.068356,
-      "direction_accuracy": 0.551053,
-      "quintile_spread": 0.018616
+      "ic": 0.077337,
+      "rank_ic": 0.013468,
+      "r2": 0.002939,
+      "rmse": 0.069157,
+      "direction_accuracy": 0.547812,
+      "quintile_spread": 0.016972
     },
     "selection_log": [
       {
         "step": 0,
         "added": null,
-        "rank_ic": 0.06212619737632997,
+        "cv_rank_ic": 0.06772549895245321,
         "improvement": 0.0
+      },
+      {
+        "step": 1,
+        "added": "fb_sent_answers",
+        "cv_rank_ic": 0.08116446268446556,
+        "improvement": 0.013438963732012352
+      },
+      {
+        "step": 2,
+        "added": "fb_sent_prepared_chg",
+        "cv_rank_ic": 0.08256194422123783,
+        "improvement": 0.0013974815367722715
       }
     ]
   },
@@ -77,12 +94,12 @@
       "fb_n_sent_answers"
     ],
     "metrics": {
-      "ic": 0.102445,
-      "rank_ic": 0.061463,
-      "r2": 0.004679,
-      "rmse": 0.068358,
+      "ic": 0.075287,
+      "rank_ic": 0.016889,
+      "r2": 0.002932,
+      "rmse": 0.069157,
       "direction_accuracy": 0.547812,
-      "quintile_spread": 0.021668
+      "quintile_spread": 0.020252
     }
   }
 }

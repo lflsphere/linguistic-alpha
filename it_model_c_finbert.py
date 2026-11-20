@@ -21,6 +21,7 @@ from scipy import stats
 from sklearn.linear_model import Ridge, Lasso, ElasticNet, LinearRegression
 from sklearn.ensemble import (RandomForestRegressor, ExtraTreesRegressor,
                               GradientBoostingRegressor)
+from sklearn.model_selection import KFold
 from sklearn.preprocessing import StandardScaler
 try:
     from xgboost import XGBRegressor
@@ -150,34 +151,59 @@ def best_result(results):
     return best_name, results[best_name]
 
 
+N_CV_FOLDS = 5
+
+
+def cv_rank_ic(train_df, features, y_col, algos, n_folds=N_CV_FOLDS):
+    """Evaluate features via k-fold CV within training set. Returns best (mean_rank_ic, algo_name)."""
+    kf = KFold(n_splits=n_folds, shuffle=True, random_state=RANDOM_STATE)
+    algo_scores = {name: [] for name in algos}
+    y_all = train_df[y_col].values
+
+    for fold_tr, fold_val in kf.split(train_df):
+        fold_train = train_df.iloc[fold_tr]
+        fold_test = train_df.iloc[fold_val]
+        y_tr_f = y_all[fold_tr]
+        y_val_f = y_all[fold_val]
+        X_tr_f, X_te_f, _, _ = preprocess(fold_train, fold_test, features)
+        for name, model_cls in algos.items():
+            import copy
+            model = copy.deepcopy(model_cls)
+            model.fit(X_tr_f, y_tr_f)
+            preds = model.predict(X_te_f)
+            ric = stats.spearmanr(preds, y_val_f)[0]
+            algo_scores[name].append(ric if not np.isnan(ric) else 0.0)
+
+    best_name = max(algo_scores, key=lambda k: np.mean(algo_scores[k]))
+    best_mean = np.mean(algo_scores[best_name])
+    return best_mean, best_name
+
+
 def forward_selection(train, test, base_features, y_tr, y_te):
-    """Lock Model A controls, greedily add FinBERT features one at a time."""
-    log_msg("\n--- Model C: Forward Selection (FinBERT) ---")
+    """Lock Model A controls, greedily add FinBERT features using CV within training set."""
+    log_msg("\n--- Model C: Forward Selection (FinBERT, 5-fold CV) ---")
     available_fb = [f for f in FINBERT_CANDIDATES if f in train.columns]
     log_msg(f"  Base features ({len(base_features)}): {', '.join(base_features)}")
     log_msg(f"  FinBERT candidates ({len(available_fb)}): {', '.join(available_fb)}")
 
     current = list(base_features)
-    X_tr_base, X_te_base, _, _ = preprocess(train, test, current)
     algos = get_algos(full=True)
-    base_results = fit_and_eval(X_tr_base, X_te_base, y_tr, y_te, algos)
-    base_best_name, base_best = best_result(base_results)
-    log_msg(f"  Baseline ({len(current)} features): Rank IC={base_best['rank_ic']:+.4f} ({base_best_name})")
+
+    base_cv_ric, base_algo = cv_rank_ic(train, current, PRIMARY_TARGET, algos)
+    log_msg(f"  Baseline ({len(current)} features): CV Rank IC={base_cv_ric:+.4f} ({base_algo})")
 
     added = []
     remaining = list(available_fb)
-    best_so_far = base_best["rank_ic"]
-    selection_log = [{"step": 0, "added": None, "rank_ic": float(best_so_far), "improvement": 0.0}]
+    best_so_far = base_cv_ric
+    selection_log = [{"step": 0, "added": None, "cv_rank_ic": float(best_so_far), "improvement": 0.0}]
 
     for step in range(len(remaining)):
         candidates = {}
         for feat in remaining:
             trial = current + [feat]
-            X_tr_t, X_te_t, _, _ = preprocess(train, test, trial)
-            res = fit_and_eval(X_tr_t, X_te_t, y_tr, y_te, algos)
-            bn, bm = best_result(res)
-            candidates[feat] = (bm["rank_ic"], bn)
-            log_msg(f"    + {feat:30s}: Rank IC={bm['rank_ic']:+.4f} ({bn})")
+            cv_ric, algo_name = cv_rank_ic(train, trial, PRIMARY_TARGET, algos)
+            candidates[feat] = (cv_ric, algo_name)
+            log_msg(f"    + {feat:30s}: CV Rank IC={cv_ric:+.4f} ({algo_name})")
 
         best_feat = max(candidates, key=lambda f: candidates[f][0])
         best_ric, best_algo = candidates[best_feat]
@@ -189,17 +215,18 @@ def forward_selection(train, test, base_features, y_tr, y_te):
             improvement = best_ric - best_so_far
             best_so_far = best_ric
             selection_log.append({"step": step + 1, "added": best_feat,
-                                  "rank_ic": float(best_ric), "improvement": float(improvement)})
-            log_msg(f"  Step {step+1}: added {best_feat} -> Rank IC={best_ric:+.4f}")
+                                  "cv_rank_ic": float(best_ric), "improvement": float(improvement)})
+            log_msg(f"  Step {step+1}: added {best_feat} -> CV Rank IC={best_ric:+.4f}")
         else:
             log_msg(f"  Step {step+1}: no improvement, stopping")
             break
 
+    # Final evaluation on holdout
     X_tr_f, X_te_f, _, _ = preprocess(train, test, current)
     final_algos = get_algos(full=True)
     final_results = fit_and_eval(X_tr_f, X_te_f, y_tr, y_te, final_algos)
     best_name, best_metrics = best_result(final_results)
-    log_msg(f"  Final: {len(current)} features, Rank IC={best_metrics['rank_ic']:+.4f} ({best_name})")
+    log_msg(f"  Final: {len(current)} features, Holdout Rank IC={best_metrics['rank_ic']:+.4f} ({best_name})")
     log_msg(f"  Added FinBERT: {added if added else 'none'}")
 
     return {"name": "Model C (FinBERT forward selection)", "features": current,
@@ -318,7 +345,8 @@ def run_option(opt_name, opt_file, base_features, out_dir, fb_df):
         report_lines.append(f"{'Step':>5s} {'Added':30s} {'Rank IC':>12s} {'Delta':>10s}")
         for entry in model_c["selection_log"]:
             feat_name = entry["added"] or "(baseline)"
-            report_lines.append(f"{entry['step']:5d} {feat_name:30s} {entry['rank_ic']:+12.4f} {entry['improvement']:+10.4f}")
+            ric = entry.get('cv_rank_ic', entry.get('rank_ic', 0.0))
+            report_lines.append(f"{entry['step']:5d} {feat_name:30s} {ric:+12.4f} {entry['improvement']:+10.4f}")
         report_lines.append("")
 
     best_model = model_c if model_c["metrics"]["rank_ic"] >= model_c_star["metrics"]["rank_ic"] else model_c_star
