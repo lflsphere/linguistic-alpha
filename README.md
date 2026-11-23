@@ -551,6 +551,77 @@ All models use their best algorithm by CV Rank IC. Train 2010–2021 (expanding-
 
 **Conclusion:** Neither LM dictionary features (Model B, B**) nor FinBERT contextual sentiment (Model C) improve CV prediction of post-earnings drift CAR[+2,+20] on the full S&P 500. Model A leads on CV Rank IC (+0.038) across all variants. Two feature selection methods confirm LM features don't help: rank-based filtering (Model B, 2 selected but hurt) and forward selection (Model B**, 0 selected). Forward selection also added zero FinBERT features (Model C). Forcing all features (B*, C*) actively degrades performance. However, the same forward selection method **does** improve prediction on the IT sector subsample (see `it-sector-analysis` branch), suggesting linguistic signal is sector-specific rather than absent — cross-sector pooling dilutes it.
 
+## IT Sector Subsample Analysis
+
+Branch: [`it-sector-analysis`](../../tree/it-sector-analysis)
+
+The full S&P 500 finding — linguistic features don't help — motivated a
+single-sector test. **Hypothesis**: cross-sector noise dilutes linguistic signals;
+within IT, where firms use homogeneous language, tone and hedging differences
+should be more informative.
+
+### IT Dataset
+
+3,561 earnings calls from ~106 IT firms (GICS 45), 2010–2026.
+Train: 2010–2023 (2,892 calls) | Test: 2024–2026 (204 calls).
+
+Two CAR benchmarks:
+- **Option 1**: firm return − S&P 500 return (comparable to full pipeline)
+- **Option 2**: firm return − IT sector value-weighted index (isolates firm-specific drift)
+
+### IT Model Design Changes vs. Full S&P 500
+
+| Design choice | Full S&P 500 | IT Sector |
+|--------------|-------------|-----------|
+| Feature selection (Model A) | 3-method ensemble → 12 of 18 controls | All 16 controls, no selection |
+| Best algorithm | GradientBoosting | Ridge / ElasticNet |
+| Model B strategies | Rank filter + forward selection | 6 strategies (fwd sel, interactions, residualized tone, all forced, PCA, ensemble) |
+| Sector dummies | Yes (11 sectors) | No (single sector) |
+| Target training | Standard | Ranked (`rankdata(y_train)`) |
+| EA window | CAR[0,+1] | CAR[−1,+1] with 4pm ET day0 cutoff |
+
+### IT Results Summary
+
+**Option 1 — CAR vs. S&P 500:**
+
+| Model | Algorithm | Rank IC | Δ vs A |
+|-------|-----------|---------|--------|
+| Model A (16 controls) | EN_strong | +0.0379 | — |
+| Model B (tone_prepared only) | RidgeCV | +0.0374 | −0.0005 |
+| Model B* (all 9 LM forced) | RidgeCV | −0.0401 | −0.0780 |
+| **Model C (FinBERT Ensemble)** | **Ensemble** | **+0.0483** | **+0.0104** |
+
+**Option 2 — CAR vs. IT Sector Index:**
+
+| Model | Algorithm | Rank IC | Δ vs A |
+|-------|-----------|---------|--------|
+| Model A (16 controls) | RidgeCV | +0.0682 | — |
+| Model B (Single-Feature Ensemble) | Ensemble | +0.0692 | +0.0010 |
+| Model B* (all 9 LM forced) | RidgeCV | +0.0401 | −0.0281 |
+| **Model C (FinBERT fwd sel, 4 feats)** | **Ridge** | **+0.0943** | **+0.0261** |
+
+### Key Cross-Pipeline Findings
+
+1. **LM dictionary features don't help in either universe.** Model B ≈ Model A
+   on both S&P 500 and IT sector. Bag-of-words tone adds no incremental signal.
+
+2. **FinBERT helps within IT but not across S&P 500.** Model C improves over
+   Model A by +0.0104 (Opt 1) and +0.0261 (Opt 2) in IT, but adds nothing on
+   the full S&P 500. This confirms the sector-specificity hypothesis for
+   transformer-based sentiment — context-aware features find signal within a
+   homogeneous sector that cross-sector pooling dilutes.
+
+3. **Linear models beat trees on the smaller IT sample.** Ridge/ElasticNet
+   dominate IT (~2,900 train obs), while GradientBoosting wins on full S&P 500
+   (~21,000 train obs). Sample size determines model complexity.
+
+4. **The sector benchmark (Option 2) isolates stronger signal.** Stripping
+   sector-level moves from IT returns reveals firm-specific drift that the
+   broad market benchmark obscures.
+
+Full details, feature descriptions, and strategy comparisons:
+[`it-sector-analysis` branch README](../../tree/it-sector-analysis).
+
 ## Roadmap
 
 | # | Task | Status |
@@ -561,10 +632,11 @@ All models use their best algorithm by CV Rank IC. Train 2010–2021 (expanding-
 | 4 | Compute LM tone, uncertainty, hedging from transcript text | **done** |
 | 5 | Model B — add linguistic features, compare to Model A | **done** (no improvement) |
 | 6 | Model C — FinBERT contextual sentiment, forward selection over Model A | **done** (no improvement) |
-| 7 | Evaluation: IC comparison, long-short backtest net of costs | pending |
+| 7 | IT sector subsample — test sector-specificity hypothesis | **done** (FinBERT helps within IT) |
+| 8 | Evaluation: IC comparison, long-short backtest net of costs | pending |
 
-Done: full pipeline, GCP VM, data validation, Model A baseline, LM linguistic features (Model B), FinBERT sentiment (Model C).
-Finding: Model A (controls only) achieves +0.047 test Rank IC. Neither LM bag-of-words (Model B) nor FinBERT contextual sentiment (Model C) improve over controls alone.
+Done: full pipeline, GCP VM, data validation, Model A baseline, LM linguistic features (Model B), FinBERT sentiment (Model C), IT sector subsample analysis.
+Finding: Model A (controls only) achieves +0.047 test Rank IC on the full S&P 500. Neither LM bag-of-words (Model B) nor FinBERT contextual sentiment (Model C) improve over controls alone. However, FinBERT **does** improve prediction within the IT sector (+0.0943 vs +0.0682 on the sector-benchmarked CAR), confirming that linguistic signal is sector-specific — see [`it-sector-analysis`](../../tree/it-sector-analysis).
 
 ## Obstacles and proposed solutions
 
