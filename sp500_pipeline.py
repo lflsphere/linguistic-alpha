@@ -29,6 +29,7 @@ text stage later; files built without it are rebuilt automatically).
 
 import gc
 import glob
+import json
 import os
 import re
 import sys
@@ -45,6 +46,11 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 START_YEAR = 2010
 END_YEAR = 2026
 TICKERS = None                    # None = all S&P 500 members; or e.g. ["AAPL", "MSFT"] for a test
+SECTOR = None                     # None = all sectors; or names from SECTORS, e.g. ["software"]
+SECTORS = {                       # name -> GICS code prefixes (classified point in time, comp.co_hgic)
+    "biotech_pharma": ["35201010", "35202010"], "software": ["45103010", "45103020"],
+    "it_services": ["45102010"], "semis": ["45301010", "45301020"], "banks": ["40101010", "40101015"],
+    "insurance": ["40301030", "40301040"], "tech": ["45"], "specialty_retail": ["255040"], "restaurants_hotels": ["253010"]}
 WRDS_USERNAME = "bhuvighosh3"
 STAGES = ["pull", "panel", "targets", "text", "final"]   # remove "pull" to rebuild from saved files
 # Time split (by call date). Returns end 2024-12-31, so targets exist for calls up to about Nov 2024.
@@ -61,6 +67,7 @@ ROOT = "/content" if os.path.isdir("/content") else os.path.expanduser("~")
 #   python sp500_pipeline.py --tickers AAPL MSFT               a quick test
 #   python sp500_pipeline.py --folder D:/earnings_data         choose where data is saved
 #   python sp500_pipeline.py --stages panel targets text final rebuild without downloading
+#   python sp500_pipeline.py --sector software banks           only these sectors (names in SECTORS above)
 if __name__ == "__main__":
     import argparse
     ap = argparse.ArgumentParser(description="Earnings-call pipeline for S&P 500 companies (WRDS).")
@@ -70,7 +77,12 @@ if __name__ == "__main__":
     ap.add_argument("--folder", help="folder for the project data (default: your home folder)")
     ap.add_argument("--user", help="WRDS username")
     ap.add_argument("--start-year", type=int, help="first year of calls (default 2010)")
+    ap.add_argument("--end-year", type=int, help="last year of calls and returns (default 2026)")
+    ap.add_argument("--sector", nargs="+", choices=sorted(SECTORS), metavar="NAME",
+                    help="only these sectors, classified as of each call date: " + ", ".join(sorted(SECTORS)))
     args = ap.parse_args()
+    if args.sector:
+        SECTOR = args.sector
     if args.tickers:
         TICKERS = [t.upper() for t in args.tickers]
     if args.stages:
@@ -81,10 +93,16 @@ if __name__ == "__main__":
         WRDS_USERNAME = args.user
     if args.start_year:
         START_YEAR = args.start_year
+    if args.end_year:
+        END_YEAR = args.end_year
 
 NAME = "sp500" if not TICKERS else "_".join(sorted(TICKERS))[:60]
+if SECTOR:
+    NAME += "_" + "_".join(sorted(SECTOR))          # separate folder, so the cache is never shared with other runs
+    SECTOR = [c for n in SECTOR for c in SECTORS[n]]    # names -> GICS code prefixes
 BASE = os.environ.get("EARNINGS_BASE", os.path.join(ROOT, f"earnings_{NAME}"))
 RAW, TEXT_DIR, FEAT_DIR = f"{BASE}/raw", f"{BASE}/text", f"{BASE}/features"
+MANIFEST = f"{RAW}/_manifest.json"        # what stage 1 has already downloaded (see stage_pull)
 for d in (RAW, TEXT_DIR, FEAT_DIR):
     os.makedirs(d, exist_ok=True)
 
@@ -135,19 +153,63 @@ def stage_pull():
                 state["db"] = wrds.Connection(wrds_username=WRDS_USERNAME)
         raise RuntimeError("query kept failing; re-run later (saved pieces are kept)")
 
-    def pull(name, query, params=None):
-        if os.path.exists(path(name)):
-            return
-        df = sql(query, params)
+    a, b = f"{START_YEAR}-01-01", f"{END_YEAR}-12-31"
+
+    # What is already saved is recorded in raw/_manifest.json, so a re-run (also with another start/end
+    # year or a longer list of companies) downloads only what is missing. Files saved by older versions
+    # of this script have no record and are trusted as they are.
+    man = json.load(open(MANIFEST)) if os.path.exists(MANIFEST) else {}
+    scope = ",".join(SECTOR or []) + "|" + ",".join(TICKERS or [])
+    today = pd.Timestamp.today().normalize()
+
+    def record(name, **info):
+        man[name] = {"pulled": str(today.date()), **info}
+        json.dump(man, open(MANIFEST, "w"))
+
+    def too_old(rec, last_year):
+        """Data that reaches into the current year keeps growing: refresh it when over a week old."""
+        return last_year >= today.year and (today - pd.Timestamp(rec["pulled"])).days > 7
+
+    def clean(df):
         for c in df.select_dtypes("float64").columns:
             if c not in ("prc", "cfacpr"):
                 df[c] = df[c].astype("float32")
+        return df
+
+    def pull(name, query, params=None, windowed=True):
+        """A whole table. Skipped if saved already for a period that covers START_YEAR..END_YEAR."""
+        rec = man.get(name)
+        if os.path.exists(path(name)) and (rec is None or not windowed or (
+                rec["start"] <= a and rec["end"] >= b and rec["scope"] == scope and not too_old(rec, END_YEAR))):
+            return
+        if os.path.exists(path(name)):
+            log(f"{name}: saved version does not cover {a[:4]}-{b[:4]} (or is stale); downloading again")
+        df = clean(sql(query, params))
         df.to_parquet(path(name), index=False)
+        record(name, start=a, end=b, scope=scope)
         log(f"saved {name}: {len(df):,} rows")
         del df
         gc.collect()
 
-    a, b = f"{START_YEAR}-01-01", f"{END_YEAR}-12-31"
+    def pull_ids(name, key, ids, query, params, last_year):
+        """One piece per year for many companies: download only the companies not in the saved file yet."""
+        old = pd.read_parquet(path(name)) if os.path.exists(path(name)) else None
+        rec = man.get(name)
+        done = set(rec["ids"]) if rec else (set(old[key].dropna().tolist()) if old is not None else set())
+        if rec and too_old(rec, last_year):
+            done, old = set(), None
+        need = sorted(set(ids) - done)
+        if not need:
+            return
+        new = pd.concat([clean(sql(query, {**params, "ids": tuple(need[i:i + 500])}))
+                         for i in range(0, len(need), 500)], ignore_index=True)
+        out = new if old is None else pd.concat([old, new], ignore_index=True)
+        out.to_parquet(path(name), index=False)
+        record(name, ids=sorted(done | set(need)))
+        log(f"saved {name}: {len(new):,} new rows for {len(need):,} {key}s ({len(out):,} in file)")
+        del out, new, old
+        gc.collect()
+
     # Universe: every stock that was in the S&P 500 at any time from START_YEAR on
     permnos = f"select distinct permno from crsp.msp500list where ending >= '{a}' and start <= '{b}'"
     if TICKERS:
@@ -156,6 +218,12 @@ def stage_pull():
         names = names.sort_values("nameenddt").groupby("ticker").tail(1)
         log("companies found:\n" + names[["ticker", "permno", "comnam"]].to_string(index=False))
         permnos += " and permno in (" + ", ".join(str(int(p)) for p in names["permno"]) + ")"
+    if SECTOR:   # only companies ever classified in the sector during the sample (exact call-date filter: stage_panel)
+        cond = " or ".join(f"left(cast(gsubind as varchar), {len(c)}) = '{c}'" for c in SECTOR)
+        in_sector = f"""select gvkey from comp.co_hgic where indtype = 'GICS' and ({cond})
+                        and indfrom <= '{b}' and coalesce(indthru, '2099-12-31') >= '{a}'"""
+        permnos += f""" and permno in (select lpermno from crsp.ccmxpf_lnkhist where gvkey in ({in_sector})
+                      and linktype in ('LU','LC') and linkprim in ('P','C'))"""
     gvkeys = f"""select distinct gvkey from crsp.ccmxpf_lnkhist where lpermno in ({permnos})
                  and linktype in ('LU','LC') and linkprim in ('P','C')"""
     tickers = f"select distinct ticker from wrdsapps.ibcrsphist where permno in ({permnos})"
@@ -169,15 +237,19 @@ def stage_pull():
     pull("link_ibes_crsp", f"select ticker, permno, sdate, edate, score from wrdsapps.ibcrsphist "
                            f"where permno in ({permnos})")
     pull("link_ciq_gvkey", f"select * from ciq.wrds_gvkey where gvkey in ({gvkeys})")
+    pull("gics_history", f"select gvkey, indfrom, indthru, cast(gsubind as varchar) as gsubind from comp.co_hgic "
+                         f"where indtype = 'GICS' and gvkey in ({gvkeys})")
     pull("company", f"select gvkey, conm, gsector, gind, sic from comp.company where gvkey in ({gvkeys})")
 
     # Returns (daily, one year per file) and the S&P 500 benchmark
     pull("sp500_index_daily", "select date, sprtrn from crsp.dsi where date >= %(d)s",
          {"d": f"{START_YEAR - 1}-01-01"})
+    universe = sql(permnos)["permno"].astype(int).tolist()
     for y in range(START_YEAR - 1, END_YEAR + 1):
-        pull(f"crsp_daily_{y}", f"""select permno, date, ret, prc, vol, shrout, cfacpr from crsp.dsf
-                                    where date between %(a)s and %(b)s and permno in ({permnos})""",
-             {"a": f"{y}-01-01", "b": f"{y}-12-31"})
+        pull_ids(f"crsp_daily_{y}", "permno", universe,
+                 """select permno, date, ret, prc, vol, shrout, cfacpr from crsp.dsf
+                    where date between %(a)s and %(b)s and permno in %(ids)s""",
+                 {"a": f"{y}-01-01", "b": f"{y}-12-31"}, y)
     pull("crsp_delist", f"select permno, dlstdt, dlret from crsp.dsedelist where permno in ({permnos})")
 
     # Fundamentals
@@ -190,28 +262,42 @@ def stage_pull():
     pull("ibesu_actuals", f"""select ticker, pends, pdicity, value as actual_eps, anndats, anntims
                               from ibes.actu_epsus where ticker in ({tickers}) and pdicity = 'QTR'
                               and anndats >= %(d)s""", {"d": f"{START_YEAR - 1}-06-01"})
+    ibes_tickers = sql(tickers)["ticker"].dropna().tolist()
     for y in range(START_YEAR - 1, END_YEAR + 1):
-        pull(f"ibesu_consensus_{y}", f"""select ticker, statpers, fpedats, medest, meanest, stdev, numest
-                                         from ibes.statsumu_epsus where ticker in ({tickers}) and fpi = '6'
-                                         and statpers between %(a)s and %(b)s""",
-             {"a": f"{y}-01-01", "b": f"{y}-12-31"})
+        pull_ids(f"ibesu_consensus_{y}", "ticker", ibes_tickers,
+                 """select ticker, statpers, fpedats, medest, meanest, stdev, numest
+                    from ibes.statsumu_epsus where ticker in %(ids)s and fpi = '6'
+                    and statpers between %(a)s and %(b)s""",
+                 {"a": f"{y}-01-01", "b": f"{y}-12-31"}, y)
 
     # Transcripts: section codes, list of earnings calls, then text in batches
-    pull("component_types", "select * from ciq.ciqtranscriptcomponenttype")
+    pull("component_types", "select * from ciq.ciqtranscriptcomponenttype", windowed=False)
     pull("transcript_calls", f"""select companyid, companyname, keydevid, transcriptid, headline,
                                         mostimportantdateutc as call_date, mostimportanttimeutc as call_time_utc
                                  from ciq.wrds_transcript_detail
                                  where keydeveventtypeid = 48 and companyid in ({ciq_ids})
-                                   and mostimportantdateutc >= %(d)s""", {"d": a})
+                                   and mostimportantdateutc >= %(d)s and mostimportantdateutc <= %(e)s""", {"d": a, "e": b})
     calls = latest_versions(pd.read_parquet(path("transcript_calls")))
     calls["year"] = pd.to_datetime(calls["call_date"]).dt.year
     for y, grp in calls.groupby("year"):
         ids = sorted(int(t) for t in grp["transcriptid"])
-        for k in range(0, len(ids), TEXT_BATCH):
-            pull(f"transcript_text_{y}_part{k // TEXT_BATCH:03d}",
-                 """select transcriptid, componentorder, transcriptcomponenttypeid, transcriptpersonid,
-                           componenttext from ciq.ciqtranscriptcomponent where transcriptid in %(ids)s""",
-                 {"ids": tuple(ids[k:k + TEXT_BATCH])})
+        files = sorted(glob.glob(os.path.join(RAW, f"transcript_text_{y}_part*.parquet")))
+        rec = man.get(f"transcript_text_{y}")
+        done = set(rec["ids"]) if rec else {int(t) for f in files for t in
+                                            pd.read_parquet(f, columns=["transcriptid"])["transcriptid"]}
+        need = [t for t in ids if t not in done]
+        nxt = max([int(re.search(r"_part(\d+)", f).group(1)) for f in files], default=-1) + 1
+        for k in range(0, len(need), TEXT_BATCH):         # only transcripts not saved yet, as new part files
+            chunk = need[k:k + TEXT_BATCH]
+            df = sql("""select transcriptid, componentorder, transcriptcomponenttypeid, transcriptpersonid,
+                               componenttext from ciq.ciqtranscriptcomponent where transcriptid in %(ids)s""",
+                     {"ids": tuple(chunk)})
+            df.to_parquet(path(f"transcript_text_{y}_part{nxt + k // TEXT_BATCH:03d}"), index=False)
+            done |= set(chunk)
+            record(f"transcript_text_{y}", ids=sorted(done))
+            log(f"saved transcript_text_{y}_part{nxt + k // TEXT_BATCH:03d}: {len(df):,} rows")
+        if need and os.path.exists(path(f"transcript_people_{y}")):
+            os.remove(path(f"transcript_people_{y}"))     # new speakers may be needed
         if not os.path.exists(path(f"transcript_people_{y}")):
             pids = read_many(f"transcript_text_{y}_part*.parquet")["transcriptpersonid"].dropna()
             pids = sorted(pids.astype(int).unique().tolist())
@@ -262,6 +348,19 @@ def stage_panel():
     panel = (panel.sort_values(["keydevid", "prim"], ascending=[True, False])
                   .drop_duplicates("keydevid"))
 
+    # Sector run: keep calls whose GICS sub-industry ON THE CALL DATE starts with one of the --sector codes
+    if SECTOR:
+        h = to_dt(pd.read_parquet(path("gics_history")), "indfrom", "indthru")
+        h["indthru"] = h["indthru"].fillna(pd.Timestamp("2099-12-31"))
+        n_all = len(panel)
+        panel = panel.merge(h, on="gvkey")
+        panel = panel[(panel["call_date"] >= panel["indfrom"]) & (panel["call_date"] <= panel["indthru"])]
+        panel = panel.sort_values("indfrom").drop_duplicates("keydevid", keep="last")
+        panel = panel[panel["gsubind"].str.startswith(tuple(SECTOR))]
+        log(f"sector {SECTOR}: {n_all:,} -> {len(panel):,} calls, {panel['gvkey'].nunique():,} companies")
+        if panel.empty:
+            sys.exit("--sector left zero calls")
+
     # permno -> I/B/E/S ticker valid on the call date (best match score)
     ib = to_dt(pd.read_parquet(path("link_ibes_crsp")), "sdate", "edate")
     m = panel[["keydevid", "permno", "call_date"]].merge(ib, on="permno")
@@ -275,7 +374,7 @@ def stage_panel():
     panel = panel.merge(comp[["gvkey", "sector", "gind", "sic"]].drop_duplicates("gvkey"), on="gvkey", how="left")
 
     cols = ["keydevid", "transcriptid", "companyid", "companyname", "headline", "call_date",
-            "call_time_utc", "gvkey", "permno", "ticker", "sector", "gind", "sic"]
+            "call_time_utc", "gvkey", "permno", "ticker", "sector", "gind", "sic"] + (["gsubind"] if SECTOR else [])
     panel = panel[cols].sort_values(["call_date", "permno"]).reset_index(drop=True)
     panel.to_parquet(f"{BASE}/event_panel.parquet", index=False)
     log(f"event panel: {len(panel):,} calls, {panel['permno'].nunique():,} companies, "

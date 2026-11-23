@@ -2,3 +2,7 @@ wrds
 pandas>=2.0
 numpy
 pyarrow
+torch 
+transformers
+scipy
+scikit-learn

@@ -41,6 +41,8 @@ LOG_TRANSFORM = ["words_answers"]
 WINSOR_LOW = 0.01
 WINSOR_HIGH = 0.99
 TRAIN_END = "2021-12-31"
+START_DATE = END_DATE = None                      # optional call-date window (--start / --end)
+TRAIN_LABEL, TEST_LABEL = "2010-2021", "2022-2024"   # shown in reports
 CV_FOLDS = 5
 MIN_FOLD_SIZE = 100
 RANDOM_STATE = 42
@@ -58,6 +60,11 @@ def load_data(base):
     log_msg(f"linguistic columns present ({len(ling_present)}): {ling_present}")
     if ling_missing:
         log_msg(f"WARNING — missing: {ling_missing}")
+    df["call_date"] = pd.to_datetime(df["call_date"])
+    if START_DATE:
+        df = df[df["call_date"] >= pd.Timestamp(START_DATE)]
+    if END_DATE:
+        df = df[df["call_date"] <= pd.Timestamp(END_DATE)]
     has_target = df[df[PRIMARY_TARGET].notna()].copy()
     cutoff = pd.Timestamp(TRAIN_END)
     train = has_target[has_target["call_date"] <= cutoff].copy()
@@ -116,6 +123,9 @@ def time_series_cv_splits(dates, n_splits=CV_FOLDS):
     sorted_dates = np.sort(dates)
     n = len(sorted_dates)
     chunk = n // (n_splits + 1)
+    while n_splits > 2 and chunk < MIN_FOLD_SIZE:      # small sample (e.g. one sector): fewer, larger folds
+        n_splits -= 1
+        chunk = n // (n_splits + 1)
     splits = []
     for i in range(n_splits):
         train_end = chunk * (i + 2)
@@ -274,7 +284,7 @@ def test_report(test_df, best_model_name, X_raw, y_train, sector_train, feature_
 
     metrics = evaluate_predictions(y_te, preds)
     log_msg(f"\n{'='*60}")
-    log_msg(f"TEST REPORT ({best_model_name}, all features forced, train 2010-2021):")
+    log_msg(f"TEST REPORT ({best_model_name}, all features forced, train {TRAIN_LABEL}):")
     for k, v in metrics.items():
         log_msg(f"  {k:25s}: {v:+.4f}" if isinstance(v, float) else f"  {k:25s}: {v}")
     return metrics
@@ -287,14 +297,14 @@ def write_report(base, model_results, test_metrics, best_model, feature_names, m
     lines.append("MODEL B* (ALL LINGUISTIC) — No Feature Selection")
     lines.append(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     lines.append(f"Target: {PRIMARY_TARGET}")
-    lines.append(f"Train: 2010–2021 | Test: 2022–2024")
+    lines.append(f"Train: {TRAIN_LABEL.replace('-', '–')} | Test: {TEST_LABEL.replace('-', '–')}")
     lines.append(f"Features ({len(feature_names)}): {', '.join(feature_names)}")
-    lines.append(f"  Controls (11): {', '.join(MODEL_A_FEATURES)}")
+    lines.append(f"  Controls ({len(MODEL_A_FEATURES)}): {', '.join(MODEL_A_FEATURES)}")
     lines.append(f"  Linguistic (9): {', '.join(LINGUISTIC_FEATURES)}")
     lines.append("  NO feature selection — all 20 features forced into every model")
     lines.append("=" * 70)
 
-    lines.append("\n\n--- CROSS-VALIDATION RESULTS (train 2010-2021) ---")
+    lines.append(f"\n\n--- CROSS-VALIDATION RESULTS (train {TRAIN_LABEL}) ---")
     lines.append(f"{'Model':20s} {'IC':>8s} {'±':>6s} {'Rank IC':>8s} {'±':>6s} {'R²':>8s} {'Dir Acc':>8s} {'Q5-Q1':>8s}")
     ranked = sorted(model_results.items(), key=lambda x: x[1]["avg"]["rank_ic"], reverse=True)
     for name, res in ranked:
@@ -311,7 +321,7 @@ def write_report(base, model_results, test_metrics, best_model, feature_names, m
     lines.append(f"Model B* (20 features, ALL forced):              Rank IC {best_b['rank_ic']:+.3f}, Q5-Q1 {best_b['quintile_spread']:+.2%}")
 
     if test_metrics:
-        lines.append(f"\n\n--- TEST RESULTS 2022-2024 ({best_model}) ---")
+        lines.append(f"\n\n--- TEST RESULTS {TEST_LABEL} ({best_model}) ---")
         for k, v in test_metrics.items():
             lines.append(f"  {k:25s}: {v:+.4f}" if isinstance(v, float) else f"  {k:25s}: {v}")
         lines.append(f"\nModel A  test: Rank IC {model_a_results['test_rank_ic']:+.4f}, Q5-Q1 {model_a_results['test_q5q1']:+.2%}")
@@ -322,8 +332,8 @@ def write_report(base, model_results, test_metrics, best_model, feature_names, m
     lines.append("- Same preprocessing as Model A/B: winsorize 1%/99%, log1p, median impute, StandardScaler")
     lines.append("- All 9 linguistic features forced (no feature selection)")
     lines.append("- Tests whether feature selection dropped useful linguistic signal")
-    lines.append("- Time-series expanding window CV on train (2010-2021)")
-    lines.append("- Test (2022-2024) evaluated once after model selection")
+    lines.append(f"- Time-series expanding window CV on train ({TRAIN_LABEL})")
+    lines.append(f"- Test ({TEST_LABEL}) evaluated once after model selection")
 
     report_text = "\n".join(lines)
     out.write_text(report_text)
@@ -334,8 +344,23 @@ def write_report(base, model_results, test_metrics, best_model, feature_names, m
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--folder", default=os.path.expanduser("~/earnings_sp500"))
+    parser.add_argument("--controls-from-a", action="store_true",
+                        help="use the controls Model A selected in this folder (sector runs) instead of the fixed full-sample list")
+    parser.add_argument("--start", help="first call date used, YYYY-MM-DD (default: all). Earlier calls still feed history features")
+    parser.add_argument("--end", help="last call date used, YYYY-MM-DD (default: all)")
+    parser.add_argument("--train-end", help="last training call date, YYYY-MM-DD (default 2021-12-31); later calls are the test set")
     args = parser.parse_args()
+    global TRAIN_END, START_DATE, END_DATE, TRAIN_LABEL, TEST_LABEL
+    if args.start or args.end or args.train_end:     # custom window, e.g. --start 2015-01-01 --end 2019-12-31 --train-end 2017-12-31
+        TRAIN_END, START_DATE, END_DATE = args.train_end or TRAIN_END, args.start, args.end
+        TRAIN_LABEL = f"{(args.start or '2010')[:4]}-{TRAIN_END[:4]}"
+        TEST_LABEL = f"{int(TRAIN_END[:4]) + 1}-{(args.end or '2024')[:4]}"
     base = args.folder
+    if args.controls_from_a:     # sector run: controls selected by Model A on this folder's own sample
+        a = json.load(open(f"{base}/model_a_results.json"))
+        MODEL_A_FEATURES[:] = a["selected_features"]
+        LOG_TRANSFORM[:] = a["preprocessing"]["log_transform"]
+        ALL_FEATURES[:] = MODEL_A_FEATURES + LINGUISTIC_FEATURES
 
     log_msg("=" * 60)
     log_msg("MODEL B* (ALL LINGUISTIC) — No Feature Selection (Train/Test)")
@@ -402,7 +427,7 @@ def main():
     save = {
         "version": "v2_all_linguistic",
         "best_model": best_model,
-        "split": {"train": "2010-2021", "test": "2022-2024"},
+        "split": {"train": TRAIN_LABEL, "test": TEST_LABEL},
         "features_used": available,
         "n_controls": len([f for f in available if f in MODEL_A_FEATURES]),
         "n_linguistic": len([f for f in available if f in LINGUISTIC_FEATURES]),

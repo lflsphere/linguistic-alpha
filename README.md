@@ -534,7 +534,7 @@ All models use their best algorithm by CV Rank IC. Train 2010–2021 (expanding-
 | 7 | Evaluation: IC comparison, long-short backtest net of costs | pending |
 
 Done: full pipeline, GCP VM, data validation, Model A baseline, LM linguistic features (Model B), FinBERT sentiment (Model C).
-Finding: Model A (controls only) achieves +0.047 test Rank IC. Neither LM bag-of-words (Model B) nor FinBERT contextual sentiment (Model C) improve over controls alone.
+Finding: Model A (controls ovnly) achieves +0.047 test Rank IC. Neither LM bag-of-words (Model B) nor FinBERT contextual sentiment (Model C) improve over controls alone.
 
 ## Obstacles and proposed solutions
 

@@ -51,6 +51,8 @@ WINSOR_LOW = 0.01
 WINSOR_HIGH = 0.99
 
 TRAIN_END = "2021-12-31"
+START_DATE = END_DATE = None                      # optional call-date window (--start / --end)
+TRAIN_LABEL, TEST_LABEL = "2010-2021", "2022-2024"   # shown in reports
 
 CV_FOLDS = 5
 MIN_FOLD_SIZE = 100
@@ -68,6 +70,11 @@ def load_data(base):
     df = pd.read_parquet(f"{base}/model_table.parquet")
     log_msg(f"loaded {len(df):,} rows, {df.shape[1]} columns")
     log_msg(f"columns: {', '.join(df.columns)}")
+    df["call_date"] = pd.to_datetime(df["call_date"])
+    if START_DATE:
+        df = df[df["call_date"] >= pd.Timestamp(START_DATE)]
+    if END_DATE:
+        df = df[df["call_date"] <= pd.Timestamp(END_DATE)]
     has_target = df[df[PRIMARY_TARGET].notna()].copy()
     cutoff = pd.Timestamp(TRAIN_END)
     train = has_target[has_target["call_date"] <= cutoff].copy()
@@ -229,6 +236,9 @@ def time_series_cv_splits(dates, n_splits=CV_FOLDS):
     sorted_dates = np.sort(dates)
     n = len(sorted_dates)
     chunk = n // (n_splits + 1)
+    while n_splits > 2 and chunk < MIN_FOLD_SIZE:      # small sample (e.g. one sector): fewer, larger folds
+        n_splits -= 1
+        chunk = n // (n_splits + 1)
     splits = []
     for i in range(n_splits):
         train_end = chunk * (i + 2)
@@ -431,7 +441,7 @@ def test_report(test_df, best_model_name, X_raw, y_train, sector_train, feature_
 
     metrics = evaluate_predictions(y_te, preds)
     log_msg(f"\n{'='*60}")
-    log_msg(f"TEST REPORT ({best_model_name} trained on full train 2010-2021):")
+    log_msg(f"TEST REPORT ({best_model_name} trained on full train {TRAIN_LABEL}):")
     for k, v in metrics.items():
         log_msg(f"  {k:25s}: {v:+.4f}" if isinstance(v, float) else f"  {k:25s}: {v}")
 
@@ -448,7 +458,7 @@ def write_report(base, feat_scores, selected_features, model_results, test_metri
     lines.append("MODEL A BASELINE REPORT v3 — Train/Test Split")
     lines.append(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     lines.append(f"Target: {PRIMARY_TARGET}")
-    lines.append(f"Train: 2010–2021 | Test: 2022–2024")
+    lines.append(f"Train: {TRAIN_LABEL.replace('-', '–')} | Test: {TEST_LABEL.replace('-', '–')}")
     lines.append(f"All candidate features ({len(feature_names)}): {', '.join(feature_names)}")
     lines.append(f"Selected features ({len(selected_features)}): {', '.join(selected_features)}")
     lines.append(f"Preprocessing: winsorize 1%/99%, log1p({', '.join(LOG_TRANSFORM)}), median impute, StandardScaler")
@@ -461,7 +471,7 @@ def write_report(base, feat_scores, selected_features, model_results, test_metri
         lines.append(f"{row['feature']:25s} {row['spearman_abs']:11.4f} {row['spearman_p']:10.2e} "
                      f"{row['mi']:8.4f} {row['rf_importance']:8.4f} {row['avg_rank']:9.1f} {sel:>9s}")
 
-    lines.append("\n\n--- CROSS-VALIDATION RESULTS (train 2010-2021) ---")
+    lines.append(f"\n\n--- CROSS-VALIDATION RESULTS (train {TRAIN_LABEL}) ---")
     lines.append(f"{'Model':20s} {'IC':>8s} {'±':>6s} {'Rank IC':>8s} {'±':>6s} {'R²':>8s} {'Dir Acc':>8s} {'Q5-Q1':>8s}")
     ranked = sorted(model_results.items(), key=lambda x: x[1]["avg"]["rank_ic"], reverse=True)
     for name, res in ranked:
@@ -472,7 +482,7 @@ def write_report(base, feat_scores, selected_features, model_results, test_metri
     lines.append(f"\nBest model by avg Rank IC: {best_model}")
 
     if test_metrics:
-        lines.append(f"\n\n--- TEST RESULTS 2022-2024 ({best_model}) ---")
+        lines.append(f"\n\n--- TEST RESULTS {TEST_LABEL} ({best_model}) ---")
         for k, v in test_metrics.items():
             lines.append(f"  {k:25s}: {v:+.4f}" if isinstance(v, float) else f"  {k:25s}: {v}")
 
@@ -483,8 +493,8 @@ def write_report(base, feat_scores, selected_features, model_results, test_metri
     lines.append("- Features standardized (zero mean, unit variance) per fold")
     lines.append("- Sector encoded as one-hot dummies (drop first)")
     lines.append("- Feature selection: top half by avg rank of (Spearman, MI, RF importance) + significant univariates")
-    lines.append("- Time-series expanding window CV on train (2010-2021), no future leakage")
-    lines.append("- Test (2022-2024) evaluated once after model selection")
+    lines.append(f"- Time-series expanding window CV on train ({TRAIN_LABEL}), no future leakage")
+    lines.append(f"- Test ({TEST_LABEL}) evaluated once after model selection")
     lines.append("- This is Model A (no linguistic features). Model B adds tone, hedging, etc.")
 
     report_text = "\n".join(lines)
@@ -499,7 +509,15 @@ def write_report(base, feat_scores, selected_features, model_results, test_metri
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--folder", default=os.path.expanduser("~/earnings_sp500"))
+    parser.add_argument("--start", help="first call date used, YYYY-MM-DD (default: all). Earlier calls still feed history features")
+    parser.add_argument("--end", help="last call date used, YYYY-MM-DD (default: all)")
+    parser.add_argument("--train-end", help="last training call date, YYYY-MM-DD (default 2021-12-31); later calls are the test set")
     args = parser.parse_args()
+    global TRAIN_END, START_DATE, END_DATE, TRAIN_LABEL, TEST_LABEL
+    if args.start or args.end or args.train_end:     # custom window, e.g. --start 2015-01-01 --end 2019-12-31 --train-end 2017-12-31
+        TRAIN_END, START_DATE, END_DATE = args.train_end or TRAIN_END, args.start, args.end
+        TRAIN_LABEL = f"{(args.start or '2010')[:4]}-{TRAIN_END[:4]}"
+        TEST_LABEL = f"{int(TRAIN_END[:4]) + 1}-{(args.end or '2024')[:4]}"
     base = args.folder
 
     log_msg("=" * 60)
@@ -569,7 +587,7 @@ def main():
     save = {
         "version": "v3",
         "best_model": best_model,
-        "split": {"train": "2010-2021", "test": "2022-2024"},
+        "split": {"train": TRAIN_LABEL, "test": TEST_LABEL},
         "all_candidate_features": available,
         "selected_features": selected_features,
         "preprocessing": {
