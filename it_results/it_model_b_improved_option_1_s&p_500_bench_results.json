@@ -1,80 +1,157 @@
 {
   "option": "Option 1 (S&P 500 bench)",
-  "model_a_baseline": {
-    "algo": "ElasticNet",
-    "rank_ic": -0.005951
-  },
-  "winner": {
-    "strategy": "Interactions (no raw ling)",
-    "algo": "ElasticNet",
+  "train_end": "2023-12-31",
+  "method": "time-series CV, ranked target",
+  "model_a": {
     "features": [
+      "sue",
+      "surprise_pct",
       "vol_pre",
       "car_-1_1",
       "mom",
       "bm",
+      "size",
       "dispersion",
       "avg_answer_words",
-      "size",
-      "prior_calls_with_target",
       "words_prepared",
-      "tone\u00d7sue",
-      "tone_chg\u00d7car01",
-      "tone_chg\u00d7sue",
-      "hedge\u00d7vol",
-      "gap\u00d7sue",
-      "tone_prep_chg\u00d7mom",
-      "uncert\u00d7vol",
-      "tone\u00d7size"
+      "words_questions",
+      "words_answers",
+      "n_questions",
+      "n_answers",
+      "n_analysts",
+      "prior_calls_with_target"
+    ],
+    "algo": "EN_strong",
+    "metrics": {
+      "ic": 0.084205,
+      "rank_ic": 0.037908,
+      "r2": -301046302.121714,
+      "rmse": 1457.245741,
+      "direction_accuracy": 0.519608,
+      "quintile_spread": 0.009939
+    },
+    "selection_log": []
+  },
+  "model_b": {
+    "strategy": "Single Best (tone_prepared)",
+    "algo": "RidgeCV",
+    "features": [
+      "sue",
+      "surprise_pct",
+      "vol_pre",
+      "car_-1_1",
+      "mom",
+      "bm",
+      "size",
+      "dispersion",
+      "avg_answer_words",
+      "words_prepared",
+      "words_questions",
+      "words_answers",
+      "n_questions",
+      "n_answers",
+      "n_analysts",
+      "prior_calls_with_target",
+      "tone_prepared"
     ],
     "added_ling": [
-      "tone\u00d7sue",
-      "tone_chg\u00d7car01",
-      "tone_chg\u00d7sue",
-      "hedge\u00d7vol",
-      "gap\u00d7sue",
-      "tone_prep_chg\u00d7mom",
-      "uncert\u00d7vol",
-      "tone\u00d7size"
+      "tone_prepared"
     ],
     "metrics": {
-      "ic": 0.083928,
-      "rank_ic": 0.011045,
-      "r2": 0.006429,
-      "rmse": 0.069036,
-      "direction_accuracy": 0.529984,
-      "quintile_spread": 0.019284
+      "ic": 0.072047,
+      "rank_ic": 0.03739,
+      "r2": -300927781.919276,
+      "rmse": 1456.958858,
+      "direction_accuracy": 0.519608,
+      "quintile_spread": 0.023607
+    }
+  },
+  "model_b_star": {
+    "name": "Model B* (all LM)",
+    "algo": "RidgeCV",
+    "features": [
+      "sue",
+      "surprise_pct",
+      "vol_pre",
+      "car_-1_1",
+      "mom",
+      "bm",
+      "size",
+      "dispersion",
+      "avg_answer_words",
+      "words_prepared",
+      "words_questions",
+      "words_answers",
+      "n_questions",
+      "n_answers",
+      "n_analysts",
+      "prior_calls_with_target",
+      "tone_prepared",
+      "tone_answers",
+      "hedging_prepared",
+      "hedging_answers",
+      "uncertainty_answers",
+      "tone_gap",
+      "tone_prepared_chg",
+      "tone_answers_chg",
+      "hedging_answers_chg"
+    ],
+    "added_ling": [
+      "tone_prepared",
+      "tone_answers",
+      "hedging_prepared",
+      "hedging_answers",
+      "uncertainty_answers",
+      "tone_gap",
+      "tone_prepared_chg",
+      "tone_answers_chg",
+      "hedging_answers_chg"
+    ],
+    "metrics": {
+      "ic": 0.008852,
+      "rank_ic": -0.040065,
+      "r2": -299484118.239996,
+      "rmse": 1453.459867,
+      "direction_accuracy": 0.519608,
+      "quintile_spread": 0.008798
     }
   },
   "all_strategies": [
     {
       "name": "Forward Selection",
-      "algo": "ElasticNet",
-      "rank_ic": -0.016104,
-      "quintile_spread": -0.00102
+      "algo": "RidgeCV",
+      "rank_ic": -0.018403,
+      "quintile_spread": 0.016101
     },
     {
       "name": "Interactions (no raw ling)",
-      "algo": "ElasticNet",
-      "rank_ic": 0.011045,
-      "quintile_spread": 0.019284
+      "algo": "EN_strong",
+      "rank_ic": -0.021138,
+      "quintile_spread": 0.016226
     },
     {
       "name": "Residualized Tone",
-      "algo": "ElasticNet",
-      "rank_ic": -0.017,
-      "quintile_spread": 0.003847
+      "algo": "RidgeCV",
+      "rank_ic": -0.009981,
+      "quintile_spread": 0.004693
     },
     {
-      "name": "Strong Regularization",
-      "algo": "EN_a0.005",
-      "rank_ic": 0.005562,
-      "quintile_spread": 0.012478
+      "name": "All Ling + RidgeCV",
+      "algo": "RidgeCV",
+      "rank_ic": -0.02735,
+      "quintile_spread": 0.013411
     },
     {
       "name": "PCA(3) Linguistic",
-      "algo": "ElasticNet",
-      "rank_ic": -0.023144,
-      "quintile_spread": -0.000843
+      "algo": "RidgeCV",
+      "rank_ic": 0.013113,
+      "quintile_spread": 0.018472
+    },
+    {
+      "name": "Single Best (tone_prepared)",
+      "algo": "RidgeCV",
+      "rank_ic": 0.03739,
+      "quintile_spread": 0.023607
     }
   ]
 }

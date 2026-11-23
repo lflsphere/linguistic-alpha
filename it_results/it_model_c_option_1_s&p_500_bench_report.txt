@@ -1,52 +1,54 @@
 ======================================================================
 IT Sector — Model C (FinBERT) — Option 1 (S&P 500 bench)
-Generated: 2026-11-20 08:16
-Train: 2,479 | Test: 617
+Generated: 2026-11-20 21:11
+Train: 2,892 (≤2023-12-31) | Test: 204 (>2023-12-31)
 FinBERT coverage: 3558/3561 (99.9%)
-Model A baseline: Rank IC=+0.0135 (Lasso)
+Model A baseline (16 feats): Rank IC=+0.0379 (EN_strong)
+Method: Time-series CV, ranked target, min Δ=0.0
 ======================================================================
 
-Model C (FinBERT forward selection)           Lasso                Rank IC=+0.0135 Q5-Q1=+0.0170 Delta=+0.0000
-  FinBERT features: fb_sent_answers, fb_sent_prepared_chg
+Model C (FinBERT forward sel)                 RidgeCV              Rank IC=+0.0406 Q5-Q1=+0.0221 Δ=+0.0027
+  FinBERT features: fb_n_sent_prepared
   All algorithms:
-    Lasso                     Rank IC=+0.0135  IC=+0.0773  Q5-Q1=+0.0170  Dir Acc=0.548
-    ElasticNet                Rank IC=-0.0039  IC=+0.0631  Q5-Q1=+0.0128  Dir Acc=0.543
-    Ridge                     Rank IC=-0.0297  IC=+0.0312  Q5-Q1=+0.0074  Dir Acc=0.535
-    OLS                       Rank IC=-0.0297  IC=+0.0312  Q5-Q1=+0.0074  Dir Acc=0.535
-    ExtraTrees                Rank IC=-0.0400  IC=+0.0060  Q5-Q1=+0.0049  Dir Acc=0.549
-    RandomForest              Rank IC=-0.0624  IC=-0.0348  Q5-Q1=+0.0006  Dir Acc=0.527
-    XGBoost                   Rank IC=-0.0993  IC=-0.0998  Q5-Q1=-0.0150  Dir Acc=0.515
-    GradientBoosting          Rank IC=-0.1061  IC=-0.1220  Q5-Q1=-0.0217  Dir Acc=0.501
+    RidgeCV                   Rank IC=+0.0406  Q5-Q1=+0.0221  Dir Acc=0.520
+    EN_strong                 Rank IC=+0.0404  Q5-Q1=+0.0202  Dir Acc=0.520
+    Ridge                     Rank IC=+0.0401  Q5-Q1=+0.0167  Dir Acc=0.520
+    ElasticNet                Rank IC=+0.0398  Q5-Q1=+0.0167  Dir Acc=0.520
+    Ridge_a5                  Rank IC=+0.0397  Q5-Q1=+0.0167  Dir Acc=0.520
+    Ridge_a10                 Rank IC=+0.0396  Q5-Q1=+0.0167  Dir Acc=0.520
 
-Model C* (All FinBERT forced)                 Lasso                Rank IC=+0.0169 Q5-Q1=+0.0203 Delta=+0.0034
+Model C* (All FinBERT forced)                 EN_a0.1              Rank IC=+0.0424 Q5-Q1=-0.0051 Δ=+0.0045
   FinBERT features: fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg, fb_n_sent_prepared, fb_n_sent_answers
   All algorithms:
-    Lasso                     Rank IC=+0.0169  IC=+0.0753  Q5-Q1=+0.0203  Dir Acc=0.548
-    EN_a0.005                 Rank IC=+0.0056  IC=+0.0696  Q5-Q1=+0.0125  Dir Acc=0.548
-    ElasticNet                Rank IC=-0.0159  IC=+0.0486  Q5-Q1=+0.0153  Dir Acc=0.548
-    OLS                       Rank IC=-0.0487  IC=+0.0154  Q5-Q1=+0.0057  Dir Acc=0.540
-    Ridge                     Rank IC=-0.0496  IC=+0.0152  Q5-Q1=+0.0057  Dir Acc=0.540
-    Ridge_a5                  Rank IC=-0.0510  IC=+0.0148  Q5-Q1=+0.0064  Dir Acc=0.546
-    ExtraTrees                Rank IC=-0.0527  IC=-0.0087  Q5-Q1=-0.0038  Dir Acc=0.548
-    Ridge_a10                 Rank IC=-0.0528  IC=+0.0145  Q5-Q1=+0.0058  Dir Acc=0.549
-    Ridge_a50                 Rank IC=-0.0530  IC=+0.0145  Q5-Q1=+0.0063  Dir Acc=0.548
-    GradientBoosting          Rank IC=-0.0948  IC=-0.1302  Q5-Q1=-0.0192  Dir Acc=0.504
-    RandomForest              Rank IC=-0.1043  IC=-0.0516  Q5-Q1=-0.0114  Dir Acc=0.541
-    XGBoost                   Rank IC=-0.1141  IC=-0.1097  Q5-Q1=-0.0268  Dir Acc=0.481
-    EN_a0.01                  Rank IC=+nan  IC=+nan  Q5-Q1=+nan  Dir Acc=0.548
-    EN_a0.05                  Rank IC=+nan  IC=+nan  Q5-Q1=+nan  Dir Acc=0.548
-    EN_a0.1_l0.9              Rank IC=+nan  IC=+nan  Q5-Q1=+nan  Dir Acc=0.548
+    EN_a0.1                   Rank IC=+0.0424  Q5-Q1=-0.0051  Dir Acc=0.520
+    RidgeCV                   Rank IC=+0.0421  Q5-Q1=+0.0013  Dir Acc=0.520
+    Ridge_a100                Rank IC=+0.0421  Q5-Q1=+0.0013  Dir Acc=0.520
+    EN_strong                 Rank IC=+0.0410  Q5-Q1=-0.0044  Dir Acc=0.520
+    Ridge_a50                 Rank IC=+0.0408  Q5-Q1=-0.0069  Dir Acc=0.520
+    ElasticNet                Rank IC=+0.0396  Q5-Q1=-0.0047  Dir Acc=0.520
+
+FinBERT Ensemble (11)                         Ensemble             Rank IC=+0.0483 Q5-Q1=+0.0320 Δ=+0.0104
+  FinBERT features: fb_sent_std_answers, fb_pos_pct_answers, fb_sent_answers, fb_sent_prepared_chg, fb_sent_gap, fb_n_sent_prepared, fb_n_sent_answers, fb_neg_pct_prepared, fb_sent_std_prepared, fb_sent_answers_chg, fb_neg_pct_answers
+
+FinBERT + LM Combined                         GradientBoosting     Rank IC=+0.0360 Q5-Q1=-0.0005 Δ=-0.0019
+  FinBERT features: fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg, fb_n_sent_prepared, fb_n_sent_answers, tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
+  All algorithms:
+    GradientBoosting          Rank IC=+0.0360  Q5-Q1=-0.0005  Dir Acc=0.520
+    RidgeCV                   Rank IC=-0.0157  Q5-Q1=+0.0082  Dir Acc=0.520
+    Ridge_a100                Rank IC=-0.0157  Q5-Q1=+0.0082  Dir Acc=0.520
+    Ridge_a50                 Rank IC=-0.0230  Q5-Q1=+0.0173  Dir Acc=0.520
+    EN_strong                 Rank IC=-0.0232  Q5-Q1=+0.0173  Dir Acc=0.520
+    RandomForest              Rank IC=-0.0269  Q5-Q1=-0.0050  Dir Acc=0.520
 
 --- FORWARD SELECTION LOG ---
- Step Added                               Rank IC      Delta
-    0 (baseline)                          +0.0677    +0.0000
-    1 fb_sent_answers                     +0.0812    +0.0134
-    2 fb_sent_prepared_chg                +0.0826    +0.0014
+ Step Added                           TS-CV Rank IC      Delta
+    0 (baseline)                            +0.0073    +0.0000
+    1 fb_n_sent_prepared                    +0.0186    +0.0113
 
-Winner: Model C* (All FinBERT forced)
-  Algo: Lasso
-  Features (22): vol_pre, car_-1_1, mom, bm, dispersion, avg_answer_words, size, prior_calls_with_target, words_prepared, fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg, fb_n_sent_prepared, fb_n_sent_answers
-  Rank IC: +0.0169
-  Q5-Q1: +0.0203
-  IC: +0.0753
-  Dir Acc: 0.548
+Best Model C: FinBERT Ensemble (11)
+  Algo: Ensemble
+  Features: fb_sent_std_answers, fb_pos_pct_answers, fb_sent_answers, fb_sent_prepared_chg, fb_sent_gap, fb_n_sent_prepared, fb_n_sent_answers, fb_neg_pct_prepared, fb_sent_std_prepared, fb_sent_answers_chg, fb_neg_pct_answers
+  Rank IC: +0.0483
+  Q5-Q1: +0.0320
+  IC: +0.0780
+  Dir Acc: 0.520

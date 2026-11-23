@@ -208,35 +208,34 @@ def main():
         it_cars[name] = np.where((n >= 0.8 * (b - a + 1)) | g, s, np.nan)
         log(f"    {name}: {np.sum(~np.isnan(it_cars[name])):,} valid")
 
-    # Build CAR map from panel_it
-    car_map = panel_it[["keydevid"]].copy()
+    # Build CAR + day0 map from panel_it
+    car_map = panel_it[["keydevid", "day0"]].copy()
+    car_map = car_map.rename(columns={"day0": "day0_new"})
     for name in mkt_cars:
         car_map[f"{name}_mkt"] = mkt_cars[name]
     for name in it_cars:
         car_map[f"{name}_it"] = it_cars[name]
 
-    # --- OPTION 1: Replace old CARs with recomputed market-benchmarked CARs ---
-    opt1 = it.copy()
-    # Drop old CAR columns (may still have car_0_1 from unregenerated model_table)
-    old_car_cols = [c for c in opt1.columns if c.startswith("car_")]
-    opt1 = opt1.drop(columns=old_car_cols)
-    opt1 = opt1.merge(car_map[["keydevid"] + [f"{n}_mkt" for n in mkt_cars]], on="keydevid", how="left")
-    for name in mkt_cars:
-        opt1[name] = opt1[f"{name}_mkt"]
-        opt1 = opt1.drop(columns=f"{name}_mkt")
+    def replace_cars_and_day0(base_df, car_dict, suffix):
+        out = base_df.copy()
+        old_car_cols = [c for c in out.columns if c.startswith("car_")]
+        out = out.drop(columns=old_car_cols)
+        merge_cols = ["keydevid", "day0_new"] + [f"{n}_{suffix}" for n in car_dict]
+        out = out.merge(car_map[merge_cols], on="keydevid", how="left")
+        out["day0"] = out["day0_new"]
+        out = out.drop(columns="day0_new")
+        for name in car_dict:
+            out[name] = out[f"{name}_{suffix}"]
+            out = out.drop(columns=f"{name}_{suffix}")
+        return out
 
+    # --- OPTION 1: Replace old CARs + day0 with recomputed values ---
+    opt1 = replace_cars_and_day0(it, mkt_cars, "mkt")
     opt1.to_parquet(f"{OUT}/model_table_opt1.parquet", index=False)
     log(f"saved Option 1 (S&P 500 bench, recomputed with corrected day0): {OUT}/model_table_opt1.parquet")
 
-    # --- OPTION 2: Replace old CARs with IT-benchmarked CARs ---
-    opt2 = it.copy()
-    old_car_cols = [c for c in opt2.columns if c.startswith("car_")]
-    opt2 = opt2.drop(columns=old_car_cols)
-    opt2 = opt2.merge(car_map[["keydevid"] + [f"{n}_it" for n in it_cars]], on="keydevid", how="left")
-    for name in it_cars:
-        opt2[name] = opt2[f"{name}_it"]
-        opt2 = opt2.drop(columns=f"{name}_it")
-
+    # --- OPTION 2: Replace old CARs + day0 with IT-benchmarked values ---
+    opt2 = replace_cars_and_day0(it, it_cars, "it")
     opt2.to_parquet(f"{OUT}/model_table_opt2.parquet", index=False)
     log(f"saved Option 2 (IT-benchmarked CARs): {OUT}/model_table_opt2.parquet")
 

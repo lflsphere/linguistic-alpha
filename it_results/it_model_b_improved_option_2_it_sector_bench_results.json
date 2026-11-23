@@ -1,69 +1,145 @@
 {
   "option": "Option 2 (IT sector bench)",
-  "model_a_baseline": {
-    "algo": "Ridge",
-    "rank_ic": 0.03962
-  },
-  "winner": {
-    "strategy": "Forward Selection",
-    "algo": "ElasticNet",
+  "train_end": "2023-12-31",
+  "method": "time-series CV, ranked target",
+  "model_a": {
     "features": [
+      "sue",
+      "surprise_pct",
       "vol_pre",
-      "prior_calls_with_target",
-      "avg_answer_words",
+      "car_-1_1",
+      "mom",
+      "bm",
       "size",
       "dispersion",
+      "avg_answer_words",
+      "words_prepared",
       "words_questions",
-      "car_-1_1",
+      "words_answers",
       "n_questions",
-      "mom",
       "n_answers",
-      "tone_gap",
-      "tone_answers_chg"
+      "n_analysts",
+      "prior_calls_with_target"
+    ],
+    "algo": "RidgeCV",
+    "metrics": {
+      "ic": 0.115157,
+      "rank_ic": 0.068199,
+      "r2": -275402959.700057,
+      "rmse": 1417.046531,
+      "direction_accuracy": 0.382353,
+      "quintile_spread": 0.014034
+    },
+    "selection_log": []
+  },
+  "model_b": {
+    "strategy": "Single-Feature Ensemble",
+    "algo": "Ensemble",
+    "features": [
+      "ensemble(hedging_answers,uncertainty_answers,tone_prepared_chg,tone_prepared,tone_answers_chg)"
     ],
     "added_ling": [
-      "tone_gap",
+      "hedging_answers",
+      "uncertainty_answers",
+      "tone_prepared_chg",
+      "tone_prepared",
       "tone_answers_chg"
     ],
     "metrics": {
-      "ic": 0.067221,
-      "rank_ic": 0.027582,
-      "r2": 0.003742,
-      "rmse": 0.071165,
-      "direction_accuracy": 0.559157,
-      "quintile_spread": 0.008458
+      "ic": 0.116583,
+      "rank_ic": 0.069162,
+      "r2": -275185488.363756,
+      "rmse": 1416.486937,
+      "direction_accuracy": 0.382353,
+      "quintile_spread": 0.012045
+    }
+  },
+  "model_b_star": {
+    "name": "Model B* (all LM)",
+    "algo": "RidgeCV",
+    "features": [
+      "sue",
+      "surprise_pct",
+      "vol_pre",
+      "car_-1_1",
+      "mom",
+      "bm",
+      "size",
+      "dispersion",
+      "avg_answer_words",
+      "words_prepared",
+      "words_questions",
+      "words_answers",
+      "n_questions",
+      "n_answers",
+      "n_analysts",
+      "prior_calls_with_target",
+      "tone_prepared",
+      "tone_answers",
+      "hedging_prepared",
+      "hedging_answers",
+      "uncertainty_answers",
+      "tone_gap",
+      "tone_prepared_chg",
+      "tone_answers_chg",
+      "hedging_answers_chg"
+    ],
+    "added_ling": [
+      "tone_prepared",
+      "tone_answers",
+      "hedging_prepared",
+      "hedging_answers",
+      "uncertainty_answers",
+      "tone_gap",
+      "tone_prepared_chg",
+      "tone_answers_chg",
+      "hedging_answers_chg"
+    ],
+    "metrics": {
+      "ic": 0.058894,
+      "rank_ic": 0.040069,
+      "r2": -274492116.423208,
+      "rmse": 1414.701283,
+      "direction_accuracy": 0.382353,
+      "quintile_spread": 0.00075
     }
   },
   "all_strategies": [
     {
       "name": "Forward Selection",
-      "algo": "ElasticNet",
-      "rank_ic": 0.027582,
-      "quintile_spread": 0.008458
+      "algo": "RidgeCV",
+      "rank_ic": 0.051803,
+      "quintile_spread": 0.015428
     },
     {
       "name": "Interactions (no raw ling)",
-      "algo": "ElasticNet",
-      "rank_ic": 0.010233,
-      "quintile_spread": 0.009269
+      "algo": "EN_strong",
+      "rank_ic": 0.013964,
+      "quintile_spread": 0.014281
     },
     {
       "name": "Residualized Tone",
-      "algo": "Ridge",
-      "rank_ic": 0.012011,
-      "quintile_spread": 0.000694
+      "algo": "EN_strong",
+      "rank_ic": 0.059205,
+      "quintile_spread": 0.015151
     },
     {
-      "name": "Strong Regularization",
-      "algo": "Ridge_a50",
-      "rank_ic": 0.005036,
-      "quintile_spread": -4.2e-05
+      "name": "All Ling + RidgeCV",
+      "algo": "Ridge_a100",
+      "rank_ic": 0.040069,
+      "quintile_spread": 0.00075
     },
     {
-      "name": "PCA(3) Linguistic",
-      "algo": "ElasticNet",
-      "rank_ic": 0.025521,
-      "quintile_spread": 0.002044
+      "name": "PCA(2) Linguistic",
+      "algo": "RidgeCV",
+      "rank_ic": 0.0649,
+      "quintile_spread": 0.010128
+    },
+    {
+      "name": "Single-Feature Ensemble",
+      "algo": "Ensemble",
+      "rank_ic": 0.069162,
+      "quintile_spread": 0.012045
     }
   ]
 }

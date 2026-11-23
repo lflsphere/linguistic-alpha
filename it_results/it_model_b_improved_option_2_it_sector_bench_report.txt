@@ -1,29 +1,59 @@
 ======================================================================
-IT Sector — Model B Improved — Option 2 (IT sector bench)
-Generated: 2026-11-20 08:08
-Train: 2,479 | Test: 617
-Model A baseline: Rank IC=+0.0396 (Ridge)
+IT Sector — Model A + B — Option 2 (IT sector bench)
+Generated: 2026-11-23 20:58
+Train: 2,892 (≤2023-12-31) | Test: 204 (>2023-12-31)
+Method: Time-series CV, ranked target, min Δ=0.0
 ======================================================================
 
-Forward Selection                   ElasticNet           Rank IC=+0.0276 Q5-Q1=+0.0085 Δ=-0.0120
-  features: tone_gap, tone_answers_chg
+--- MODEL A: All Controls (no selection) ---
+Features (16): sue, surprise_pct, vol_pre, car_-1_1, mom, bm, size, dispersion, avg_answer_words, words_prepared, words_questions, words_answers, n_questions, n_answers, n_analysts, prior_calls_with_target
+Holdout Rank IC=+0.0682 (RidgeCV)
 
-Interactions (no raw ling)          ElasticNet           Rank IC=+0.0102 Q5-Q1=+0.0093 Δ=-0.0294
+--- MODEL B STRATEGIES ---
+Forward Selection                   RidgeCV              Rank IC=+0.0518 Q5-Q1=+0.0154 Δ=-0.0164
+  features: tone_answers, hedging_prepared, tone_answers_chg, tone_prepared
+
+Interactions (no raw ling)          EN_strong            Rank IC=+0.0140 Q5-Q1=+0.0143 Δ=-0.0542
   features: tone×sue, tone_chg×car01, tone_chg×sue, hedge×vol, gap×sue, tone_prep_chg×mom, uncert×vol, tone×size
 
-Residualized Tone                   Ridge                Rank IC=+0.0120 Q5-Q1=+0.0007 Δ=-0.0276
+Residualized Tone                   EN_strong            Rank IC=+0.0592 Q5-Q1=+0.0152 Δ=-0.0090
   features: tone_answers_resid, tone_prepared_resid, tone_answers_chg_resid, tone_prepared_chg_resid
 
-Strong Regularization               Ridge_a50            Rank IC=+0.0050 Q5-Q1=-0.0000 Δ=-0.0346
+All Ling + RidgeCV                  Ridge_a100           Rank IC=+0.0401 Q5-Q1=+0.0007 Δ=-0.0281
   features: tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
 
-PCA(3) Linguistic                   ElasticNet           Rank IC=+0.0255 Q5-Q1=+0.0020 Δ=-0.0141
-  features: ling_pc1, ling_pc2, ling_pc3
+PCA(2) Linguistic                   RidgeCV              Rank IC=+0.0649 Q5-Q1=+0.0101 Δ=-0.0033
+  features: ling_pc1, ling_pc2
 
-Winner: Forward Selection
-  Algo: ElasticNet
-  Features (12): vol_pre, prior_calls_with_target, avg_answer_words, size, dispersion, words_questions, car_-1_1, n_questions, mom, n_answers, tone_gap, tone_answers_chg
-  Rank IC: +0.0276
-  Q5-Q1: +0.0085
-  IC: +0.0672
-  Dir Acc: 0.559
+Single-Feature Ensemble             Ensemble             Rank IC=+0.0692 Q5-Q1=+0.0120 Δ=+0.0010
+  features: hedging_answers, uncertainty_answers, tone_prepared_chg, tone_prepared, tone_answers_chg
+
+--- FORWARD SELECTION LOG ---
+ Step Added                           TS-CV Rank IC      Delta
+    0 (baseline)                            -0.0171    +0.0000
+    1 tone_answers                          -0.0027    +0.0144
+    2 hedging_prepared                      +0.0067    +0.0094
+    3 tone_answers_chg                      +0.0101    +0.0034
+    4 tone_prepared                         +0.0144    +0.0043
+
+Model B (best strategy): Single-Feature Ensemble
+  Algo: Ensemble
+  Features (1): ensemble(hedging_answers,uncertainty_answers,tone_prepared_chg,tone_prepared,tone_answers_chg)
+  Rank IC: +0.0692
+  Q5-Q1: +0.0120
+  IC: +0.1166
+  Dir Acc: 0.382
+
+--- MODEL B*: All LM Features (Ridge regularised) ---
+LM features (9): tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
+Algo: RidgeCV
+Holdout Rank IC=+0.0401  Q5-Q1=+0.0007  Δ=-0.0281
+All algorithms:
+  RidgeCV             : Rank IC=+0.0401  Q5-Q1=+0.0007
+  Ridge_a100          : Rank IC=+0.0401  Q5-Q1=+0.0007
+  EN_strong           : Rank IC=+0.0375  Q5-Q1=+0.0029
+  Ridge_a50           : Rank IC=+0.0374  Q5-Q1=+0.0029
+  Ridge_a10           : Rank IC=+0.0362  Q5-Q1=+0.0029
+  ElasticNet          : Rank IC=+0.0356  Q5-Q1=+0.0029
+  Ridge_a5            : Rank IC=+0.0355  Q5-Q1=+0.0002
+  Ridge               : Rank IC=+0.0332  Q5-Q1=+0.0002
