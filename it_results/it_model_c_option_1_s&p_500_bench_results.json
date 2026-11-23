@@ -1,88 +1,174 @@
 {
   "option": "Option 1 (S&P 500 bench)",
+  "train_end": "2023-12-31",
+  "method": "time-series CV, ranked target",
   "model_a_baseline": {
-    "algo": "Lasso",
-    "rank_ic": 0.062126
-  },
-  "model_c_forward_selection": {
-    "algo": "Lasso",
+    "algo": "EN_strong",
+    "rank_ic": 0.037908,
     "features": [
+      "sue",
+      "surprise_pct",
       "vol_pre",
       "car_-1_1",
       "mom",
       "bm",
+      "size",
       "dispersion",
       "avg_answer_words",
-      "size",
-      "prior_calls_with_target",
-      "words_prepared"
-    ],
-    "added_finbert": [],
-    "metrics": {
-      "ic": 0.106251,
-      "rank_ic": 0.062126,
-      "r2": 0.004737,
-      "rmse": 0.068356,
-      "direction_accuracy": 0.551053,
-      "quintile_spread": 0.018616
-    },
-    "selection_log": [
-      {
-        "step": 0,
-        "added": null,
-        "rank_ic": 0.06212619737632997,
-        "improvement": 0.0
-      }
+      "words_prepared",
+      "words_questions",
+      "words_answers",
+      "n_questions",
+      "n_answers",
+      "n_analysts",
+      "prior_calls_with_target"
     ]
   },
-  "model_c_star_all_forced": {
-    "algo": "Lasso",
-    "features": [
-      "vol_pre",
-      "car_-1_1",
-      "mom",
-      "bm",
-      "dispersion",
-      "avg_answer_words",
-      "size",
-      "prior_calls_with_target",
-      "words_prepared",
-      "fb_sent_prepared",
-      "fb_sent_answers",
-      "fb_pos_pct_prepared",
-      "fb_neg_pct_prepared",
-      "fb_pos_pct_answers",
-      "fb_neg_pct_answers",
-      "fb_sent_std_prepared",
-      "fb_sent_std_answers",
-      "fb_sent_gap",
-      "fb_sent_prepared_chg",
-      "fb_sent_answers_chg",
-      "fb_n_sent_prepared",
-      "fb_n_sent_answers"
-    ],
+  "strategies": [
+    {
+      "name": "Model C (FinBERT forward sel)",
+      "algo": "RidgeCV",
+      "added_finbert": [
+        "fb_n_sent_prepared"
+      ],
+      "metrics": {
+        "ic": 0.088651,
+        "rank_ic": 0.040575,
+        "r2": -300805913.455695,
+        "rmse": 1456.663812,
+        "direction_accuracy": 0.519608,
+        "quintile_spread": 0.022083
+      },
+      "selection_log": [
+        {
+          "step": 0,
+          "added": null,
+          "cv_rank_ic": 0.007275613825873966,
+          "improvement": 0.0
+        },
+        {
+          "step": 1,
+          "added": "fb_n_sent_prepared",
+          "cv_rank_ic": 0.018599338360228593,
+          "improvement": 0.011323724534354627
+        }
+      ]
+    },
+    {
+      "name": "Model C* (All FinBERT forced)",
+      "algo": "EN_a0.1",
+      "added_finbert": [
+        "fb_sent_prepared",
+        "fb_sent_answers",
+        "fb_pos_pct_prepared",
+        "fb_neg_pct_prepared",
+        "fb_pos_pct_answers",
+        "fb_neg_pct_answers",
+        "fb_sent_std_prepared",
+        "fb_sent_std_answers",
+        "fb_sent_gap",
+        "fb_sent_prepared_chg",
+        "fb_sent_answers_chg",
+        "fb_n_sent_prepared",
+        "fb_n_sent_answers"
+      ],
+      "metrics": {
+        "ic": 0.087579,
+        "rank_ic": 0.042365,
+        "r2": -298302785.063327,
+        "rmse": 1450.590405,
+        "direction_accuracy": 0.519608,
+        "quintile_spread": -0.005075
+      },
+      "selection_log": null
+    },
+    {
+      "name": "FinBERT Ensemble (11)",
+      "algo": "Ensemble",
+      "added_finbert": [
+        "fb_sent_std_answers",
+        "fb_pos_pct_answers",
+        "fb_sent_answers",
+        "fb_sent_prepared_chg",
+        "fb_sent_gap",
+        "fb_n_sent_prepared",
+        "fb_n_sent_answers",
+        "fb_neg_pct_prepared",
+        "fb_sent_std_prepared",
+        "fb_sent_answers_chg",
+        "fb_neg_pct_answers"
+      ],
+      "metrics": {
+        "ic": 0.077994,
+        "rank_ic": 0.048345,
+        "r2": -299147688.144493,
+        "rmse": 1452.643255,
+        "direction_accuracy": 0.519608,
+        "quintile_spread": 0.031993
+      },
+      "selection_log": null
+    },
+    {
+      "name": "FinBERT + LM Combined",
+      "algo": "GradientBoosting",
+      "added_finbert": [
+        "fb_sent_prepared",
+        "fb_sent_answers",
+        "fb_pos_pct_prepared",
+        "fb_neg_pct_prepared",
+        "fb_pos_pct_answers",
+        "fb_neg_pct_answers",
+        "fb_sent_std_prepared",
+        "fb_sent_std_answers",
+        "fb_sent_gap",
+        "fb_sent_prepared_chg",
+        "fb_sent_answers_chg",
+        "fb_n_sent_prepared",
+        "fb_n_sent_answers",
+        "tone_prepared",
+        "tone_answers",
+        "hedging_prepared",
+        "hedging_answers",
+        "uncertainty_answers",
+        "tone_gap",
+        "tone_prepared_chg",
+        "tone_answers_chg",
+        "hedging_answers_chg"
+      ],
+      "metrics": {
+        "ic": -0.024987,
+        "rank_ic": 0.036045,
+        "r2": -299620959.148651,
+        "rmse": 1453.791888,
+        "direction_accuracy": 0.519608,
+        "quintile_spread": -0.000548
+      },
+      "selection_log": null
+    }
+  ],
+  "best": {
+    "name": "FinBERT Ensemble (11)",
+    "algo": "Ensemble",
     "added_finbert": [
-      "fb_sent_prepared",
-      "fb_sent_answers",
-      "fb_pos_pct_prepared",
-      "fb_neg_pct_prepared",
-      "fb_pos_pct_answers",
-      "fb_neg_pct_answers",
-      "fb_sent_std_prepared",
       "fb_sent_std_answers",
-      "fb_sent_gap",
+      "fb_pos_pct_answers",
+      "fb_sent_answers",
       "fb_sent_prepared_chg",
-      "fb_sent_answers_chg",
+      "fb_sent_gap",
       "fb_n_sent_prepared",
-      "fb_n_sent_answers"
+      "fb_n_sent_answers",
+      "fb_neg_pct_prepared",
+      "fb_sent_std_prepared",
+      "fb_sent_answers_chg",
+      "fb_neg_pct_answers"
     ],
     "metrics": {
-      "ic": 0.102445,
-      "rank_ic": 0.061463,
-      "r2": 0.004679,
-      "rmse": 0.068358,
-      "direction_accuracy": 0.547812,
-      "quintile_spread": 0.021668
+      "ic": 0.077994,
+      "rank_ic": 0.048345,
+      "r2": -299147688.144493,
+      "rmse": 1452.643255,
+      "direction_accuracy": 0.519608,
+      "quintile_spread": 0.031993
     }
   }
 }
