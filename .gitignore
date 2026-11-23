@@ -219,6 +219,17 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
+# --- Project data: WRDS-licensed, never commit ---
+# --- Project data: WRDS-licensed, never commit ---
+data/panel.csv
+!data/**/
+!data/raw/sp500_pit
+!data/**/.gitkeep
+*.parquet
+*.xlsx
+!tests/fixtures/*.csv
+wrds_access_report.csv
+
 # --- Credentials: never commit ---
 .pgpass
 
