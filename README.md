@@ -48,22 +48,16 @@ All models use GradientBoosting (best by Rank IC). Train 2010–2021 (expanding-
 | [`model_table.csv`](model_table.csv) | One row per call (45 cols): IDs, sector, Day 0, CAR targets, controls, sample split (no linguistic) |
 | [`model_table_with_linguistic.csv`](model_table_with_linguistic.csv) | Full table (54 cols): everything in model_table + LM tone, hedging, uncertainty, deltas |
 | [`data_report.txt`](data_report.txt) | Summary statistics, coverage by year, missing values, validation checks |
-| [`model_a_baseline.py`](model_a_baseline.py) | Model A script: preprocessing, feature selection, 8-model comparison |
 | [`model_a_report.txt`](model_a_report.txt) | Model A baseline report: preprocessing, feature selection, CV and test results |
 | [`model_a_results.json`](model_a_results.json) | Machine-readable Model A results (metrics, selected features, config) |
-| [`model_b_linguistic.py`](model_b_linguistic.py) | Model B script: Model A controls + linguistic features, 8-model comparison |
 | [`model_b_report.txt`](model_b_report.txt) | Model B report: feature selection, CV results, A vs B comparison |
 | [`model_b_results.json`](model_b_results.json) | Machine-readable Model B results |
-| [`model_b_all_linguistic.py`](model_b_all_linguistic.py) | Model B* script: all 20 features forced, no selection |
 | [`model_b_all_report.txt`](model_b_all_report.txt) | Model B* report: all-features CV results, 3-way comparison |
 | [`model_b_all_results.json`](model_b_all_results.json) | Machine-readable Model B* results |
-| [`finbert_features.py`](finbert_features.py) | FinBERT extraction: sentence-level sentiment scoring (ProsusAI/finbert on GPU) |
-| [`model_c_finbert.py`](model_c_finbert.py) | Model C/C* script: forward selection of FinBERT features over Model A controls |
 | [`model_c_report.txt`](model_c_report.txt) | Model C report: forward selection log, CV and test results |
 | [`model_c_results.json`](model_c_results.json) | Machine-readable Model C results |
 | [`model_c_all_report.txt`](model_c_all_report.txt) | Model C* report: all 13 FinBERT features forced |
 | [`model_c_all_results.json`](model_c_all_results.json) | Machine-readable Model C* results |
-| [`model_b_forward.py`](model_b_forward.py) | Model B** script: forward selection of LM features over Model A controls |
 | [`model_b_forward_report.txt`](model_b_forward_report.txt) | Model B** report: forward selection log, test results |
 | [`model_b_forward_results.json`](model_b_forward_results.json) | Machine-readable Model B** results |
 | [`sp500_pipeline.py`](sp500_pipeline.py) | Main pipeline: PULL → PANEL → TARGETS → TEXT → FINAL |
@@ -187,44 +181,37 @@ Calls that fail any inner join are dropped — primarily firms not in the S&P 50
 ### How to run
 
 ```bash
-# On a GCP VM (e2-standard-8, 32GB RAM, Ubuntu 22.04)
+# Step 0: Extract SP500 data (GCP VM, e2-standard-8, 32GB RAM; interactive WRDS login, Duo required)
 pip install -r requirements.txt
-python sp500_pipeline.py          # interactive WRDS login (Duo required)
-python sp500_pipeline.py --stages panel targets text final   # rebuild from cached raw data
-python model_a_baseline.py        # Model A
-python model_b_linguistic.py      # Model B
-python model_b_all_linguistic.py  # Model B*
+python3 sp500_pipeline.py
+python3 sp500_pipeline.py --stages panel targets text final   # rebuild from cached raw data
+
+# Step 1: Extract IT subsample and compute sector benchmark
+python3 it_sector_extract.py --folder ~/earnings_sp500
+
+# Step 2: Run Model A + Model B (6 strategies + B*)
+python3 it_model_b.py --folder ~/earnings_it
+
+# Step 3: Extract FinBERT features (requires GPU VM)
+python3 it_finbert_features.py --folder ~/earnings_it --text_folder ~/earnings_sp500/text
+
+# Step 4: Run Model C (FinBERT strategies)
+python3 it_model_c_finbert.py --folder ~/earnings_it
 ```
 
-#### Reproducing Model C / C* (FinBERT)
+| Script | Purpose |
+|--------|---------|
+| [`sp500_pipeline.py`](sp500_pipeline.py) | PULL → PANEL → TARGETS → TEXT → FINAL for the full S&P 500 |
+| [`it_sector_extract.py`](it_sector_extract.py) | IT subsample (GICS 45) and IT sector benchmark |
+| [`it_model_b.py`](it_model_b.py) | Model A + Model B (6 strategies + B*) |
+| [`it_finbert_features.py`](it_finbert_features.py) | FinBERT sentence-level features (GPU, ProsusAI/finbert) |
+| [`it_model_c_finbert.py`](it_model_c_finbert.py) | Model C (FinBERT strategies) |
 
-Model C requires a GPU to score ~2.7M sentences through FinBERT in a reasonable time (~14 hours on a T4, ~220 sentences/sec). The pipeline produces text files that FinBERT reads; FinBERT output is then merged with `model_table.parquet` for model training.
+The scripts that produced the full-S&P 500 Model A/B/C results below (Model A, B, B*, B**, C/C*, and the original FinBERT extraction) are archived in [`old_models/`](old_models/). Their reports and JSON outputs remain in the repo root.
 
-**Step 1 — Generate text files** (CPU VM, done by [`sp500_pipeline.py`](sp500_pipeline.py)):
+#### FinBERT inputs
 
-The pipeline's TEXT stage writes per-year transcript text to `text/text_{year}.parquet`, each containing `transcriptid`, `prepared_text` (CEO/CFO presentation), and `qa_text` (Q&A section). These are the input to FinBERT.
-
-**Step 2 — Score with FinBERT** (GPU VM, script: [`finbert_features.py`](finbert_features.py)):
-
-```bash
-# On a GCP VM with a GPU (e.g., n1-standard-4 + NVIDIA T4)
-pip install torch transformers pandas pyarrow
-# Copy text files and event_panel.parquet into ~/earnings_sp500/
-python finbert_features.py --folder ~/earnings_sp500
-```
-
-This scores every sentence in prepared remarks and Q&A answers using [ProsusAI/finbert](https://huggingface.co/ProsusAI/finbert). Each sentence (split on `.!?`, min 10 chars, truncated to 512 chars) is classified as positive/negative/neutral. Scores are aggregated per call into 13 features (mean sentiment, positive/negative share, std dev, sentence count for each section, plus the gap and YoY changes). Per-year results are cached as `finbert_features_{year}.parquet` so interrupted runs resume where they left off.
-
-Output: `finbert_features.parquet` — one row per earnings call (29,698 rows, 14 columns: `transcriptid` + 13 features).
-
-**Step 3 — Train Model C / C*** (GPU or CPU VM, script: [`model_c_finbert.py`](model_c_finbert.py)):
-
-```bash
-# Copy model_table.parquet and finbert_features.parquet into ~/earnings_sp500/
-python model_c_finbert.py
-```
-
-This merges FinBERT features with model_table on `transcriptid`, runs forward selection (Model C) and all-features-forced (Model C\*), and writes [`model_c_report.txt`](model_c_report.txt), [`model_c_results.json`](model_c_results.json), [`model_c_all_report.txt`](model_c_all_report.txt), [`model_c_all_results.json`](model_c_all_results.json).
+FinBERT scoring (~2.7M sentences) needs a GPU (~220 sentences/sec on a T4). The TEXT stage of `sp500_pipeline.py` writes per-year `text/text_{year}.parquet` with `transcriptid`, `prepared_text` and `qa_text`; `it_finbert_features.py` reads them via `--text_folder` and writes `finbert_features.parquet`. Each sentence is classified positive/negative/neutral with [ProsusAI/finbert](https://huggingface.co/ProsusAI/finbert) and aggregated into 13 per-call features.
 
 **Required input files for FinBERT extraction:**
 
@@ -238,13 +225,13 @@ This merges FinBERT features with model_table on `transcriptid`, runs forward se
 | File | Source | Description |
 |------|--------|-------------|
 | `model_table.parquet` | `sp500_pipeline.py` FINAL stage | Full modeling table (controls, targets, identifiers) |
-| `finbert_features.parquet` | `finbert_features.py` | FinBERT sentiment features (13 per call) |
+| `finbert_features.parquet` | `it_finbert_features.py` | FinBERT sentiment features (13 per call) |
 
 ## Model A Baseline (No Linguistic Features)
 
 Predicts CAR[+2,+20] using only financial controls and call structure — no sentiment or tone features.
 Train: 2010–2021 (expanding-window CV) | Test: 2022–2024 (one-time evaluation)
-Script: [`model_a_baseline.py`](model_a_baseline.py) | Report: [`model_a_report.txt`](model_a_report.txt) | JSON: [`model_a_results.json`](model_a_results.json)
+Script: [`old_models/model_a_baseline.py`](old_models/model_a_baseline.py) | Report: [`model_a_report.txt`](model_a_report.txt) | JSON: [`model_a_results.json`](model_a_results.json)
 
 ### Feature descriptions (Model A — 18 candidates, 12 selected)
 
@@ -378,7 +365,7 @@ Controls generalize to the test period with positive Rank IC. The question: can 
 
 Adds [Loughran-McDonald dictionary](data/Loughran-McDonald_MasterDictionary_1993-2025.csv) features (tone, hedging, uncertainty) on top of Model A's controls.
 Train: 2010–2021 (expanding-window CV) | Test: 2022–2024 (one-time evaluation)
-Script: [`model_b_linguistic.py`](model_b_linguistic.py) | Report: [`model_b_report.txt`](model_b_report.txt) | JSON: [`model_b_results.json`](model_b_results.json)
+Script: [`old_models/model_b_linguistic.py`](old_models/model_b_linguistic.py) | Report: [`model_b_report.txt`](model_b_report.txt) | JSON: [`model_b_results.json`](model_b_results.json)
 
 ### Feature descriptions (Model B — 9 linguistic candidates added to Model A's controls)
 
@@ -453,7 +440,7 @@ All linguistic features are computed using the **[Loughran-McDonald (LM) Master 
 
 ### Model B* — all linguistic features forced (no feature selection)
 
-Script: [`model_b_all_linguistic.py`](model_b_all_linguistic.py) | Report: [`model_b_all_report.txt`](model_b_all_report.txt) | JSON: [`model_b_all_results.json`](model_b_all_results.json)
+Script: [`old_models/model_b_all_linguistic.py`](old_models/model_b_all_linguistic.py) | Report: [`model_b_all_report.txt`](model_b_all_report.txt) | JSON: [`model_b_all_results.json`](model_b_all_results.json)
 
 All 20 features (11 controls + 9 linguistic) forced into every model to test whether feature selection dropped useful signal. Train 2010–2021, test 2022–2024.
 
@@ -469,7 +456,7 @@ All 20 features (11 controls + 9 linguistic) forced into every model to test whe
 
 ### Model B** — Forward Selection (same method as IT sector)
 
-Script: [`model_b_forward.py`](model_b_forward.py) | Report: [`model_b_forward_report.txt`](model_b_forward_report.txt) | JSON: [`model_b_forward_results.json`](model_b_forward_results.json)
+Script: [`old_models/model_b_forward.py`](old_models/model_b_forward.py) | Report: [`model_b_forward_report.txt`](model_b_forward_report.txt) | JSON: [`model_b_forward_results.json`](model_b_forward_results.json)
 
 The rank-based filter (Model B) evaluates features in isolation. Forward selection tests each linguistic feature **in context** — it locks Model A's 12 controls and greedily adds linguistic features one at a time, keeping only those that improve CV Rank IC. This is the method that worked for the IT sector subsample.
 
@@ -496,9 +483,9 @@ Forward selection stopped at step 1 — no feature added.
 
 ### Model C — FinBERT sentiment (forward selection over Model A controls)
 
-Script: [`model_c_finbert.py`](model_c_finbert.py) | Report: [`model_c_report.txt`](model_c_report.txt) | JSON: [`model_c_results.json`](model_c_results.json)
+Script: [`old_models/model_c_finbert.py`](old_models/model_c_finbert.py) | Report: [`model_c_report.txt`](model_c_report.txt) | JSON: [`model_c_results.json`](model_c_results.json)
 
-FinBERT extraction: [`finbert_features.py`](finbert_features.py) scored 29,698 earnings calls at the sentence level using [ProsusAI/finbert](https://huggingface.co/ProsusAI/finbert) on a T4 GPU (~220 sent/sec). 13 FinBERT features were derived: mean sentiment, positive/negative percentage, sentiment std, and sentence count for prepared remarks and Q&A answers separately, plus the sentiment gap (prepared − answers) and year-over-year changes.
+FinBERT extraction: [`old_models/finbert_features.py`](old_models/finbert_features.py) scored 29,698 earnings calls at the sentence level using [ProsusAI/finbert](https://huggingface.co/ProsusAI/finbert) on a T4 GPU (~220 sent/sec). 13 FinBERT features were derived: mean sentiment, positive/negative percentage, sentiment std, and sentence count for prepared remarks and Q&A answers separately, plus the sentiment gap (prepared − answers) and year-over-year changes.
 
 Forward selection started with Model A's 12 controls and tested each FinBERT candidate. **No FinBERT feature improved CV Rank IC** — Model C equals Model A.
 
@@ -510,7 +497,7 @@ All 13 candidates tested; best was `fb_neg_pct_prepared` at +0.0372 (Δ = −0.0
 
 ### Model C* — all FinBERT features forced (no feature selection)
 
-Script: [`model_c_finbert.py`](model_c_finbert.py) | Report: [`model_c_all_report.txt`](model_c_all_report.txt) | JSON: [`model_c_all_results.json`](model_c_all_results.json)
+Script: [`old_models/model_c_finbert.py`](old_models/model_c_finbert.py) | Report: [`model_c_all_report.txt`](model_c_all_report.txt) | JSON: [`model_c_all_results.json`](model_c_all_results.json)
 
 All 25 features (12 controls + 13 FinBERT) forced into every model. Train 2010–2021, test 2022–2024.
 
