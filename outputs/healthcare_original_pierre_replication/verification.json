@@ -1,0 +1,9 @@
+{
+  "original_hashes_and_native_reports_verified": true,
+  "source_backup_files_unchanged": 23,
+  "historical_output_files_unchanged_since_backup": 336,
+  "original_results_rows": 6,
+  "matched_results_rows": 32,
+  "shared_events_each_benchmark": 175,
+  "native_healthcare_transcripts_with_exact_ciq_clock": 3551
+}

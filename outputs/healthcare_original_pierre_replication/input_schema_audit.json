@@ -1,0 +1,154 @@
+{
+  "input_rows": 29698,
+  "healthcare_csv_rows": 3551,
+  "healthcare_csv_issuers": 96,
+  "healthcare_text_columns": [
+    "tone_prepared",
+    "tone_answers",
+    "hedging_prepared",
+    "hedging_answers",
+    "uncertainty_answers",
+    "tone_gap",
+    "tone_prepared_chg",
+    "tone_answers_chg",
+    "hedging_answers_chg"
+  ],
+  "duplicate_csv_event_ids": 0,
+  "duplicate_csv_transcript_ids": 0,
+  "current_company_rows": 1773,
+  "current_company_rows_missing_gics": 545,
+  "health_gvkeys_from_csv": 96,
+  "health_gvkeys_from_latest_gics_fallback": 32,
+  "calendar_rows": 4279,
+  "market_column": "CRSP DSI SPRTRN",
+  "first_market_date": "2008-01-02",
+  "last_market_date": "2024-12-31",
+  "annual_shards": [
+    {
+      "logical_name": "crsp_daily_2009.parquet",
+      "actual_name": "crsp_dsf_2009.parquet",
+      "rows": 199197,
+      "first_date": "2009-01-02",
+      "last_date": "2009-12-31"
+    },
+    {
+      "logical_name": "crsp_daily_2010.parquet",
+      "actual_name": "crsp_dsf_2010.parquet",
+      "rows": 197177,
+      "first_date": "2010-01-04",
+      "last_date": "2010-12-31"
+    },
+    {
+      "logical_name": "crsp_daily_2011.parquet",
+      "actual_name": "crsp_dsf_2011.parquet",
+      "rows": 196238,
+      "first_date": "2011-01-03",
+      "last_date": "2011-12-30"
+    },
+    {
+      "logical_name": "crsp_daily_2012.parquet",
+      "actual_name": "crsp_dsf_2012.parquet",
+      "rows": 193790,
+      "first_date": "2012-01-03",
+      "last_date": "2012-12-31"
+    },
+    {
+      "logical_name": "crsp_daily_2013.parquet",
+      "actual_name": "crsp_dsf_2013.parquet",
+      "rows": 195820,
+      "first_date": "2013-01-02",
+      "last_date": "2013-12-31"
+    },
+    {
+      "logical_name": "crsp_daily_2014.parquet",
+      "actual_name": "crsp_dsf_2014.parquet",
+      "rows": 195285,
+      "first_date": "2014-01-02",
+      "last_date": "2014-12-31"
+    },
+    {
+      "logical_name": "crsp_daily_2015.parquet",
+      "actual_name": "crsp_dsf_2015.parquet",
+      "rows": 193797,
+      "first_date": "2015-01-02",
+      "last_date": "2015-12-31"
+    },
+    {
+      "logical_name": "crsp_daily_2016.parquet",
+      "actual_name": "crsp_dsf_2016.parquet",
+      "rows": 189193,
+      "first_date": "2016-01-04",
+      "last_date": "2016-12-30"
+    },
+    {
+      "logical_name": "crsp_daily_2017.parquet",
+      "actual_name": "crsp_dsf_2017.parquet",
+      "rows": 185670,
+      "first_date": "2017-01-03",
+      "last_date": "2017-12-29"
+    },
+    {
+      "logical_name": "crsp_daily_2018.parquet",
+      "actual_name": "crsp_dsf_2018.parquet",
+      "rows": 183105,
+      "first_date": "2018-01-02",
+      "last_date": "2018-12-31"
+    },
+    {
+      "logical_name": "crsp_daily_2019.parquet",
+      "actual_name": "crsp_dsf_2019.parquet",
+      "rows": 181046,
+      "first_date": "2019-01-02",
+      "last_date": "2019-12-31"
+    },
+    {
+      "logical_name": "crsp_daily_2020.parquet",
+      "actual_name": "crsp_dsf_2020.parquet",
+      "rows": 178100,
+      "first_date": "2020-01-02",
+      "last_date": "2020-12-31"
+    },
+    {
+      "logical_name": "crsp_daily_2021.parquet",
+      "actual_name": "crsp_dsf_2021.parquet",
+      "rows": 174500,
+      "first_date": "2021-01-04",
+      "last_date": "2021-12-31"
+    },
+    {
+      "logical_name": "crsp_daily_2022.parquet",
+      "actual_name": "crsp_dsf_2022.parquet",
+      "rows": 170710,
+      "first_date": "2022-01-03",
+      "last_date": "2022-12-30"
+    },
+    {
+      "logical_name": "crsp_daily_2023.parquet",
+      "actual_name": "crsp_dsf_2023.parquet",
+      "rows": 168098,
+      "first_date": "2023-01-03",
+      "last_date": "2023-12-29"
+    },
+    {
+      "logical_name": "crsp_daily_2024.parquet",
+      "actual_name": "crsp_dsf_2024.parquet",
+      "rows": 168949,
+      "first_date": "2024-01-02",
+      "last_date": "2024-12-31"
+    },
+    {
+      "logical_name": "crsp_daily_2025.parquet",
+      "actual_name": "crsp_dsf_2025.parquet",
+      "rows": 0,
+      "first_date": "<NA>",
+      "last_date": "<NA>"
+    },
+    {
+      "logical_name": "crsp_daily_2026.parquet",
+      "actual_name": "crsp_dsf_2026.parquet",
+      "rows": 0,
+      "first_date": "<NA>",
+      "last_date": "<NA>"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "same_native_JSON_with_and_without_capture": true,
+  "reports": [
+    "health_model_b_improved_option_1_s&p_500_bench_results.json",
+    "health_model_b_improved_option_2_health_care_sector_bench_results.json"
+  ]
+}

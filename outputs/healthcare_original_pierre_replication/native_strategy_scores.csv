@@ -1,0 +1,13 @@
+option,strategy,algorithm,lm_inputs_native,test_selected,rank_ic,selected_as_b,q5_q1
+1,Forward Selection,Ridge_a10,hedging_answers_chg,True,-0.06825310443773809,False,-0.011474780487804922
+1,Interactions + raw ling,Ridge,"tone_prepared,tone_answers,hedging_prepared,hedging_answers,uncertainty_answers,tone_gap,tone_prepared_chg,tone_answers_chg,hedging_answers_chg,tone×sue,tone_chg×car01,tone_chg×sue,hedge×vol,gap×sue,tone_prep_chg×mom,uncert×vol,tone×size",True,-0.07529524846103286,False,-0.021751390243902404
+1,Residualized Tone,ElasticNet,"tone_answers_resid,tone_prepared_resid,tone_answers_chg_resid,tone_prepared_chg_resid",True,-0.08573266144136377,False,-0.0068794146341463365
+1,All Ling + RidgeCV,Ridge_a10,"tone_prepared,tone_answers,hedging_prepared,hedging_answers,uncertainty_answers,tone_gap,tone_prepared_chg,tone_answers_chg,hedging_answers_chg",True,-0.0675548268087723,False,-0.010431878048780516
+1,PCA(3) Linguistic,Ridge_a10,"ling_pc1,ling_pc2,ling_pc3",True,-0.09816596108586412,False,-0.00875319512195126
+1,Combined Good Features,Ridge,"hedging_answers_chg,hedging_answers,uncertainty_answers,tone_answers,tone_prepared_chg",True,-0.062039281650422995,True,-0.006974341463414704
+2,Forward Selection,EN_strong,"tone_prepared_chg,hedging_answers_chg,tone_answers,hedging_answers,uncertainty_answers",True,0.06001936518930532,True,0.012983807728675086
+2,Interactions + raw ling,EN_strong,"tone_prepared,tone_answers,hedging_prepared,hedging_answers,uncertainty_answers,tone_gap,tone_prepared_chg,tone_answers_chg,hedging_answers_chg,tone×sue,tone_chg×car01,tone_chg×sue,hedge×vol,gap×sue,tone_prep_chg×mom,uncert×vol,tone×size",True,0.010995752380010037,False,-0.003634828103263441
+2,Residualized Tone,Ridge,"tone_answers_resid,tone_prepared_resid,tone_answers_chg_resid,tone_prepared_chg_resid",True,0.036480058802326645,False,0.011512480975849414
+2,All Ling + RidgeCV,RidgeCV,"tone_prepared,tone_answers,hedging_prepared,hedging_answers,uncertainty_answers,tone_gap,tone_prepared_chg,tone_answers_chg,hedging_answers_chg",True,0.04581492815797471,False,0.010850628333856895
+2,PCA(2) Linguistic,Ridge_a10,"ling_pc1,ling_pc2",True,0.03569838364277587,False,-0.001662036190765068
+2,Combined Good Features,Ridge,"tone_prepared_chg,tone_gap,hedging_answers_chg,tone_answers,tone_answers_chg,hedging_answers,uncertainty_answers",True,0.05991900544910984,False,0.017000765664556605
