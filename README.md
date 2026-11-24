@@ -186,32 +186,36 @@ pip install -r requirements.txt
 python3 sp500_pipeline.py
 python3 sp500_pipeline.py --stages panel targets text final   # rebuild from cached raw data
 
-# Step 1: Extract IT subsample and compute sector benchmark
-python3 it_sector_extract.py --folder ~/earnings_sp500
+# Steps 1-4 take --sector {it,health,comm} (GICS 45 / 35 / 50) and work in ~/earnings_{sector}
+# Step 1: Extract the sector subsample and compute its sector benchmark
+python3 sector_extract.py --sector it --folder ~/earnings_sp500
 
 # Step 2: Run Model A + Model B (6 strategies + B*)
-python3 it_model_b.py --folder ~/earnings_it
+python3 sector_model_b.py --sector it
 
 # Step 3: Extract FinBERT features (requires GPU VM)
-python3 it_finbert_features.py --folder ~/earnings_it --text_folder ~/earnings_sp500/text
+python3 sector_finbert_features.py --sector it --sp500-folder ~/earnings_sp500
 
 # Step 4: Run Model C (FinBERT strategies)
-python3 it_model_c_finbert.py --folder ~/earnings_it
+python3 sector_model_c_finbert.py --sector it
 ```
+
+Sector membership uses today's Compustat GICS sector (`gsector`) applied to the whole history, not point-in-time. Sector definitions live in [`sector_config.py`](sector_config.py); to add a sector, add one entry there. Output files are prefixed with the sector key (e.g. `health_model_b_improved_*`). The existing IT results in `it_results/` were produced by the earlier `it_*` scripts and are unchanged.
 
 | Script | Purpose |
 |--------|---------|
 | [`sp500_pipeline.py`](sp500_pipeline.py) | PULL → PANEL → TARGETS → TEXT → FINAL for the full S&P 500 |
-| [`it_sector_extract.py`](it_sector_extract.py) | IT subsample (GICS 45) and IT sector benchmark |
-| [`it_model_b.py`](it_model_b.py) | Model A + Model B (6 strategies + B*) |
-| [`it_finbert_features.py`](it_finbert_features.py) | FinBERT sentence-level features (GPU, ProsusAI/finbert) |
-| [`it_model_c_finbert.py`](it_model_c_finbert.py) | Model C (FinBERT strategies) |
+| [`sector_config.py`](sector_config.py) | Sector definitions (GICS code, name, output folder) |
+| [`sector_extract.py`](sector_extract.py) | Sector subsample and sector value-weighted benchmark |
+| [`sector_model_b.py`](sector_model_b.py) | Model A + Model B (6 strategies + B*) |
+| [`sector_finbert_features.py`](sector_finbert_features.py) | FinBERT sentence-level features (GPU, ProsusAI/finbert) |
+| [`sector_model_c_finbert.py`](sector_model_c_finbert.py) | Model C (FinBERT strategies) |
 
 The scripts that produced the full-S&P 500 Model A/B/C results below (Model A, B, B*, B**, C/C*, and the original FinBERT extraction) are archived in [`old_models/`](old_models/). Their reports and JSON outputs remain in the repo root.
 
 #### FinBERT inputs
 
-FinBERT scoring (~2.7M sentences) needs a GPU (~220 sentences/sec on a T4). The TEXT stage of `sp500_pipeline.py` writes per-year `text/text_{year}.parquet` with `transcriptid`, `prepared_text` and `qa_text`; `it_finbert_features.py` reads them via `--text_folder` and writes `finbert_features.parquet`. Each sentence is classified positive/negative/neutral with [ProsusAI/finbert](https://huggingface.co/ProsusAI/finbert) and aggregated into 13 per-call features.
+FinBERT scoring (~2.7M sentences) needs a GPU (~220 sentences/sec on a T4). The TEXT stage of `sp500_pipeline.py` writes per-year `text/text_{year}.parquet` with `transcriptid`, `prepared_text` and `qa_text`; `sector_finbert_features.py` reads them via `--sp500-folder` and writes `finbert_features.parquet`. Each sentence is classified positive/negative/neutral with [ProsusAI/finbert](https://huggingface.co/ProsusAI/finbert) and aggregated into 13 per-call features.
 
 **Required input files for FinBERT extraction:**
 
@@ -225,7 +229,7 @@ FinBERT scoring (~2.7M sentences) needs a GPU (~220 sentences/sec on a T4). The 
 | File | Source | Description |
 |------|--------|-------------|
 | `model_table.parquet` | `sp500_pipeline.py` FINAL stage | Full modeling table (controls, targets, identifiers) |
-| `finbert_features.parquet` | `it_finbert_features.py` | FinBERT sentiment features (13 per call) |
+| `finbert_features.parquet` | `sector_finbert_features.py` | FinBERT sentiment features (13 per call) |
 
 ## Model A Baseline (No Linguistic Features)
 

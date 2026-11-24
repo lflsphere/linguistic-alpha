@@ -1,31 +1,30 @@
 """
-IT Sector Extraction — builds two model tables for the IT-only subsample.
+Sector Extraction — builds two model tables for a single-GICS-sector subsample.
 
 Option 1: CAR relative to S&P 500 (market benchmark) — recomputed with corrected day0.
-Option 2: CAR relative to IT sector value-weighted index — recomputed with corrected day0.
+Option 2: CAR relative to sector value-weighted index — recomputed with corrected day0.
 
 Both options use assign_day0() (4pm ET cutoff) and car_-1_1 [-1,+1] EA window.
 
 Requires: ~/earnings_sp500/ with raw/ parquets and model_table.parquet (for non-CAR columns)
-Outputs:  ~/earnings_it/
-            model_table_opt1.parquet   (market-benchmarked CARs, IT only)
-            model_table_opt2.parquet   (IT-benchmarked CARs)
-            it_sector_daily.parquet    (IT sector VW daily returns)
+Outputs:  ~/earnings_{sector}/
+            model_table_opt1.parquet   (market-benchmarked CARs, sector only)
+            model_table_opt2.parquet   (sector-benchmarked CARs)
+            {sector}_sector_daily.parquet    (sector VW daily returns)
 
 Usage:
-    python3 it_sector_extract.py [--folder ~/earnings_sp500]
+    python3 sector_extract.py --sector {it,health,comm} [--folder ~/earnings_sp500]
 """
 import argparse, gc, os, sys, time, warnings
 import numpy as np
 import pandas as pd
 
+from sector_config import add_sector_arg, get_sector
 from linguistic_alpha.events.timing import call_timestamp_utc, assign_day0
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 START_YEAR = 2010
-IT_GICS_SECTOR = "45"
-IT_SECTOR_NAME = "Information Technology"
 
 def log(msg):
     print(time.strftime("%H:%M:%S"), msg, flush=True)
@@ -39,10 +38,12 @@ def to_dt(df, *cols):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--folder", default=os.path.expanduser("~/earnings_sp500"))
+    add_sector_arg(ap)
     args = ap.parse_args()
+    sec = get_sector(args)
     BASE = args.folder
     RAW = f"{BASE}/raw"
-    OUT = os.path.expanduser("~/earnings_it")
+    OUT = sec.folder
     os.makedirs(OUT, exist_ok=True)
 
     # --- Load base model_table for non-CAR columns ---
@@ -52,8 +53,8 @@ def main():
     log(f"full dataset: {len(mt):,} rows, {mt['permno'].nunique()} companies")
     log(f"sectors: {mt['sector'].value_counts().to_dict()}")
 
-    it = mt[mt["sector"] == IT_SECTOR_NAME].copy().reset_index(drop=True)
-    log(f"IT sector: {len(it):,} rows, {it['permno'].nunique()} companies")
+    it = mt[mt["sector"] == sec.name].copy().reset_index(drop=True)
+    log(f"{sec.short} sector: {len(it):,} rows, {it['permno'].nunique()} companies")
 
     # --- Load raw CRSP for recomputing CARs with corrected day0 ---
     log("loading raw CRSP daily returns ...")
@@ -68,10 +69,10 @@ def main():
     nd = len(days)
     crsp = crsp[crsp["date"].isin(spx["date"])]
 
-    # Identify IT sector permnos from company data
+    # Identify sector permnos from company data
     comp = pd.read_parquet(f"{RAW}/company.parquet")
-    it_gvkeys = set(comp[comp["gsector"].astype(str).str[:2] == IT_GICS_SECTOR]["gvkey"].unique())
-    log(f"IT gvkeys: {len(it_gvkeys)}")
+    it_gvkeys = set(comp[comp["gsector"].astype(str).str[:2] == sec.gics]["gvkey"].unique())
+    log(f"{sec.short} gvkeys: {len(it_gvkeys)}")
 
     # gvkey -> permno mapping from CCM
     ccm = to_dt(pd.read_parquet(f"{RAW}/link_ccm.parquet"), "linkdt", "linkenddt")
@@ -82,11 +83,11 @@ def main():
     sp = to_dt(pd.read_parquet(f"{RAW}/sp500_membership.parquet"), "start", "ending")
     sp_permnos = set(sp["permno"].unique())
 
-    # IT permnos = in CCM as IT gvkey AND in S&P 500
+    # sector permnos = in CCM as sector gvkey AND in S&P 500
     it_permnos = it_permnos_ccm & sp_permnos
-    log(f"IT permnos (ever in S&P 500): {len(it_permnos)}")
+    log(f"{sec.short} permnos (ever in S&P 500): {len(it_permnos)}")
 
-    # Compute value-weighted IT sector daily returns
+    # Compute value-weighted sector daily returns
     crsp_it = crsp[crsp["permno"].isin(it_permnos)].copy()
     crsp_it["mcap"] = crsp_it["prc"].abs() * crsp_it["shrout"]
     crsp_it = crsp_it.dropna(subset=["ret", "mcap"])
@@ -103,23 +104,23 @@ def main():
     daily_vw = (
         crsp_it_sp.groupby("date")
         .apply(lambda g: np.average(g["ret"], weights=g["mcap"]), include_groups=False)
-        .reset_index(name="it_ret")
+        .reset_index(name="sector_ret")
     )
     daily_vw = daily_vw.sort_values("date").reset_index(drop=True)
-    log(f"IT sector VW daily returns: {len(daily_vw):,} days")
-    log(f"  mean daily return: {daily_vw['it_ret'].mean():.6f}")
-    log(f"  annualized return: {((1 + daily_vw['it_ret']).prod() ** (252/len(daily_vw)) - 1):.4f}")
+    log(f"{sec.short} sector VW daily returns: {len(daily_vw):,} days")
+    log(f"  mean daily return: {daily_vw['sector_ret'].mean():.6f}")
+    log(f"  annualized return: {((1 + daily_vw['sector_ret']).prod() ** (252/len(daily_vw)) - 1):.4f}")
 
-    daily_vw.to_parquet(f"{OUT}/it_sector_daily.parquet", index=False)
+    daily_vw.to_parquet(f"{OUT}/{sec.key}_sector_daily.parquet", index=False)
 
-    # Merge IT sector return into the trading calendar
-    it_ret_map = dict(zip(daily_vw["date"], daily_vw["it_ret"]))
+    # Merge sector return into the trading calendar
+    it_ret_map = dict(zip(daily_vw["date"], daily_vw["sector_ret"]))
     it_bench = np.array([it_ret_map.get(d, np.nan) for d in days])
 
-    # Build return grid for IT firms only (same approach as sp500_pipeline stage_targets)
+    # Build return grid for sector firms only (same approach as sp500_pipeline stage_targets)
     panel = to_dt(pd.read_parquet(f"{BASE}/event_panel.parquet"), "call_date")
     panel_it = panel[panel["gvkey"].isin(it_gvkeys)].copy().reset_index(drop=True)
-    log(f"IT event panel: {len(panel_it):,} calls")
+    log(f"{sec.short} event panel: {len(panel_it):,} calls")
 
     permnos = np.sort(panel_it["permno"].dropna().unique())
     pidx = {p: i for i, p in enumerate(permnos)}
@@ -138,7 +139,7 @@ def main():
     spx_ret = spx["vwretd"].values if "vwretd" in spx.columns else spx["sprtrn"].values
     ar_mkt = ret - spx_ret[None, :]
 
-    # Abnormal returns relative to IT sector index
+    # Abnormal returns relative to sector index
     ar_it = ret - it_bench[None, :]
 
     # Also handle delisting returns
@@ -195,8 +196,8 @@ def main():
         mkt_cars[name] = np.where((n >= 0.8 * (b - a + 1)) | g, s, np.nan)
         log(f"    {name}: {np.sum(~np.isnan(mkt_cars[name])):,} valid")
 
-    # Compute IT-benchmarked CARs (Option 2: IT sector VW index)
-    log("  computing Option 2 CARs (IT sector benchmark) ...")
+    # Compute sector-benchmarked CARs (Option 2: sector VW index)
+    log(f"  computing Option 2 CARs ({sec.short} sector benchmark) ...")
     it_cars = {}
     for name, (a, b) in {"car_-1_1": (-1, 1), "car_2_5": (2, 5), "car_2_20": (2, 20), "car_2_60": (2, 60)}.items():
         s = window_sum(cs_ar, a, b)
@@ -234,13 +235,13 @@ def main():
     opt1.to_parquet(f"{OUT}/model_table_opt1.parquet", index=False)
     log(f"saved Option 1 (S&P 500 bench, recomputed with corrected day0): {OUT}/model_table_opt1.parquet")
 
-    # --- OPTION 2: Replace old CARs + day0 with IT-benchmarked values ---
+    # --- OPTION 2: Replace old CARs + day0 with sector-benchmarked values ---
     opt2 = replace_cars_and_day0(it, it_cars, "it")
     opt2.to_parquet(f"{OUT}/model_table_opt2.parquet", index=False)
-    log(f"saved Option 2 (IT-benchmarked CARs): {OUT}/model_table_opt2.parquet")
+    log(f"saved Option 2 (sector-benchmarked CARs): {OUT}/model_table_opt2.parquet")
 
     # Summary stats
-    for label, df in [("Option 1 (market bench)", opt1), ("Option 2 (IT bench)", opt2)]:
+    for label, df in [("Option 1 (market bench)", opt1), ("Option 2 (sector bench)", opt2)]:
         valid_car = df["car_2_20"].dropna()
         log(f"\n{label}:")
         log(f"  calls: {len(df):,}, companies: {df['permno'].nunique()}")

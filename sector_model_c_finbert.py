@@ -1,7 +1,7 @@
 """
-IT Sector — Model C: FinBERT features on top of Model A controls.
+Sector — Model C (sector chosen with --sector): FinBERT features on top of Model A controls.
 
-Reads Model A features from JSON saved by it_model_b.py (ensures consistency).
+Reads Model A features from JSON saved by sector_model_b.py (ensures consistency).
 Uses same methodology: time-series expanding-window CV, ranked target,
 strict improvement threshold.
 
@@ -14,7 +14,7 @@ Strategies:
 Train: 2010-2023 | Test: 2024-2026.
 
 Usage:
-    python3 it_model_c_finbert.py [--folder ~/earnings_it]
+    python3 sector_model_c_finbert.py --sector {it,health,comm} [--folder ~/earnings_{sector}]
 """
 import argparse, copy, json, os, warnings
 from datetime import datetime
@@ -26,6 +26,10 @@ from scipy import stats
 from sklearn.linear_model import Ridge, RidgeCV, Lasso, ElasticNet, LinearRegression
 from sklearn.ensemble import (RandomForestRegressor, GradientBoostingRegressor)
 from sklearn.preprocessing import StandardScaler
+
+from sector_config import add_sector_arg, get_sector
+
+SEC = None  # set in main() from --sector
 try:
     from xgboost import XGBRegressor
     HAS_XGB = True
@@ -415,7 +419,7 @@ def run_option(opt_name, opt_file, base_features, out_dir, fb_df):
     tag = opt_name.lower().replace(" ", "_").replace("(", "").replace(")", "")
     report_lines = [
         "=" * 70,
-        f"IT Sector — Model C (FinBERT) — {opt_name}",
+        f"{SEC.short} Sector — Model C (FinBERT) — {opt_name}",
         f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}",
         f"Train: {len(train):,} (≤{TRAIN_END}) | Test: {len(test):,} (>{TRAIN_END})",
         f"FinBERT coverage: {fb_coverage}/{pre_len} ({fb_coverage/pre_len:.1%})",
@@ -454,7 +458,7 @@ def run_option(opt_name, opt_file, base_features, out_dir, fb_df):
     report_lines.append(f"  IC: {best_model['metrics']['ic']:+.4f}")
     report_lines.append(f"  Dir Acc: {best_model['metrics']['direction_accuracy']:.3f}")
 
-    Path(out_dir, f"it_model_c_{tag}_report.txt").write_text("\n".join(report_lines))
+    Path(out_dir, f"{SEC.key}_model_c_{tag}_report.txt").write_text("\n".join(report_lines))
 
     result_json = {
         "option": opt_name,
@@ -475,21 +479,24 @@ def run_option(opt_name, opt_file, base_features, out_dir, fb_df):
             "metrics": {k: round(v, 6) for k, v in best_model["metrics"].items()},
         },
     }
-    Path(out_dir, f"it_model_c_{tag}_results.json").write_text(json.dumps(result_json, indent=2))
+    Path(out_dir, f"{SEC.key}_model_c_{tag}_results.json").write_text(json.dumps(result_json, indent=2))
 
-    log_msg(f"saved reports to {out_dir}/it_model_c_{tag}_*")
+    log_msg(f"saved reports to {out_dir}/{SEC.key}_model_c_{tag}_*")
     return best_model, a_best
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--folder", default=os.path.expanduser("~/earnings_it"))
+    add_sector_arg(ap)
+    ap.add_argument("--folder", default=None, help="default: ~/earnings_{sector}")
     args = ap.parse_args()
-    OUT = args.folder
+    global SEC
+    SEC = get_sector(args)
+    OUT = args.folder or SEC.folder
 
     fb_path = f"{OUT}/finbert_features.parquet"
     if not os.path.exists(fb_path):
-        log_msg(f"ERROR: {fb_path} not found. Run it_finbert_features.py first.")
+        log_msg(f"ERROR: {fb_path} not found. Run sector_finbert_features.py first.")
         return
 
     fb_df = pd.read_parquet(fb_path)
@@ -498,7 +505,7 @@ def main():
     results = {}
     for opt_name, opt_file in [
         ("Option 1 (S&P 500 bench)", "model_table_opt1.parquet"),
-        ("Option 2 (IT sector bench)", "model_table_opt2.parquet"),
+        (f"Option 2 ({SEC.short} sector bench)", "model_table_opt2.parquet"),
     ]:
         tag = opt_name.lower().replace(" ", "_").replace("(", "").replace(")", "")
         fpath = f"{OUT}/{opt_file}"
@@ -513,7 +520,7 @@ def main():
             base_features = a_info["features"]
             log_msg(f"loaded Model A features from {a_feat_path}: {base_features}")
         else:
-            log_msg(f"WARNING: {a_feat_path} not found. Run it_model_b.py first.")
+            log_msg(f"WARNING: {a_feat_path} not found. Run sector_model_b.py first.")
             log_msg(f"Using fallback control candidates for Model A.")
             # Fallback: use all available controls
             df_tmp = pd.read_parquet(fpath)
