@@ -1,0 +1,11 @@
+option,period,archived_calls,valid_target,excluded_target_rows_mapping,excluded_target_rows_membership,matched_events,issuers,first_call,last_call
+market,Development,2939,2939,0,0,2939,95,2010-01-19,2023-12-07
+market,2024 diagnostic,205,204,0,0,204,62,2024-01-12,2024-11-25
+market,2025,214,214,0,3,211,61,2025-01-16,2025-12-04
+market,2026 partial,193,107,0,3,104,59,2026-01-21,2026-05-27
+market,2025–26 pooled,407,321,0,6,315,61,2025-01-16,2026-05-27
+sector,Development,2939,2939,0,0,2939,95,2010-01-19,2023-12-07
+sector,2024 diagnostic,205,204,0,0,204,62,2024-01-12,2024-11-25
+sector,2025,214,214,0,3,211,61,2025-01-16,2025-12-04
+sector,2026 partial,193,107,0,3,104,59,2026-01-21,2026-05-27
+sector,2025–26 pooled,407,321,0,6,315,61,2025-01-16,2026-05-27

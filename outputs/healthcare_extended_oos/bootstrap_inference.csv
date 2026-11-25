@@ -1,0 +1,33 @@
+option,period,model,method,events,issuer_clusters,calendar_months,nominal_time_blocks,n_requested,n_valid,point,lower,upper,crosses_zero,p_centered,status,holm_p_pooled,passes_confirmatory_screen
+market,2024 diagnostic,B,issuer_cluster,204,62,12,6,0,0,0.035473634365437,,,,,descriptive only,,False
+market,2024 diagnostic,B*,issuer_cluster,204,62,12,6,0,0,0.029958089207087,,,,,descriptive only,,False
+market,2024 diagnostic,B,time_block,204,62,12,6,0,0,0.035473634365437,,,,,descriptive only,,False
+market,2024 diagnostic,B*,time_block,204,62,12,6,0,0,0.029958089207087,,,,,descriptive only,,False
+market,2025,B,issuer_cluster,211,61,12,6,2499,2499,5.109796757834e-05,-0.051470374267075,0.05011677024877,True,,pointwise interval,,False
+market,2025,B*,issuer_cluster,211,61,12,6,2499,2499,0.0048606941658895,-0.067106203300992,0.068746465254766,True,,pointwise interval,,False
+market,2025,B,time_block,211,61,12,6,2499,2499,5.109796757834e-05,-0.045054333670282,0.04643502548316,True,,pointwise interval,,False
+market,2025,B*,time_block,211,61,12,6,2499,2499,0.0048606941658895,-0.092392375695634,0.093189972214403,True,,pointwise interval,,False
+market,2026 partial,B,issuer_cluster,104,59,6,3,0,0,0.0068921369892244,,,,,descriptive only,,False
+market,2026 partial,B*,issuer_cluster,104,59,6,3,0,0,-0.010252853942174,,,,,descriptive only,,False
+market,2026 partial,B,time_block,104,59,6,3,0,0,0.0068921369892244,,,,,descriptive only,,False
+market,2026 partial,B*,time_block,104,59,6,3,0,0,-0.010252853942174,,,,,descriptive only,,False
+market,2025–26 pooled,B,issuer_cluster,315,61,18,9,2499,2499,-0.0057344037348875,-0.039495541757603,0.029567905319769,True,0.7332,pointwise interval,1,False
+market,2025–26 pooled,B*,issuer_cluster,315,61,18,9,2499,2499,-0.01468807469775,-0.063621508136008,0.031772744389465,True,0.5424,pointwise interval,1,False
+market,2025–26 pooled,B,time_block,315,61,18,9,2499,2499,-0.0057344037348875,-0.042987156695261,0.035281221714583,True,0.7964,pointwise interval,1,False
+market,2025–26 pooled,B*,time_block,315,61,18,9,2499,2499,-0.01468807469775,-0.082436229355967,0.054457793524466,True,0.7116,pointwise interval,1,False
+sector,2024 diagnostic,B,issuer_cluster,204,62,12,6,0,0,0.038563583549484,,,,,descriptive only,,False
+sector,2024 diagnostic,B*,issuer_cluster,204,62,12,6,0,0,0.021191453873391,,,,,descriptive only,,False
+sector,2024 diagnostic,B,time_block,204,62,12,6,0,0,0.038563583549484,,,,,descriptive only,,False
+sector,2024 diagnostic,B*,time_block,204,62,12,6,0,0,0.021191453873391,,,,,descriptive only,,False
+sector,2025,B,issuer_cluster,211,61,12,6,2499,2499,-0.0059797396558552,-0.051066333958102,0.036207871310299,True,,pointwise interval,,False
+sector,2025,B*,issuer_cluster,211,61,12,6,2499,2499,-0.0061636923391372,-0.070079462827327,0.052687985801294,True,,pointwise interval,,False
+sector,2025,B,time_block,211,61,12,6,2499,2499,-0.0059797396558552,-0.037661218501201,0.030077425026203,True,,pointwise interval,,False
+sector,2025,B*,time_block,211,61,12,6,2499,2499,-0.0061636923391372,-0.070865675889367,0.053148719378425,True,,pointwise interval,,False
+sector,2026 partial,B,issuer_cluster,104,59,6,3,0,0,-0.0051104235570255,,,,,descriptive only,,False
+sector,2026 partial,B*,issuer_cluster,104,59,6,3,0,0,-0.019342793129201,,,,,descriptive only,,False
+sector,2026 partial,B,time_block,104,59,6,3,0,0,-0.0051104235570255,,,,,descriptive only,,False
+sector,2026 partial,B*,time_block,104,59,6,3,0,0,-0.019342793129201,,,,,descriptive only,,False
+sector,2025–26 pooled,B,issuer_cluster,315,61,18,9,2499,2499,-0.016007263987591,-0.054891064858798,0.023239109106611,True,0.422,pointwise interval,1,False
+sector,2025–26 pooled,B*,issuer_cluster,315,61,18,9,2499,2499,-0.021801944997946,-0.075620937655247,0.029787592032391,True,0.4232,pointwise interval,1,False
+sector,2025–26 pooled,B,time_block,315,61,18,9,2499,2499,-0.016007263987591,-0.041769402515265,0.010913608648369,True,0.2196,pointwise interval,1,False
+sector,2025–26 pooled,B*,time_block,315,61,18,9,2499,2499,-0.021801944997946,-0.065765494138584,0.02874219547678,True,0.374,pointwise interval,1,False

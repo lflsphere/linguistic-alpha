@@ -1,0 +1,315 @@
+{
+  "source_revision": "06273f1766daeb29de4b9313dd20639439a09671",
+  "source_model": "experiments/pierre_original/sector_model_b.py",
+  "model_sha256": "e2f9986a8f809e5b368b97eac0421adfa6009e49a07c3bafa9a4d416afa124f2",
+  "input_sha256": "ec05ec25b405a5cdaa22babe40df09c1e554bf31e2781acf1766e61d1f7968db",
+  "evaluation_script_sha256": "ddd56894f33ebae4362a1d722fcc944c9a95cf71582cb7fb96215da5cac60758",
+  "native_predictions_sha256": "200806a8ba15f9bd7ea032c8b7b0f1ab14ee28f567fd7b7633c661446896c268",
+  "specifications": {
+    "market": {
+      "A": {
+        "algorithm": "Ridge",
+        "strategy": "baseline",
+        "columns": [
+          "sue",
+          "surprise_pct",
+          "vol_pre",
+          "car_-1_1",
+          "mom",
+          "bm",
+          "size",
+          "dispersion",
+          "avg_answer_words",
+          "words_prepared",
+          "words_questions",
+          "words_answers",
+          "n_questions",
+          "n_answers",
+          "n_analysts",
+          "prior_calls_with_target"
+        ],
+        "estimator": "Ridge",
+        "parameters": {
+          "alpha": 1.0
+        },
+        "resolved_parameters": {
+          "alpha": 1.0,
+          "copy_X": true,
+          "fit_intercept": true,
+          "max_iter": null,
+          "positive": false,
+          "random_state": null,
+          "solver": "auto",
+          "tol": 0.0001
+        }
+      },
+      "B": {
+        "algorithm": "Ridge",
+        "strategy": "Combined Good Features",
+        "columns": [
+          "sue",
+          "surprise_pct",
+          "vol_pre",
+          "car_-1_1",
+          "mom",
+          "bm",
+          "size",
+          "dispersion",
+          "avg_answer_words",
+          "words_prepared",
+          "words_questions",
+          "words_answers",
+          "n_questions",
+          "n_answers",
+          "n_analysts",
+          "prior_calls_with_target",
+          "hedging_answers_chg",
+          "hedging_answers",
+          "uncertainty_answers",
+          "tone_answers",
+          "tone_prepared_chg"
+        ],
+        "estimator": "Ridge",
+        "parameters": {
+          "alpha": 1.0
+        },
+        "resolved_parameters": {
+          "alpha": 1.0,
+          "copy_X": true,
+          "fit_intercept": true,
+          "max_iter": null,
+          "positive": false,
+          "random_state": null,
+          "solver": "auto",
+          "tol": 0.0001
+        }
+      },
+      "B*": {
+        "algorithm": "Ridge_a10",
+        "strategy": "Model B* (all LM)",
+        "columns": [
+          "sue",
+          "surprise_pct",
+          "vol_pre",
+          "car_-1_1",
+          "mom",
+          "bm",
+          "size",
+          "dispersion",
+          "avg_answer_words",
+          "words_prepared",
+          "words_questions",
+          "words_answers",
+          "n_questions",
+          "n_answers",
+          "n_analysts",
+          "prior_calls_with_target",
+          "tone_prepared",
+          "tone_answers",
+          "hedging_prepared",
+          "hedging_answers",
+          "uncertainty_answers",
+          "tone_gap",
+          "tone_prepared_chg",
+          "tone_answers_chg",
+          "hedging_answers_chg"
+        ],
+        "estimator": "Ridge",
+        "parameters": {
+          "alpha": 10.0
+        },
+        "resolved_parameters": {
+          "alpha": 10.0,
+          "copy_X": true,
+          "fit_intercept": true,
+          "max_iter": null,
+          "positive": false,
+          "random_state": null,
+          "solver": "auto",
+          "tol": 0.0001
+        }
+      }
+    },
+    "sector": {
+      "A": {
+        "algorithm": "Ridge",
+        "strategy": "baseline",
+        "columns": [
+          "sue",
+          "surprise_pct",
+          "vol_pre",
+          "car_-1_1",
+          "mom",
+          "bm",
+          "size",
+          "dispersion",
+          "avg_answer_words",
+          "words_prepared",
+          "words_questions",
+          "words_answers",
+          "n_questions",
+          "n_answers",
+          "n_analysts",
+          "prior_calls_with_target"
+        ],
+        "estimator": "Ridge",
+        "parameters": {
+          "alpha": 1.0
+        },
+        "resolved_parameters": {
+          "alpha": 1.0,
+          "copy_X": true,
+          "fit_intercept": true,
+          "max_iter": null,
+          "positive": false,
+          "random_state": null,
+          "solver": "auto",
+          "tol": 0.0001
+        }
+      },
+      "B": {
+        "algorithm": "EN_strong",
+        "strategy": "Forward Selection",
+        "columns": [
+          "sue",
+          "surprise_pct",
+          "vol_pre",
+          "car_-1_1",
+          "mom",
+          "bm",
+          "size",
+          "dispersion",
+          "avg_answer_words",
+          "words_prepared",
+          "words_questions",
+          "words_answers",
+          "n_questions",
+          "n_answers",
+          "n_analysts",
+          "prior_calls_with_target",
+          "tone_prepared_chg",
+          "hedging_answers_chg",
+          "tone_answers",
+          "hedging_answers",
+          "uncertainty_answers"
+        ],
+        "estimator": "ElasticNet",
+        "parameters": {
+          "alpha": 0.05,
+          "l1_ratio": 0.7,
+          "max_iter": 5000
+        },
+        "resolved_parameters": {
+          "alpha": 0.05,
+          "copy_X": true,
+          "fit_intercept": true,
+          "l1_ratio": 0.7,
+          "max_iter": 5000,
+          "positive": false,
+          "precompute": false,
+          "random_state": null,
+          "selection": "cyclic",
+          "tol": 0.0001,
+          "warm_start": false
+        }
+      },
+      "B*": {
+        "algorithm": "Ridge_a50",
+        "strategy": "Model B* (all LM)",
+        "columns": [
+          "sue",
+          "surprise_pct",
+          "vol_pre",
+          "car_-1_1",
+          "mom",
+          "bm",
+          "size",
+          "dispersion",
+          "avg_answer_words",
+          "words_prepared",
+          "words_questions",
+          "words_answers",
+          "n_questions",
+          "n_answers",
+          "n_analysts",
+          "prior_calls_with_target",
+          "tone_prepared",
+          "tone_answers",
+          "hedging_prepared",
+          "hedging_answers",
+          "uncertainty_answers",
+          "tone_gap",
+          "tone_prepared_chg",
+          "tone_answers_chg",
+          "hedging_answers_chg"
+        ],
+        "estimator": "Ridge",
+        "parameters": {
+          "alpha": 50.0
+        },
+        "resolved_parameters": {
+          "alpha": 50.0,
+          "copy_X": true,
+          "fit_intercept": true,
+          "max_iter": null,
+          "positive": false,
+          "random_state": null,
+          "solver": "auto",
+          "tol": 0.0001
+        }
+      }
+    }
+  },
+  "controls": [
+    "sue",
+    "surprise_pct",
+    "vol_pre",
+    "car_-1_1",
+    "mom",
+    "bm",
+    "size",
+    "dispersion",
+    "avg_answer_words",
+    "words_prepared",
+    "words_questions",
+    "words_answers",
+    "n_questions",
+    "n_answers",
+    "n_analysts",
+    "prior_calls_with_target"
+  ],
+  "LM9": [
+    "tone_prepared",
+    "tone_answers",
+    "hedging_prepared",
+    "hedging_answers",
+    "uncertainty_answers",
+    "tone_gap",
+    "tone_prepared_chg",
+    "tone_answers_chg",
+    "hedging_answers_chg"
+  ],
+  "log_then_preprocess": [
+    "words_prepared",
+    "words_answers",
+    "words_questions",
+    "avg_answer_words",
+    "n_analysts"
+  ],
+  "preprocessing": "Original function; log1p(max(x,0)) on listed fields, development 1st/99th percentile winsorization, raw development median for missing, StandardScaler (ddof=0) fit on development only.",
+  "target": "sum of daily abnormal returns over trading offsets +2 to +20 inclusive",
+  "learning_target": "scipy.stats.rankdata(method=average), 1-based midranks, unnormalized, development CAR only",
+  "benchmarks": {
+    "market": "S&P 500 SPRTRN price-return benchmark. Use already validated extended labels.",
+    "sector": "Original static GICS 35 snapshot and any-CCM link basket; session-valid S&P 500 membership; same-day abs(price)*shares, cap-weighted daily returns; CIZ from 2025. Legacy and CIZ 2024 benchmark bridge gates below."
+  },
+  "sector_validation": "Legacy 2024 daily and event labels within 1e-10; CIZ 2024 overlap at least 95% of archived events within 5 bp and all within 25 bp, a documented source-vintage guard. Early CAR is also validated on legacy 2024.",
+  "development": "Archived native option-specific rows, 2010–2023, nonmissing target. Fit all frozen models on identical 2,939 rows per option, no retuning or new development exclusion.",
+  "diagnostic": "Reuse archived 2024 scores/labels on 204 events per option; verify reproduction by fixed refit. 2024 informed historical estimator and strategy selection.",
+  "new_oos": "Existing static Health Care archive events, 2025 calendar year or partial 2026 through 2026-06-30 last source session. Verify exact CIQ/security linkage within observed window and active CIZ S&P membership on the archived call date; require complete target window and valid benchmark label. Apply identical inclusion across models. No transcript clock gate. Original supplied prior_calls_with_target retained; it does not accrue new OOS outcomes.",
+  "missingness": "All selected features stay in original order, with original development-statistic imputation; don't discard events for missing features or score/return magnitude. Keep LM redundancy. Sector Early CAR uses sector benchmark, with missing values imputed as originally.",
+  "metrics": "Spearman IC, paired B/B*-A, supplementary Pearson, score-sort spreads and change in spread; prediction rank agreement and changed rank share. No raw-scale R2, MAE or RMSE, and no directional hit rate without a frozen sign calibration.",
+  "quintiles": "Within option and period, pandas.qcut of predictions only; five distinct groups, no tie-splitting; require 50 events and 20 issuers. Report mean, median, sample SD, n. Monotonic when four successive changes in means share the same direction.",
+  "inference": "2499 paired draws per method, seed 14483 adjusted by period/option. Resample all calls of drawn GVKEY clusters or overlapping noncircular 2-calendar-month blocks in call months (include empty months), recompute midranks per draw. Pointwise percentile 95% CIs; at least 30 issuers and five nominal disjoint blocks for dual-method inference and >=95% usable draws. Partial 2026 and accessed 2024 descriptive. Centered two-sided bootstrap p-values with +1 correction; take larger across methods, Holm across exactly four pooled tests; require Holm p<=.05 and both CIs exclude zero in same direction.",
+  "stability": "Calendar quarters require 30 events and 15 issuers; incomplete Q2 2026 excluded from stability mean/SD/positive share. Report mean/SD/sign share at >=3 full periods; unannualized ICIR requires >=6."
+}

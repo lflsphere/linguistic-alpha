@@ -241,3 +241,13 @@ wrds_access_report.csv
 *.key
 *.pem
 .netrc
+
+# Licensed-input research outputs and local report binaries.
+/outputs/sp500_car_extension/sp500_car_extended.csv
+/outputs/sp500_financial_extension/sp500_model_extended.csv
+/outputs/sp500_financial_extension/feature_provenance.csv
+/outputs/sp500_financial_extension/feature_coverage.csv
+/outputs/healthcare_extended_oos/matched_predictions_local.csv
+/outputs/healthcare_extended_oos/healthcare_sector_extended_car.csv
+/outputs/healthcare_extended_oos/sector_benchmark_daily.csv
+/outputs/healthcare_extended_oos/Healthcare_Extended_OOS_Research_Report.pdf

@@ -1,0 +1,7 @@
+option,model,n,max_abs_score_difference,fit_n,parameters
+market,A,204,0.0,2939,Ridge
+market,B,204,0.0,2939,Ridge
+market,B*,204,0.0,2939,Ridge_a10
+sector,A,204,0.0,2939,Ridge
+sector,B,204,0.0,2939,EN_strong
+sector,B*,204,0.0,2939,Ridge_a50

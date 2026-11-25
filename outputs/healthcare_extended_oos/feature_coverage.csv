@@ -1,0 +1,251 @@
+option,period,feature,events,observed,missing,observed_share
+market,Development,sue,2939,2909,30,0.9897924464103437
+market,Development,surprise_pct,2939,2924,15,0.9948962232051718
+market,Development,vol_pre,2939,2937,2,0.9993194964273563
+market,Development,car_-1_1,2939,2939,0,1.0
+market,Development,mom,2939,2927,12,0.9959169785641374
+market,Development,bm,2939,2861,78,0.9734603606668935
+market,Development,size,2939,2937,2,0.9993194964273563
+market,Development,dispersion,2939,2924,15,0.9948962232051718
+market,Development,avg_answer_words,2939,2932,7,0.9976182374957469
+market,Development,words_prepared,2939,2939,0,1.0
+market,Development,words_questions,2939,2939,0,1.0
+market,Development,words_answers,2939,2939,0,1.0
+market,Development,n_questions,2939,2939,0,1.0
+market,Development,n_answers,2939,2939,0,1.0
+market,Development,n_analysts,2939,2927,12,0.9959169785641374
+market,Development,prior_calls_with_target,2939,2939,0,1.0
+market,Development,tone_prepared,2939,2939,0,1.0
+market,Development,tone_answers,2939,2932,7,0.9976182374957469
+market,Development,hedging_prepared,2939,2939,0,1.0
+market,Development,hedging_answers,2939,2932,7,0.9976182374957469
+market,Development,uncertainty_answers,2939,2932,7,0.9976182374957469
+market,Development,tone_gap,2939,2932,7,0.9976182374957469
+market,Development,tone_prepared_chg,2939,2843,96,0.9673358285130997
+market,Development,tone_answers_chg,2939,2837,102,0.9652943177951684
+market,Development,hedging_answers_chg,2939,2837,102,0.9652943177951684
+market,2024 diagnostic,sue,204,202,2,0.9901960784313726
+market,2024 diagnostic,surprise_pct,204,203,1,0.9950980392156863
+market,2024 diagnostic,vol_pre,204,204,0,1.0
+market,2024 diagnostic,car_-1_1,204,204,0,1.0
+market,2024 diagnostic,mom,204,202,2,0.9901960784313726
+market,2024 diagnostic,bm,204,189,15,0.9264705882352942
+market,2024 diagnostic,size,204,204,0,1.0
+market,2024 diagnostic,dispersion,204,203,1,0.9950980392156863
+market,2024 diagnostic,avg_answer_words,204,204,0,1.0
+market,2024 diagnostic,words_prepared,204,204,0,1.0
+market,2024 diagnostic,words_questions,204,204,0,1.0
+market,2024 diagnostic,words_answers,204,204,0,1.0
+market,2024 diagnostic,n_questions,204,204,0,1.0
+market,2024 diagnostic,n_answers,204,204,0,1.0
+market,2024 diagnostic,n_analysts,204,203,1,0.9950980392156863
+market,2024 diagnostic,prior_calls_with_target,204,204,0,1.0
+market,2024 diagnostic,tone_prepared,204,204,0,1.0
+market,2024 diagnostic,tone_answers,204,204,0,1.0
+market,2024 diagnostic,hedging_prepared,204,204,0,1.0
+market,2024 diagnostic,hedging_answers,204,204,0,1.0
+market,2024 diagnostic,uncertainty_answers,204,204,0,1.0
+market,2024 diagnostic,tone_gap,204,204,0,1.0
+market,2024 diagnostic,tone_prepared_chg,204,203,1,0.9950980392156863
+market,2024 diagnostic,tone_answers_chg,204,203,1,0.9950980392156863
+market,2024 diagnostic,hedging_answers_chg,204,203,1,0.9950980392156863
+market,2025,sue,211,208,3,0.985781990521327
+market,2025,surprise_pct,211,209,2,0.990521327014218
+market,2025,vol_pre,211,211,0,1.0
+market,2025,car_-1_1,211,211,0,1.0
+market,2025,mom,211,211,0,1.0
+market,2025,bm,211,192,19,0.909952606635071
+market,2025,size,211,211,0,1.0
+market,2025,dispersion,211,209,2,0.990521327014218
+market,2025,avg_answer_words,211,211,0,1.0
+market,2025,words_prepared,211,211,0,1.0
+market,2025,words_questions,211,211,0,1.0
+market,2025,words_answers,211,211,0,1.0
+market,2025,n_questions,211,211,0,1.0
+market,2025,n_answers,211,211,0,1.0
+market,2025,n_analysts,211,209,2,0.990521327014218
+market,2025,prior_calls_with_target,211,211,0,1.0
+market,2025,tone_prepared,211,211,0,1.0
+market,2025,tone_answers,211,211,0,1.0
+market,2025,hedging_prepared,211,211,0,1.0
+market,2025,hedging_answers,211,211,0,1.0
+market,2025,uncertainty_answers,211,211,0,1.0
+market,2025,tone_gap,211,211,0,1.0
+market,2025,tone_prepared_chg,211,211,0,1.0
+market,2025,tone_answers_chg,211,211,0,1.0
+market,2025,hedging_answers_chg,211,211,0,1.0
+market,2026 partial,sue,104,101,3,0.9711538461538461
+market,2026 partial,surprise_pct,104,101,3,0.9711538461538461
+market,2026 partial,vol_pre,104,104,0,1.0
+market,2026 partial,car_-1_1,104,104,0,1.0
+market,2026 partial,mom,104,104,0,1.0
+market,2026 partial,bm,104,93,11,0.8942307692307693
+market,2026 partial,size,104,104,0,1.0
+market,2026 partial,dispersion,104,101,3,0.9711538461538461
+market,2026 partial,avg_answer_words,104,104,0,1.0
+market,2026 partial,words_prepared,104,104,0,1.0
+market,2026 partial,words_questions,104,104,0,1.0
+market,2026 partial,words_answers,104,104,0,1.0
+market,2026 partial,n_questions,104,104,0,1.0
+market,2026 partial,n_answers,104,104,0,1.0
+market,2026 partial,n_analysts,104,101,3,0.9711538461538461
+market,2026 partial,prior_calls_with_target,104,104,0,1.0
+market,2026 partial,tone_prepared,104,104,0,1.0
+market,2026 partial,tone_answers,104,104,0,1.0
+market,2026 partial,hedging_prepared,104,104,0,1.0
+market,2026 partial,hedging_answers,104,104,0,1.0
+market,2026 partial,uncertainty_answers,104,104,0,1.0
+market,2026 partial,tone_gap,104,104,0,1.0
+market,2026 partial,tone_prepared_chg,104,104,0,1.0
+market,2026 partial,tone_answers_chg,104,104,0,1.0
+market,2026 partial,hedging_answers_chg,104,104,0,1.0
+market,2025–26 pooled,sue,315,309,6,0.9809523809523809
+market,2025–26 pooled,surprise_pct,315,310,5,0.9841269841269841
+market,2025–26 pooled,vol_pre,315,315,0,1.0
+market,2025–26 pooled,car_-1_1,315,315,0,1.0
+market,2025–26 pooled,mom,315,315,0,1.0
+market,2025–26 pooled,bm,315,285,30,0.9047619047619048
+market,2025–26 pooled,size,315,315,0,1.0
+market,2025–26 pooled,dispersion,315,310,5,0.9841269841269841
+market,2025–26 pooled,avg_answer_words,315,315,0,1.0
+market,2025–26 pooled,words_prepared,315,315,0,1.0
+market,2025–26 pooled,words_questions,315,315,0,1.0
+market,2025–26 pooled,words_answers,315,315,0,1.0
+market,2025–26 pooled,n_questions,315,315,0,1.0
+market,2025–26 pooled,n_answers,315,315,0,1.0
+market,2025–26 pooled,n_analysts,315,310,5,0.9841269841269841
+market,2025–26 pooled,prior_calls_with_target,315,315,0,1.0
+market,2025–26 pooled,tone_prepared,315,315,0,1.0
+market,2025–26 pooled,tone_answers,315,315,0,1.0
+market,2025–26 pooled,hedging_prepared,315,315,0,1.0
+market,2025–26 pooled,hedging_answers,315,315,0,1.0
+market,2025–26 pooled,uncertainty_answers,315,315,0,1.0
+market,2025–26 pooled,tone_gap,315,315,0,1.0
+market,2025–26 pooled,tone_prepared_chg,315,315,0,1.0
+market,2025–26 pooled,tone_answers_chg,315,315,0,1.0
+market,2025–26 pooled,hedging_answers_chg,315,315,0,1.0
+sector,Development,sue,2939,2909,30,0.9897924464103437
+sector,Development,surprise_pct,2939,2924,15,0.9948962232051718
+sector,Development,vol_pre,2939,2937,2,0.9993194964273563
+sector,Development,car_-1_1,2939,2939,0,1.0
+sector,Development,mom,2939,2927,12,0.9959169785641374
+sector,Development,bm,2939,2861,78,0.9734603606668935
+sector,Development,size,2939,2937,2,0.9993194964273563
+sector,Development,dispersion,2939,2924,15,0.9948962232051718
+sector,Development,avg_answer_words,2939,2932,7,0.9976182374957469
+sector,Development,words_prepared,2939,2939,0,1.0
+sector,Development,words_questions,2939,2939,0,1.0
+sector,Development,words_answers,2939,2939,0,1.0
+sector,Development,n_questions,2939,2939,0,1.0
+sector,Development,n_answers,2939,2939,0,1.0
+sector,Development,n_analysts,2939,2927,12,0.9959169785641374
+sector,Development,prior_calls_with_target,2939,2939,0,1.0
+sector,Development,tone_prepared,2939,2939,0,1.0
+sector,Development,tone_answers,2939,2932,7,0.9976182374957469
+sector,Development,hedging_prepared,2939,2939,0,1.0
+sector,Development,hedging_answers,2939,2932,7,0.9976182374957469
+sector,Development,uncertainty_answers,2939,2932,7,0.9976182374957469
+sector,Development,tone_gap,2939,2932,7,0.9976182374957469
+sector,Development,tone_prepared_chg,2939,2843,96,0.9673358285130997
+sector,Development,tone_answers_chg,2939,2837,102,0.9652943177951684
+sector,Development,hedging_answers_chg,2939,2837,102,0.9652943177951684
+sector,2024 diagnostic,sue,204,202,2,0.9901960784313726
+sector,2024 diagnostic,surprise_pct,204,203,1,0.9950980392156863
+sector,2024 diagnostic,vol_pre,204,204,0,1.0
+sector,2024 diagnostic,car_-1_1,204,204,0,1.0
+sector,2024 diagnostic,mom,204,202,2,0.9901960784313726
+sector,2024 diagnostic,bm,204,189,15,0.9264705882352942
+sector,2024 diagnostic,size,204,204,0,1.0
+sector,2024 diagnostic,dispersion,204,203,1,0.9950980392156863
+sector,2024 diagnostic,avg_answer_words,204,204,0,1.0
+sector,2024 diagnostic,words_prepared,204,204,0,1.0
+sector,2024 diagnostic,words_questions,204,204,0,1.0
+sector,2024 diagnostic,words_answers,204,204,0,1.0
+sector,2024 diagnostic,n_questions,204,204,0,1.0
+sector,2024 diagnostic,n_answers,204,204,0,1.0
+sector,2024 diagnostic,n_analysts,204,203,1,0.9950980392156863
+sector,2024 diagnostic,prior_calls_with_target,204,204,0,1.0
+sector,2024 diagnostic,tone_prepared,204,204,0,1.0
+sector,2024 diagnostic,tone_answers,204,204,0,1.0
+sector,2024 diagnostic,hedging_prepared,204,204,0,1.0
+sector,2024 diagnostic,hedging_answers,204,204,0,1.0
+sector,2024 diagnostic,uncertainty_answers,204,204,0,1.0
+sector,2024 diagnostic,tone_gap,204,204,0,1.0
+sector,2024 diagnostic,tone_prepared_chg,204,203,1,0.9950980392156863
+sector,2024 diagnostic,tone_answers_chg,204,203,1,0.9950980392156863
+sector,2024 diagnostic,hedging_answers_chg,204,203,1,0.9950980392156863
+sector,2025,sue,211,208,3,0.985781990521327
+sector,2025,surprise_pct,211,209,2,0.990521327014218
+sector,2025,vol_pre,211,211,0,1.0
+sector,2025,car_-1_1,211,211,0,1.0
+sector,2025,mom,211,211,0,1.0
+sector,2025,bm,211,192,19,0.909952606635071
+sector,2025,size,211,211,0,1.0
+sector,2025,dispersion,211,209,2,0.990521327014218
+sector,2025,avg_answer_words,211,211,0,1.0
+sector,2025,words_prepared,211,211,0,1.0
+sector,2025,words_questions,211,211,0,1.0
+sector,2025,words_answers,211,211,0,1.0
+sector,2025,n_questions,211,211,0,1.0
+sector,2025,n_answers,211,211,0,1.0
+sector,2025,n_analysts,211,209,2,0.990521327014218
+sector,2025,prior_calls_with_target,211,211,0,1.0
+sector,2025,tone_prepared,211,211,0,1.0
+sector,2025,tone_answers,211,211,0,1.0
+sector,2025,hedging_prepared,211,211,0,1.0
+sector,2025,hedging_answers,211,211,0,1.0
+sector,2025,uncertainty_answers,211,211,0,1.0
+sector,2025,tone_gap,211,211,0,1.0
+sector,2025,tone_prepared_chg,211,211,0,1.0
+sector,2025,tone_answers_chg,211,211,0,1.0
+sector,2025,hedging_answers_chg,211,211,0,1.0
+sector,2026 partial,sue,104,101,3,0.9711538461538461
+sector,2026 partial,surprise_pct,104,101,3,0.9711538461538461
+sector,2026 partial,vol_pre,104,104,0,1.0
+sector,2026 partial,car_-1_1,104,104,0,1.0
+sector,2026 partial,mom,104,104,0,1.0
+sector,2026 partial,bm,104,93,11,0.8942307692307693
+sector,2026 partial,size,104,104,0,1.0
+sector,2026 partial,dispersion,104,101,3,0.9711538461538461
+sector,2026 partial,avg_answer_words,104,104,0,1.0
+sector,2026 partial,words_prepared,104,104,0,1.0
+sector,2026 partial,words_questions,104,104,0,1.0
+sector,2026 partial,words_answers,104,104,0,1.0
+sector,2026 partial,n_questions,104,104,0,1.0
+sector,2026 partial,n_answers,104,104,0,1.0
+sector,2026 partial,n_analysts,104,101,3,0.9711538461538461
+sector,2026 partial,prior_calls_with_target,104,104,0,1.0
+sector,2026 partial,tone_prepared,104,104,0,1.0
+sector,2026 partial,tone_answers,104,104,0,1.0
+sector,2026 partial,hedging_prepared,104,104,0,1.0
+sector,2026 partial,hedging_answers,104,104,0,1.0
+sector,2026 partial,uncertainty_answers,104,104,0,1.0
+sector,2026 partial,tone_gap,104,104,0,1.0
+sector,2026 partial,tone_prepared_chg,104,104,0,1.0
+sector,2026 partial,tone_answers_chg,104,104,0,1.0
+sector,2026 partial,hedging_answers_chg,104,104,0,1.0
+sector,2025–26 pooled,sue,315,309,6,0.9809523809523809
+sector,2025–26 pooled,surprise_pct,315,310,5,0.9841269841269841
+sector,2025–26 pooled,vol_pre,315,315,0,1.0
+sector,2025–26 pooled,car_-1_1,315,315,0,1.0
+sector,2025–26 pooled,mom,315,315,0,1.0
+sector,2025–26 pooled,bm,315,285,30,0.9047619047619048
+sector,2025–26 pooled,size,315,315,0,1.0
+sector,2025–26 pooled,dispersion,315,310,5,0.9841269841269841
+sector,2025–26 pooled,avg_answer_words,315,315,0,1.0
+sector,2025–26 pooled,words_prepared,315,315,0,1.0
+sector,2025–26 pooled,words_questions,315,315,0,1.0
+sector,2025–26 pooled,words_answers,315,315,0,1.0
+sector,2025–26 pooled,n_questions,315,315,0,1.0
+sector,2025–26 pooled,n_answers,315,315,0,1.0
+sector,2025–26 pooled,n_analysts,315,310,5,0.9841269841269841
+sector,2025–26 pooled,prior_calls_with_target,315,315,0,1.0
+sector,2025–26 pooled,tone_prepared,315,315,0,1.0
+sector,2025–26 pooled,tone_answers,315,315,0,1.0
+sector,2025–26 pooled,hedging_prepared,315,315,0,1.0
+sector,2025–26 pooled,hedging_answers,315,315,0,1.0
+sector,2025–26 pooled,uncertainty_answers,315,315,0,1.0
+sector,2025–26 pooled,tone_gap,315,315,0,1.0
+sector,2025–26 pooled,tone_prepared_chg,315,315,0,1.0
+sector,2025–26 pooled,tone_answers_chg,315,315,0,1.0
+sector,2025–26 pooled,hedging_answers_chg,315,315,0,1.0

@@ -1,0 +1,6 @@
+check,reference_n,compared_n,mean_abs_error,max_abs_error,fraction_within_cutoff,tolerance,passed
+2024 legacy daily sector benchmark,252,252,6.4799364961696e-19,6.9388939039072e-18,1,1e-10,True
+2024 legacy event car_-1_1,205,205,6.0245677010814e-17,6.9388939039072e-16,1,1e-10,True
+2024 CIZ bridge event car_-1_1,205,205,1.1258630242018e-07,1.0518712468821e-06,1,0.0005,True
+2024 legacy event car_2_20,204,204,1.3963673626968e-16,1.1796119636642e-15,1,1e-10,True
+2024 CIZ bridge event car_2_20,204,204,5.095051399676e-07,2.9259044737676e-06,1,0.0005,True
