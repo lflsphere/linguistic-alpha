@@ -1,2 +1,4 @@
 # The frozen experiment manifest hashes the evaluator's exact source bytes.
 /outputs/healthcare_extended_oos/evaluate.py text eol=lf
+/outputs/healthcare_expanding_oos/evaluate_expanding.py text eol=lf
+/outputs/healthcare_final_research/build_final_report.py -text

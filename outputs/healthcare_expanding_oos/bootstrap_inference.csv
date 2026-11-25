@@ -1,0 +1,81 @@
+option,period,family,model,method,events,issuer_clusters,calendar_months,nominal_time_blocks,n_requested,n_valid,point,lower,upper,crosses_zero,p_centered,status,holm_p_pooled,passes_exploratory_screen
+market,2024 diagnostic,LM,B,issuer_cluster,204,62,12,6,0,0,0.035473634365437,,,,,descriptive only,,False
+market,2024 diagnostic,LM,B*,issuer_cluster,204,62,12,6,0,0,0.029958089207087,,,,,descriptive only,,False
+market,2024 diagnostic,schedule,A,issuer_cluster,204,62,12,6,0,0,0,,,,,descriptive only,,False
+market,2024 diagnostic,schedule,B,issuer_cluster,204,62,12,6,0,0,0,,,,,descriptive only,,False
+market,2024 diagnostic,schedule,B*,issuer_cluster,204,62,12,6,0,0,0,,,,,descriptive only,,False
+market,2024 diagnostic,LM,B,time_block,204,62,12,6,0,0,0.035473634365437,,,,,descriptive only,,False
+market,2024 diagnostic,LM,B*,time_block,204,62,12,6,0,0,0.029958089207087,,,,,descriptive only,,False
+market,2024 diagnostic,schedule,A,time_block,204,62,12,6,0,0,0,,,,,descriptive only,,False
+market,2024 diagnostic,schedule,B,time_block,204,62,12,6,0,0,0,,,,,descriptive only,,False
+market,2024 diagnostic,schedule,B*,time_block,204,62,12,6,0,0,0,,,,,descriptive only,,False
+market,2025,LM,B,issuer_cluster,211,61,12,6,2499,2499,0.0027567353508514,-0.041663981099936,0.044407078465407,True,,exploratory pointwise,,False
+market,2025,LM,B*,issuer_cluster,211,61,12,6,2499,2499,0.001861243469041,-0.049543074915931,0.052227742897303,True,,exploratory pointwise,,False
+market,2025,schedule,A,issuer_cluster,211,61,12,6,2499,2499,-0.024893652354978,-0.069501348727676,0.022740424284175,True,,exploratory pointwise,,False
+market,2025,schedule,B,issuer_cluster,211,61,12,6,2499,2499,-0.022188014971705,-0.065277842986353,0.021152954586751,True,,exploratory pointwise,,False
+market,2025,schedule,B*,issuer_cluster,211,61,12,6,2499,2499,-0.027893103051826,-0.07689626346102,0.022055194857862,True,,exploratory pointwise,,False
+market,2025,LM,B,time_block,211,61,12,6,2499,2499,0.0027567353508514,-0.041791730784794,0.044777556949671,True,,exploratory pointwise,,False
+market,2025,LM,B*,time_block,211,61,12,6,2499,2499,0.001861243469041,-0.076219718403587,0.082267392184828,True,,exploratory pointwise,,False
+market,2025,schedule,A,time_block,211,61,12,6,2499,2499,-0.024893652354978,-0.063115025935834,0.019303930901734,True,,exploratory pointwise,,False
+market,2025,schedule,B,time_block,211,61,12,6,2499,2499,-0.022188014971705,-0.07280384503044,0.034756354742199,True,,exploratory pointwise,,False
+market,2025,schedule,B*,time_block,211,61,12,6,2499,2499,-0.027893103051826,-0.081775397030274,0.030384842175786,True,,exploratory pointwise,,False
+market,2026 partial,LM,B,issuer_cluster,104,59,6,3,0,0,0.0096127173797077,,,,,descriptive only,,False
+market,2026 partial,LM,B*,issuer_cluster,104,59,6,3,0,0,0.0063053451402966,,,,,descriptive only,,False
+market,2026 partial,schedule,A,issuer_cluster,104,59,6,3,0,0,-0.011533127067108,,,,,descriptive only,,False
+market,2026 partial,schedule,B,issuer_cluster,104,59,6,3,0,0,-0.0088125466766243,,,,,descriptive only,,False
+market,2026 partial,schedule,B*,issuer_cluster,104,59,6,3,0,0,0.0050250720153633,,,,,descriptive only,,False
+market,2026 partial,LM,B,time_block,104,59,6,3,0,0,0.0096127173797077,,,,,descriptive only,,False
+market,2026 partial,LM,B*,time_block,104,59,6,3,0,0,0.0063053451402966,,,,,descriptive only,,False
+market,2026 partial,schedule,A,time_block,104,59,6,3,0,0,-0.011533127067108,,,,,descriptive only,,False
+market,2026 partial,schedule,B,time_block,104,59,6,3,0,0,-0.0088125466766243,,,,,descriptive only,,False
+market,2026 partial,schedule,B*,time_block,104,59,6,3,0,0,0.0050250720153633,,,,,descriptive only,,False
+market,2025–26 pooled,LM,B,issuer_cluster,315,61,18,9,2499,2499,0.0064124271009702,-0.014508514557793,0.028247619202962,True,0.5552,exploratory pointwise,1,False
+market,2025–26 pooled,LM,B*,issuer_cluster,315,61,18,9,2499,2499,0.0051611937204133,-0.026029923692294,0.037620074385386,True,0.7452,exploratory pointwise,1,False
+market,2025–26 pooled,schedule,A,issuer_cluster,315,61,18,9,2499,2499,-0.13077327681859,-0.2138774859006,-0.05058839038797,False,0.0024,exploratory pointwise,0.1128,False
+market,2025–26 pooled,schedule,B,issuer_cluster,315,61,18,9,2499,2499,-0.11862644598273,-0.19415324904279,-0.047932733365422,False,0.002,exploratory pointwise,0.1128,False
+market,2025–26 pooled,schedule,B*,issuer_cluster,315,61,18,9,2499,2499,-0.11092400840043,-0.18360567990311,-0.044297384767233,False,0.0032,exploratory pointwise,0.1128,False
+market,2025–26 pooled,LM,B,time_block,315,61,18,9,2499,2499,0.0064124271009702,-0.025709237601667,0.034068176945459,True,0.69,exploratory pointwise,1,False
+market,2025–26 pooled,LM,B*,time_block,315,61,18,9,2499,2499,0.0051611937204133,-0.045909730889862,0.054000280959933,True,0.8388,exploratory pointwise,1,False
+market,2025–26 pooled,schedule,A,time_block,315,61,18,9,2499,2499,-0.13077327681859,-0.21849164712365,-0.013025117864292,False,0.0188,exploratory pointwise,0.1128,False
+market,2025–26 pooled,schedule,B,time_block,315,61,18,9,2499,2499,-0.11862644598273,-0.20053516470291,-0.010612398652805,False,0.0224,exploratory pointwise,0.1128,False
+market,2025–26 pooled,schedule,B*,time_block,315,61,18,9,2499,2499,-0.11092400840043,-0.18444884857023,-0.0062545077361659,False,0.0244,exploratory pointwise,0.1128,False
+sector,2024 diagnostic,LM,B,issuer_cluster,204,62,12,6,0,0,0.038563583549484,,,,,descriptive only,,False
+sector,2024 diagnostic,LM,B*,issuer_cluster,204,62,12,6,0,0,0.021191453873391,,,,,descriptive only,,False
+sector,2024 diagnostic,schedule,A,issuer_cluster,204,62,12,6,0,0,0,,,,,descriptive only,,False
+sector,2024 diagnostic,schedule,B,issuer_cluster,204,62,12,6,0,0,0,,,,,descriptive only,,False
+sector,2024 diagnostic,schedule,B*,issuer_cluster,204,62,12,6,0,0,0,,,,,descriptive only,,False
+sector,2024 diagnostic,LM,B,time_block,204,62,12,6,0,0,0.038563583549484,,,,,descriptive only,,False
+sector,2024 diagnostic,LM,B*,time_block,204,62,12,6,0,0,0.021191453873391,,,,,descriptive only,,False
+sector,2024 diagnostic,schedule,A,time_block,204,62,12,6,0,0,0,,,,,descriptive only,,False
+sector,2024 diagnostic,schedule,B,time_block,204,62,12,6,0,0,0,,,,,descriptive only,,False
+sector,2024 diagnostic,schedule,B*,time_block,204,62,12,6,0,0,0,,,,,descriptive only,,False
+sector,2025,LM,B,issuer_cluster,211,61,12,6,2499,2499,0.0021371724939641,-0.039965030691727,0.046394890091242,True,,exploratory pointwise,,False
+sector,2025,LM,B*,issuer_cluster,211,61,12,6,2499,2499,0.0084631008801625,-0.047852149879336,0.062001846507267,True,,exploratory pointwise,,False
+sector,2025,schedule,A,issuer_cluster,211,61,12,6,2499,2499,0.025127425556648,-0.038986810165566,0.091293052921496,True,,exploratory pointwise,,False
+sector,2025,schedule,B,issuer_cluster,211,61,12,6,2499,2499,0.033244337706468,-0.022405702833451,0.08930200917484,True,,exploratory pointwise,,False
+sector,2025,schedule,B*,issuer_cluster,211,61,12,6,2499,2499,0.039754218775948,-0.01176251495655,0.091831314691002,True,,exploratory pointwise,,False
+sector,2025,LM,B,time_block,211,61,12,6,2499,2499,0.0021371724939641,-0.034469876835452,0.035909809661433,True,,exploratory pointwise,,False
+sector,2025,LM,B*,time_block,211,61,12,6,2499,2499,0.0084631008801625,-0.0303919097622,0.04184181752732,True,,exploratory pointwise,,False
+sector,2025,schedule,A,time_block,211,61,12,6,2499,2499,0.025127425556648,-0.023279168303695,0.073516346143573,True,,exploratory pointwise,,False
+sector,2025,schedule,B,time_block,211,61,12,6,2499,2499,0.033244337706468,-0.018473134130112,0.07874488495486,True,,exploratory pointwise,,False
+sector,2025,schedule,B*,time_block,211,61,12,6,2499,2499,0.039754218775948,-0.018587805089123,0.084616836357041,True,,exploratory pointwise,,False
+sector,2026 partial,LM,B,issuer_cluster,104,59,6,3,0,0,0.0026352288488211,,,,,descriptive only,,False
+sector,2026 partial,LM,B*,issuer_cluster,104,59,6,3,0,0,-0.0035207510935666,,,,,descriptive only,,False
+sector,2026 partial,schedule,A,issuer_cluster,104,59,6,3,0,0,0.097428784807426,,,,,descriptive only,,False
+sector,2026 partial,schedule,B,issuer_cluster,104,59,6,3,0,0,0.10517443721327,,,,,descriptive only,,False
+sector,2026 partial,schedule,B*,issuer_cluster,104,59,6,3,0,0,0.11325082684306,,,,,descriptive only,,False
+sector,2026 partial,LM,B,time_block,104,59,6,3,0,0,0.0026352288488211,,,,,descriptive only,,False
+sector,2026 partial,LM,B*,time_block,104,59,6,3,0,0,-0.0035207510935666,,,,,descriptive only,,False
+sector,2026 partial,schedule,A,time_block,104,59,6,3,0,0,0.097428784807426,,,,,descriptive only,,False
+sector,2026 partial,schedule,B,time_block,104,59,6,3,0,0,0.10517443721327,,,,,descriptive only,,False
+sector,2026 partial,schedule,B*,time_block,104,59,6,3,0,0,0.11325082684306,,,,,descriptive only,,False
+sector,2025–26 pooled,LM,B,issuer_cluster,315,61,18,9,2499,2499,-0.00066727327873825,-0.027193046286148,0.028282191479737,True,0.9644,exploratory pointwise,1,False
+sector,2025–26 pooled,LM,B*,issuer_cluster,315,61,18,9,2499,2499,0.0017027370490242,-0.031958469219231,0.036686581317738,True,0.928,exploratory pointwise,1,False
+sector,2025–26 pooled,schedule,A,issuer_cluster,315,61,18,9,2499,2499,-0.061720090761452,-0.12997604320438,0.0080386392754772,True,0.0796,exploratory pointwise,0.7584,False
+sector,2025–26 pooled,schedule,B,issuer_cluster,315,61,18,9,2499,2499,-0.046380100052599,-0.1125515192347,0.022030504255795,True,0.174,exploratory pointwise,0.7584,False
+sector,2025–26 pooled,schedule,B*,issuer_cluster,315,61,18,9,2499,2499,-0.038215408714482,-0.10500322810542,0.0356039909803,True,0.2684,exploratory pointwise,0.7584,False
+sector,2025–26 pooled,LM,B,time_block,315,61,18,9,2499,2499,-0.00066727327873825,-0.019884543892516,0.022126214521203,True,0.9428,exploratory pointwise,1,False
+sector,2025–26 pooled,LM,B*,time_block,315,61,18,9,2499,2499,0.0017027370490242,-0.021852874762814,0.026446961759231,True,0.8772,exploratory pointwise,1,False
+sector,2025–26 pooled,schedule,A,time_block,315,61,18,9,2499,2499,-0.061720090761452,-0.1623713884146,0.038180092655368,True,0.2528,exploratory pointwise,0.7584,False
+sector,2025–26 pooled,schedule,B,time_block,315,61,18,9,2499,2499,-0.046380100052599,-0.13588204253136,0.045327386721029,True,0.338,exploratory pointwise,0.7584,False
+sector,2025–26 pooled,schedule,B*,time_block,315,61,18,9,2499,2499,-0.038215408714482,-0.12324205206938,0.045152644846201,True,0.3844,exploratory pointwise,0.7584,False

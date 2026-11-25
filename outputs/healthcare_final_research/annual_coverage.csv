@@ -1,0 +1,7 @@
+year,test,option,benchmark,events,issuers,first_call,last_call,training_events,training_history,training_cutoff_et,source,crsp_cutoff
+2024,Test 2024,market,S&P 500-adjusted,204,62,2024-01-12,2024-11-25,2939,2010–2023,2023-12-31 (training end date),Original pre-extension archive,2024-12-31
+2024,Test 2024,sector,Healthcare sector-adjusted,204,62,2024-01-12,2024-11-25,2939,2010–2023,2023-12-31 (training end date),Original pre-extension archive,2024-12-31
+2025,Test 2025,market,S&P 500-adjusted,211,61,2025-01-16,2025-12-04,3143,2010–2024,2025-01-17T16:00:00-05:00,Saved annual expanding predictions,2026-06-30
+2025,Test 2025,sector,Healthcare sector-adjusted,211,61,2025-01-16,2025-12-04,3143,2010–2024,2025-01-17T16:00:00-05:00,Saved annual expanding predictions,2026-06-30
+2026,Test 2026 (Partial),market,S&P 500-adjusted,104,59,2026-01-21,2026-05-27,3354,2010–2025,2026-01-22T16:00:00-05:00,Saved annual expanding predictions,2026-06-30
+2026,Test 2026 (Partial),sector,Healthcare sector-adjusted,104,59,2026-01-21,2026-05-27,3354,2010–2025,2026-01-22T16:00:00-05:00,Saved annual expanding predictions,2026-06-30

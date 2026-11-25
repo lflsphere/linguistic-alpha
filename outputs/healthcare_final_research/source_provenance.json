@@ -1,0 +1,354 @@
+{
+  "report": "Linguistic Alpha Evaluation",
+  "protected_baseline_commit": "ffee3b4a2caaa5c450b2ffcda353be70c229e9ac",
+  "no_model_fit": true,
+  "sources_by_year": {
+    "Test 2024": [
+      "outputs/healthcare_original_pierre_replication/original_test_predictions.parquet",
+      "outputs/healthcare_original_pierre_replication/native_model_metrics.csv",
+      "outputs/healthcare_original_pierre_replication/original_model_splits.csv",
+      "outputs/healthcare_original_pierre_replication/native_strategy_scores.csv",
+      "outputs/healthcare_original_pierre_replication/provenance.json",
+      "outputs/healthcare_original_pierre_replication/earnings_health/model_table_opt1.parquet",
+      "outputs/healthcare_original_pierre_replication/earnings_health/model_table_opt2.parquet"
+    ],
+    "Test 2025": [
+      "outputs/healthcare_expanding_oos/matched_predictions_local.csv",
+      "outputs/healthcare_expanding_oos/model_performance.csv",
+      "outputs/healthcare_expanding_oos/incremental_comparison.csv",
+      "outputs/healthcare_expanding_oos/quintile_returns.csv",
+      "outputs/healthcare_expanding_oos/quarterly_ic.csv",
+      "outputs/healthcare_expanding_oos/bootstrap_inference.csv",
+      "outputs/healthcare_expanding_oos/refit_training_audit.csv",
+      "outputs/healthcare_expanding_oos/expanding_experiment_spec.json"
+    ],
+    "Test 2026 (Partial)": [
+      "outputs/healthcare_expanding_oos/matched_predictions_local.csv",
+      "outputs/healthcare_expanding_oos/model_performance.csv",
+      "outputs/healthcare_expanding_oos/incremental_comparison.csv",
+      "outputs/healthcare_expanding_oos/quintile_returns.csv",
+      "outputs/healthcare_expanding_oos/quarterly_ic.csv",
+      "outputs/healthcare_expanding_oos/bootstrap_inference.csv",
+      "outputs/healthcare_expanding_oos/refit_training_audit.csv",
+      "outputs/healthcare_expanding_oos/expanding_experiment_spec.json"
+    ]
+  },
+  "visual_reference": "outputs/healthcare_factor_evaluation/dashboard.html",
+  "source_sha256": {
+    "outputs/healthcare_original_pierre_replication/original_test_predictions.parquet": "200806a8ba15f9bd7ea032c8b7b0f1ab14ee28f567fd7b7633c661446896c268",
+    "outputs/healthcare_original_pierre_replication/native_model_metrics.csv": "df21d6652da4f45db5ff76deda5d4d6ade0c9dfa7cc98ebeecef2b197e1f9f12",
+    "outputs/healthcare_original_pierre_replication/original_model_splits.csv": "2590bfcb0685279850596a4036628bbacc7ee9330ec5fdc29492731071a53f68",
+    "outputs/healthcare_original_pierre_replication/native_strategy_scores.csv": "50bbbacebf5e8080f370b1c28e306bafff282eb7af581b0ebb8ff5b71e7dd025",
+    "outputs/healthcare_original_pierre_replication/provenance.json": "fa72d8761452a4cba358b0eb2aa82355e902ebea29b28977614efe24583ca1d9",
+    "outputs/healthcare_original_pierre_replication/earnings_health/model_table_opt1.parquet": "e77fd007f7a70f8d87fae17d6c7b06d5c7bb1b3bc83aff17f4dfe415e24a98bf",
+    "outputs/healthcare_original_pierre_replication/earnings_health/model_table_opt2.parquet": "ccffe3e8672bf692b0473fa3ad26914998189ccbb2225973dd18b59b50f1ac4f",
+    "outputs/healthcare_expanding_oos/matched_predictions_local.csv": "7f1e7cd639d54a5d422a1c5f4a70dca5ffa440950ce0578ca354f51f370ee9b8",
+    "outputs/healthcare_expanding_oos/model_performance.csv": "e73a24d8645b426178e833fe4230779caa2c4d7bfcfc7ed044158471ddf97022",
+    "outputs/healthcare_expanding_oos/incremental_comparison.csv": "7c85caaf909a48842ce331d4b5c82ec26202affedd4eca9e13274c6900ca6fd2",
+    "outputs/healthcare_expanding_oos/quintile_returns.csv": "afff2acf9c755ee7ea20ffb82e2d75e911f117bf66c2deaf75f38bd8ca1ca2fc",
+    "outputs/healthcare_expanding_oos/quarterly_ic.csv": "245298b86261ee8b85828e60b29e9de38388d9d32c96434b8809be773f671acd",
+    "outputs/healthcare_expanding_oos/bootstrap_inference.csv": "5526160a16e9b2eea2acda8d7b6fdd2503fb2bb934ce0161a53c4f2ffe4ee6ca",
+    "outputs/healthcare_expanding_oos/refit_training_audit.csv": "4eac5c8941eeddfeea92acbf6bde842288f1616e9c78458698cf64184cb15acb",
+    "outputs/healthcare_expanding_oos/expanding_experiment_spec.json": "811e9f94b21cc2f5e59ec6ac96e874845793e75f3244d1d540c874a35396d13e",
+    "outputs/healthcare_factor_evaluation/dashboard.html": "f0c8c994e6f5ac379a9cb75e84624a092119fc3dbdbfaec11009e711592493ca"
+  },
+  "report_builder_sha256": "8763df65c1c0a4df8cafcc12d499c6cd4b647ab32c75155c8d9f7e8c397f055b",
+  "aggregate_sha256": {
+    "annual_model_performance": "f2d5a587944cf66076e1f0ba52ae774ceb640f93c151a8b807f4399ce44c2b8c",
+    "annual_incremental_rank_ic": "d6a5454ffb9606367ceee1afde356fbfce09c12ff5a30c353e6b21ad79e1b5b1",
+    "annual_quintile_returns": "ca105cc4bec44facc36a176fceb26d3c8c0312e126d8ffad1e06a628a45ad754",
+    "annual_stability": "421ffeb1605c748b3919ab93b0aa0d976e1cc88270cd624294acbc87b2800cb6",
+    "annual_inference": "6e60f9fbeda096d9efe051906732fa844bd2f7e72aa0887a4b8c9c563f1cd4e9",
+    "annual_coverage": "9377719ae19216328661f467cbde417b08f01cef1d96a75fbee0c231d23d1246"
+  },
+  "model_definitions": {
+    "market": {
+      "A": {
+        "algorithm": "Ridge",
+        "strategy": "baseline",
+        "columns": [
+          "sue",
+          "surprise_pct",
+          "vol_pre",
+          "car_-1_1",
+          "mom",
+          "bm",
+          "size",
+          "dispersion",
+          "avg_answer_words",
+          "words_prepared",
+          "words_questions",
+          "words_answers",
+          "n_questions",
+          "n_answers",
+          "n_analysts",
+          "prior_calls_with_target"
+        ],
+        "estimator": "Ridge",
+        "parameters": {
+          "alpha": 1.0
+        },
+        "resolved_parameters": {
+          "alpha": 1.0,
+          "copy_X": true,
+          "fit_intercept": true,
+          "max_iter": null,
+          "positive": false,
+          "random_state": null,
+          "solver": "auto",
+          "tol": 0.0001
+        }
+      },
+      "B": {
+        "algorithm": "Ridge",
+        "strategy": "Combined Good Features",
+        "columns": [
+          "sue",
+          "surprise_pct",
+          "vol_pre",
+          "car_-1_1",
+          "mom",
+          "bm",
+          "size",
+          "dispersion",
+          "avg_answer_words",
+          "words_prepared",
+          "words_questions",
+          "words_answers",
+          "n_questions",
+          "n_answers",
+          "n_analysts",
+          "prior_calls_with_target",
+          "hedging_answers_chg",
+          "hedging_answers",
+          "uncertainty_answers",
+          "tone_answers",
+          "tone_prepared_chg"
+        ],
+        "estimator": "Ridge",
+        "parameters": {
+          "alpha": 1.0
+        },
+        "resolved_parameters": {
+          "alpha": 1.0,
+          "copy_X": true,
+          "fit_intercept": true,
+          "max_iter": null,
+          "positive": false,
+          "random_state": null,
+          "solver": "auto",
+          "tol": 0.0001
+        }
+      },
+      "B*": {
+        "algorithm": "Ridge_a10",
+        "strategy": "Model B* (all LM)",
+        "columns": [
+          "sue",
+          "surprise_pct",
+          "vol_pre",
+          "car_-1_1",
+          "mom",
+          "bm",
+          "size",
+          "dispersion",
+          "avg_answer_words",
+          "words_prepared",
+          "words_questions",
+          "words_answers",
+          "n_questions",
+          "n_answers",
+          "n_analysts",
+          "prior_calls_with_target",
+          "tone_prepared",
+          "tone_answers",
+          "hedging_prepared",
+          "hedging_answers",
+          "uncertainty_answers",
+          "tone_gap",
+          "tone_prepared_chg",
+          "tone_answers_chg",
+          "hedging_answers_chg"
+        ],
+        "estimator": "Ridge",
+        "parameters": {
+          "alpha": 10.0
+        },
+        "resolved_parameters": {
+          "alpha": 10.0,
+          "copy_X": true,
+          "fit_intercept": true,
+          "max_iter": null,
+          "positive": false,
+          "random_state": null,
+          "solver": "auto",
+          "tol": 0.0001
+        }
+      }
+    },
+    "sector": {
+      "A": {
+        "algorithm": "Ridge",
+        "strategy": "baseline",
+        "columns": [
+          "sue",
+          "surprise_pct",
+          "vol_pre",
+          "car_-1_1",
+          "mom",
+          "bm",
+          "size",
+          "dispersion",
+          "avg_answer_words",
+          "words_prepared",
+          "words_questions",
+          "words_answers",
+          "n_questions",
+          "n_answers",
+          "n_analysts",
+          "prior_calls_with_target"
+        ],
+        "estimator": "Ridge",
+        "parameters": {
+          "alpha": 1.0
+        },
+        "resolved_parameters": {
+          "alpha": 1.0,
+          "copy_X": true,
+          "fit_intercept": true,
+          "max_iter": null,
+          "positive": false,
+          "random_state": null,
+          "solver": "auto",
+          "tol": 0.0001
+        }
+      },
+      "B": {
+        "algorithm": "EN_strong",
+        "strategy": "Forward Selection",
+        "columns": [
+          "sue",
+          "surprise_pct",
+          "vol_pre",
+          "car_-1_1",
+          "mom",
+          "bm",
+          "size",
+          "dispersion",
+          "avg_answer_words",
+          "words_prepared",
+          "words_questions",
+          "words_answers",
+          "n_questions",
+          "n_answers",
+          "n_analysts",
+          "prior_calls_with_target",
+          "tone_prepared_chg",
+          "hedging_answers_chg",
+          "tone_answers",
+          "hedging_answers",
+          "uncertainty_answers"
+        ],
+        "estimator": "ElasticNet",
+        "parameters": {
+          "alpha": 0.05,
+          "l1_ratio": 0.7,
+          "max_iter": 5000
+        },
+        "resolved_parameters": {
+          "alpha": 0.05,
+          "copy_X": true,
+          "fit_intercept": true,
+          "l1_ratio": 0.7,
+          "max_iter": 5000,
+          "positive": false,
+          "precompute": false,
+          "random_state": null,
+          "selection": "cyclic",
+          "tol": 0.0001,
+          "warm_start": false
+        }
+      },
+      "B*": {
+        "algorithm": "Ridge_a50",
+        "strategy": "Model B* (all LM)",
+        "columns": [
+          "sue",
+          "surprise_pct",
+          "vol_pre",
+          "car_-1_1",
+          "mom",
+          "bm",
+          "size",
+          "dispersion",
+          "avg_answer_words",
+          "words_prepared",
+          "words_questions",
+          "words_answers",
+          "n_questions",
+          "n_answers",
+          "n_analysts",
+          "prior_calls_with_target",
+          "tone_prepared",
+          "tone_answers",
+          "hedging_prepared",
+          "hedging_answers",
+          "uncertainty_answers",
+          "tone_gap",
+          "tone_prepared_chg",
+          "tone_answers_chg",
+          "hedging_answers_chg"
+        ],
+        "estimator": "Ridge",
+        "parameters": {
+          "alpha": 50.0
+        },
+        "resolved_parameters": {
+          "alpha": 50.0,
+          "copy_X": true,
+          "fit_intercept": true,
+          "max_iter": null,
+          "positive": false,
+          "random_state": null,
+          "solver": "auto",
+          "tol": 0.0001
+        }
+      }
+    }
+  },
+  "controls": [
+    "sue",
+    "surprise_pct",
+    "vol_pre",
+    "car_-1_1",
+    "mom",
+    "bm",
+    "size",
+    "dispersion",
+    "avg_answer_words",
+    "words_prepared",
+    "words_questions",
+    "words_answers",
+    "n_questions",
+    "n_answers",
+    "n_analysts",
+    "prior_calls_with_target"
+  ],
+  "lm9": [
+    "tone_prepared",
+    "tone_answers",
+    "hedging_prepared",
+    "hedging_answers",
+    "uncertainty_answers",
+    "tone_gap",
+    "tone_prepared_chg",
+    "tone_answers_chg",
+    "hedging_answers_chg"
+  ],
+  "validation": [
+    "Identical event IDs and realized targets across A/B/B* within each benchmark and year.",
+    "Exact match to original test split, pre-extension realized labels and unrounded IC in 2024.",
+    "Annual expanding counts, metrics, quintiles and quarterly IC verified from saved predictions.",
+    "2025 confidence intervals retained from saved within-year paired bootstrap."
+  ]
+}

@@ -1,0 +1,13 @@
+year,test,option,benchmark,model,contrast,events,issuers,delta_rank_ic
+2024,Test 2024,market,S&P 500-adjusted,B,B−A,204,62,0.035473634365436685
+2024,Test 2024,market,S&P 500-adjusted,B*,B*−A,204,62,0.029958089207087382
+2024,Test 2024,sector,Healthcare sector-adjusted,B,B−A,204,62,0.038563583549483707
+2024,Test 2024,sector,Healthcare sector-adjusted,B*,B*−A,204,62,0.021191453873391233
+2025,Test 2025,market,S&P 500-adjusted,B,B−A,211,61,0.0027567353508514275
+2025,Test 2025,market,S&P 500-adjusted,B*,B*−A,211,61,0.0018612434690410268
+2025,Test 2025,sector,Healthcare sector-adjusted,B,B−A,211,61,0.0021371724939640707
+2025,Test 2025,sector,Healthcare sector-adjusted,B*,B*−A,211,61,0.0084631008801624996
+2026,Test 2026 (Partial),market,S&P 500-adjusted,B,B−A,104,59,0.0096127173797076713
+2026,Test 2026 (Partial),market,S&P 500-adjusted,B*,B*−A,104,59,0.0063053451402965985
+2026,Test 2026 (Partial),sector,Healthcare sector-adjusted,B,B−A,104,59,0.002635228848821114
+2026,Test 2026 (Partial),sector,Healthcare sector-adjusted,B*,B*−A,104,59,-0.0035207510935665876

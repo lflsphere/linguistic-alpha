@@ -1,0 +1,37 @@
+year,test,option,benchmark,model,quarter,events,issuers,rank_ic,partial
+2025,Test 2025,market,S&P 500-adjusted,A,2025Q1,52,52,-0.13327072483565269,False
+2025,Test 2025,market,S&P 500-adjusted,A,2025Q2,51,51,0.22099547511312218,False
+2025,Test 2025,market,S&P 500-adjusted,A,2025Q3,53,53,-0.0029027576197387514,False
+2025,Test 2025,market,S&P 500-adjusted,A,2025Q4,55,55,-0.1384559884559885,False
+2025,Test 2025,market,S&P 500-adjusted,B,2025Q1,52,52,-0.16229830103304019,False
+2025,Test 2025,market,S&P 500-adjusted,B,2025Q2,51,51,0.20000000000000001,False
+2025,Test 2025,market,S&P 500-adjusted,B,2025Q3,53,53,-0.028382518948556687,False
+2025,Test 2025,market,S&P 500-adjusted,B,2025Q4,55,55,-0.13658008658008663,False
+2025,Test 2025,market,S&P 500-adjusted,B*,2025Q1,52,52,-0.19303338171262702,False
+2025,Test 2025,market,S&P 500-adjusted,B*,2025Q2,51,51,0.21538461538461537,False
+2025,Test 2025,market,S&P 500-adjusted,B*,2025Q3,53,53,-0.06136107079503305,False
+2025,Test 2025,market,S&P 500-adjusted,B*,2025Q4,55,55,-0.072871572871572893,False
+2025,Test 2025,sector,Healthcare sector-adjusted,A,2025Q1,52,52,-0.12140356868436779,False
+2025,Test 2025,sector,Healthcare sector-adjusted,A,2025Q2,51,51,-0.011040723981900452,False
+2025,Test 2025,sector,Healthcare sector-adjusted,A,2025Q3,53,53,0.1470730527334301,False
+2025,Test 2025,sector,Healthcare sector-adjusted,A,2025Q4,55,55,0.10180375180375183,False
+2025,Test 2025,sector,Healthcare sector-adjusted,B,2025Q1,52,52,-0.15068727055408521,False
+2025,Test 2025,sector,Healthcare sector-adjusted,B,2025Q2,51,51,0.033393665158371034,False
+2025,Test 2025,sector,Healthcare sector-adjusted,B,2025Q3,53,53,0.16150620867602,False
+2025,Test 2025,sector,Healthcare sector-adjusted,B,2025Q4,55,55,0.16479076479076482,False
+2025,Test 2025,sector,Healthcare sector-adjusted,B*,2025Q1,52,52,-0.13566123111073167,False
+2025,Test 2025,sector,Healthcare sector-adjusted,B*,2025Q2,51,51,0.048687782805429861,False
+2025,Test 2025,sector,Healthcare sector-adjusted,B*,2025Q3,53,53,0.097403644573455891,False
+2025,Test 2025,sector,Healthcare sector-adjusted,B*,2025Q4,55,55,0.19119769119769123,False
+2026,Test 2026 (Partial),market,S&P 500-adjusted,A,2026Q1,55,55,-0.073809523809523811,False
+2026,Test 2026 (Partial),market,S&P 500-adjusted,A,2026Q2,49,49,0.094183673469387746,True
+2026,Test 2026 (Partial),market,S&P 500-adjusted,B,2026Q1,55,55,-0.084632034632034656,False
+2026,Test 2026 (Partial),market,S&P 500-adjusted,B,2026Q2,49,49,0.12193877551020406,True
+2026,Test 2026 (Partial),market,S&P 500-adjusted,B*,2026Q1,55,55,-0.097186147186147209,False
+2026,Test 2026 (Partial),market,S&P 500-adjusted,B*,2026Q2,49,49,0.12683673469387752,True
+2026,Test 2026 (Partial),sector,Healthcare sector-adjusted,A,2026Q1,55,55,0.27510822510822519,False
+2026,Test 2026 (Partial),sector,Healthcare sector-adjusted,A,2026Q2,49,49,0.27020408163265303,True
+2026,Test 2026 (Partial),sector,Healthcare sector-adjusted,B,2026Q1,55,55,0.31608946608946614,False
+2026,Test 2026 (Partial),sector,Healthcare sector-adjusted,B,2026Q2,49,49,0.24306122448979589,True
+2026,Test 2026 (Partial),sector,Healthcare sector-adjusted,B*,2026Q1,55,55,0.3095959595959597,False
+2026,Test 2026 (Partial),sector,Healthcare sector-adjusted,B*,2026Q2,49,49,0.2474489795918367,True

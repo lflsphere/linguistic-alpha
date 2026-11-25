@@ -1,0 +1,9 @@
+option,period,events,issuers,exact_static_ids,exact_static_targets,exact_matched_models
+market,2024 diagnostic,204,62,True,True,True
+market,2025,211,61,True,True,True
+market,2026 partial,104,59,True,True,True
+market,2025–26 pooled,315,61,True,True,True
+sector,2024 diagnostic,204,62,True,True,True
+sector,2025,211,61,True,True,True
+sector,2026 partial,104,59,True,True,True
+sector,2025–26 pooled,315,61,True,True,True

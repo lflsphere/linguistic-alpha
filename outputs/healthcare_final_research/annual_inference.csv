@@ -1,0 +1,21 @@
+year,test,option,benchmark,model,contrast,events,issuers,point,method,lower,upper,draws,nominal_time_blocks,status
+2024,Test 2024,market,S&P 500-adjusted,B,B−A,204,62,0.035473634365436685,Unavailable,,,0,,Original test outcomes informed model selection
+2024,Test 2024,market,S&P 500-adjusted,B*,B*−A,204,62,0.029958089207087382,Unavailable,,,0,,Original test outcomes informed model selection
+2024,Test 2024,sector,Healthcare sector-adjusted,B,B−A,204,62,0.038563583549483707,Unavailable,,,0,,Original test outcomes informed model selection
+2024,Test 2024,sector,Healthcare sector-adjusted,B*,B*−A,204,62,0.021191453873391233,Unavailable,,,0,,Original test outcomes informed model selection
+2025,Test 2025,market,S&P 500-adjusted,B,B−A,211,61,0.0027567353508514275,issuer_cluster,-0.041663981099936,0.044407078465407,2499,6,Year-specific paired 95% interval
+2025,Test 2025,market,S&P 500-adjusted,B,B−A,211,61,0.0027567353508514275,time_block,-0.041791730784794,0.044777556949670998,2499,6,Year-specific paired 95% interval
+2025,Test 2025,market,S&P 500-adjusted,B*,B*−A,211,61,0.0018612434690410268,issuer_cluster,-0.049543074915930997,0.052227742897303003,2499,6,Year-specific paired 95% interval
+2025,Test 2025,market,S&P 500-adjusted,B*,B*−A,211,61,0.0018612434690410268,time_block,-0.076219718403587003,0.082267392184827995,2499,6,Year-specific paired 95% interval
+2025,Test 2025,sector,Healthcare sector-adjusted,B,B−A,211,61,0.0021371724939640707,issuer_cluster,-0.039965030691727001,0.046394890091242001,2499,6,Year-specific paired 95% interval
+2025,Test 2025,sector,Healthcare sector-adjusted,B,B−A,211,61,0.0021371724939640707,time_block,-0.034469876835452003,0.035909809661433,2499,6,Year-specific paired 95% interval
+2025,Test 2025,sector,Healthcare sector-adjusted,B*,B*−A,211,61,0.0084631008801624996,issuer_cluster,-0.047852149879336003,0.062001846507266999,2499,6,Year-specific paired 95% interval
+2025,Test 2025,sector,Healthcare sector-adjusted,B*,B*−A,211,61,0.0084631008801624996,time_block,-0.030391909762199999,0.041841817527319997,2499,6,Year-specific paired 95% interval
+2026,Test 2026 (Partial),market,S&P 500-adjusted,B,B−A,104,59,0.0096127173797076713,issuer_cluster,,,0,3,"Descriptive, insufficient time blocks"
+2026,Test 2026 (Partial),market,S&P 500-adjusted,B,B−A,104,59,0.0096127173797076713,time_block,,,0,3,"Descriptive, insufficient time blocks"
+2026,Test 2026 (Partial),market,S&P 500-adjusted,B*,B*−A,104,59,0.0063053451402965985,issuer_cluster,,,0,3,"Descriptive, insufficient time blocks"
+2026,Test 2026 (Partial),market,S&P 500-adjusted,B*,B*−A,104,59,0.0063053451402965985,time_block,,,0,3,"Descriptive, insufficient time blocks"
+2026,Test 2026 (Partial),sector,Healthcare sector-adjusted,B,B−A,104,59,0.002635228848821114,issuer_cluster,,,0,3,"Descriptive, insufficient time blocks"
+2026,Test 2026 (Partial),sector,Healthcare sector-adjusted,B,B−A,104,59,0.002635228848821114,time_block,,,0,3,"Descriptive, insufficient time blocks"
+2026,Test 2026 (Partial),sector,Healthcare sector-adjusted,B*,B*−A,104,59,-0.0035207510935665876,issuer_cluster,,,0,3,"Descriptive, insufficient time blocks"
+2026,Test 2026 (Partial),sector,Healthcare sector-adjusted,B*,B*−A,104,59,-0.0035207510935665876,time_block,,,0,3,"Descriptive, insufficient time blocks"

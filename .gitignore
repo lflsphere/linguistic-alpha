@@ -251,3 +251,5 @@ wrds_access_report.csv
 /outputs/healthcare_extended_oos/healthcare_sector_extended_car.csv
 /outputs/healthcare_extended_oos/sector_benchmark_daily.csv
 /outputs/healthcare_extended_oos/Healthcare_Extended_OOS_Research_Report.pdf
+/outputs/healthcare_expanding_oos/matched_predictions_local.csv
+/outputs/healthcare_expanding_oos/training_maturity_local.csv
