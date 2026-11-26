@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Healthcare Linguistic Alpha | Unified Research</title>
+<style>{{CSS}}</style>
+</head>
+<body class="{{CLASS}}">
+<header class="hero">
+<div class="frame">
+<p class="eyebrow">Healthcare Linguistic Alpha Research</p>
+<h1>Linguistic Alpha Evaluation</h1>
+<p>Healthcare Earnings Calls · LM and FinBERT · Annual Tests 2024–2026</p>
+</div>
+</header>
+<nav aria-label="Report sections"><div class="frame" id="navigation"></div></nav>
+<main class="frame" id="research"></main>
+<script id="research-data" type="application/json">{{DATA}}</script>
+<script>{{JS}}</script>
+</body>
+</html>

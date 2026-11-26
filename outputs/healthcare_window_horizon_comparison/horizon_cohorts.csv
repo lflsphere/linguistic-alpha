@@ -1,0 +1,13 @@
+year,benchmark,horizon,full_events,full_issuers,matched_horizons_events,matched_horizons_issuers
+2024,S&P 500,5,205,62,204,62
+2024,S&P 500,20,204,62,204,62
+2024,Healthcare,5,205,62,204,62
+2024,Healthcare,20,204,62,204,62
+2025,S&P 500,5,211,61,211,61
+2025,S&P 500,20,211,61,211,61
+2025,Healthcare,5,211,61,211,61
+2025,Healthcare,20,211,61,211,61
+2026,S&P 500,5,106,59,104,59
+2026,S&P 500,20,104,59,104,59
+2026,Healthcare,5,106,59,104,59
+2026,Healthcare,20,104,59,104,59

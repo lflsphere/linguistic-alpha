@@ -1,0 +1,385 @@
+year,scope,benchmark,horizon,feature,events,missing,missing_share
+0,Development,S&P 500,5,sue,2939,30,0.010207553589656346
+0,Development,S&P 500,5,surprise_pct,2939,15,0.0051037767948281729
+0,Development,S&P 500,5,vol_pre,2939,2,0.00068050357264375636
+0,Development,S&P 500,5,car_-1_1,2939,0,0
+0,Development,S&P 500,5,mom,2939,12,0.0040830214358625379
+0,Development,S&P 500,5,bm,2939,78,0.026539639333106498
+0,Development,S&P 500,5,size,2939,2,0.00068050357264375636
+0,Development,S&P 500,5,dispersion,2939,15,0.0051037767948281729
+0,Development,S&P 500,5,avg_answer_words,2939,7,0.0023817625042531474
+0,Development,S&P 500,5,words_prepared,2939,0,0
+0,Development,S&P 500,5,words_questions,2939,0,0
+0,Development,S&P 500,5,words_answers,2939,0,0
+0,Development,S&P 500,5,n_questions,2939,0,0
+0,Development,S&P 500,5,n_answers,2939,0,0
+0,Development,S&P 500,5,n_analysts,2939,12,0.0040830214358625379
+0,Development,S&P 500,5,prior_calls_observed,2939,0,0
+0,Development,S&P 500,5,tone_prepared,2939,0,0
+0,Development,S&P 500,5,tone_answers,2939,7,0.0023817625042531474
+0,Development,S&P 500,5,hedging_prepared,2939,0,0
+0,Development,S&P 500,5,uncertainty_answers,2939,7,0.0023817625042531474
+0,Development,S&P 500,5,tone_gap,2939,7,0.0023817625042531474
+0,Development,S&P 500,5,tone_prepared_chg,2939,96,0.032664171486900304
+0,Development,S&P 500,5,tone_answers_chg,2939,102,0.034705682204831577
+0,Development,S&P 500,5,hedging_answers_chg,2939,102,0.034705682204831577
+2024,Outer test,S&P 500,5,sue,205,2,0.0097560975609756097
+2024,Outer test,S&P 500,5,surprise_pct,205,1,0.0048780487804878049
+2024,Outer test,S&P 500,5,vol_pre,205,0,0
+2024,Outer test,S&P 500,5,car_-1_1,205,0,0
+2024,Outer test,S&P 500,5,mom,205,2,0.0097560975609756097
+2024,Outer test,S&P 500,5,bm,205,15,0.073170731707317069
+2024,Outer test,S&P 500,5,size,205,0,0
+2024,Outer test,S&P 500,5,dispersion,205,1,0.0048780487804878049
+2024,Outer test,S&P 500,5,avg_answer_words,205,0,0
+2024,Outer test,S&P 500,5,words_prepared,205,0,0
+2024,Outer test,S&P 500,5,words_questions,205,0,0
+2024,Outer test,S&P 500,5,words_answers,205,0,0
+2024,Outer test,S&P 500,5,n_questions,205,0,0
+2024,Outer test,S&P 500,5,n_answers,205,0,0
+2024,Outer test,S&P 500,5,n_analysts,205,1,0.0048780487804878049
+2024,Outer test,S&P 500,5,prior_calls_observed,205,0,0
+2024,Outer test,S&P 500,5,tone_prepared,205,0,0
+2024,Outer test,S&P 500,5,tone_answers,205,0,0
+2024,Outer test,S&P 500,5,hedging_prepared,205,0,0
+2024,Outer test,S&P 500,5,uncertainty_answers,205,0,0
+2024,Outer test,S&P 500,5,tone_gap,205,0,0
+2024,Outer test,S&P 500,5,tone_prepared_chg,205,1,0.0048780487804878049
+2024,Outer test,S&P 500,5,tone_answers_chg,205,1,0.0048780487804878049
+2024,Outer test,S&P 500,5,hedging_answers_chg,205,1,0.0048780487804878049
+2025,Outer test,S&P 500,5,sue,211,3,0.014218009478672985
+2025,Outer test,S&P 500,5,surprise_pct,211,2,0.0094786729857819912
+2025,Outer test,S&P 500,5,vol_pre,211,0,0
+2025,Outer test,S&P 500,5,car_-1_1,211,0,0
+2025,Outer test,S&P 500,5,mom,211,0,0
+2025,Outer test,S&P 500,5,bm,211,19,0.09004739336492891
+2025,Outer test,S&P 500,5,size,211,0,0
+2025,Outer test,S&P 500,5,dispersion,211,2,0.0094786729857819912
+2025,Outer test,S&P 500,5,avg_answer_words,211,0,0
+2025,Outer test,S&P 500,5,words_prepared,211,0,0
+2025,Outer test,S&P 500,5,words_questions,211,0,0
+2025,Outer test,S&P 500,5,words_answers,211,0,0
+2025,Outer test,S&P 500,5,n_questions,211,0,0
+2025,Outer test,S&P 500,5,n_answers,211,0,0
+2025,Outer test,S&P 500,5,n_analysts,211,2,0.0094786729857819912
+2025,Outer test,S&P 500,5,prior_calls_observed,211,0,0
+2025,Outer test,S&P 500,5,tone_prepared,211,0,0
+2025,Outer test,S&P 500,5,tone_answers,211,0,0
+2025,Outer test,S&P 500,5,hedging_prepared,211,0,0
+2025,Outer test,S&P 500,5,uncertainty_answers,211,0,0
+2025,Outer test,S&P 500,5,tone_gap,211,0,0
+2025,Outer test,S&P 500,5,tone_prepared_chg,211,0,0
+2025,Outer test,S&P 500,5,tone_answers_chg,211,0,0
+2025,Outer test,S&P 500,5,hedging_answers_chg,211,0,0
+2026,Outer test,S&P 500,5,sue,106,3,0.028301886792452831
+2026,Outer test,S&P 500,5,surprise_pct,106,3,0.028301886792452831
+2026,Outer test,S&P 500,5,vol_pre,106,0,0
+2026,Outer test,S&P 500,5,car_-1_1,106,0,0
+2026,Outer test,S&P 500,5,mom,106,0,0
+2026,Outer test,S&P 500,5,bm,106,11,0.10377358490566038
+2026,Outer test,S&P 500,5,size,106,0,0
+2026,Outer test,S&P 500,5,dispersion,106,3,0.028301886792452831
+2026,Outer test,S&P 500,5,avg_answer_words,106,0,0
+2026,Outer test,S&P 500,5,words_prepared,106,0,0
+2026,Outer test,S&P 500,5,words_questions,106,0,0
+2026,Outer test,S&P 500,5,words_answers,106,0,0
+2026,Outer test,S&P 500,5,n_questions,106,0,0
+2026,Outer test,S&P 500,5,n_answers,106,0,0
+2026,Outer test,S&P 500,5,n_analysts,106,3,0.028301886792452831
+2026,Outer test,S&P 500,5,prior_calls_observed,106,0,0
+2026,Outer test,S&P 500,5,tone_prepared,106,0,0
+2026,Outer test,S&P 500,5,tone_answers,106,0,0
+2026,Outer test,S&P 500,5,hedging_prepared,106,0,0
+2026,Outer test,S&P 500,5,uncertainty_answers,106,0,0
+2026,Outer test,S&P 500,5,tone_gap,106,0,0
+2026,Outer test,S&P 500,5,tone_prepared_chg,106,0,0
+2026,Outer test,S&P 500,5,tone_answers_chg,106,0,0
+2026,Outer test,S&P 500,5,hedging_answers_chg,106,0,0
+0,Development,S&P 500,20,sue,2939,30,0.010207553589656346
+0,Development,S&P 500,20,surprise_pct,2939,15,0.0051037767948281729
+0,Development,S&P 500,20,vol_pre,2939,2,0.00068050357264375636
+0,Development,S&P 500,20,car_-1_1,2939,0,0
+0,Development,S&P 500,20,mom,2939,12,0.0040830214358625379
+0,Development,S&P 500,20,bm,2939,78,0.026539639333106498
+0,Development,S&P 500,20,size,2939,2,0.00068050357264375636
+0,Development,S&P 500,20,dispersion,2939,15,0.0051037767948281729
+0,Development,S&P 500,20,avg_answer_words,2939,7,0.0023817625042531474
+0,Development,S&P 500,20,words_prepared,2939,0,0
+0,Development,S&P 500,20,words_questions,2939,0,0
+0,Development,S&P 500,20,words_answers,2939,0,0
+0,Development,S&P 500,20,n_questions,2939,0,0
+0,Development,S&P 500,20,n_answers,2939,0,0
+0,Development,S&P 500,20,n_analysts,2939,12,0.0040830214358625379
+0,Development,S&P 500,20,prior_calls_observed,2939,0,0
+0,Development,S&P 500,20,tone_prepared,2939,0,0
+0,Development,S&P 500,20,tone_answers,2939,7,0.0023817625042531474
+0,Development,S&P 500,20,hedging_prepared,2939,0,0
+0,Development,S&P 500,20,uncertainty_answers,2939,7,0.0023817625042531474
+0,Development,S&P 500,20,tone_gap,2939,7,0.0023817625042531474
+0,Development,S&P 500,20,tone_prepared_chg,2939,96,0.032664171486900304
+0,Development,S&P 500,20,tone_answers_chg,2939,102,0.034705682204831577
+0,Development,S&P 500,20,hedging_answers_chg,2939,102,0.034705682204831577
+2024,Outer test,S&P 500,20,sue,204,2,0.0098039215686274508
+2024,Outer test,S&P 500,20,surprise_pct,204,1,0.0049019607843137254
+2024,Outer test,S&P 500,20,vol_pre,204,0,0
+2024,Outer test,S&P 500,20,car_-1_1,204,0,0
+2024,Outer test,S&P 500,20,mom,204,2,0.0098039215686274508
+2024,Outer test,S&P 500,20,bm,204,15,0.073529411764705885
+2024,Outer test,S&P 500,20,size,204,0,0
+2024,Outer test,S&P 500,20,dispersion,204,1,0.0049019607843137254
+2024,Outer test,S&P 500,20,avg_answer_words,204,0,0
+2024,Outer test,S&P 500,20,words_prepared,204,0,0
+2024,Outer test,S&P 500,20,words_questions,204,0,0
+2024,Outer test,S&P 500,20,words_answers,204,0,0
+2024,Outer test,S&P 500,20,n_questions,204,0,0
+2024,Outer test,S&P 500,20,n_answers,204,0,0
+2024,Outer test,S&P 500,20,n_analysts,204,1,0.0049019607843137254
+2024,Outer test,S&P 500,20,prior_calls_observed,204,0,0
+2024,Outer test,S&P 500,20,tone_prepared,204,0,0
+2024,Outer test,S&P 500,20,tone_answers,204,0,0
+2024,Outer test,S&P 500,20,hedging_prepared,204,0,0
+2024,Outer test,S&P 500,20,uncertainty_answers,204,0,0
+2024,Outer test,S&P 500,20,tone_gap,204,0,0
+2024,Outer test,S&P 500,20,tone_prepared_chg,204,1,0.0049019607843137254
+2024,Outer test,S&P 500,20,tone_answers_chg,204,1,0.0049019607843137254
+2024,Outer test,S&P 500,20,hedging_answers_chg,204,1,0.0049019607843137254
+2025,Outer test,S&P 500,20,sue,211,3,0.014218009478672985
+2025,Outer test,S&P 500,20,surprise_pct,211,2,0.0094786729857819912
+2025,Outer test,S&P 500,20,vol_pre,211,0,0
+2025,Outer test,S&P 500,20,car_-1_1,211,0,0
+2025,Outer test,S&P 500,20,mom,211,0,0
+2025,Outer test,S&P 500,20,bm,211,19,0.09004739336492891
+2025,Outer test,S&P 500,20,size,211,0,0
+2025,Outer test,S&P 500,20,dispersion,211,2,0.0094786729857819912
+2025,Outer test,S&P 500,20,avg_answer_words,211,0,0
+2025,Outer test,S&P 500,20,words_prepared,211,0,0
+2025,Outer test,S&P 500,20,words_questions,211,0,0
+2025,Outer test,S&P 500,20,words_answers,211,0,0
+2025,Outer test,S&P 500,20,n_questions,211,0,0
+2025,Outer test,S&P 500,20,n_answers,211,0,0
+2025,Outer test,S&P 500,20,n_analysts,211,2,0.0094786729857819912
+2025,Outer test,S&P 500,20,prior_calls_observed,211,0,0
+2025,Outer test,S&P 500,20,tone_prepared,211,0,0
+2025,Outer test,S&P 500,20,tone_answers,211,0,0
+2025,Outer test,S&P 500,20,hedging_prepared,211,0,0
+2025,Outer test,S&P 500,20,uncertainty_answers,211,0,0
+2025,Outer test,S&P 500,20,tone_gap,211,0,0
+2025,Outer test,S&P 500,20,tone_prepared_chg,211,0,0
+2025,Outer test,S&P 500,20,tone_answers_chg,211,0,0
+2025,Outer test,S&P 500,20,hedging_answers_chg,211,0,0
+2026,Outer test,S&P 500,20,sue,104,3,0.028846153846153848
+2026,Outer test,S&P 500,20,surprise_pct,104,3,0.028846153846153848
+2026,Outer test,S&P 500,20,vol_pre,104,0,0
+2026,Outer test,S&P 500,20,car_-1_1,104,0,0
+2026,Outer test,S&P 500,20,mom,104,0,0
+2026,Outer test,S&P 500,20,bm,104,11,0.10576923076923077
+2026,Outer test,S&P 500,20,size,104,0,0
+2026,Outer test,S&P 500,20,dispersion,104,3,0.028846153846153848
+2026,Outer test,S&P 500,20,avg_answer_words,104,0,0
+2026,Outer test,S&P 500,20,words_prepared,104,0,0
+2026,Outer test,S&P 500,20,words_questions,104,0,0
+2026,Outer test,S&P 500,20,words_answers,104,0,0
+2026,Outer test,S&P 500,20,n_questions,104,0,0
+2026,Outer test,S&P 500,20,n_answers,104,0,0
+2026,Outer test,S&P 500,20,n_analysts,104,3,0.028846153846153848
+2026,Outer test,S&P 500,20,prior_calls_observed,104,0,0
+2026,Outer test,S&P 500,20,tone_prepared,104,0,0
+2026,Outer test,S&P 500,20,tone_answers,104,0,0
+2026,Outer test,S&P 500,20,hedging_prepared,104,0,0
+2026,Outer test,S&P 500,20,uncertainty_answers,104,0,0
+2026,Outer test,S&P 500,20,tone_gap,104,0,0
+2026,Outer test,S&P 500,20,tone_prepared_chg,104,0,0
+2026,Outer test,S&P 500,20,tone_answers_chg,104,0,0
+2026,Outer test,S&P 500,20,hedging_answers_chg,104,0,0
+0,Development,Healthcare,5,sue,2939,30,0.010207553589656346
+0,Development,Healthcare,5,surprise_pct,2939,15,0.0051037767948281729
+0,Development,Healthcare,5,vol_pre,2939,2,0.00068050357264375636
+0,Development,Healthcare,5,car_-1_1,2939,0,0
+0,Development,Healthcare,5,mom,2939,12,0.0040830214358625379
+0,Development,Healthcare,5,bm,2939,78,0.026539639333106498
+0,Development,Healthcare,5,size,2939,2,0.00068050357264375636
+0,Development,Healthcare,5,dispersion,2939,15,0.0051037767948281729
+0,Development,Healthcare,5,avg_answer_words,2939,7,0.0023817625042531474
+0,Development,Healthcare,5,words_prepared,2939,0,0
+0,Development,Healthcare,5,words_questions,2939,0,0
+0,Development,Healthcare,5,words_answers,2939,0,0
+0,Development,Healthcare,5,n_questions,2939,0,0
+0,Development,Healthcare,5,n_answers,2939,0,0
+0,Development,Healthcare,5,n_analysts,2939,12,0.0040830214358625379
+0,Development,Healthcare,5,prior_calls_observed,2939,0,0
+0,Development,Healthcare,5,tone_prepared,2939,0,0
+0,Development,Healthcare,5,tone_answers,2939,7,0.0023817625042531474
+0,Development,Healthcare,5,hedging_prepared,2939,0,0
+0,Development,Healthcare,5,uncertainty_answers,2939,7,0.0023817625042531474
+0,Development,Healthcare,5,tone_gap,2939,7,0.0023817625042531474
+0,Development,Healthcare,5,tone_prepared_chg,2939,96,0.032664171486900304
+0,Development,Healthcare,5,tone_answers_chg,2939,102,0.034705682204831577
+0,Development,Healthcare,5,hedging_answers_chg,2939,102,0.034705682204831577
+2024,Outer test,Healthcare,5,sue,205,2,0.0097560975609756097
+2024,Outer test,Healthcare,5,surprise_pct,205,1,0.0048780487804878049
+2024,Outer test,Healthcare,5,vol_pre,205,0,0
+2024,Outer test,Healthcare,5,car_-1_1,205,0,0
+2024,Outer test,Healthcare,5,mom,205,2,0.0097560975609756097
+2024,Outer test,Healthcare,5,bm,205,15,0.073170731707317069
+2024,Outer test,Healthcare,5,size,205,0,0
+2024,Outer test,Healthcare,5,dispersion,205,1,0.0048780487804878049
+2024,Outer test,Healthcare,5,avg_answer_words,205,0,0
+2024,Outer test,Healthcare,5,words_prepared,205,0,0
+2024,Outer test,Healthcare,5,words_questions,205,0,0
+2024,Outer test,Healthcare,5,words_answers,205,0,0
+2024,Outer test,Healthcare,5,n_questions,205,0,0
+2024,Outer test,Healthcare,5,n_answers,205,0,0
+2024,Outer test,Healthcare,5,n_analysts,205,1,0.0048780487804878049
+2024,Outer test,Healthcare,5,prior_calls_observed,205,0,0
+2024,Outer test,Healthcare,5,tone_prepared,205,0,0
+2024,Outer test,Healthcare,5,tone_answers,205,0,0
+2024,Outer test,Healthcare,5,hedging_prepared,205,0,0
+2024,Outer test,Healthcare,5,uncertainty_answers,205,0,0
+2024,Outer test,Healthcare,5,tone_gap,205,0,0
+2024,Outer test,Healthcare,5,tone_prepared_chg,205,1,0.0048780487804878049
+2024,Outer test,Healthcare,5,tone_answers_chg,205,1,0.0048780487804878049
+2024,Outer test,Healthcare,5,hedging_answers_chg,205,1,0.0048780487804878049
+2025,Outer test,Healthcare,5,sue,211,3,0.014218009478672985
+2025,Outer test,Healthcare,5,surprise_pct,211,2,0.0094786729857819912
+2025,Outer test,Healthcare,5,vol_pre,211,0,0
+2025,Outer test,Healthcare,5,car_-1_1,211,0,0
+2025,Outer test,Healthcare,5,mom,211,0,0
+2025,Outer test,Healthcare,5,bm,211,19,0.09004739336492891
+2025,Outer test,Healthcare,5,size,211,0,0
+2025,Outer test,Healthcare,5,dispersion,211,2,0.0094786729857819912
+2025,Outer test,Healthcare,5,avg_answer_words,211,0,0
+2025,Outer test,Healthcare,5,words_prepared,211,0,0
+2025,Outer test,Healthcare,5,words_questions,211,0,0
+2025,Outer test,Healthcare,5,words_answers,211,0,0
+2025,Outer test,Healthcare,5,n_questions,211,0,0
+2025,Outer test,Healthcare,5,n_answers,211,0,0
+2025,Outer test,Healthcare,5,n_analysts,211,2,0.0094786729857819912
+2025,Outer test,Healthcare,5,prior_calls_observed,211,0,0
+2025,Outer test,Healthcare,5,tone_prepared,211,0,0
+2025,Outer test,Healthcare,5,tone_answers,211,0,0
+2025,Outer test,Healthcare,5,hedging_prepared,211,0,0
+2025,Outer test,Healthcare,5,uncertainty_answers,211,0,0
+2025,Outer test,Healthcare,5,tone_gap,211,0,0
+2025,Outer test,Healthcare,5,tone_prepared_chg,211,0,0
+2025,Outer test,Healthcare,5,tone_answers_chg,211,0,0
+2025,Outer test,Healthcare,5,hedging_answers_chg,211,0,0
+2026,Outer test,Healthcare,5,sue,106,3,0.028301886792452831
+2026,Outer test,Healthcare,5,surprise_pct,106,3,0.028301886792452831
+2026,Outer test,Healthcare,5,vol_pre,106,0,0
+2026,Outer test,Healthcare,5,car_-1_1,106,0,0
+2026,Outer test,Healthcare,5,mom,106,0,0
+2026,Outer test,Healthcare,5,bm,106,11,0.10377358490566038
+2026,Outer test,Healthcare,5,size,106,0,0
+2026,Outer test,Healthcare,5,dispersion,106,3,0.028301886792452831
+2026,Outer test,Healthcare,5,avg_answer_words,106,0,0
+2026,Outer test,Healthcare,5,words_prepared,106,0,0
+2026,Outer test,Healthcare,5,words_questions,106,0,0
+2026,Outer test,Healthcare,5,words_answers,106,0,0
+2026,Outer test,Healthcare,5,n_questions,106,0,0
+2026,Outer test,Healthcare,5,n_answers,106,0,0
+2026,Outer test,Healthcare,5,n_analysts,106,3,0.028301886792452831
+2026,Outer test,Healthcare,5,prior_calls_observed,106,0,0
+2026,Outer test,Healthcare,5,tone_prepared,106,0,0
+2026,Outer test,Healthcare,5,tone_answers,106,0,0
+2026,Outer test,Healthcare,5,hedging_prepared,106,0,0
+2026,Outer test,Healthcare,5,uncertainty_answers,106,0,0
+2026,Outer test,Healthcare,5,tone_gap,106,0,0
+2026,Outer test,Healthcare,5,tone_prepared_chg,106,0,0
+2026,Outer test,Healthcare,5,tone_answers_chg,106,0,0
+2026,Outer test,Healthcare,5,hedging_answers_chg,106,0,0
+0,Development,Healthcare,20,sue,2939,30,0.010207553589656346
+0,Development,Healthcare,20,surprise_pct,2939,15,0.0051037767948281729
+0,Development,Healthcare,20,vol_pre,2939,2,0.00068050357264375636
+0,Development,Healthcare,20,car_-1_1,2939,0,0
+0,Development,Healthcare,20,mom,2939,12,0.0040830214358625379
+0,Development,Healthcare,20,bm,2939,78,0.026539639333106498
+0,Development,Healthcare,20,size,2939,2,0.00068050357264375636
+0,Development,Healthcare,20,dispersion,2939,15,0.0051037767948281729
+0,Development,Healthcare,20,avg_answer_words,2939,7,0.0023817625042531474
+0,Development,Healthcare,20,words_prepared,2939,0,0
+0,Development,Healthcare,20,words_questions,2939,0,0
+0,Development,Healthcare,20,words_answers,2939,0,0
+0,Development,Healthcare,20,n_questions,2939,0,0
+0,Development,Healthcare,20,n_answers,2939,0,0
+0,Development,Healthcare,20,n_analysts,2939,12,0.0040830214358625379
+0,Development,Healthcare,20,prior_calls_observed,2939,0,0
+0,Development,Healthcare,20,tone_prepared,2939,0,0
+0,Development,Healthcare,20,tone_answers,2939,7,0.0023817625042531474
+0,Development,Healthcare,20,hedging_prepared,2939,0,0
+0,Development,Healthcare,20,uncertainty_answers,2939,7,0.0023817625042531474
+0,Development,Healthcare,20,tone_gap,2939,7,0.0023817625042531474
+0,Development,Healthcare,20,tone_prepared_chg,2939,96,0.032664171486900304
+0,Development,Healthcare,20,tone_answers_chg,2939,102,0.034705682204831577
+0,Development,Healthcare,20,hedging_answers_chg,2939,102,0.034705682204831577
+2024,Outer test,Healthcare,20,sue,204,2,0.0098039215686274508
+2024,Outer test,Healthcare,20,surprise_pct,204,1,0.0049019607843137254
+2024,Outer test,Healthcare,20,vol_pre,204,0,0
+2024,Outer test,Healthcare,20,car_-1_1,204,0,0
+2024,Outer test,Healthcare,20,mom,204,2,0.0098039215686274508
+2024,Outer test,Healthcare,20,bm,204,15,0.073529411764705885
+2024,Outer test,Healthcare,20,size,204,0,0
+2024,Outer test,Healthcare,20,dispersion,204,1,0.0049019607843137254
+2024,Outer test,Healthcare,20,avg_answer_words,204,0,0
+2024,Outer test,Healthcare,20,words_prepared,204,0,0
+2024,Outer test,Healthcare,20,words_questions,204,0,0
+2024,Outer test,Healthcare,20,words_answers,204,0,0
+2024,Outer test,Healthcare,20,n_questions,204,0,0
+2024,Outer test,Healthcare,20,n_answers,204,0,0
+2024,Outer test,Healthcare,20,n_analysts,204,1,0.0049019607843137254
+2024,Outer test,Healthcare,20,prior_calls_observed,204,0,0
+2024,Outer test,Healthcare,20,tone_prepared,204,0,0
+2024,Outer test,Healthcare,20,tone_answers,204,0,0
+2024,Outer test,Healthcare,20,hedging_prepared,204,0,0
+2024,Outer test,Healthcare,20,uncertainty_answers,204,0,0
+2024,Outer test,Healthcare,20,tone_gap,204,0,0
+2024,Outer test,Healthcare,20,tone_prepared_chg,204,1,0.0049019607843137254
+2024,Outer test,Healthcare,20,tone_answers_chg,204,1,0.0049019607843137254
+2024,Outer test,Healthcare,20,hedging_answers_chg,204,1,0.0049019607843137254
+2025,Outer test,Healthcare,20,sue,211,3,0.014218009478672985
+2025,Outer test,Healthcare,20,surprise_pct,211,2,0.0094786729857819912
+2025,Outer test,Healthcare,20,vol_pre,211,0,0
+2025,Outer test,Healthcare,20,car_-1_1,211,0,0
+2025,Outer test,Healthcare,20,mom,211,0,0
+2025,Outer test,Healthcare,20,bm,211,19,0.09004739336492891
+2025,Outer test,Healthcare,20,size,211,0,0
+2025,Outer test,Healthcare,20,dispersion,211,2,0.0094786729857819912
+2025,Outer test,Healthcare,20,avg_answer_words,211,0,0
+2025,Outer test,Healthcare,20,words_prepared,211,0,0
+2025,Outer test,Healthcare,20,words_questions,211,0,0
+2025,Outer test,Healthcare,20,words_answers,211,0,0
+2025,Outer test,Healthcare,20,n_questions,211,0,0
+2025,Outer test,Healthcare,20,n_answers,211,0,0
+2025,Outer test,Healthcare,20,n_analysts,211,2,0.0094786729857819912
+2025,Outer test,Healthcare,20,prior_calls_observed,211,0,0
+2025,Outer test,Healthcare,20,tone_prepared,211,0,0
+2025,Outer test,Healthcare,20,tone_answers,211,0,0
+2025,Outer test,Healthcare,20,hedging_prepared,211,0,0
+2025,Outer test,Healthcare,20,uncertainty_answers,211,0,0
+2025,Outer test,Healthcare,20,tone_gap,211,0,0
+2025,Outer test,Healthcare,20,tone_prepared_chg,211,0,0
+2025,Outer test,Healthcare,20,tone_answers_chg,211,0,0
+2025,Outer test,Healthcare,20,hedging_answers_chg,211,0,0
+2026,Outer test,Healthcare,20,sue,104,3,0.028846153846153848
+2026,Outer test,Healthcare,20,surprise_pct,104,3,0.028846153846153848
+2026,Outer test,Healthcare,20,vol_pre,104,0,0
+2026,Outer test,Healthcare,20,car_-1_1,104,0,0
+2026,Outer test,Healthcare,20,mom,104,0,0
+2026,Outer test,Healthcare,20,bm,104,11,0.10576923076923077
+2026,Outer test,Healthcare,20,size,104,0,0
+2026,Outer test,Healthcare,20,dispersion,104,3,0.028846153846153848
+2026,Outer test,Healthcare,20,avg_answer_words,104,0,0
+2026,Outer test,Healthcare,20,words_prepared,104,0,0
+2026,Outer test,Healthcare,20,words_questions,104,0,0
+2026,Outer test,Healthcare,20,words_answers,104,0,0
+2026,Outer test,Healthcare,20,n_questions,104,0,0
+2026,Outer test,Healthcare,20,n_answers,104,0,0
+2026,Outer test,Healthcare,20,n_analysts,104,3,0.028846153846153848
+2026,Outer test,Healthcare,20,prior_calls_observed,104,0,0
+2026,Outer test,Healthcare,20,tone_prepared,104,0,0
+2026,Outer test,Healthcare,20,tone_answers,104,0,0
+2026,Outer test,Healthcare,20,hedging_prepared,104,0,0
+2026,Outer test,Healthcare,20,uncertainty_answers,104,0,0
+2026,Outer test,Healthcare,20,tone_gap,104,0,0
+2026,Outer test,Healthcare,20,tone_prepared_chg,104,0,0
+2026,Outer test,Healthcare,20,tone_answers_chg,104,0,0
+2026,Outer test,Healthcare,20,hedging_answers_chg,104,0,0

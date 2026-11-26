@@ -1,0 +1,2 @@
+source,calls,joint_missing,equal_missing,equal_observed,dropped,kept
+Validated Healthcare feature table,3551,7,True,True,hedging_answers,uncertainty_answers

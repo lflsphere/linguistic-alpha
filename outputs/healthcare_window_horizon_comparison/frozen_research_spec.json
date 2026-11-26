@@ -1,0 +1,90 @@
+{
+  "status": "Post-hoc retrospective reconstruction. Outer outcomes never enter new model selection.",
+  "protected_baseline": "ffee3b4a2caaa5c450b2ffcda353be70c229e9ac",
+  "preservation_commit": "6c1363fea50ddffe69ce6ca6bfcb3b8189fd3138",
+  "test_years": [
+    2024,
+    2025,
+    2026
+  ],
+  "benchmark_options": [
+    "S&P 500",
+    "Healthcare"
+  ],
+  "horizons_sessions": {
+    "5": [
+      2,
+      5
+    ],
+    "20": [
+      2,
+      20
+    ]
+  },
+  "schedules": {
+    "Expanding": "2010 through previous calendar year",
+    "Rolling 5Y": "Five calendar years before test year"
+  },
+  "controls": [
+    "sue",
+    "surprise_pct",
+    "vol_pre",
+    "car_-1_1",
+    "mom",
+    "bm",
+    "size",
+    "dispersion",
+    "avg_answer_words",
+    "words_prepared",
+    "words_questions",
+    "words_answers",
+    "n_questions",
+    "n_answers",
+    "n_analysts",
+    "prior_calls_observed"
+  ],
+  "lm": [
+    "tone_prepared",
+    "tone_answers",
+    "hedging_prepared",
+    "uncertainty_answers",
+    "tone_gap",
+    "tone_prepared_chg",
+    "tone_answers_chg",
+    "hedging_answers_chg"
+  ],
+  "history_count": "Prior calls of the same PERMNO observed before current call, irrespective of eventual CAR availability. Replaces target-availability-derived count.",
+  "native_source": "Native option tables through 2024. Saved archive labels retain legacy coverage and delisting rules. Preserve native 2024 return vintage.",
+  "extension_source": "2025 onward: verified snapshot/link/membership rules. Validated SPRTRN targets. Rebuild sector short horizon from original benchmark and CIZ stock returns. Reconcile legacy short and extended long before scoring.",
+  "clock": "CRSP trading dates, original 16:00 ET Day 0 rule. Wait until 16:00 ET of Day +1 plus 1 microsecond. The 16:00 bound is conservative for early closes. Predict prior to Day +2 session open (09:30 ET). Close-to-close CAR begins at the preceding close and cannot be traded in full after this signal.",
+  "eligibility": "Require valid early CAR and complete calendar endpoints. Refits use the earliest eligible signal across horizons and benchmarks for the test year. Strict Day +h close before refit for training. Train year strictly earlier than test year.",
+  "preprocessing": "Fit original log, 1st/99th-percentile winsorization, training median, scaling and unnormalized average target midranks separately within each inner fold and final refit. Fold all-missing inputs contribute a zero standardized column.",
+  "algorithms": {
+    "Ridge 1": {
+      "family": "ridge",
+      "alpha": 1.0
+    },
+    "Ridge 10": {
+      "family": "ridge",
+      "alpha": 10.0
+    },
+    "Ridge 50": {
+      "family": "ridge",
+      "alpha": 50.0
+    },
+    "Elastic Net .05": {
+      "family": "elastic",
+      "alpha": 0.05,
+      "l1_ratio": 0.7,
+      "max_iter": 5000
+    }
+  },
+  "inner_folds": "Last three prior calendar years for validation. Expand from each schedule start year. Purge training labels ending at or after the earliest validation signal. Validation labels strictly before the outer refit. Require 100 training events / 25 issuers and 50 validation events / 20 issuers in every fold.",
+  "selection": "Mean inner-fold Spearman Rank IC. A and B* choose estimators independently. B compares greedy forward and jointly fitted positive univariate LM subsets against A. Require >0.001 mean IC gain. Greedy steps also require >0.001. Ties within 1e-12 follow declared feature and estimator order, then prefer the shorter subset and forward route. Empty selection uses the exact A model.",
+  "evaluation": "Raw Spearman and supplementary Pearson by test year. Match schedules by event within horizon. For direct horizon comparisons score both predictions on the intersection, against each respective target. No cross-year pooling.",
+  "quintiles": "Prediction and factor sorts use qcut, preserve ties, require five distinct groups, 50 events and 20 issuers. Report means, counts, SD and Q5 minus Q1. No strategy returns.",
+  "factors": "Development discovery uses mature eligible pre-2024 events, independent of test factor results. Evaluate LM8 individually. Quarterly gate 25 pairs/15 issuers. Prespecified conditional groups SUE >= 0 vs < 0 and prevol above vs at/below pre-2024 median, using observed predictors only. Correlation heatmaps use development and each test year separately.",
+  "inference": "999 pointwise paired percentile draws by firm and overlapping noncircular two-month calendar blocks. Require 50 events / 30 issuers plus five nominal blocks for time inference. Partial 2026 has issuer-only intervals where feasible. Intervals conditional on fitted scores; no confirmatory multiple testing claims.",
+  "importance": "Signed standardized-input coefficient divided by training sample size, plus absolute coefficient share. Joint fits, descriptive rather than causal interpretation.",
+  "seed": 18431
+}

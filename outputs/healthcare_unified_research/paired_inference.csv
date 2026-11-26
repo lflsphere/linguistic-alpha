@@ -1,0 +1,481 @@
+year,benchmark,horizon,window,sample,family,contrast,method,events,issuers,nominal_blocks,draws,point,lower,upper,available
+2024,S&P 500,5,Expanding,Five-model common (train-imputed),Language,B−A,Issuer cluster,205,62,6,999,0,0,0,True
+2024,S&P 500,5,Expanding,Five-model common (train-imputed),Language,B*−A,Issuer cluster,205,62,6,999,-0.040750233316153836,-0.17559236569750966,0.070161106208279464,True
+2024,S&P 500,5,Expanding,Five-model common (train-imputed),Language,C−A,Issuer cluster,205,62,6,999,0.020661364237857111,-0.032929777941957318,0.078708942562877526,True
+2024,S&P 500,5,Expanding,Five-model common (train-imputed),Language,C*−A,Issuer cluster,205,62,6,999,0.017401902745469489,-0.091468735073541085,0.13248052208939554,True
+2024,S&P 500,5,Expanding,Five-model common (train-imputed),Language,C−B,Issuer cluster,205,62,6,999,0.020661364237857111,-0.032929777941957318,0.078708942562877526,True
+2024,S&P 500,5,Expanding,Five-model common (train-imputed),Language,B−A,Two-month block,205,62,6,999,0,0,0,True
+2024,S&P 500,5,Expanding,Five-model common (train-imputed),Language,B*−A,Two-month block,205,62,6,999,-0.040750233316153836,-0.090496866949656862,0.01187176313111828,True
+2024,S&P 500,5,Expanding,Five-model common (train-imputed),Language,C−A,Two-month block,205,62,6,999,0.020661364237857111,-0.01377164547419751,0.070925634427871212,True
+2024,S&P 500,5,Expanding,Five-model common (train-imputed),Language,C*−A,Two-month block,205,62,6,999,0.017401902745469489,-0.088878653669930766,0.12797172416979813,True
+2024,S&P 500,5,Expanding,Five-model common (train-imputed),Language,C−B,Two-month block,205,62,6,999,0.020661364237857111,-0.01377164547419751,0.070925634427871212,True
+2024,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Issuer cluster,205,62,6,999,-0.021928932596007852,-0.12553668760320635,0.076423713294750464,True
+2024,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Issuer cluster,205,62,6,999,-0.057161761223551696,-0.19070562404099131,0.071300524550924185,True
+2024,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Issuer cluster,205,62,6,999,-0.0029669457174297531,-0.047586429444290736,0.047688953931344355,True
+2024,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Issuer cluster,205,62,6,999,-0.0014946163168085141,-0.10847057411169483,0.12167412649542979,True
+2024,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Issuer cluster,205,62,6,999,0.018961986878578099,-0.088175146401505214,0.12348119400538016,True
+2024,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Two-month block,205,62,6,999,-0.021928932596007852,-0.079137791184648379,0.043784610737143508,True
+2024,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Two-month block,205,62,6,999,-0.057161761223551696,-0.1292022316192202,-0.0046216868940158343,True
+2024,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Two-month block,205,62,6,999,-0.0029669457174297531,-0.044668096073986988,0.032951313144754218,True
+2024,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Two-month block,205,62,6,999,-0.0014946163168085141,-0.1233919036538703,0.15458619795922435,True
+2024,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Two-month block,205,62,6,999,0.018961986878578099,-0.050141174733813326,0.076220753692783388,True
+2024,S&P 500,5,Both,Five-model common (train-imputed),Training window,A,Issuer cluster,205,62,6,999,-0.020797871599504122,-0.13934383203307049,0.087291289497776439,True
+2024,S&P 500,5,Both,Five-model common (train-imputed),Training window,B,Issuer cluster,205,62,6,999,-0.042726804195511975,-0.19925198693594068,0.097014778824589101,True
+2024,S&P 500,5,Both,Five-model common (train-imputed),Training window,B*,Issuer cluster,205,62,6,999,-0.037209399506901983,-0.16462099994138618,0.086781507907301561,True
+2024,S&P 500,5,Both,Five-model common (train-imputed),Training window,C,Issuer cluster,205,62,6,999,-0.044426181554790986,-0.18466279618137113,0.096756367052720171,True
+2024,S&P 500,5,Both,Five-model common (train-imputed),Training window,C*,Issuer cluster,205,62,6,999,-0.039694390661782125,-0.14103866269153187,0.066490001232216003,True
+2024,S&P 500,5,Both,Five-model common (train-imputed),Training window,A,Two-month block,205,62,6,999,-0.020797871599504122,-0.13660099902544459,0.070688396316639229,True
+2024,S&P 500,5,Both,Five-model common (train-imputed),Training window,B,Two-month block,205,62,6,999,-0.042726804195511975,-0.1621937114776176,0.074880804989284552,True
+2024,S&P 500,5,Both,Five-model common (train-imputed),Training window,B*,Two-month block,205,62,6,999,-0.037209399506901983,-0.17017745897087105,0.0659854923914798,True
+2024,S&P 500,5,Both,Five-model common (train-imputed),Training window,C,Two-month block,205,62,6,999,-0.044426181554790986,-0.17936358772214039,0.059752156918155067,True
+2024,S&P 500,5,Both,Five-model common (train-imputed),Training window,C*,Two-month block,205,62,6,999,-0.039694390661782125,-0.11572625101411492,0.024050957427746919,True
+2024,S&P 500,20,Expanding,Five-model common (train-imputed),Language,B−A,Issuer cluster,204,62,6,999,0.030410414796700841,-0.018590311326920149,0.089909725049471603,True
+2024,S&P 500,20,Expanding,Five-model common (train-imputed),Language,B*−A,Issuer cluster,204,62,6,999,0.032194273840738988,-0.055562954468612431,0.12109326527997816,True
+2024,S&P 500,20,Expanding,Five-model common (train-imputed),Language,C−A,Issuer cluster,204,62,6,999,0.011130036539426527,-0.045353906138577031,0.067833070499997553,True
+2024,S&P 500,20,Expanding,Five-model common (train-imputed),Language,C*−A,Issuer cluster,204,62,6,999,0.10060427871737425,0.012216519722495166,0.19627643728154409,True
+2024,S&P 500,20,Expanding,Five-model common (train-imputed),Language,C−B,Issuer cluster,204,62,6,999,-0.019280378257274314,-0.094286535332972057,0.053033278115203898,True
+2024,S&P 500,20,Expanding,Five-model common (train-imputed),Language,B−A,Two-month block,204,62,6,999,0.030410414796700841,-0.01259833331839866,0.07333508436425272,True
+2024,S&P 500,20,Expanding,Five-model common (train-imputed),Language,B*−A,Two-month block,204,62,6,999,0.032194273840738988,-0.018707530363707103,0.11086596513975139,True
+2024,S&P 500,20,Expanding,Five-model common (train-imputed),Language,C−A,Two-month block,204,62,6,999,0.011130036539426527,-0.017610042009648916,0.052967132115371809,True
+2024,S&P 500,20,Expanding,Five-model common (train-imputed),Language,C*−A,Two-month block,204,62,6,999,0.10060427871737425,0.0050162072843139734,0.22549687431838647,True
+2024,S&P 500,20,Expanding,Five-model common (train-imputed),Language,C−B,Two-month block,204,62,6,999,-0.019280378257274314,-0.077779469698268003,0.060256095333471899,True
+2024,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Issuer cluster,204,62,6,999,0.037323928730449291,-0.10143058852226618,0.16036656299311877,True
+2024,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Issuer cluster,204,62,6,999,0.012307496589889111,-0.11919002316132675,0.13885053985590215,True
+2024,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Issuer cluster,204,62,6,999,0.073027966443095324,-0.0289865410055264,0.18385121551294073,True
+2024,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Issuer cluster,204,62,6,999,0.084902926687916561,-0.033409521556768629,0.19576310617329837,True
+2024,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Issuer cluster,204,62,6,999,0.035704037712646033,-0.096094070100541093,0.17397245462379796,True
+2024,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Two-month block,204,62,6,999,0.037323928730449291,-0.049860255573621164,0.13792622810910418,True
+2024,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Two-month block,204,62,6,999,0.012307496589889111,-0.060107718860943612,0.095220661236865609,True
+2024,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Two-month block,204,62,6,999,0.073027966443095324,-0.0045999216248438553,0.16761463733654164,True
+2024,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Two-month block,204,62,6,999,0.084902926687916561,-0.034538074150238414,0.2306892844701901,True
+2024,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Two-month block,204,62,6,999,0.035704037712646033,-0.061934453872893876,0.15656516282769617,True
+2024,S&P 500,20,Both,Five-model common (train-imputed),Training window,A,Issuer cluster,204,62,6,999,0.18129068279961269,0.02951807965907307,0.33082028293079607,True
+2024,S&P 500,20,Both,Five-model common (train-imputed),Training window,B,Issuer cluster,204,62,6,999,0.18820419673336114,0.02669257942036565,0.33851560357232352,True
+2024,S&P 500,20,Both,Five-model common (train-imputed),Training window,B*,Issuer cluster,204,62,6,999,0.16140390554876283,0.035616837113520358,0.2765321963169462,True
+2024,S&P 500,20,Both,Five-model common (train-imputed),Training window,C,Issuer cluster,204,62,6,999,0.24318861270328149,0.097293585426228818,0.39083289734414506,True
+2024,S&P 500,20,Both,Five-model common (train-imputed),Training window,C*,Issuer cluster,204,62,6,999,0.165589330770155,0.031930864651606376,0.30109527238921102,True
+2024,S&P 500,20,Both,Five-model common (train-imputed),Training window,A,Two-month block,204,62,6,999,0.18129068279961269,-0.012236630385446314,0.33910292899510319,True
+2024,S&P 500,20,Both,Five-model common (train-imputed),Training window,B,Two-month block,204,62,6,999,0.18820419673336114,0.016405683206318512,0.40245674125880598,True
+2024,S&P 500,20,Both,Five-model common (train-imputed),Training window,B*,Two-month block,204,62,6,999,0.16140390554876283,0.0098350776895075615,0.3087614405118756,True
+2024,S&P 500,20,Both,Five-model common (train-imputed),Training window,C,Two-month block,204,62,6,999,0.24318861270328149,0.056588845495988201,0.43402136305692246,True
+2024,S&P 500,20,Both,Five-model common (train-imputed),Training window,C*,Two-month block,204,62,6,999,0.165589330770155,-0.053612654757077494,0.37890821002537706,True
+2024,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,A,Issuer cluster,204,62,6,999,-0.057251697987857883,-0.26078774648088437,0.1370974230726974,True
+2024,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,B,Issuer cluster,204,62,6,999,-0.026841283191157042,-0.23329479380109294,0.16778716559985141,True
+2024,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,B*,Issuer cluster,204,62,6,999,0.015463881094910634,-0.17914905033478479,0.19578756008167747,True
+2024,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,C,Issuer cluster,204,62,6,999,-0.066982352234417744,-0.27638226736152494,0.13692933187108658,True
+2024,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,C*,Issuer cluster,204,62,6,999,0.025266624732315127,-0.17954072041949828,0.24154000239728307,True
+2024,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,A,Two-month block,204,62,6,999,-0.057251697987857883,-0.20349814301705596,0.080095013629696565,True
+2024,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,B,Two-month block,204,62,6,999,-0.026841283191157042,-0.16120561961375651,0.09647894262159859,True
+2024,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,B*,Two-month block,204,62,6,999,0.015463881094910634,-0.076110935674037136,0.10783410787470298,True
+2024,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,C,Two-month block,204,62,6,999,-0.066982352234417744,-0.23007425339116064,0.09545668831127313,True
+2024,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,C*,Two-month block,204,62,6,999,0.025266624732315127,-0.19726556125615119,0.2423695645170377,True
+2024,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,A,Issuer cluster,204,62,6,999,0.14956993731050031,-0.08261685233519192,0.37262285790531252,True
+2024,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B,Issuer cluster,204,62,6,999,0.20512400081984011,-0.017105169078093077,0.40629582171521067,True
+2024,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B*,Issuer cluster,204,62,6,999,0.21661307079602238,-0.0051605073236101013,0.42614411135208391,True
+2024,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C,Issuer cluster,204,62,6,999,0.22631404117576381,0.00015845820002572292,0.43062814795571347,True
+2024,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C*,Issuer cluster,204,62,6,999,0.23368270773406083,0.024416999808323493,0.43636060302374891,True
+2024,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,A,Two-month block,204,62,6,999,0.14956993731050031,-0.0086805775999163545,0.30533719014869998,True
+2024,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B,Two-month block,204,62,6,999,0.20512400081984011,0.05470722115134459,0.40794631264527309,True
+2024,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B*,Two-month block,204,62,6,999,0.21661307079602238,0.070973468042068263,0.46436251855922411,True
+2024,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C,Two-month block,204,62,6,999,0.22631404117576381,0.11104772013894484,0.39118350986342831,True
+2024,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C*,Two-month block,204,62,6,999,0.23368270773406083,0.15634033407092671,0.34601302550552349,True
+2024,Healthcare,5,Expanding,Five-model common (train-imputed),Language,B−A,Issuer cluster,205,62,6,999,0,0,0,True
+2024,Healthcare,5,Expanding,Five-model common (train-imputed),Language,B*−A,Issuer cluster,205,62,6,999,0.038446323355295228,-0.07629656148580953,0.15943680754221828,True
+2024,Healthcare,5,Expanding,Five-model common (train-imputed),Language,C−A,Issuer cluster,205,62,6,999,0.045586494128790511,-0.016874494316161334,0.10607315015801573,True
+2024,Healthcare,5,Expanding,Five-model common (train-imputed),Language,C*−A,Issuer cluster,205,62,6,999,0.066132244988926184,-0.038751882982547663,0.16879663610052845,True
+2024,Healthcare,5,Expanding,Five-model common (train-imputed),Language,C−B,Issuer cluster,205,62,6,999,0.045586494128790511,-0.016874494316161334,0.10607315015801573,True
+2024,Healthcare,5,Expanding,Five-model common (train-imputed),Language,B−A,Two-month block,205,62,6,999,0,0,0,True
+2024,Healthcare,5,Expanding,Five-model common (train-imputed),Language,B*−A,Two-month block,205,62,6,999,0.038446323355295228,0.012097620067102671,0.061549326047018023,True
+2024,Healthcare,5,Expanding,Five-model common (train-imputed),Language,C−A,Two-month block,205,62,6,999,0.045586494128790511,0.010421563121612893,0.071373150444390354,True
+2024,Healthcare,5,Expanding,Five-model common (train-imputed),Language,C*−A,Two-month block,205,62,6,999,0.066132244988926184,-8.6451413316723406e-06,0.16280697544168926,True
+2024,Healthcare,5,Expanding,Five-model common (train-imputed),Language,C−B,Two-month block,205,62,6,999,0.045586494128790511,0.010421563121612893,0.071373150444390354,True
+2024,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Issuer cluster,205,62,6,999,0.0055146188240865757,-0.069238854538173064,0.088957973968633211,True
+2024,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Issuer cluster,205,62,6,999,-0.013245392876544415,-0.13676019580017121,0.11165636987870703,True
+2024,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Issuer cluster,205,62,6,999,0.012966806424203586,-0.010048396614703473,0.034877934663666059,True
+2024,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Issuer cluster,205,62,6,999,-0.01555348163418814,-0.10233468872724984,0.062308267176592005,True
+2024,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Issuer cluster,205,62,6,999,0.0074521876001170106,-0.079925552863940902,0.087071901179128317,True
+2024,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Two-month block,205,62,6,999,0.0055146188240865757,-0.046482698604379383,0.059346303279057953,True
+2024,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Two-month block,205,62,6,999,-0.013245392876544415,-0.070506289232486807,0.034791169316563307,True
+2024,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Two-month block,205,62,6,999,0.012966806424203586,-0.00027617865056996891,0.031892281063234731,True
+2024,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Two-month block,205,62,6,999,-0.01555348163418814,-0.081103273431955114,0.058972115759397439,True
+2024,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Two-month block,205,62,6,999,0.0074521876001170106,-0.054562545005759022,0.061489003817516832,True
+2024,Healthcare,5,Both,Five-model common (train-imputed),Training window,A,Issuer cluster,205,62,6,999,-0.0031633491663300428,-0.11869241261215421,0.11377343534256461,True
+2024,Healthcare,5,Both,Five-model common (train-imputed),Training window,B,Issuer cluster,205,62,6,999,0.0023512696577565328,-0.1407261750299198,0.14798474286356919,True
+2024,Healthcare,5,Both,Five-model common (train-imputed),Training window,B*,Issuer cluster,205,62,6,999,-0.054855065398169686,-0.16293851009802454,0.057268065748228347,True
+2024,Healthcare,5,Both,Five-model common (train-imputed),Training window,C,Issuer cluster,205,62,6,999,-0.035783036870916968,-0.16929035123202771,0.091458100499191369,True
+2024,Healthcare,5,Both,Five-model common (train-imputed),Training window,C*,Issuer cluster,205,62,6,999,-0.084849075789444367,-0.20184172546584264,0.038071758799435258,True
+2024,Healthcare,5,Both,Five-model common (train-imputed),Training window,A,Two-month block,205,62,6,999,-0.0031633491663300428,-0.084319146335810002,0.093787789638206442,True
+2024,Healthcare,5,Both,Five-model common (train-imputed),Training window,B,Two-month block,205,62,6,999,0.0023512696577565328,-0.10932187168485005,0.12476902073164688,True
+2024,Healthcare,5,Both,Five-model common (train-imputed),Training window,B*,Two-month block,205,62,6,999,-0.054855065398169686,-0.15513332181403644,0.049723332948458494,True
+2024,Healthcare,5,Both,Five-model common (train-imputed),Training window,C,Two-month block,205,62,6,999,-0.035783036870916968,-0.13799210014228394,0.09748817989660935,True
+2024,Healthcare,5,Both,Five-model common (train-imputed),Training window,C*,Two-month block,205,62,6,999,-0.084849075789444367,-0.18586516074305742,-0.001841560931280571,True
+2024,Healthcare,20,Expanding,Five-model common (train-imputed),Language,B−A,Issuer cluster,204,62,6,999,0.033571039854124997,-0.032230130554584679,0.091319180136778158,True
+2024,Healthcare,20,Expanding,Five-model common (train-imputed),Language,B*−A,Issuer cluster,204,62,6,999,0.020425327405983421,-0.048477881947210498,0.09218320398554973,True
+2024,Healthcare,20,Expanding,Five-model common (train-imputed),Language,C−A,Issuer cluster,204,62,6,999,0.049687966019040075,-0.021792076438929376,0.12033672501350645,True
+2024,Healthcare,20,Expanding,Five-model common (train-imputed),Language,C*−A,Issuer cluster,204,62,6,999,0.08149776310860761,-0.017778074142528365,0.17254874401146339,True
+2024,Healthcare,20,Expanding,Five-model common (train-imputed),Language,C−B,Issuer cluster,204,62,6,999,0.016116926164915078,-0.05546520703354748,0.092753844279969924,True
+2024,Healthcare,20,Expanding,Five-model common (train-imputed),Language,B−A,Two-month block,204,62,6,999,0.033571039854124997,-0.020320285319310689,0.1065860143545623,True
+2024,Healthcare,20,Expanding,Five-model common (train-imputed),Language,B*−A,Two-month block,204,62,6,999,0.020425327405983421,-0.027675931713692568,0.086646784241108291,True
+2024,Healthcare,20,Expanding,Five-model common (train-imputed),Language,C−A,Two-month block,204,62,6,999,0.049687966019040075,-0.016330127499135535,0.14428374203711075,True
+2024,Healthcare,20,Expanding,Five-model common (train-imputed),Language,C*−A,Two-month block,204,62,6,999,0.08149776310860761,-0.030621178823612996,0.18483068735055475,True
+2024,Healthcare,20,Expanding,Five-model common (train-imputed),Language,C−B,Two-month block,204,62,6,999,0.016116926164915078,-0.032814505860630415,0.082935190622140623,True
+2024,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Issuer cluster,204,62,6,999,0.034385225915429238,-0.064299102123428542,0.14843756349799175,True
+2024,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Issuer cluster,204,62,6,999,-0.017926228523368989,-0.12796739802787963,0.095134737513902445,True
+2024,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Issuer cluster,204,62,6,999,0.039413107547476511,-0.032497108255881084,0.11649210523637106,True
+2024,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Issuer cluster,204,62,6,999,0.035805810970309063,-0.052626635929811399,0.11993936865786879,True
+2024,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Issuer cluster,204,62,6,999,0.0050278816320472736,-0.09530725784967857,0.10264443525239755,True
+2024,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Two-month block,204,62,6,999,0.034385225915429238,-0.037592385306114549,0.11897250709216262,True
+2024,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Two-month block,204,62,6,999,-0.017926228523368989,-0.11979555370309267,0.094403922822051858,True
+2024,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Two-month block,204,62,6,999,0.039413107547476511,-0.01104763798189724,0.087228106610588871,True
+2024,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Two-month block,204,62,6,999,0.035805810970309063,-0.028464402559416301,0.090372224725890377,True
+2024,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Two-month block,204,62,6,999,0.0050278816320472736,-0.085868027899332539,0.078654352130718599,True
+2024,Healthcare,20,Both,Five-model common (train-imputed),Training window,A,Issuer cluster,204,62,6,999,0.064565237364920744,-0.10870116211281451,0.23803821381656126,True
+2024,Healthcare,20,Both,Five-model common (train-imputed),Training window,B,Issuer cluster,204,62,6,999,0.065379423426224992,-0.087711259398160296,0.21659234481091819,True
+2024,Healthcare,20,Both,Five-model common (train-imputed),Training window,B*,Issuer cluster,204,62,6,999,0.026213681435568334,-0.10835463583707723,0.15780937984394469,True
+2024,Healthcare,20,Both,Five-model common (train-imputed),Training window,C,Issuer cluster,204,62,6,999,0.05429037889335718,-0.073909808213281858,0.18245466573230215,True
+2024,Healthcare,20,Both,Five-model common (train-imputed),Training window,C*,Issuer cluster,204,62,6,999,0.018873285226622197,-0.10223515283922918,0.14697992399397591,True
+2024,Healthcare,20,Both,Five-model common (train-imputed),Training window,A,Two-month block,204,62,6,999,0.064565237364920744,-0.06670513868854451,0.21794020084624099,True
+2024,Healthcare,20,Both,Five-model common (train-imputed),Training window,B,Two-month block,204,62,6,999,0.065379423426224992,-0.036376388175147358,0.19479640765321643,True
+2024,Healthcare,20,Both,Five-model common (train-imputed),Training window,B*,Two-month block,204,62,6,999,0.026213681435568334,-0.079907920204533203,0.17329263760492308,True
+2024,Healthcare,20,Both,Five-model common (train-imputed),Training window,C,Two-month block,204,62,6,999,0.05429037889335718,-0.058039849825138962,0.15077337356135673,True
+2024,Healthcare,20,Both,Five-model common (train-imputed),Training window,C*,Two-month block,204,62,6,999,0.018873285226622197,-0.10759494986138821,0.13947653716926184,True
+2024,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,A,Issuer cluster,204,62,6,999,0.079849601741453516,-0.11470432356381337,0.27872524400686982,True
+2024,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,B,Issuer cluster,204,62,6,999,0.11342064159557852,-0.090690650353161192,0.3115056024604797,True
+2024,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,B*,Issuer cluster,204,62,6,999,0.061112014191715372,-0.11754736697472554,0.24463641133452085,True
+2024,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,C,Issuer cluster,204,62,6,999,0.084905753722851626,-0.1437589315887155,0.30174331256580006,True
+2024,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,C*,Issuer cluster,204,62,6,999,0.094774932681230606,-0.089938271791780974,0.28378287887462617,True
+2024,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,A,Two-month block,204,62,6,999,0.079849601741453516,-0.0010886956208793156,0.15544115859926488,True
+2024,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,B,Two-month block,204,62,6,999,0.11342064159557852,0.028625920406305433,0.21748953734883844,True
+2024,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,B*,Two-month block,204,62,6,999,0.061112014191715372,-0.015941591267775695,0.16333078552591046,True
+2024,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,C,Two-month block,204,62,6,999,0.084905753722851626,-0.0038871222806904533,0.20738882354896937,True
+2024,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,C*,Two-month block,204,62,6,999,0.094774932681230606,-0.10028403454823394,0.2806801804004731,True
+2024,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,A,Issuer cluster,204,62,6,999,0.15397728477429662,-0.076868265354714416,0.35192474768121346,True
+2024,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B,Issuer cluster,204,62,6,999,0.17971743785823832,-0.015814578240818042,0.36408759744978164,True
+2024,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B*,Issuer cluster,204,62,6,999,0.14512442487508037,-0.047392187403224803,0.3399509891034635,True
+2024,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C,Issuer cluster,204,62,6,999,0.18001286300895464,-0.044202951631931109,0.36666344799371337,True
+2024,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C*,Issuer cluster,204,62,6,999,0.20129902255267118,-0.0090655060184267194,0.37228594593043773,True
+2024,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,A,Two-month block,204,62,6,999,0.15397728477429662,-0.018966163227865276,0.34042158339190592,True
+2024,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B,Two-month block,204,62,6,999,0.17971743785823832,0.0036496163415400914,0.37349280055040907,True
+2024,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B*,Two-month block,204,62,6,999,0.14512442487508037,0.0038369935096421804,0.36196390797887185,True
+2024,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C,Two-month block,204,62,6,999,0.18001286300895464,-0.025981095231796605,0.38594086768785946,True
+2024,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C*,Two-month block,204,62,6,999,0.20129902255267118,0.0045159295368571301,0.42508707502786391,True
+2025,S&P 500,5,Expanding,Five-model common (train-imputed),Language,B−A,Issuer cluster,211,61,6,999,-0.00011880277461963351,-0.030771229168178978,0.034264251159868121,True
+2025,S&P 500,5,Expanding,Five-model common (train-imputed),Language,B*−A,Issuer cluster,211,61,6,999,0.013910144224013488,-0.040698720843940092,0.0759398052317585,True
+2025,S&P 500,5,Expanding,Five-model common (train-imputed),Language,C−A,Issuer cluster,211,61,6,999,0.036739438688826162,-0.030203112343449693,0.10707364211105298,True
+2025,S&P 500,5,Expanding,Five-model common (train-imputed),Language,C*−A,Issuer cluster,211,61,6,999,0.049235446660109108,-0.024029030259058851,0.12530964999241784,True
+2025,S&P 500,5,Expanding,Five-model common (train-imputed),Language,C−B,Issuer cluster,211,61,6,999,0.036858241463445796,-0.032433823092908605,0.10391465718183494,True
+2025,S&P 500,5,Expanding,Five-model common (train-imputed),Language,B−A,Two-month block,211,61,6,999,-0.00011880277461963351,-0.025762299976570494,0.047805770272279335,True
+2025,S&P 500,5,Expanding,Five-model common (train-imputed),Language,B*−A,Two-month block,211,61,6,999,0.013910144224013488,-0.046663416842525451,0.12120353091172847,True
+2025,S&P 500,5,Expanding,Five-model common (train-imputed),Language,C−A,Two-month block,211,61,6,999,0.036739438688826162,0.0081933416811037964,0.079726480641652456,True
+2025,S&P 500,5,Expanding,Five-model common (train-imputed),Language,C*−A,Two-month block,211,61,6,999,0.049235446660109108,-0.0080672890160483589,0.12596169362403006,True
+2025,S&P 500,5,Expanding,Five-model common (train-imputed),Language,C−B,Two-month block,211,61,6,999,0.036858241463445796,0.0098568757488661941,0.06078481455542542,True
+2025,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Issuer cluster,211,61,6,999,0.0064383439148707894,-0.020771525909313821,0.032560930358235249,True
+2025,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Issuer cluster,211,61,6,999,0.009822306817746318,-0.055229922981833095,0.068162135122840736,True
+2025,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Issuer cluster,211,61,6,999,0.087712216246598779,-0.0054590714439308134,0.19058593278514335,True
+2025,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Issuer cluster,211,61,6,999,0.078633384857117294,-0.024380523153449001,0.19078111946738543,True
+2025,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Issuer cluster,211,61,6,999,0.081273872331727989,-0.0084678063539184167,0.18364088397608896,True
+2025,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Two-month block,211,61,6,999,0.0064383439148707894,-0.0074633880751302489,0.020836234480423727,True
+2025,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Two-month block,211,61,6,999,0.009822306817746318,-0.065813702409930466,0.073832984933515228,True
+2025,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Two-month block,211,61,6,999,0.087712216246598779,0.0066992063528164784,0.14287698356390277,True
+2025,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Two-month block,211,61,6,999,0.078633384857117294,0.018984220887368744,0.12138125101420992,True
+2025,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Two-month block,211,61,6,999,0.081273872331727989,-0.0021812802112112293,0.13613162080501162,True
+2025,S&P 500,5,Both,Five-model common (train-imputed),Training window,A,Issuer cluster,211,61,6,999,-0.024765907436031728,-0.14887679125414638,0.10671430091294315,True
+2025,S&P 500,5,Both,Five-model common (train-imputed),Training window,B,Issuer cluster,211,61,6,999,-0.018208760746541305,-0.13835109227720732,0.1131043483985617,True
+2025,S&P 500,5,Both,Five-model common (train-imputed),Training window,B*,Issuer cluster,211,61,6,999,-0.028853744842298898,-0.15402654690682335,0.10364243142250693,True
+2025,S&P 500,5,Both,Five-model common (train-imputed),Training window,C,Issuer cluster,211,61,6,999,0.026206870121740888,-0.077536474819307463,0.14150893833335021,True
+2025,S&P 500,5,Both,Five-model common (train-imputed),Training window,C*,Issuer cluster,211,61,6,999,0.0046320307609764577,-0.10735664897900368,0.12904166934350919,True
+2025,S&P 500,5,Both,Five-model common (train-imputed),Training window,A,Two-month block,211,61,6,999,-0.024765907436031728,-0.14579794744994068,0.1185705633151823,True
+2025,S&P 500,5,Both,Five-model common (train-imputed),Training window,B,Two-month block,211,61,6,999,-0.018208760746541305,-0.14674882539412004,0.12564126741040105,True
+2025,S&P 500,5,Both,Five-model common (train-imputed),Training window,B*,Two-month block,211,61,6,999,-0.028853744842298898,-0.19441509943262472,0.14793090623314736,True
+2025,S&P 500,5,Both,Five-model common (train-imputed),Training window,C,Two-month block,211,61,6,999,0.026206870121740888,-0.084825727981993893,0.13412964273198444,True
+2025,S&P 500,5,Both,Five-model common (train-imputed),Training window,C*,Two-month block,211,61,6,999,0.0046320307609764577,-0.13180702869202901,0.14268863770986132,True
+2025,S&P 500,20,Expanding,Five-model common (train-imputed),Language,B−A,Issuer cluster,211,61,6,999,0.0063770263537767796,-0.029930568293311335,0.043561276381102035,True
+2025,S&P 500,20,Expanding,Five-model common (train-imputed),Language,B*−A,Issuer cluster,211,61,6,999,-0.00053269631200419248,-0.051628555650929518,0.051608791413468524,True
+2025,S&P 500,20,Expanding,Five-model common (train-imputed),Language,C−A,Issuer cluster,211,61,6,999,0.00096064179047278264,-0.061611107486153255,0.06693255634712382,True
+2025,S&P 500,20,Expanding,Five-model common (train-imputed),Language,C*−A,Issuer cluster,211,61,6,999,0.01501002797613725,-0.078720890496782811,0.1138320255644107,True
+2025,S&P 500,20,Expanding,Five-model common (train-imputed),Language,C−B,Issuer cluster,211,61,6,999,-0.005416384563303997,-0.078029289641032812,0.067724826055144266,True
+2025,S&P 500,20,Expanding,Five-model common (train-imputed),Language,B−A,Two-month block,211,61,6,999,0.0063770263537767796,-0.025045252365689212,0.040618097051237881,True
+2025,S&P 500,20,Expanding,Five-model common (train-imputed),Language,B*−A,Two-month block,211,61,6,999,-0.00053269631200419248,-0.071249628834804679,0.072481440213423842,True
+2025,S&P 500,20,Expanding,Five-model common (train-imputed),Language,C−A,Two-month block,211,61,6,999,0.00096064179047278264,-0.089987908784556855,0.071462371517651474,True
+2025,S&P 500,20,Expanding,Five-model common (train-imputed),Language,C*−A,Two-month block,211,61,6,999,0.01501002797613725,-0.10371525970973815,0.10935263063869689,True
+2025,S&P 500,20,Expanding,Five-model common (train-imputed),Language,C−B,Two-month block,211,61,6,999,-0.005416384563303997,-0.081255712313876058,0.073717120453354545,True
+2025,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Issuer cluster,211,61,6,999,0.0088616650272735353,-0.055816335729575541,0.065864282159690452,True
+2025,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Issuer cluster,211,61,6,999,0.031353712906069156,-0.037127871793733933,0.10037237724004106,True
+2025,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Issuer cluster,211,61,6,999,0.036496723342829024,-0.050325382986094756,0.12260378826957602,True
+2025,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Issuer cluster,211,61,6,999,0.072537397325021388,-0.025791619485931002,0.17744852492121821,True
+2025,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Issuer cluster,211,61,6,999,0.027635058315555489,-0.077604052060597506,0.1190861764334317,True
+2025,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Two-month block,211,61,6,999,0.0088616650272735353,-0.08841956844796095,0.09466965104157983,True
+2025,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Two-month block,211,61,6,999,0.031353712906069156,-0.087473446412954625,0.13516107049644666,True
+2025,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Two-month block,211,61,6,999,0.036496723342829024,-0.034539910854999328,0.084573398316335507,True
+2025,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Two-month block,211,61,6,999,0.072537397325021388,-0.059962731832869168,0.17274850486628718,True
+2025,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Two-month block,211,61,6,999,0.027635058315555489,-0.094622748337160265,0.13808703751278498,True
+2025,S&P 500,20,Both,Five-model common (train-imputed),Training window,A,Issuer cluster,211,61,6,999,-0.087252334538393733,-0.2520922980147311,0.070335560400628383,True
+2025,S&P 500,20,Both,Five-model common (train-imputed),Training window,B,Issuer cluster,211,61,6,999,-0.084767695864896964,-0.24631600486168329,0.072155461774050259,True
+2025,S&P 500,20,Both,Five-model common (train-imputed),Training window,B*,Issuer cluster,211,61,6,999,-0.055365925320320378,-0.21406893515247002,0.089240662052173528,True
+2025,S&P 500,20,Both,Five-model common (train-imputed),Training window,C,Issuer cluster,211,61,6,999,-0.051716252986037485,-0.20355245367489472,0.12643914471589329,True
+2025,S&P 500,20,Both,Five-model common (train-imputed),Training window,C*,Issuer cluster,211,61,6,999,-0.029724965189509588,-0.15741056620818214,0.11205101065320595,True
+2025,S&P 500,20,Both,Five-model common (train-imputed),Training window,A,Two-month block,211,61,6,999,-0.087252334538393733,-0.35257854880800743,0.16680596356202262,True
+2025,S&P 500,20,Both,Five-model common (train-imputed),Training window,B,Two-month block,211,61,6,999,-0.084767695864896964,-0.31005268711352707,0.11830418287412089,True
+2025,S&P 500,20,Both,Five-model common (train-imputed),Training window,B*,Two-month block,211,61,6,999,-0.055365925320320378,-0.28580152793688718,0.1469752739927713,True
+2025,S&P 500,20,Both,Five-model common (train-imputed),Training window,C,Two-month block,211,61,6,999,-0.051716252986037485,-0.31574167642947154,0.20502127774178658,True
+2025,S&P 500,20,Both,Five-model common (train-imputed),Training window,C*,Two-month block,211,61,6,999,-0.029724965189509588,-0.26683548542765306,0.20930088908537844,True
+2025,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,A,Issuer cluster,211,61,6,999,-0.14815089229825884,-0.30978349384200404,0.020456192009413995,True
+2025,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,B,Issuer cluster,211,61,6,999,-0.14165506316986243,-0.30336058199748295,0.026794098917395124,True
+2025,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,B*,Issuer cluster,211,61,6,999,-0.16259373283427653,-0.31009669764046915,-0.00092324492965158947,True
+2025,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,C,Issuer cluster,211,61,6,999,-0.18392968919661221,-0.33661840275593202,-0.026166340499889078,True
+2025,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,C*,Issuer cluster,211,61,6,999,-0.1823763109822307,-0.35682680171785269,-0.019549229135375591,True
+2025,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,A,Two-month block,211,61,6,999,-0.14815089229825884,-0.20315574016342189,-0.060343014388027527,True
+2025,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,B,Two-month block,211,61,6,999,-0.14165506316986243,-0.22798687934709791,-0.053035287298516129,True
+2025,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,B*,Two-month block,211,61,6,999,-0.16259373283427653,-0.2658823700471063,-0.058594370540805435,True
+2025,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,C,Two-month block,211,61,6,999,-0.18392968919661221,-0.28094022228737703,-0.10158902453051773,True
+2025,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,C*,Two-month block,211,61,6,999,-0.1823763109822307,-0.27695475550495108,-0.023751960976752286,True
+2025,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,A,Issuer cluster,211,61,6,999,-0.21063731940062083,-0.36217334590767741,-0.040759593195183165,True
+2025,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B,Issuer cluster,211,61,6,999,-0.20821399828821807,-0.37540884764006621,-0.027716300943384026,True
+2025,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B*,Issuer cluster,211,61,6,999,-0.18910591331229798,-0.34918601243716801,0.0013388229769318899,True
+2025,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C,Issuer cluster,211,61,6,999,-0.26185281230439061,-0.40340201031181983,-0.10936355477502691,True
+2025,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C*,Issuer cluster,211,61,6,999,-0.21673330693271675,-0.37605211660978088,-0.042422463512531178,True
+2025,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,A,Two-month block,211,61,6,999,-0.21063731940062083,-0.43800828885909338,0.028004576911291375,True
+2025,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B,Two-month block,211,61,6,999,-0.20821399828821807,-0.42146021372545112,-0.044282479855954536,True
+2025,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B*,Two-month block,211,61,6,999,-0.18910591331229798,-0.4226883756517909,-0.014314526495665697,True
+2025,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C,Two-month block,211,61,6,999,-0.26185281230439061,-0.50293610630718899,-0.016277113302894091,True
+2025,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C*,Two-month block,211,61,6,999,-0.21673330693271675,-0.41032985246597969,0.0077410101592773782,True
+2025,Healthcare,5,Expanding,Five-model common (train-imputed),Language,B−A,Issuer cluster,211,61,6,999,0.033160026059963446,-0.0129300025369467,0.079929313674613076,True
+2025,Healthcare,5,Expanding,Five-model common (train-imputed),Language,B*−A,Issuer cluster,211,61,6,999,0.02765549750258682,-0.074156324443112001,0.1237224773267258,True
+2025,Healthcare,5,Expanding,Five-model common (train-imputed),Language,C−A,Issuer cluster,211,61,6,999,0.069698905226044619,-0.0013248049946160967,0.13930184715769395,True
+2025,Healthcare,5,Expanding,Five-model common (train-imputed),Language,C*−A,Issuer cluster,211,61,6,999,0.037535289533858776,-0.049165056716874066,0.12838444513665564,True
+2025,Healthcare,5,Expanding,Five-model common (train-imputed),Language,C−B,Issuer cluster,211,61,6,999,0.036538879166081173,-0.03423443967521482,0.10369949526443061,True
+2025,Healthcare,5,Expanding,Five-model common (train-imputed),Language,B−A,Two-month block,211,61,6,999,0.033160026059963446,0.0084349426851874545,0.07614823484067211,True
+2025,Healthcare,5,Expanding,Five-model common (train-imputed),Language,B*−A,Two-month block,211,61,6,999,0.02765549750258682,-0.043721925583218392,0.11910385799299716,True
+2025,Healthcare,5,Expanding,Five-model common (train-imputed),Language,C−A,Two-month block,211,61,6,999,0.069698905226044619,0.028945346069964854,0.10482528618454934,True
+2025,Healthcare,5,Expanding,Five-model common (train-imputed),Language,C*−A,Two-month block,211,61,6,999,0.037535289533858776,-0.052466496103600546,0.083570417506546715,True
+2025,Healthcare,5,Expanding,Five-model common (train-imputed),Language,C−B,Two-month block,211,61,6,999,0.036538879166081173,-0.01569567172902574,0.074731995295986287,True
+2025,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Issuer cluster,211,61,6,999,-0.019698266501449915,-0.12022335336823546,0.080297286073995763,True
+2025,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Issuer cluster,211,61,6,999,-0.0036662791737458733,-0.10683119581338596,0.089477948073907881,True
+2025,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Issuer cluster,211,61,6,999,0.023318557504375254,-0.034413976368710804,0.08818237405420809,True
+2025,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Issuer cluster,211,61,6,999,0.075231537665589335,-0.040428953575867364,0.2037671611856203,True
+2025,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Issuer cluster,211,61,6,999,0.043016824005825169,-0.079227693471329352,0.17134539486922515,True
+2025,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Two-month block,211,61,6,999,-0.019698266501449915,-0.070571275378210521,0.044863157653226474,True
+2025,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Two-month block,211,61,6,999,-0.0036662791737458733,-0.05064097626015996,0.073383138310686574,True
+2025,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Two-month block,211,61,6,999,0.023318557504375254,-0.0068084817393114982,0.055257510645816604,True
+2025,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Two-month block,211,61,6,999,0.075231537665589335,-0.0067069075784627402,0.1075288139390487,True
+2025,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Two-month block,211,61,6,999,0.043016824005825169,-0.019379607761811062,0.089521196687422852,True
+2025,Healthcare,5,Both,Five-model common (train-imputed),Training window,A,Issuer cluster,211,61,6,999,-0.030179737100956811,-0.16607245493416437,0.1135197586750383,True
+2025,Healthcare,5,Both,Five-model common (train-imputed),Training window,B,Issuer cluster,211,61,6,999,-0.083038029662370172,-0.2122006579500374,0.060249668401599892,True
+2025,Healthcare,5,Both,Five-model common (train-imputed),Training window,B*,Issuer cluster,211,61,6,999,-0.061501513777289504,-0.19264000126700689,0.080722646540666382,True
+2025,Healthcare,5,Both,Five-model common (train-imputed),Training window,C,Issuer cluster,211,61,6,999,-0.076560084822626176,-0.21162843039634893,0.074357612795591027,True
+2025,Healthcare,5,Both,Five-model common (train-imputed),Training window,C*,Issuer cluster,211,61,6,999,0.0075165110307737482,-0.099128504941441459,0.12007151406134985,True
+2025,Healthcare,5,Both,Five-model common (train-imputed),Training window,A,Two-month block,211,61,6,999,-0.030179737100956811,-0.11890029258076042,0.04874833834606819,True
+2025,Healthcare,5,Both,Five-model common (train-imputed),Training window,B,Two-month block,211,61,6,999,-0.083038029662370172,-0.17266431060380891,0.0028887225862944915,True
+2025,Healthcare,5,Both,Five-model common (train-imputed),Training window,B*,Two-month block,211,61,6,999,-0.061501513777289504,-0.14368293950180444,0.026949010491938968,True
+2025,Healthcare,5,Both,Five-model common (train-imputed),Training window,C,Two-month block,211,61,6,999,-0.076560084822626176,-0.13823531055478794,0.0010579495815968647,True
+2025,Healthcare,5,Both,Five-model common (train-imputed),Training window,C*,Two-month block,211,61,6,999,0.0075165110307737482,-0.083771870978212953,0.089880677275109164,True
+2025,Healthcare,20,Expanding,Five-model common (train-imputed),Language,B−A,Issuer cluster,211,61,6,999,0.0041440451706033499,-0.032826163676618919,0.045040698279528543,True
+2025,Healthcare,20,Expanding,Five-model common (train-imputed),Language,B*−A,Issuer cluster,211,61,6,999,0.0058404976942042219,-0.043937162198135864,0.061186861654166654,True
+2025,Healthcare,20,Expanding,Five-model common (train-imputed),Language,C−A,Issuer cluster,211,61,6,999,0.063586310854485781,-8.2327219509080576e-05,0.13089176032882383,True
+2025,Healthcare,20,Expanding,Five-model common (train-imputed),Language,C*−A,Issuer cluster,211,61,6,999,0.13406829243366847,0.034984505185584394,0.2310576891068768,True
+2025,Healthcare,20,Expanding,Five-model common (train-imputed),Language,C−B,Issuer cluster,211,61,6,999,0.059442265683882431,0.0030124667634997336,0.11530495056183349,True
+2025,Healthcare,20,Expanding,Five-model common (train-imputed),Language,B−A,Two-month block,211,61,6,999,0.0041440451706033499,-0.0229139772284589,0.043624001327844955,True
+2025,Healthcare,20,Expanding,Five-model common (train-imputed),Language,B*−A,Two-month block,211,61,6,999,0.0058404976942042219,-0.032821213928637724,0.044913236781040713,True
+2025,Healthcare,20,Expanding,Five-model common (train-imputed),Language,C−A,Two-month block,211,61,6,999,0.063586310854485781,-0.017907833688120003,0.11127482819968577,True
+2025,Healthcare,20,Expanding,Five-model common (train-imputed),Language,C*−A,Two-month block,211,61,6,999,0.13406829243366847,0.017480496611771493,0.26378584033730218,True
+2025,Healthcare,20,Expanding,Five-model common (train-imputed),Language,C−B,Two-month block,211,61,6,999,0.059442265683882431,-0.03209246630241034,0.12255267282111872,True
+2025,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Issuer cluster,211,61,6,999,0.0022240390388472281,-0.052033569081302092,0.053176427646503467,True
+2025,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Issuer cluster,211,61,6,999,0.013501360483386765,-0.055033808249794397,0.077513493488545845,True
+2025,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Issuer cluster,211,61,6,999,0.034065737535289534,-0.03256377524750962,0.10436047898390598,True
+2025,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Issuer cluster,211,61,6,999,0.11033967373947702,0.036405927452853856,0.18954908627182607,True
+2025,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Issuer cluster,211,61,6,999,0.031841698496442306,-0.042737098839619486,0.11311002374699927,True
+2025,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Two-month block,211,61,6,999,0.0022240390388472281,-0.024864020103483129,0.039240608090634288,True
+2025,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Two-month block,211,61,6,999,0.013501360483386765,-0.017785262577953535,0.051471774444849884,True
+2025,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Two-month block,211,61,6,999,0.034065737535289534,-0.044986926497986572,0.09442158269091136,True
+2025,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Two-month block,211,61,6,999,0.11033967373947702,0.0087734303219585974,0.16895641853168233,True
+2025,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Two-month block,211,61,6,999,0.031841698496442306,-0.060694118789345899,0.10675158305075048,True
+2025,Healthcare,20,Both,Five-model common (train-imputed),Training window,A,Issuer cluster,211,61,6,999,-0.00080734788773775823,-0.18372331253526067,0.18512499369683486,True
+2025,Healthcare,20,Both,Five-model common (train-imputed),Training window,B,Issuer cluster,211,61,6,999,-0.00272735401949388,-0.18553551528828352,0.17990190396685374,True
+2025,Healthcare,20,Both,Five-model common (train-imputed),Training window,B*,Issuer cluster,211,61,6,999,0.0068535149014447849,-0.18368997387424982,0.19610355933646842,True
+2025,Healthcare,20,Both,Five-model common (train-imputed),Training window,C,Issuer cluster,211,61,6,999,-0.030327921206934005,-0.22692453326366913,0.17399984316706454,True
+2025,Healthcare,20,Both,Five-model common (train-imputed),Training window,C*,Issuer cluster,211,61,6,999,-0.024535966581929192,-0.1877632345433477,0.1485983097711894,True
+2025,Healthcare,20,Both,Five-model common (train-imputed),Training window,A,Two-month block,211,61,6,999,-0.00080734788773775823,-0.14872325820263108,0.16029850268756904,True
+2025,Healthcare,20,Both,Five-model common (train-imputed),Training window,B,Two-month block,211,61,6,999,-0.00272735401949388,-0.14113853852545377,0.14608144057263095,True
+2025,Healthcare,20,Both,Five-model common (train-imputed),Training window,B*,Two-month block,211,61,6,999,0.0068535149014447849,-0.13523229883998472,0.17170032873277041,True
+2025,Healthcare,20,Both,Five-model common (train-imputed),Training window,C,Two-month block,211,61,6,999,-0.030327921206934005,-0.2324845472329137,0.17502600855117637,True
+2025,Healthcare,20,Both,Five-model common (train-imputed),Training window,C*,Two-month block,211,61,6,999,-0.024535966581929192,-0.21391239247720512,0.12065266741166207,True
+2025,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,A,Issuer cluster,211,61,6,999,-0.022751370064255705,-0.22103230928969228,0.17302211336810458,True
+2025,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,B,Issuer cluster,211,61,6,999,-0.051767350953615801,-0.25039452244499205,0.13332367102593823,True
+2025,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,B*,Issuer cluster,211,61,6,999,-0.044566369872638303,-0.21681040290645559,0.12401420023579469,True
+2025,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,C,Issuer cluster,211,61,6,999,-0.028863964435814543,-0.23141973579073097,0.16726936157832603,True
+2025,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,C*,Issuer cluster,211,61,6,999,0.073781632835553973,-0.13725574416192324,0.25475040991682546,True
+2025,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,A,Two-month block,211,61,6,999,-0.022751370064255705,-0.14231754287385334,0.050047564224171601,True
+2025,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,B,Two-month block,211,61,6,999,-0.051767350953615801,-0.14976386952058326,0.0016364078146783173,True
+2025,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,B*,Two-month block,211,61,6,999,-0.044566369872638303,-0.13244419070105856,0.0021854284204985181,True
+2025,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,C,Two-month block,211,61,6,999,-0.028863964435814543,-0.14631380411275749,0.042590848642500984,True
+2025,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,C*,Two-month block,211,61,6,999,0.073781632835553973,-0.018209124158550315,0.15794973957968669,True
+2025,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,A,Issuer cluster,211,61,6,999,0.0066210191489633474,-0.20868660952651422,0.21212489226550796,True
+2025,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B,Issuer cluster,211,61,6,999,0.028543324689260491,-0.17218245492302992,0.23308991209677871,True
+2025,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B*,Issuer cluster,211,61,6,999,0.023788658806095986,-0.18537968954150841,0.23242570936772436,True
+2025,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C,Issuer cluster,211,61,6,999,0.017368199179877628,-0.19543193222785496,0.23466906985888128,True
+2025,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C*,Issuer cluster,211,61,6,999,0.041729155222851033,-0.17937144198875959,0.23837597846141953,True
+2025,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,A,Two-month block,211,61,6,999,0.0066210191489633474,-0.12394981517677636,0.097847532090433051,True
+2025,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B,Two-month block,211,61,6,999,0.028543324689260491,-0.085928318673398077,0.12507945053772573,True
+2025,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B*,Two-month block,211,61,6,999,0.023788658806095986,-0.11106413143535865,0.12197698779993307,True
+2025,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C,Two-month block,211,61,6,999,0.017368199179877628,-0.16500335541786382,0.14333998007191789,True
+2025,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C*,Two-month block,211,61,6,999,0.041729155222851033,-0.10727569024020182,0.13464593906254749,True
+2026,S&P 500,5,Expanding,Five-model common (train-imputed),Language,B−A,Issuer cluster,106,59,3,999,0.02749829961961861,-0.008965642301698858,0.066788944499855743,True
+2026,S&P 500,5,Expanding,Five-model common (train-imputed),Language,B*−A,Issuer cluster,106,59,3,999,0.010761518502657635,-0.062801616319115794,0.082143777954587702,True
+2026,S&P 500,5,Expanding,Five-model common (train-imputed),Language,C−A,Issuer cluster,106,59,3,999,0.074433836310048601,-0.01346008191165962,0.16217819417303814,True
+2026,S&P 500,5,Expanding,Five-model common (train-imputed),Language,C*−A,Issuer cluster,106,59,3,999,0.082797188704436087,-0.0091365658684051908,0.18156303973855267,True
+2026,S&P 500,5,Expanding,Five-model common (train-imputed),Language,C−B,Issuer cluster,106,59,3,999,0.046935536690429998,-0.036410407977797335,0.13085391808788183,True
+2026,S&P 500,5,Expanding,Five-model common (train-imputed),Language,B−A,Two-month block,106,59,3,0,0.02749829961961861,,,False
+2026,S&P 500,5,Expanding,Five-model common (train-imputed),Language,B*−A,Two-month block,106,59,3,0,0.010761518502657635,,,False
+2026,S&P 500,5,Expanding,Five-model common (train-imputed),Language,C−A,Two-month block,106,59,3,0,0.074433836310048601,,,False
+2026,S&P 500,5,Expanding,Five-model common (train-imputed),Language,C*−A,Two-month block,106,59,3,0,0.082797188704436087,,,False
+2026,S&P 500,5,Expanding,Five-model common (train-imputed),Language,C−B,Two-month block,106,59,3,0,0.046935536690429998,,,False
+2026,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Issuer cluster,106,59,3,999,0.011043655691865883,-0.020979688654300135,0.047785973554228284,True
+2026,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Issuer cluster,106,59,3,999,0.069536740811648234,0.0047430866521698993,0.15721106637274279,True
+2026,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Issuer cluster,106,59,3,999,0.084328790588709457,-0.0046579576853391508,0.19409139076858806,True
+2026,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Issuer cluster,106,59,3,999,0.091593823210821962,-0.010468245660722689,0.20937797409210321,True
+2026,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Issuer cluster,106,59,3,999,0.073285134896843573,-0.00976630550837824,0.17425762063338693,True
+2026,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Two-month block,106,59,3,0,0.011043655691865883,,,False
+2026,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Two-month block,106,59,3,0,0.069536740811648234,,,False
+2026,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Two-month block,106,59,3,0,0.084328790588709457,,,False
+2026,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Two-month block,106,59,3,0,0.091593823210821962,,,False
+2026,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Two-month block,106,59,3,0,0.073285134896843573,,,False
+2026,S&P 500,5,Both,Five-model common (train-imputed),Training window,A,Issuer cluster,106,59,3,999,-0.023649142252563163,-0.19319411402120357,0.15879990768948313,True
+2026,S&P 500,5,Both,Five-model common (train-imputed),Training window,B,Issuer cluster,106,59,3,999,-0.04010378618031589,-0.19380581979666711,0.13286403274679695,True
+2026,S&P 500,5,Both,Five-model common (train-imputed),Training window,B*,Issuer cluster,106,59,3,999,0.035126080056427436,-0.12625785085499136,0.20884719476467692,True
+2026,S&P 500,5,Both,Five-model common (train-imputed),Training window,C,Issuer cluster,106,59,3,999,-0.013754187973902307,-0.16881728215732122,0.14935468829801735,True
+2026,S&P 500,5,Both,Five-model common (train-imputed),Training window,C*,Issuer cluster,106,59,3,999,-0.014852507746177288,-0.16290796869661489,0.12178412408554654,True
+2026,S&P 500,5,Both,Five-model common (train-imputed),Training window,A,Two-month block,106,59,3,0,-0.023649142252563163,,,False
+2026,S&P 500,5,Both,Five-model common (train-imputed),Training window,B,Two-month block,106,59,3,0,-0.04010378618031589,,,False
+2026,S&P 500,5,Both,Five-model common (train-imputed),Training window,B*,Two-month block,106,59,3,0,0.035126080056427436,,,False
+2026,S&P 500,5,Both,Five-model common (train-imputed),Training window,C,Two-month block,106,59,3,0,-0.013754187973902307,,,False
+2026,S&P 500,5,Both,Five-model common (train-imputed),Training window,C*,Two-month block,106,59,3,0,-0.014852507746177288,,,False
+2026,S&P 500,20,Expanding,Five-model common (train-imputed),Language,B−A,Issuer cluster,104,59,3,999,-0.003051317614424412,-0.061896846456917232,0.04497559152528996,True
+2026,S&P 500,20,Expanding,Five-model common (train-imputed),Language,B*−A,Issuer cluster,104,59,3,999,0.0059639389736477113,-0.085480479612224256,0.093544804454552308,True
+2026,S&P 500,20,Expanding,Five-model common (train-imputed),Language,C−A,Issuer cluster,104,59,3,999,-0.008268430598527686,-0.11830446721609889,0.10749463028519535,True
+2026,S&P 500,20,Expanding,Five-model common (train-imputed),Language,C*−A,Issuer cluster,104,59,3,999,0.02442120985810306,-0.14472537161861693,0.19603151325049636,True
+2026,S&P 500,20,Expanding,Five-model common (train-imputed),Language,C−B,Issuer cluster,104,59,3,999,-0.0052171129841032749,-0.1308709058984657,0.13822282222596866,True
+2026,S&P 500,20,Expanding,Five-model common (train-imputed),Language,B−A,Two-month block,104,59,3,0,-0.003051317614424412,,,False
+2026,S&P 500,20,Expanding,Five-model common (train-imputed),Language,B*−A,Two-month block,104,59,3,0,0.0059639389736477113,,,False
+2026,S&P 500,20,Expanding,Five-model common (train-imputed),Language,C−A,Two-month block,104,59,3,0,-0.008268430598527686,,,False
+2026,S&P 500,20,Expanding,Five-model common (train-imputed),Language,C*−A,Two-month block,104,59,3,0,0.02442120985810306,,,False
+2026,S&P 500,20,Expanding,Five-model common (train-imputed),Language,C−B,Two-month block,104,59,3,0,-0.0052171129841032749,,,False
+2026,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Issuer cluster,104,59,3,999,0.020142963832284227,-0.067616904316588775,0.10445412822916406,True
+2026,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Issuer cluster,104,59,3,999,-0.017283687186599811,-0.12782246681274381,0.087614160095539226,True
+2026,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Issuer cluster,104,59,3,999,0.045385682278886147,-0.11233585353156189,0.20175648884947001,True
+2026,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Issuer cluster,104,59,3,999,-0.018201216259468689,-0.18339095626527721,0.15102538195046605,True
+2026,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Issuer cluster,104,59,3,999,0.025242718446601919,-0.1492624196905058,0.20311966848834065,True
+2026,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Two-month block,104,59,3,0,0.020142963832284227,,,False
+2026,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Two-month block,104,59,3,0,-0.017283687186599811,,,False
+2026,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Two-month block,104,59,3,0,0.045385682278886147,,,False
+2026,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Two-month block,104,59,3,0,-0.018201216259468689,,,False
+2026,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Two-month block,104,59,3,0,0.025242718446601919,,,False
+2026,S&P 500,20,Both,Five-model common (train-imputed),Training window,A,Issuer cluster,104,59,3,999,0.12685372879547638,-0.10893636685841634,0.34967646433076055,True
+2026,S&P 500,20,Both,Five-model common (train-imputed),Training window,B,Issuer cluster,104,59,3,999,0.150048010242185,-0.082468719643440991,0.38847880935581297,True
+2026,S&P 500,20,Both,Five-model common (train-imputed),Training window,B*,Issuer cluster,104,59,3,999,0.10360610263522885,-0.13448064390298883,0.33731708820247142,True
+2026,S&P 500,20,Both,Five-model common (train-imputed),Training window,C,Issuer cluster,104,59,3,999,0.18050784167289022,-0.086553314703665785,0.42964675036890843,True
+2026,S&P 500,20,Both,Five-model common (train-imputed),Training window,C*,Issuer cluster,104,59,3,999,0.084231302677904629,-0.15650125581262816,0.31451530217776219,True
+2026,S&P 500,20,Both,Five-model common (train-imputed),Training window,A,Two-month block,104,59,3,0,0.12685372879547638,,,False
+2026,S&P 500,20,Both,Five-model common (train-imputed),Training window,B,Two-month block,104,59,3,0,0.150048010242185,,,False
+2026,S&P 500,20,Both,Five-model common (train-imputed),Training window,B*,Two-month block,104,59,3,0,0.10360610263522885,,,False
+2026,S&P 500,20,Both,Five-model common (train-imputed),Training window,C,Two-month block,104,59,3,0,0.18050784167289022,,,False
+2026,S&P 500,20,Both,Five-model common (train-imputed),Training window,C*,Two-month block,104,59,3,0,0.084231302677904629,,,False
+2026,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,A,Issuer cluster,104,59,3,999,0.13570895124293184,-0.070704654472754716,0.34116738409990977,True
+2026,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,B,Issuer cluster,104,59,3,999,0.10481169316120773,-0.11421632785152214,0.31053579635857548,True
+2026,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,B*,Issuer cluster,104,59,3,999,0.13468473274298517,-0.099527322785884317,0.34401289152924619,True
+2026,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,C,Issuer cluster,104,59,3,999,0.057238877627227146,-0.17810845884654644,0.29702204467838306,True
+2026,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,C*,Issuer cluster,104,59,3,999,0.081542729115544652,-0.15896651804617057,0.33722312742931043,True
+2026,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,A,Two-month block,104,59,3,0,0.13570895124293184,,,False
+2026,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,B,Two-month block,104,59,3,0,0.10481169316120773,,,False
+2026,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,B*,Two-month block,104,59,3,0,0.13468473274298517,,,False
+2026,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,C,Two-month block,104,59,3,0,0.057238877627227146,,,False
+2026,S&P 500,0,Expanding,Five-model horizon intersection,Prediction horizon,C*,Two-month block,104,59,3,0,0.081542729115544652,,,False
+2026,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,A,Issuer cluster,104,59,3,999,0.2854902379174224,-0.042072938560953364,0.59392169649463056,True
+2026,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B,Issuer cluster,104,59,3,999,0.29992531740104555,-0.012438778852305902,0.59945211099807938,True
+2026,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B*,Issuer cluster,104,59,3,999,0.20349941320815107,-0.097525394018448217,0.48936423243351551,True
+2026,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C,Issuer cluster,104,59,3,999,0.26128240691347487,-0.033619200207213387,0.56453500456708949,True
+2026,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C*,Issuer cluster,104,59,3,999,0.18922436786514457,-0.085580789544674768,0.49095313188992706,True
+2026,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,A,Two-month block,104,59,3,0,0.2854902379174224,,,False
+2026,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B,Two-month block,104,59,3,0,0.29992531740104555,,,False
+2026,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B*,Two-month block,104,59,3,0,0.20349941320815107,,,False
+2026,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C,Two-month block,104,59,3,0,0.26128240691347487,,,False
+2026,S&P 500,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C*,Two-month block,104,59,3,0,0.18922436786514457,,,False
+2026,Healthcare,5,Expanding,Five-model common (train-imputed),Language,B−A,Issuer cluster,106,59,3,999,0.01640426228682268,-0.041455586801319638,0.072702545803096055,True
+2026,Healthcare,5,Expanding,Five-model common (train-imputed),Language,B*−A,Issuer cluster,106,59,3,999,-0.012706249842557388,-0.10523271996787165,0.075500744071724774,True
+2026,Healthcare,5,Expanding,Five-model common (train-imputed),Language,C−A,Issuer cluster,106,59,3,999,0.055581026274025731,-0.048112479632671845,0.14897295071463559,True
+2026,Healthcare,5,Expanding,Five-model common (train-imputed),Language,C*−A,Issuer cluster,106,59,3,999,0.047892787868100847,-0.055590861598377117,0.14758663365747524,True
+2026,Healthcare,5,Expanding,Five-model common (train-imputed),Language,C−B,Issuer cluster,106,59,3,999,0.039176763987203052,-0.071977332051462076,0.13533565695888877,True
+2026,Healthcare,5,Expanding,Five-model common (train-imputed),Language,B−A,Two-month block,106,59,3,0,0.01640426228682268,,,False
+2026,Healthcare,5,Expanding,Five-model common (train-imputed),Language,B*−A,Two-month block,106,59,3,0,-0.012706249842557388,,,False
+2026,Healthcare,5,Expanding,Five-model common (train-imputed),Language,C−A,Two-month block,106,59,3,0,0.055581026274025731,,,False
+2026,Healthcare,5,Expanding,Five-model common (train-imputed),Language,C*−A,Two-month block,106,59,3,0,0.047892787868100847,,,False
+2026,Healthcare,5,Expanding,Five-model common (train-imputed),Language,C−B,Two-month block,106,59,3,0,0.039176763987203052,,,False
+2026,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Issuer cluster,106,59,3,999,0.0042119051817517822,-0.06581377909328745,0.078154862948019307,True
+2026,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Issuer cluster,106,59,3,999,0.0081618258306673103,-0.06194190143116661,0.080793166346542308,True
+2026,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Issuer cluster,106,59,3,999,0.079421618762123072,-0.040821415202650244,0.19106488296169735,True
+2026,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Issuer cluster,106,59,3,999,0.030430511121747245,-0.10643341265026152,0.16440997999550644,True
+2026,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Issuer cluster,106,59,3,999,0.07520971358037129,-0.037316774370234604,0.18681526104322738,True
+2026,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Two-month block,106,59,3,0,0.0042119051817517822,,,False
+2026,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Two-month block,106,59,3,0,0.0081618258306673103,,,False
+2026,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Two-month block,106,59,3,0,0.079421618762123072,,,False
+2026,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Two-month block,106,59,3,0,0.030430511121747245,,,False
+2026,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Two-month block,106,59,3,0,0.07520971358037129,,,False
+2026,Healthcare,5,Both,Five-model common (train-imputed),Training window,A,Issuer cluster,106,59,3,999,0.018560596518628597,-0.13652662331769136,0.16675004124753359,True
+2026,Healthcare,5,Both,Five-model common (train-imputed),Training window,B,Issuer cluster,106,59,3,999,0.0063682394135576997,-0.13451512694540807,0.14256383538421954,True
+2026,Healthcare,5,Both,Five-model common (train-imputed),Training window,B*,Issuer cluster,106,59,3,999,0.039428672191853295,-0.094951771922560019,0.18357874778555403,True
+2026,Healthcare,5,Both,Five-model common (train-imputed),Training window,C,Issuer cluster,106,59,3,999,0.042401189006725945,-0.0695512678786291,0.15844324853112127,True
+2026,Healthcare,5,Both,Five-model common (train-imputed),Training window,C*,Issuer cluster,106,59,3,999,0.0010983197722749943,-0.12199566450389325,0.12446617130133211,True
+2026,Healthcare,5,Both,Five-model common (train-imputed),Training window,A,Two-month block,106,59,3,0,0.018560596518628597,,,False
+2026,Healthcare,5,Both,Five-model common (train-imputed),Training window,B,Two-month block,106,59,3,0,0.0063682394135576997,,,False
+2026,Healthcare,5,Both,Five-model common (train-imputed),Training window,B*,Two-month block,106,59,3,0,0.039428672191853295,,,False
+2026,Healthcare,5,Both,Five-model common (train-imputed),Training window,C,Two-month block,106,59,3,0,0.042401189006725945,,,False
+2026,Healthcare,5,Both,Five-model common (train-imputed),Training window,C*,Two-month block,106,59,3,0,0.0010983197722749943,,,False
+2026,Healthcare,20,Expanding,Five-model common (train-imputed),Language,B−A,Issuer cluster,104,59,3,999,-0.0017390376613677372,-0.072904290539849939,0.082077343981168213,True
+2026,Healthcare,20,Expanding,Five-model common (train-imputed),Language,B*−A,Issuer cluster,104,59,3,999,-0.004961058359116588,-0.096589398760195982,0.095948621768284753,True
+2026,Healthcare,20,Expanding,Five-model common (train-imputed),Language,C−A,Issuer cluster,104,59,3,999,0.03293502613890964,-0.055660359759211332,0.12992786577791879,True
+2026,Healthcare,20,Expanding,Five-model common (train-imputed),Language,C*−A,Issuer cluster,104,59,3,999,-0.010828976848394289,-0.16694303766828952,0.16246334045587696,True
+2026,Healthcare,20,Expanding,Five-model common (train-imputed),Language,C−B,Issuer cluster,104,59,3,999,0.034674063800277377,-0.059573599843786129,0.11591529014157589,True
+2026,Healthcare,20,Expanding,Five-model common (train-imputed),Language,B−A,Two-month block,104,59,3,0,-0.0017390376613677372,,,False
+2026,Healthcare,20,Expanding,Five-model common (train-imputed),Language,B*−A,Two-month block,104,59,3,0,-0.004961058359116588,,,False
+2026,Healthcare,20,Expanding,Five-model common (train-imputed),Language,C−A,Two-month block,104,59,3,0,0.03293502613890964,,,False
+2026,Healthcare,20,Expanding,Five-model common (train-imputed),Language,C*−A,Two-month block,104,59,3,0,-0.010828976848394289,,,False
+2026,Healthcare,20,Expanding,Five-model common (train-imputed),Language,C−B,Two-month block,104,59,3,0,0.034674063800277377,,,False
+2026,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Issuer cluster,104,59,3,999,0.0012162594686866424,-0.047599364693099944,0.049272593746289915,True
+2026,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Issuer cluster,104,59,3,999,-0.01292008961911878,-0.079255665796860039,0.050746560771630651,True
+2026,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Issuer cluster,104,59,3,999,-0.011810519577509893,-0.10571513145284978,0.080675206343915104,True
+2026,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Issuer cluster,104,59,3,999,-0.053056652085778311,-0.19854739639205835,0.09390822135495086,True
+2026,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Issuer cluster,104,59,3,999,-0.013026779046196535,-0.12009055489305909,0.095083593095423496,True
+2026,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,B−A,Two-month block,104,59,3,0,0.0012162594686866424,,,False
+2026,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,B*−A,Two-month block,104,59,3,0,-0.01292008961911878,,,False
+2026,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,C−A,Two-month block,104,59,3,0,-0.011810519577509893,,,False
+2026,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,C*−A,Two-month block,104,59,3,0,-0.053056652085778311,,,False
+2026,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),Language,C−B,Two-month block,104,59,3,0,-0.013026779046196535,,,False
+2026,Healthcare,20,Both,Five-model common (train-imputed),Training window,A,Issuer cluster,104,59,3,999,-0.0056438706924143434,-0.15790763371241645,0.14920265384078252,True
+2026,Healthcare,20,Both,Five-model common (train-imputed),Training window,B,Issuer cluster,104,59,3,999,-0.0026885735623599638,-0.13219643613907647,0.13414084528481895,True
+2026,Healthcare,20,Both,Five-model common (train-imputed),Training window,B*,Issuer cluster,104,59,3,999,-0.013602901952416535,-0.16686251695391291,0.13385768608673637,True
+2026,Healthcare,20,Both,Five-model common (train-imputed),Training window,C,Issuer cluster,104,59,3,999,-0.050389416408833876,-0.20344423704491379,0.10689651797007037,True
+2026,Healthcare,20,Both,Five-model common (train-imputed),Training window,C*,Issuer cluster,104,59,3,999,-0.047871545929798365,-0.20436472082797116,0.10544400223028294,True
+2026,Healthcare,20,Both,Five-model common (train-imputed),Training window,A,Two-month block,104,59,3,0,-0.0056438706924143434,,,False
+2026,Healthcare,20,Both,Five-model common (train-imputed),Training window,B,Two-month block,104,59,3,0,-0.0026885735623599638,,,False
+2026,Healthcare,20,Both,Five-model common (train-imputed),Training window,B*,Two-month block,104,59,3,0,-0.013602901952416535,,,False
+2026,Healthcare,20,Both,Five-model common (train-imputed),Training window,C,Two-month block,104,59,3,0,-0.050389416408833876,,,False
+2026,Healthcare,20,Both,Five-model common (train-imputed),Training window,C*,Two-month block,104,59,3,0,-0.047871545929798365,,,False
+2026,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,A,Issuer cluster,104,59,3,999,0.40104555638536221,0.1336108522888331,0.67055291760585456,True
+2026,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,B,Issuer cluster,104,59,3,999,0.3830363810946335,0.08982151928314254,0.67248209353727106,True
+2026,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,B*,Issuer cluster,104,59,3,999,0.40932465592659767,0.10837567442884903,0.69341311073853384,True
+2026,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,C,Issuer cluster,104,59,3,999,0.3729648991784914,0.098976319909154564,0.66723880728576146,True
+2026,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,C*,Issuer cluster,104,59,3,999,0.33877093780006401,0.082723611292494767,0.59112252767159668,True
+2026,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,A,Two-month block,104,59,3,0,0.40104555638536221,,,False
+2026,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,B,Two-month block,104,59,3,0,0.3830363810946335,,,False
+2026,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,B*,Two-month block,104,59,3,0,0.40932465592659767,,,False
+2026,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,C,Two-month block,104,59,3,0,0.3729648991784914,,,False
+2026,Healthcare,0,Expanding,Five-model horizon intersection,Prediction horizon,C*,Two-month block,104,59,3,0,0.33877093780006401,,,False
+2026,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,A,Issuer cluster,104,59,3,999,0.37347700842846476,0.074375630590561126,0.65170087694527767,True
+2026,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B,Issuer cluster,104,59,3,999,0.37311426437640027,0.091059323534348716,0.65240362505782601,True
+2026,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B*,Issuer cluster,104,59,3,999,0.35578790141896938,0.038740658856158745,0.64687996665083325,True
+2026,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C,Issuer cluster,104,59,3,999,0.27594153419396139,0.00090231626200493425,0.53036261493288162,True
+2026,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C*,Issuer cluster,104,59,3,999,0.28652512536007679,0.047450427815467169,0.5410548719691084,True
+2026,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,A,Two-month block,104,59,3,0,0.37347700842846476,,,False
+2026,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B,Two-month block,104,59,3,0,0.37311426437640027,,,False
+2026,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,B*,Two-month block,104,59,3,0,0.35578790141896938,,,False
+2026,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C,Two-month block,104,59,3,0,0.27594153419396139,,,False
+2026,Healthcare,0,Rolling 5Y,Five-model horizon intersection,Prediction horizon,C*,Two-month block,104,59,3,0,0.28652512536007679,,,False

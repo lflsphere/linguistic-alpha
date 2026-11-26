@@ -1,0 +1,28 @@
+{
+  "preserved_a_b_outputs": {
+    "matched_predictions_local.csv": "cc8019efa0643f1c8cffbafcc641ede4a5a3717b2ae66e359de921f62744232c",
+    "event_timing_local.csv": "dd4d4ee8bf48d014a640f41776bf1e88f49acf665713fda867c2cc76418ec688",
+    "training_cohorts.csv": "3ab36b29b4d346ee5034b5f52e150101be2c226348bfa8622d2929bb45f1ef29",
+    "cv_folds.csv": "6bf9e868a1a2948743ea0a755dfbf16d363f26e81dece5a2781efb68555093b3",
+    "selected_features.csv": "edcb2efdf0a4962cfe14b3fbc13d5be301addafa11c968ca72d61eb5017e7760",
+    "frozen_research_spec.json": "9754d8c7cf66dee53cb706de308f81f581070ba740d14086ebb609621d33b000",
+    "data_provenance.json": "339063eba8ab4e0c73389aa1b9438006da7774acf31e7555eff38567b799d6ac",
+    "annual_model_performance.csv": "bd828a50d01aef28be32f390234f6fbb0f9eed2f234f1f529ae9dc39db188a31",
+    "run_comparison.py": "a69e5e9d879d2169343d21b12a46ca83eccfce48ad524e1346ae6b85d39e4382",
+    "research_metrics.py": "a6908f698749c0152bc079784d094811167dbcf31b363c1bca464fd8283f1368",
+    "factor_ic.csv": "c32a9ef6ea3e7f54b108a93b578b6acc197d5848acccf8f148c835615ff18ca0",
+    "factor_stability.csv": "961517e642f3e418a4e978e7032e99f411e4affd7dcd23fb6e8b0611f55fa3b6",
+    "factor_inference.csv": "6bf06fb3340f63a2f0770162705d5a7f2ca71787e840d24642b6326f871155c7",
+    "factor_quintiles.csv": "e6d50be209a99f520acaca5c03ba6202ef5fca5637d3f58791ca14cbaae8ac31",
+    "feature_importance.csv": "3b2a488de6b9c3f50372e7bf139495006d5cd94d3fec74efe98621378245286a",
+    "feature_selection_paths.csv": "18d30c82fdb6d61a8eb1ed49704ef24f917f695d5f7fbf05923be01c20b288e0",
+    "estimator_cv.csv": "5b2e95a1ff2ee272c3204c7eaad0809f21a3757b957ef1760ec1f9f84c849d2d",
+    "feature_missingness.csv": "acb135bc7ebce54245d9a37cb4217d1deb6c34a4ff10669e532c73cb8fd95e84",
+    "correlations.csv": "e093ce28f08ff4ac44e8ea422611d07769586e27f0343a598e0c7ccc7cccd9cd"
+  },
+  "new_model_fits": {
+    "C": 24,
+    "C*": 24
+  },
+  "predictions_sha256": "6e20bd63da1a19c0bda2124805a343c6683e7354d3cabb6e68a808e2b1565ec1"
+}

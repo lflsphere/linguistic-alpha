@@ -253,3 +253,18 @@ wrds_access_report.csv
 /outputs/healthcare_extended_oos/Healthcare_Extended_OOS_Research_Report.pdf
 /outputs/healthcare_expanding_oos/matched_predictions_local.csv
 /outputs/healthcare_expanding_oos/training_maturity_local.csv
+
+# Local-only FinBERT weights, licensed-input features, and inference caches.
+/data/derived/finbert/
+/outputs/healthcare_unified_research/*_local.csv
+/outputs/healthcare_unified_research/*_local.parquet
+
+# Local source tables, archival intermediates, and bundled research exports.
+/model_table.csv
+/model_table_with_linguistic.csv
+/outputs/healthcare_window_horizon_comparison.zip
+/outputs/healthcare_original_pierre_replication/earnings_health/
+/outputs/healthcare_original_pierre_replication/unprofiled_model_verification/
+/outputs/healthcare_original_pierre_replication/event_matching.csv
+/outputs/healthcare_original_pierre_replication/target_reconciliation_events.csv
+/outputs/healthcare_original_pierre_replication/provenance.json

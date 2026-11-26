@@ -1,0 +1,97 @@
+year,benchmark,horizon,window,sample,model,events,issuers,delta_rank_ic
+2024,S&P 500,5,Expanding,Full horizon,B,205,62,0
+2024,S&P 500,5,Expanding,Full horizon,B*,205,62,-0.040750233316153836
+2024,S&P 500,5,Expanding,Matched horizons,B,204,62,0
+2024,S&P 500,5,Expanding,Matched horizons,B*,204,62,-0.040521305242029529
+2024,S&P 500,5,Rolling 5Y,Full horizon,B,205,62,-0.021928932596007852
+2024,S&P 500,5,Rolling 5Y,Full horizon,B*,205,62,-0.05716176122355171
+2024,S&P 500,5,Rolling 5Y,Matched horizons,B,204,62,-0.01823013477889053
+2024,S&P 500,5,Rolling 5Y,Matched horizons,B*,204,62,-0.054735636895632947
+2024,S&P 500,20,Expanding,Full horizon,B,204,62,0.030410414796700841
+2024,S&P 500,20,Expanding,Full horizon,B*,204,62,0.032194273840738988
+2024,S&P 500,20,Expanding,Matched horizons,B,204,62,0.030410414796700841
+2024,S&P 500,20,Expanding,Matched horizons,B*,204,62,0.032194273840738988
+2024,S&P 500,20,Rolling 5Y,Full horizon,B,204,62,0.037323928730449291
+2024,S&P 500,20,Rolling 5Y,Full horizon,B*,204,62,0.012307496589889097
+2024,S&P 500,20,Rolling 5Y,Matched horizons,B,204,62,0.037323928730449291
+2024,S&P 500,20,Rolling 5Y,Matched horizons,B*,204,62,0.012307496589889097
+2024,Healthcare,5,Expanding,Full horizon,B,205,62,0
+2024,Healthcare,5,Expanding,Full horizon,B*,205,62,0.038446323355295228
+2024,Healthcare,5,Expanding,Matched horizons,B,204,62,0
+2024,Healthcare,5,Expanding,Matched horizons,B*,204,62,0.039162914955721564
+2024,Healthcare,5,Rolling 5Y,Full horizon,B,205,62,0.0055146188240865895
+2024,Healthcare,5,Rolling 5Y,Full horizon,B*,205,62,-0.013245392876544415
+2024,Healthcare,5,Rolling 5Y,Matched horizons,B,204,62,0.0086450728314875144
+2024,Healthcare,5,Rolling 5Y,Matched horizons,B*,204,62,-0.0090733686241527833
+2024,Healthcare,20,Expanding,Full horizon,B,204,62,0.033571039854124997
+2024,Healthcare,20,Expanding,Full horizon,B*,204,62,0.020425327405983421
+2024,Healthcare,20,Expanding,Matched horizons,B,204,62,0.033571039854124997
+2024,Healthcare,20,Expanding,Matched horizons,B*,204,62,0.020425327405983421
+2024,Healthcare,20,Rolling 5Y,Full horizon,B,204,62,0.034385225915429252
+2024,Healthcare,20,Rolling 5Y,Full horizon,B*,204,62,-0.017926228523368976
+2024,Healthcare,20,Rolling 5Y,Matched horizons,B,204,62,0.034385225915429252
+2024,Healthcare,20,Rolling 5Y,Matched horizons,B*,204,62,-0.017926228523368976
+2025,S&P 500,5,Expanding,Full horizon,B,211,61,-0.00011880277461963351
+2025,S&P 500,5,Expanding,Full horizon,B*,211,61,0.013910144224013474
+2025,S&P 500,5,Expanding,Matched horizons,B,211,61,-0.00011880277461963351
+2025,S&P 500,5,Expanding,Matched horizons,B*,211,61,0.013910144224013474
+2025,S&P 500,5,Rolling 5Y,Full horizon,B,211,61,0.0064383439148707894
+2025,S&P 500,5,Rolling 5Y,Full horizon,B*,211,61,0.0098223068177463319
+2025,S&P 500,5,Rolling 5Y,Matched horizons,B,211,61,0.0064383439148707894
+2025,S&P 500,5,Rolling 5Y,Matched horizons,B*,211,61,0.0098223068177463319
+2025,S&P 500,20,Expanding,Full horizon,B,211,61,0.0063770263537767727
+2025,S&P 500,20,Expanding,Full horizon,B*,211,61,-0.00053269631200419248
+2025,S&P 500,20,Expanding,Matched horizons,B,211,61,0.0063770263537767727
+2025,S&P 500,20,Expanding,Matched horizons,B*,211,61,-0.00053269631200419248
+2025,S&P 500,20,Rolling 5Y,Full horizon,B,211,61,0.0088616650272735353
+2025,S&P 500,20,Rolling 5Y,Full horizon,B*,211,61,0.03135371290606917
+2025,S&P 500,20,Rolling 5Y,Matched horizons,B,211,61,0.0088616650272735353
+2025,S&P 500,20,Rolling 5Y,Matched horizons,B*,211,61,0.03135371290606917
+2025,Healthcare,5,Expanding,Full horizon,B,211,61,0.033160026059963474
+2025,Healthcare,5,Expanding,Full horizon,B*,211,61,0.027655497502586848
+2025,Healthcare,5,Expanding,Matched horizons,B,211,61,0.033160026059963474
+2025,Healthcare,5,Expanding,Matched horizons,B*,211,61,0.027655497502586848
+2025,Healthcare,5,Rolling 5Y,Full horizon,B,211,61,-0.019698266501449901
+2025,Healthcare,5,Rolling 5Y,Full horizon,B*,211,61,-0.0036662791737458733
+2025,Healthcare,5,Rolling 5Y,Matched horizons,B,211,61,-0.019698266501449901
+2025,Healthcare,5,Rolling 5Y,Matched horizons,B*,211,61,-0.0036662791737458733
+2025,Healthcare,20,Expanding,Full horizon,B,211,61,0.0041440451706033499
+2025,Healthcare,20,Expanding,Full horizon,B*,211,61,0.0058404976942042081
+2025,Healthcare,20,Expanding,Matched horizons,B,211,61,0.0041440451706033499
+2025,Healthcare,20,Expanding,Matched horizons,B*,211,61,0.0058404976942042081
+2025,Healthcare,20,Rolling 5Y,Full horizon,B,211,61,0.0022240390388472281
+2025,Healthcare,20,Rolling 5Y,Full horizon,B*,211,61,0.013501360483386765
+2025,Healthcare,20,Rolling 5Y,Matched horizons,B,211,61,0.0022240390388472281
+2025,Healthcare,20,Rolling 5Y,Matched horizons,B*,211,61,0.013501360483386765
+2026,S&P 500,5,Expanding,Full horizon,B,106,59,0.02749829961961861
+2026,S&P 500,5,Expanding,Full horizon,B*,106,59,0.010761518502657635
+2026,S&P 500,5,Expanding,Matched horizons,B,104,59,0.027845940467299685
+2026,S&P 500,5,Expanding,Matched horizons,B*,104,59,0.006988157473594353
+2026,S&P 500,5,Rolling 5Y,Full horizon,B,106,59,0.011043655691865856
+2026,S&P 500,5,Rolling 5Y,Full horizon,B*,106,59,0.069536740811648221
+2026,S&P 500,5,Rolling 5Y,Matched horizons,B,104,59,0.0057078843486610409
+2026,S&P 500,5,Rolling 5Y,Matched horizons,B*,104,59,0.064707137522671501
+2026,S&P 500,20,Expanding,Full horizon,B,104,59,-0.0030513176144244102
+2026,S&P 500,20,Expanding,Full horizon,B*,104,59,0.0059639389736477113
+2026,S&P 500,20,Expanding,Matched horizons,B,104,59,-0.0030513176144244102
+2026,S&P 500,20,Expanding,Matched horizons,B*,104,59,0.0059639389736477113
+2026,S&P 500,20,Rolling 5Y,Full horizon,B,104,59,0.020142963832284255
+2026,S&P 500,20,Rolling 5Y,Full horizon,B*,104,59,-0.017283687186599797
+2026,S&P 500,20,Rolling 5Y,Matched horizons,B,104,59,0.020142963832284255
+2026,S&P 500,20,Rolling 5Y,Matched horizons,B*,104,59,-0.017283687186599797
+2026,Healthcare,5,Expanding,Full horizon,B,106,59,0.01640426228682268
+2026,Healthcare,5,Expanding,Full horizon,B*,106,59,-0.01270624984255736
+2026,Healthcare,5,Expanding,Matched horizons,B,104,59,0.016270137629360942
+2026,Healthcare,5,Expanding,Matched horizons,B*,104,59,-0.013240157900352073
+2026,Healthcare,5,Rolling 5Y,Full horizon,B,106,59,0.0042119051817517544
+2026,Healthcare,5,Rolling 5Y,Full horizon,B*,106,59,0.0081618258306672825
+2026,Healthcare,5,Rolling 5Y,Matched horizons,B,104,59,0.0015790035207510766
+2026,Healthcare,5,Rolling 5Y,Matched horizons,B*,104,59,0.0047690173903766203
+2026,Healthcare,20,Expanding,Full horizon,B,104,59,-0.0017390376613677927
+2026,Healthcare,20,Expanding,Full horizon,B*,104,59,-0.004961058359116588
+2026,Healthcare,20,Expanding,Matched horizons,B,104,59,-0.0017390376613677927
+2026,Healthcare,20,Expanding,Matched horizons,B*,104,59,-0.004961058359116588
+2026,Healthcare,20,Rolling 5Y,Full horizon,B,104,59,0.0012162594686866979
+2026,Healthcare,20,Rolling 5Y,Full horizon,B*,104,59,-0.012920089619118724
+2026,Healthcare,20,Rolling 5Y,Matched horizons,B,104,59,0.0012162594686866979
+2026,Healthcare,20,Rolling 5Y,Matched horizons,B*,104,59,-0.012920089619118724

@@ -1,0 +1,361 @@
+year,benchmark,horizon,window,sample,contrast,events,issuers,delta_rank_ic
+2024,S&P 500,5,Expanding,Five-model common (train-imputed),B−A,205,62,0
+2024,S&P 500,5,Expanding,Five-model common (train-imputed),B*−A,205,62,-0.040750233316153836
+2024,S&P 500,5,Expanding,Five-model common (train-imputed),C−A,205,62,0.020661364237857111
+2024,S&P 500,5,Expanding,Five-model common (train-imputed),C*−A,205,62,0.017401902745469489
+2024,S&P 500,5,Expanding,Five-model common (train-imputed),C−B,205,62,0.020661364237857111
+2024,S&P 500,5,Expanding,Five-model horizon intersection,B−A,204,62,0
+2024,S&P 500,5,Expanding,Five-model horizon intersection,B*−A,204,62,-0.040521305242029529
+2024,S&P 500,5,Expanding,Five-model horizon intersection,C−A,204,62,0.020860690785986385
+2024,S&P 500,5,Expanding,Five-model horizon intersection,C*−A,204,62,0.018085955997201232
+2024,S&P 500,5,Expanding,Five-model horizon intersection,C−B,204,62,0.020860690785986385
+2024,S&P 500,5,Expanding,All 13 observed (sensitivity),B−A,204,62,0
+2024,S&P 500,5,Expanding,All 13 observed (sensitivity),B*−A,204,62,-0.040795527630732707
+2024,S&P 500,5,Expanding,All 13 observed (sensitivity),C−A,204,62,0.020730647178972508
+2024,S&P 500,5,Expanding,All 13 observed (sensitivity),C*−A,204,62,0.017538924737262436
+2024,S&P 500,5,Expanding,All 13 observed (sensitivity),C−B,204,62,0.020730647178972508
+2024,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),B−A,205,62,-0.021928932596007852
+2024,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),B*−A,205,62,-0.05716176122355171
+2024,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),C−A,205,62,-0.002966945717429767
+2024,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),C*−A,205,62,-0.0014946163168085141
+2024,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),C−B,205,62,0.018961986878578085
+2024,S&P 500,5,Rolling 5Y,Five-model horizon intersection,B−A,204,62,-0.01823013477889053
+2024,S&P 500,5,Rolling 5Y,Five-model horizon intersection,B*−A,204,62,-0.054735636895632947
+2024,S&P 500,5,Rolling 5Y,Five-model horizon intersection,C−A,204,62,-0.0037161374221681975
+2024,S&P 500,5,Rolling 5Y,Five-model horizon intersection,C*−A,204,62,0.00079015626435603725
+2024,S&P 500,5,Rolling 5Y,Five-model horizon intersection,C−B,204,62,0.014513997356722333
+2024,S&P 500,5,Rolling 5Y,All 13 observed (sensitivity),B−A,204,62,-0.021896799089694746
+2024,S&P 500,5,Rolling 5Y,All 13 observed (sensitivity),B*−A,204,62,-0.057893434918122003
+2024,S&P 500,5,Rolling 5Y,All 13 observed (sensitivity),C−A,204,62,-0.0023111010594313308
+2024,S&P 500,5,Rolling 5Y,All 13 observed (sensitivity),C*−A,204,62,-0.0016099963955304442
+2024,S&P 500,5,Rolling 5Y,All 13 observed (sensitivity),C−B,204,62,0.019585698030263415
+2024,S&P 500,20,Expanding,Five-model common (train-imputed),B−A,204,62,0.030410414796700841
+2024,S&P 500,20,Expanding,Five-model common (train-imputed),B*−A,204,62,0.032194273840738988
+2024,S&P 500,20,Expanding,Five-model common (train-imputed),C−A,204,62,0.011130036539426541
+2024,S&P 500,20,Expanding,Five-model common (train-imputed),C*−A,204,62,0.10060427871737425
+2024,S&P 500,20,Expanding,Five-model common (train-imputed),C−B,204,62,-0.0192803782572743
+2024,S&P 500,20,Expanding,Five-model horizon intersection,B−A,204,62,0.030410414796700841
+2024,S&P 500,20,Expanding,Five-model horizon intersection,B*−A,204,62,0.032194273840738988
+2024,S&P 500,20,Expanding,Five-model horizon intersection,C−A,204,62,0.011130036539426541
+2024,S&P 500,20,Expanding,Five-model horizon intersection,C*−A,204,62,0.10060427871737425
+2024,S&P 500,20,Expanding,Five-model horizon intersection,C−B,204,62,-0.0192803782572743
+2024,S&P 500,20,Expanding,All 13 observed (sensitivity),B−A,203,62,0.030699954956376549
+2024,S&P 500,20,Expanding,All 13 observed (sensitivity),B*−A,203,62,0.032389808091211905
+2024,S&P 500,20,Expanding,All 13 observed (sensitivity),C−A,203,62,0.01100269401034569
+2024,S&P 500,20,Expanding,All 13 observed (sensitivity),C*−A,203,62,0.10493873206503497
+2024,S&P 500,20,Expanding,All 13 observed (sensitivity),C−B,203,62,-0.019697260946030859
+2024,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),B−A,204,62,0.037323928730449291
+2024,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),B*−A,204,62,0.012307496589889097
+2024,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),C−A,204,62,0.073027966443095324
+2024,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),C*−A,204,62,0.084902926687916561
+2024,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),C−B,204,62,0.035704037712646033
+2024,S&P 500,20,Rolling 5Y,Five-model horizon intersection,B−A,204,62,0.037323928730449291
+2024,S&P 500,20,Rolling 5Y,Five-model horizon intersection,B*−A,204,62,0.012307496589889097
+2024,S&P 500,20,Rolling 5Y,Five-model horizon intersection,C−A,204,62,0.073027966443095324
+2024,S&P 500,20,Rolling 5Y,Five-model horizon intersection,C*−A,204,62,0.084902926687916561
+2024,S&P 500,20,Rolling 5Y,Five-model horizon intersection,C−B,204,62,0.035704037712646033
+2024,S&P 500,20,Rolling 5Y,All 13 observed (sensitivity),B−A,203,62,0.032079953866148717
+2024,S&P 500,20,Rolling 5Y,All 13 observed (sensitivity),B*−A,203,62,0.0075570002668189085
+2024,S&P 500,20,Rolling 5Y,All 13 observed (sensitivity),C−A,203,62,0.073185846547564021
+2024,S&P 500,20,Rolling 5Y,All 13 observed (sensitivity),C*−A,203,62,0.08871155153765159
+2024,S&P 500,20,Rolling 5Y,All 13 observed (sensitivity),C−B,203,62,0.041105892681415304
+2024,Healthcare,5,Expanding,Five-model common (train-imputed),B−A,205,62,0
+2024,Healthcare,5,Expanding,Five-model common (train-imputed),B*−A,205,62,0.038446323355295228
+2024,Healthcare,5,Expanding,Five-model common (train-imputed),C−A,205,62,0.045586494128790511
+2024,Healthcare,5,Expanding,Five-model common (train-imputed),C*−A,205,62,0.066132244988926184
+2024,Healthcare,5,Expanding,Five-model common (train-imputed),C−B,205,62,0.045586494128790511
+2024,Healthcare,5,Expanding,Five-model horizon intersection,B−A,204,62,0
+2024,Healthcare,5,Expanding,Five-model horizon intersection,B*−A,204,62,0.039162914955721564
+2024,Healthcare,5,Expanding,Five-model horizon intersection,C−A,204,62,0.044631814037641965
+2024,Healthcare,5,Expanding,Five-model horizon intersection,C*−A,204,62,0.06657243216883052
+2024,Healthcare,5,Expanding,Five-model horizon intersection,C−B,204,62,0.044631814037641965
+2024,Healthcare,5,Expanding,All 13 observed (sensitivity),B−A,204,62,0
+2024,Healthcare,5,Expanding,All 13 observed (sensitivity),B*−A,204,62,0.037715473068958449
+2024,Healthcare,5,Expanding,All 13 observed (sensitivity),C−A,204,62,0.046203645461548794
+2024,Healthcare,5,Expanding,All 13 observed (sensitivity),C*−A,204,62,0.067731516492215052
+2024,Healthcare,5,Expanding,All 13 observed (sensitivity),C−B,204,62,0.046203645461548794
+2024,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),B−A,205,62,0.0055146188240865895
+2024,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),B*−A,205,62,-0.013245392876544415
+2024,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),C−A,205,62,0.012966806424203593
+2024,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),C*−A,205,62,-0.01555348163418814
+2024,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),C−B,205,62,0.0074521876001170037
+2024,Healthcare,5,Rolling 5Y,Five-model horizon intersection,B−A,204,62,0.0086450728314875144
+2024,Healthcare,5,Rolling 5Y,Five-model horizon intersection,B*−A,204,62,-0.0090733686241527833
+2024,Healthcare,5,Rolling 5Y,Five-model horizon intersection,C−A,204,62,0.013377529312818486
+2024,Healthcare,5,Rolling 5Y,Five-model horizon intersection,C*−A,204,62,-0.011515926808065513
+2024,Healthcare,5,Rolling 5Y,Five-model horizon intersection,C−B,204,62,0.0047324564813309711
+2024,Healthcare,5,Rolling 5Y,All 13 observed (sensitivity),B−A,204,62,0.0060003816497162313
+2024,Healthcare,5,Rolling 5Y,All 13 observed (sensitivity),B*−A,204,62,-0.013818546762691633
+2024,Healthcare,5,Rolling 5Y,All 13 observed (sensitivity),C−A,204,62,0.013316748061714165
+2024,Healthcare,5,Rolling 5Y,All 13 observed (sensitivity),C*−A,204,62,-0.015716900721600674
+2024,Healthcare,5,Rolling 5Y,All 13 observed (sensitivity),C−B,204,62,0.0073163664119979335
+2024,Healthcare,20,Expanding,Five-model common (train-imputed),B−A,204,62,0.033571039854124997
+2024,Healthcare,20,Expanding,Five-model common (train-imputed),B*−A,204,62,0.020425327405983421
+2024,Healthcare,20,Expanding,Five-model common (train-imputed),C−A,204,62,0.049687966019040075
+2024,Healthcare,20,Expanding,Five-model common (train-imputed),C*−A,204,62,0.081497763108607638
+2024,Healthcare,20,Expanding,Five-model common (train-imputed),C−B,204,62,0.016116926164915078
+2024,Healthcare,20,Expanding,Five-model horizon intersection,B−A,204,62,0.033571039854124997
+2024,Healthcare,20,Expanding,Five-model horizon intersection,B*−A,204,62,0.020425327405983421
+2024,Healthcare,20,Expanding,Five-model horizon intersection,C−A,204,62,0.049687966019040075
+2024,Healthcare,20,Expanding,Five-model horizon intersection,C*−A,204,62,0.081497763108607638
+2024,Healthcare,20,Expanding,Five-model horizon intersection,C−B,204,62,0.016116926164915078
+2024,Healthcare,20,Expanding,All 13 observed (sensitivity),B−A,203,62,0.034340742100869029
+2024,Healthcare,20,Expanding,All 13 observed (sensitivity),B*−A,203,62,0.020817613491282486
+2024,Healthcare,20,Expanding,All 13 observed (sensitivity),C−A,203,62,0.050203557011742915
+2024,Healthcare,20,Expanding,All 13 observed (sensitivity),C*−A,203,62,0.084287521768693835
+2024,Healthcare,20,Expanding,All 13 observed (sensitivity),C−B,203,62,0.015862814910873886
+2024,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),B−A,204,62,0.034385225915429252
+2024,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),B*−A,204,62,-0.017926228523368976
+2024,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),C−A,204,62,0.039413107547476511
+2024,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),C*−A,204,62,0.035805810970309063
+2024,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),C−B,204,62,0.0050278816320472597
+2024,Healthcare,20,Rolling 5Y,Five-model horizon intersection,B−A,204,62,0.034385225915429252
+2024,Healthcare,20,Rolling 5Y,Five-model horizon intersection,B*−A,204,62,-0.017926228523368976
+2024,Healthcare,20,Rolling 5Y,Five-model horizon intersection,C−A,204,62,0.039413107547476511
+2024,Healthcare,20,Rolling 5Y,Five-model horizon intersection,C*−A,204,62,0.035805810970309063
+2024,Healthcare,20,Rolling 5Y,Five-model horizon intersection,C−B,204,62,0.0050278816320472597
+2024,Healthcare,20,Rolling 5Y,All 13 observed (sensitivity),B−A,203,62,0.036759326468723375
+2024,Healthcare,20,Rolling 5Y,All 13 observed (sensitivity),B*−A,203,62,-0.017709029668542049
+2024,Healthcare,20,Rolling 5Y,All 13 observed (sensitivity),C−A,203,62,0.041841796465940426
+2024,Healthcare,20,Rolling 5Y,All 13 observed (sensitivity),C*−A,203,62,0.037720448370539769
+2024,Healthcare,20,Rolling 5Y,All 13 observed (sensitivity),C−B,203,62,0.0050824699972170512
+2025,S&P 500,5,Expanding,Five-model common (train-imputed),B−A,211,61,-0.00011880277461963351
+2025,S&P 500,5,Expanding,Five-model common (train-imputed),B*−A,211,61,0.013910144224013474
+2025,S&P 500,5,Expanding,Five-model common (train-imputed),C−A,211,61,0.036739438688826148
+2025,S&P 500,5,Expanding,Five-model common (train-imputed),C*−A,211,61,0.049235446660109095
+2025,S&P 500,5,Expanding,Five-model common (train-imputed),C−B,211,61,0.036858241463445782
+2025,S&P 500,5,Expanding,Five-model horizon intersection,B−A,211,61,-0.00011880277461963351
+2025,S&P 500,5,Expanding,Five-model horizon intersection,B*−A,211,61,0.013910144224013474
+2025,S&P 500,5,Expanding,Five-model horizon intersection,C−A,211,61,0.036739438688826148
+2025,S&P 500,5,Expanding,Five-model horizon intersection,C*−A,211,61,0.049235446660109095
+2025,S&P 500,5,Expanding,Five-model horizon intersection,C−B,211,61,0.036858241463445782
+2025,S&P 500,5,Expanding,All 13 observed (sensitivity),B−A,211,61,-0.00011880277461963351
+2025,S&P 500,5,Expanding,All 13 observed (sensitivity),B*−A,211,61,0.013910144224013474
+2025,S&P 500,5,Expanding,All 13 observed (sensitivity),C−A,211,61,0.036739438688826148
+2025,S&P 500,5,Expanding,All 13 observed (sensitivity),C*−A,211,61,0.049235446660109095
+2025,S&P 500,5,Expanding,All 13 observed (sensitivity),C−B,211,61,0.036858241463445782
+2025,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),B−A,211,61,0.0064383439148707894
+2025,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),B*−A,211,61,0.0098223068177463319
+2025,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),C−A,211,61,0.087712216246598779
+2025,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),C*−A,211,61,0.078633384857117322
+2025,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),C−B,211,61,0.081273872331727989
+2025,S&P 500,5,Rolling 5Y,Five-model horizon intersection,B−A,211,61,0.0064383439148707894
+2025,S&P 500,5,Rolling 5Y,Five-model horizon intersection,B*−A,211,61,0.0098223068177463319
+2025,S&P 500,5,Rolling 5Y,Five-model horizon intersection,C−A,211,61,0.087712216246598779
+2025,S&P 500,5,Rolling 5Y,Five-model horizon intersection,C*−A,211,61,0.078633384857117322
+2025,S&P 500,5,Rolling 5Y,Five-model horizon intersection,C−B,211,61,0.081273872331727989
+2025,S&P 500,5,Rolling 5Y,All 13 observed (sensitivity),B−A,211,61,0.0064383439148707894
+2025,S&P 500,5,Rolling 5Y,All 13 observed (sensitivity),B*−A,211,61,0.0098223068177463319
+2025,S&P 500,5,Rolling 5Y,All 13 observed (sensitivity),C−A,211,61,0.087712216246598779
+2025,S&P 500,5,Rolling 5Y,All 13 observed (sensitivity),C*−A,211,61,0.078633384857117322
+2025,S&P 500,5,Rolling 5Y,All 13 observed (sensitivity),C−B,211,61,0.081273872331727989
+2025,S&P 500,20,Expanding,Five-model common (train-imputed),B−A,211,61,0.0063770263537767727
+2025,S&P 500,20,Expanding,Five-model common (train-imputed),B*−A,211,61,-0.00053269631200419248
+2025,S&P 500,20,Expanding,Five-model common (train-imputed),C−A,211,61,0.0009606417904727757
+2025,S&P 500,20,Expanding,Five-model common (train-imputed),C*−A,211,61,0.015010027976137243
+2025,S&P 500,20,Expanding,Five-model common (train-imputed),C−B,211,61,-0.005416384563303997
+2025,S&P 500,20,Expanding,Five-model horizon intersection,B−A,211,61,0.0063770263537767727
+2025,S&P 500,20,Expanding,Five-model horizon intersection,B*−A,211,61,-0.00053269631200419248
+2025,S&P 500,20,Expanding,Five-model horizon intersection,C−A,211,61,0.0009606417904727757
+2025,S&P 500,20,Expanding,Five-model horizon intersection,C*−A,211,61,0.015010027976137243
+2025,S&P 500,20,Expanding,Five-model horizon intersection,C−B,211,61,-0.005416384563303997
+2025,S&P 500,20,Expanding,All 13 observed (sensitivity),B−A,211,61,0.0063770263537767727
+2025,S&P 500,20,Expanding,All 13 observed (sensitivity),B*−A,211,61,-0.00053269631200419248
+2025,S&P 500,20,Expanding,All 13 observed (sensitivity),C−A,211,61,0.0009606417904727757
+2025,S&P 500,20,Expanding,All 13 observed (sensitivity),C*−A,211,61,0.015010027976137243
+2025,S&P 500,20,Expanding,All 13 observed (sensitivity),C−B,211,61,-0.005416384563303997
+2025,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),B−A,211,61,0.0088616650272735353
+2025,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),B*−A,211,61,0.03135371290606917
+2025,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),C−A,211,61,0.036496723342829052
+2025,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),C*−A,211,61,0.072537397325021402
+2025,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),C−B,211,61,0.027635058315555516
+2025,S&P 500,20,Rolling 5Y,Five-model horizon intersection,B−A,211,61,0.0088616650272735353
+2025,S&P 500,20,Rolling 5Y,Five-model horizon intersection,B*−A,211,61,0.03135371290606917
+2025,S&P 500,20,Rolling 5Y,Five-model horizon intersection,C−A,211,61,0.036496723342829052
+2025,S&P 500,20,Rolling 5Y,Five-model horizon intersection,C*−A,211,61,0.072537397325021402
+2025,S&P 500,20,Rolling 5Y,Five-model horizon intersection,C−B,211,61,0.027635058315555516
+2025,S&P 500,20,Rolling 5Y,All 13 observed (sensitivity),B−A,211,61,0.0088616650272735353
+2025,S&P 500,20,Rolling 5Y,All 13 observed (sensitivity),B*−A,211,61,0.03135371290606917
+2025,S&P 500,20,Rolling 5Y,All 13 observed (sensitivity),C−A,211,61,0.036496723342829052
+2025,S&P 500,20,Rolling 5Y,All 13 observed (sensitivity),C*−A,211,61,0.072537397325021402
+2025,S&P 500,20,Rolling 5Y,All 13 observed (sensitivity),C−B,211,61,0.027635058315555516
+2025,Healthcare,5,Expanding,Five-model common (train-imputed),B−A,211,61,0.033160026059963474
+2025,Healthcare,5,Expanding,Five-model common (train-imputed),B*−A,211,61,0.027655497502586848
+2025,Healthcare,5,Expanding,Five-model common (train-imputed),C−A,211,61,0.069698905226044675
+2025,Healthcare,5,Expanding,Five-model common (train-imputed),C*−A,211,61,0.037535289533858804
+2025,Healthcare,5,Expanding,Five-model common (train-imputed),C−B,211,61,0.036538879166081201
+2025,Healthcare,5,Expanding,Five-model horizon intersection,B−A,211,61,0.033160026059963474
+2025,Healthcare,5,Expanding,Five-model horizon intersection,B*−A,211,61,0.027655497502586848
+2025,Healthcare,5,Expanding,Five-model horizon intersection,C−A,211,61,0.069698905226044675
+2025,Healthcare,5,Expanding,Five-model horizon intersection,C*−A,211,61,0.037535289533858804
+2025,Healthcare,5,Expanding,Five-model horizon intersection,C−B,211,61,0.036538879166081201
+2025,Healthcare,5,Expanding,All 13 observed (sensitivity),B−A,211,61,0.033160026059963474
+2025,Healthcare,5,Expanding,All 13 observed (sensitivity),B*−A,211,61,0.027655497502586848
+2025,Healthcare,5,Expanding,All 13 observed (sensitivity),C−A,211,61,0.069698905226044675
+2025,Healthcare,5,Expanding,All 13 observed (sensitivity),C*−A,211,61,0.037535289533858804
+2025,Healthcare,5,Expanding,All 13 observed (sensitivity),C−B,211,61,0.036538879166081201
+2025,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),B−A,211,61,-0.019698266501449901
+2025,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),B*−A,211,61,-0.0036662791737458733
+2025,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),C−A,211,61,0.023318557504375267
+2025,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),C*−A,211,61,0.075231537665589335
+2025,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),C−B,211,61,0.043016824005825169
+2025,Healthcare,5,Rolling 5Y,Five-model horizon intersection,B−A,211,61,-0.019698266501449901
+2025,Healthcare,5,Rolling 5Y,Five-model horizon intersection,B*−A,211,61,-0.0036662791737458733
+2025,Healthcare,5,Rolling 5Y,Five-model horizon intersection,C−A,211,61,0.023318557504375267
+2025,Healthcare,5,Rolling 5Y,Five-model horizon intersection,C*−A,211,61,0.075231537665589335
+2025,Healthcare,5,Rolling 5Y,Five-model horizon intersection,C−B,211,61,0.043016824005825169
+2025,Healthcare,5,Rolling 5Y,All 13 observed (sensitivity),B−A,211,61,-0.019698266501449901
+2025,Healthcare,5,Rolling 5Y,All 13 observed (sensitivity),B*−A,211,61,-0.0036662791737458733
+2025,Healthcare,5,Rolling 5Y,All 13 observed (sensitivity),C−A,211,61,0.023318557504375267
+2025,Healthcare,5,Rolling 5Y,All 13 observed (sensitivity),C*−A,211,61,0.075231537665589335
+2025,Healthcare,5,Rolling 5Y,All 13 observed (sensitivity),C−B,211,61,0.043016824005825169
+2025,Healthcare,20,Expanding,Five-model common (train-imputed),B−A,211,61,0.0041440451706033499
+2025,Healthcare,20,Expanding,Five-model common (train-imputed),B*−A,211,61,0.0058404976942042081
+2025,Healthcare,20,Expanding,Five-model common (train-imputed),C−A,211,61,0.063586310854485739
+2025,Healthcare,20,Expanding,Five-model common (train-imputed),C*−A,211,61,0.13406829243366844
+2025,Healthcare,20,Expanding,Five-model common (train-imputed),C−B,211,61,0.059442265683882389
+2025,Healthcare,20,Expanding,Five-model horizon intersection,B−A,211,61,0.0041440451706033499
+2025,Healthcare,20,Expanding,Five-model horizon intersection,B*−A,211,61,0.0058404976942042081
+2025,Healthcare,20,Expanding,Five-model horizon intersection,C−A,211,61,0.063586310854485739
+2025,Healthcare,20,Expanding,Five-model horizon intersection,C*−A,211,61,0.13406829243366844
+2025,Healthcare,20,Expanding,Five-model horizon intersection,C−B,211,61,0.059442265683882389
+2025,Healthcare,20,Expanding,All 13 observed (sensitivity),B−A,211,61,0.0041440451706033499
+2025,Healthcare,20,Expanding,All 13 observed (sensitivity),B*−A,211,61,0.0058404976942042081
+2025,Healthcare,20,Expanding,All 13 observed (sensitivity),C−A,211,61,0.063586310854485739
+2025,Healthcare,20,Expanding,All 13 observed (sensitivity),C*−A,211,61,0.13406829243366844
+2025,Healthcare,20,Expanding,All 13 observed (sensitivity),C−B,211,61,0.059442265683882389
+2025,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),B−A,211,61,0.0022240390388472281
+2025,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),B*−A,211,61,0.013501360483386765
+2025,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),C−A,211,61,0.03406573753528952
+2025,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),C*−A,211,61,0.11033967373947701
+2025,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),C−B,211,61,0.031841698496442292
+2025,Healthcare,20,Rolling 5Y,Five-model horizon intersection,B−A,211,61,0.0022240390388472281
+2025,Healthcare,20,Rolling 5Y,Five-model horizon intersection,B*−A,211,61,0.013501360483386765
+2025,Healthcare,20,Rolling 5Y,Five-model horizon intersection,C−A,211,61,0.03406573753528952
+2025,Healthcare,20,Rolling 5Y,Five-model horizon intersection,C*−A,211,61,0.11033967373947701
+2025,Healthcare,20,Rolling 5Y,Five-model horizon intersection,C−B,211,61,0.031841698496442292
+2025,Healthcare,20,Rolling 5Y,All 13 observed (sensitivity),B−A,211,61,0.0022240390388472281
+2025,Healthcare,20,Rolling 5Y,All 13 observed (sensitivity),B*−A,211,61,0.013501360483386765
+2025,Healthcare,20,Rolling 5Y,All 13 observed (sensitivity),C−A,211,61,0.03406573753528952
+2025,Healthcare,20,Rolling 5Y,All 13 observed (sensitivity),C*−A,211,61,0.11033967373947701
+2025,Healthcare,20,Rolling 5Y,All 13 observed (sensitivity),C−B,211,61,0.031841698496442292
+2026,S&P 500,5,Expanding,Five-model common (train-imputed),B−A,106,59,0.02749829961961861
+2026,S&P 500,5,Expanding,Five-model common (train-imputed),B*−A,106,59,0.010761518502657635
+2026,S&P 500,5,Expanding,Five-model common (train-imputed),C−A,106,59,0.074433836310048629
+2026,S&P 500,5,Expanding,Five-model common (train-imputed),C*−A,106,59,0.0827971887044361
+2026,S&P 500,5,Expanding,Five-model common (train-imputed),C−B,106,59,0.046935536690430012
+2026,S&P 500,5,Expanding,Five-model horizon intersection,B−A,104,59,0.027845940467299685
+2026,S&P 500,5,Expanding,Five-model horizon intersection,B*−A,104,59,0.006988157473594353
+2026,S&P 500,5,Expanding,Five-model horizon intersection,C−A,104,59,0.07020164301717699
+2026,S&P 500,5,Expanding,Five-model horizon intersection,C*−A,104,59,0.07858743198549023
+2026,S&P 500,5,Expanding,Five-model horizon intersection,C−B,104,59,0.042355702549877312
+2026,S&P 500,5,Expanding,All 13 observed (sensitivity),B−A,106,59,0.02749829961961861
+2026,S&P 500,5,Expanding,All 13 observed (sensitivity),B*−A,106,59,0.010761518502657635
+2026,S&P 500,5,Expanding,All 13 observed (sensitivity),C−A,106,59,0.074433836310048629
+2026,S&P 500,5,Expanding,All 13 observed (sensitivity),C*−A,106,59,0.0827971887044361
+2026,S&P 500,5,Expanding,All 13 observed (sensitivity),C−B,106,59,0.046935536690430012
+2026,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),B−A,106,59,0.011043655691865856
+2026,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),B*−A,106,59,0.069536740811648221
+2026,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),C−A,106,59,0.084328790588709457
+2026,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),C*−A,106,59,0.091593823210821962
+2026,S&P 500,5,Rolling 5Y,Five-model common (train-imputed),C−B,106,59,0.073285134896843601
+2026,S&P 500,5,Rolling 5Y,Five-model horizon intersection,B−A,104,59,0.0057078843486610409
+2026,S&P 500,5,Rolling 5Y,Five-model horizon intersection,B*−A,104,59,0.064707137522671501
+2026,S&P 500,5,Rolling 5Y,Five-model horizon intersection,C−A,104,59,0.069593513282833669
+2026,S&P 500,5,Rolling 5Y,Five-model horizon intersection,C*−A,104,59,0.078064653792809136
+2026,S&P 500,5,Rolling 5Y,Five-model horizon intersection,C−B,104,59,0.063885628934172628
+2026,S&P 500,5,Rolling 5Y,All 13 observed (sensitivity),B−A,106,59,0.011043655691865856
+2026,S&P 500,5,Rolling 5Y,All 13 observed (sensitivity),B*−A,106,59,0.069536740811648221
+2026,S&P 500,5,Rolling 5Y,All 13 observed (sensitivity),C−A,106,59,0.084328790588709457
+2026,S&P 500,5,Rolling 5Y,All 13 observed (sensitivity),C*−A,106,59,0.091593823210821962
+2026,S&P 500,5,Rolling 5Y,All 13 observed (sensitivity),C−B,106,59,0.073285134896843601
+2026,S&P 500,20,Expanding,Five-model common (train-imputed),B−A,104,59,-0.0030513176144244102
+2026,S&P 500,20,Expanding,Five-model common (train-imputed),B*−A,104,59,0.0059639389736477113
+2026,S&P 500,20,Expanding,Five-model common (train-imputed),C−A,104,59,-0.008268430598527686
+2026,S&P 500,20,Expanding,Five-model common (train-imputed),C*−A,104,59,0.02442120985810306
+2026,S&P 500,20,Expanding,Five-model common (train-imputed),C−B,104,59,-0.0052171129841032757
+2026,S&P 500,20,Expanding,Five-model horizon intersection,B−A,104,59,-0.0030513176144244102
+2026,S&P 500,20,Expanding,Five-model horizon intersection,B*−A,104,59,0.0059639389736477113
+2026,S&P 500,20,Expanding,Five-model horizon intersection,C−A,104,59,-0.008268430598527686
+2026,S&P 500,20,Expanding,Five-model horizon intersection,C*−A,104,59,0.02442120985810306
+2026,S&P 500,20,Expanding,Five-model horizon intersection,C−B,104,59,-0.0052171129841032757
+2026,S&P 500,20,Expanding,All 13 observed (sensitivity),B−A,104,59,-0.0030513176144244102
+2026,S&P 500,20,Expanding,All 13 observed (sensitivity),B*−A,104,59,0.0059639389736477113
+2026,S&P 500,20,Expanding,All 13 observed (sensitivity),C−A,104,59,-0.008268430598527686
+2026,S&P 500,20,Expanding,All 13 observed (sensitivity),C*−A,104,59,0.02442120985810306
+2026,S&P 500,20,Expanding,All 13 observed (sensitivity),C−B,104,59,-0.0052171129841032757
+2026,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),B−A,104,59,0.020142963832284255
+2026,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),B*−A,104,59,-0.017283687186599797
+2026,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),C−A,104,59,0.045385682278886175
+2026,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),C*−A,104,59,-0.018201216259468675
+2026,S&P 500,20,Rolling 5Y,Five-model common (train-imputed),C−B,104,59,0.025242718446601919
+2026,S&P 500,20,Rolling 5Y,Five-model horizon intersection,B−A,104,59,0.020142963832284255
+2026,S&P 500,20,Rolling 5Y,Five-model horizon intersection,B*−A,104,59,-0.017283687186599797
+2026,S&P 500,20,Rolling 5Y,Five-model horizon intersection,C−A,104,59,0.045385682278886175
+2026,S&P 500,20,Rolling 5Y,Five-model horizon intersection,C*−A,104,59,-0.018201216259468675
+2026,S&P 500,20,Rolling 5Y,Five-model horizon intersection,C−B,104,59,0.025242718446601919
+2026,S&P 500,20,Rolling 5Y,All 13 observed (sensitivity),B−A,104,59,0.020142963832284255
+2026,S&P 500,20,Rolling 5Y,All 13 observed (sensitivity),B*−A,104,59,-0.017283687186599797
+2026,S&P 500,20,Rolling 5Y,All 13 observed (sensitivity),C−A,104,59,0.045385682278886175
+2026,S&P 500,20,Rolling 5Y,All 13 observed (sensitivity),C*−A,104,59,-0.018201216259468675
+2026,S&P 500,20,Rolling 5Y,All 13 observed (sensitivity),C−B,104,59,0.025242718446601919
+2026,Healthcare,5,Expanding,Five-model common (train-imputed),B−A,106,59,0.01640426228682268
+2026,Healthcare,5,Expanding,Five-model common (train-imputed),B*−A,106,59,-0.01270624984255736
+2026,Healthcare,5,Expanding,Five-model common (train-imputed),C−A,106,59,0.055581026274025752
+2026,Healthcare,5,Expanding,Five-model common (train-imputed),C*−A,106,59,0.047892787868100861
+2026,Healthcare,5,Expanding,Five-model common (train-imputed),C−B,106,59,0.039176763987203073
+2026,Healthcare,5,Expanding,Five-model horizon intersection,B−A,104,59,0.016270137629360942
+2026,Healthcare,5,Expanding,Five-model horizon intersection,B*−A,104,59,-0.013240157900352073
+2026,Healthcare,5,Expanding,Five-model horizon intersection,C−A,104,59,0.061015683345780447
+2026,Healthcare,5,Expanding,Five-model horizon intersection,C*−A,104,59,0.051445641736903899
+2026,Healthcare,5,Expanding,Five-model horizon intersection,C−B,104,59,0.044745545716419505
+2026,Healthcare,5,Expanding,All 13 observed (sensitivity),B−A,106,59,0.01640426228682268
+2026,Healthcare,5,Expanding,All 13 observed (sensitivity),B*−A,106,59,-0.01270624984255736
+2026,Healthcare,5,Expanding,All 13 observed (sensitivity),C−A,106,59,0.055581026274025752
+2026,Healthcare,5,Expanding,All 13 observed (sensitivity),C*−A,106,59,0.047892787868100861
+2026,Healthcare,5,Expanding,All 13 observed (sensitivity),C−B,106,59,0.039176763987203073
+2026,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),B−A,106,59,0.0042119051817517544
+2026,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),B*−A,106,59,0.0081618258306672825
+2026,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),C−A,106,59,0.079421618762123072
+2026,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),C*−A,106,59,0.030430511121747217
+2026,Healthcare,5,Rolling 5Y,Five-model common (train-imputed),C−B,106,59,0.075209713580371318
+2026,Healthcare,5,Rolling 5Y,Five-model horizon intersection,B−A,104,59,0.0015790035207510766
+2026,Healthcare,5,Rolling 5Y,Five-model horizon intersection,B*−A,104,59,0.0047690173903766203
+2026,Healthcare,5,Rolling 5Y,Five-model horizon intersection,C−A,104,59,0.085724954656993493
+2026,Healthcare,5,Rolling 5Y,Five-model horizon intersection,C*−A,104,59,0.033895230982609617
+2026,Healthcare,5,Rolling 5Y,Five-model horizon intersection,C−B,104,59,0.084145951136242417
+2026,Healthcare,5,Rolling 5Y,All 13 observed (sensitivity),B−A,106,59,0.0042119051817517544
+2026,Healthcare,5,Rolling 5Y,All 13 observed (sensitivity),B*−A,106,59,0.0081618258306672825
+2026,Healthcare,5,Rolling 5Y,All 13 observed (sensitivity),C−A,106,59,0.079421618762123072
+2026,Healthcare,5,Rolling 5Y,All 13 observed (sensitivity),C*−A,106,59,0.030430511121747217
+2026,Healthcare,5,Rolling 5Y,All 13 observed (sensitivity),C−B,106,59,0.075209713580371318
+2026,Healthcare,20,Expanding,Five-model common (train-imputed),B−A,104,59,-0.0017390376613677927
+2026,Healthcare,20,Expanding,Five-model common (train-imputed),B*−A,104,59,-0.004961058359116588
+2026,Healthcare,20,Expanding,Five-model common (train-imputed),C−A,104,59,0.03293502613890964
+2026,Healthcare,20,Expanding,Five-model common (train-imputed),C*−A,104,59,-0.010828976848394345
+2026,Healthcare,20,Expanding,Five-model common (train-imputed),C−B,104,59,0.034674063800277433
+2026,Healthcare,20,Expanding,Five-model horizon intersection,B−A,104,59,-0.0017390376613677927
+2026,Healthcare,20,Expanding,Five-model horizon intersection,B*−A,104,59,-0.004961058359116588
+2026,Healthcare,20,Expanding,Five-model horizon intersection,C−A,104,59,0.03293502613890964
+2026,Healthcare,20,Expanding,Five-model horizon intersection,C*−A,104,59,-0.010828976848394345
+2026,Healthcare,20,Expanding,Five-model horizon intersection,C−B,104,59,0.034674063800277433
+2026,Healthcare,20,Expanding,All 13 observed (sensitivity),B−A,104,59,-0.0017390376613677927
+2026,Healthcare,20,Expanding,All 13 observed (sensitivity),B*−A,104,59,-0.004961058359116588
+2026,Healthcare,20,Expanding,All 13 observed (sensitivity),C−A,104,59,0.03293502613890964
+2026,Healthcare,20,Expanding,All 13 observed (sensitivity),C*−A,104,59,-0.010828976848394345
+2026,Healthcare,20,Expanding,All 13 observed (sensitivity),C−B,104,59,0.034674063800277433
+2026,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),B−A,104,59,0.0012162594686866979
+2026,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),B*−A,104,59,-0.012920089619118724
+2026,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),C−A,104,59,-0.011810519577509837
+2026,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),C*−A,104,59,-0.053056652085778311
+2026,Healthcare,20,Rolling 5Y,Five-model common (train-imputed),C−B,104,59,-0.013026779046196535
+2026,Healthcare,20,Rolling 5Y,Five-model horizon intersection,B−A,104,59,0.0012162594686866979
+2026,Healthcare,20,Rolling 5Y,Five-model horizon intersection,B*−A,104,59,-0.012920089619118724
+2026,Healthcare,20,Rolling 5Y,Five-model horizon intersection,C−A,104,59,-0.011810519577509837
+2026,Healthcare,20,Rolling 5Y,Five-model horizon intersection,C*−A,104,59,-0.053056652085778311
+2026,Healthcare,20,Rolling 5Y,Five-model horizon intersection,C−B,104,59,-0.013026779046196535
+2026,Healthcare,20,Rolling 5Y,All 13 observed (sensitivity),B−A,104,59,0.0012162594686866979
+2026,Healthcare,20,Rolling 5Y,All 13 observed (sensitivity),B*−A,104,59,-0.012920089619118724
+2026,Healthcare,20,Rolling 5Y,All 13 observed (sensitivity),C−A,104,59,-0.011810519577509837
+2026,Healthcare,20,Rolling 5Y,All 13 observed (sensitivity),C*−A,104,59,-0.053056652085778311
+2026,Healthcare,20,Rolling 5Y,All 13 observed (sensitivity),C−B,104,59,-0.013026779046196535

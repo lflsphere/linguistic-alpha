@@ -1,0 +1,7 @@
+check,events,max_abs_error,tolerance
+Legacy 2024 S&P 500 short,205,6.7480743215497796e-16,1e-10
+CIZ S&P 500 horizon 5,317,0,1e-10
+CIZ S&P 500 horizon 20,315,0,1e-10
+Legacy 2024 Healthcare short,205,4.7184478546569153e-16,1e-10
+CIZ Healthcare long against frozen extension,315,2.6229018956769323e-15,1e-10
+CIZ Healthcare short independent four-session join,317,0,9.9999999999999998e-13

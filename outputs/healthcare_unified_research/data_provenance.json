@@ -1,0 +1,32 @@
+{
+  "source_sha256": {
+    "outputs/sp500_financial_extension/sp500_model_extended.csv": "ec05ec25b405a5cdaa22babe40df09c1e554bf31e2781acf1766e61d1f7968db",
+    "outputs/sp500_car_extension/sp500_car_extended.csv": "8d8e65ee1ebd6b28a27cea4f288bdf45517c70888c5a52b75404270ff829d767",
+    "model_table_with_linguistic.csv": "833d76f72ed6ce22674ea551ff60e135360d62d76806a0dfbc7f7681eb7c3ffb",
+    "data/raw/crsp_dsi.parquet": "ed45f017691eb0ce398d29c61d1bf5c6598b75a176fe567a261870c066050823",
+    "data/team_pit/sp500_pit/crsp_dsp500_v2.parquet": "9aaf29a766bf6399fcec36be952e6bb969fa32a0a8190066de392dc8931131d7",
+    "data/raw/crsp_dsf_2024.parquet": "090ab24705c03e365c28d4b3fd28e2883cd2bd4d3329aec43c93219efa09e2a8",
+    "data/team_pit/sp500_pit/crsp_dsf_v2_2025.parquet": "26b51851f49e427f4e41018d169d2ee7112e839af8ff84be08b71aefcd3dced0",
+    "data/team_pit/sp500_pit/crsp_dsf_v2_2026.parquet": "0c083c1cd604ff0fdc64a219eda7b31cbd7f016b3ce445073f8d86cc42929de1",
+    "outputs/healthcare_extended_oos/healthcare_sector_extended_car.csv": "32747b8aea534680ed2912e9b5a27ef7899ff6ef94522943b8feebb040874ee3",
+    "outputs/healthcare_extended_oos/sector_benchmark_daily.csv": "634306712ac32bfe51f698e323dfb91a641cd7a5aa9c99be7925961610e5cda5",
+    "outputs/healthcare_original_pierre_replication/earnings_health/health_sector_daily.parquet": "c506a04f3907d73a2acdaf396786360f222334fe0b74f35ae3962ed72c61f183",
+    "outputs/healthcare_extended_oos/sector_benchmark_validation.csv": "8fb56dc2816b3a8d3b76f255079a0fdc3e5e876e3be202a6f5ed4966a56d88e0",
+    "outputs/healthcare_original_pierre_replication/provenance.json": "fa72d8761452a4cba358b0eb2aa82355e902ebea29b28977614efe24583ca1d9",
+    "experiments/pierre_original/sector_model_b.py": "e2f9986a8f809e5b368b97eac0421adfa6009e49a07c3bafa9a4d416afa124f2",
+    "data/team_pit/sp500_pit/crsp_msp500list_v2.parquet": "c3baec07f352168429cd96d778b349ed8e14889b3e8d04a3c345a38caea141a3",
+    "data/raw/ciq_transcript_detail.parquet": "af5750c514f7c781622114039bdaa13facdc2f64d507d8c2fdbeed3392b6716f",
+    "data/raw/ciq_wrds_gvkey.parquet": "3b295c730b80c020d3d12c8146c23cce4e9ca184dfe93afa5851215577fd44e3",
+    "data/raw/crsp_ccmxpf_lnkhist.parquet": "5270971ab4066bf97e46ea21c124fbbaae7d6b6ae26151cab13dd7e8dbac9d30",
+    "data/team_pit/sp500_pit/ciq_wrds_gvkey.parquet": "d47fbb59a256150607d91e9cf53dc2a948cbc11e624873ad05eb82f8baba2a79",
+    "data/team_pit/sp500_pit/crsp_ccmxpf_lnkhist.parquet": "7f4c114234b8f5d3a604a645c230624d06a22afe7d47b27568613ce963a3fc20",
+    "outputs/healthcare_original_pierre_replication/earnings_health/model_table_opt1.parquet": "e77fd007f7a70f8d87fae17d6c7b06d5c7bb1b3bc83aff17f4dfe415e24a98bf",
+    "outputs/healthcare_original_pierre_replication/earnings_health/model_table_opt2.parquet": "ccffe3e8672bf692b0473fa3ad26914998189ccbb2225973dd18b59b50f1ac4f",
+    "outputs/healthcare_extended_oos/evaluate.py": "ddd56894f33ebae4362a1d722fcc944c9a95cf71582cb7fb96215da5cac60758",
+    "outputs/sp500_car_extension/extend_car.py": "3e09f72717203bc802500432dccd01a63810592dd5799801663779182032b372"
+  },
+  "analysis_source_sha256": {
+    "run_comparison.py": "a69e5e9d879d2169343d21b12a46ca83eccfce48ad524e1346ae6b85d39e4382",
+    "research_metrics.py": "a6908f698749c0152bc079784d094811167dbcf31b363c1bca464fd8283f1368"
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "existing_protocol": {
+    "status": "Post-hoc retrospective reconstruction. Outer outcomes never enter new model selection.",
+    "protected_baseline": "ffee3b4a2caaa5c450b2ffcda353be70c229e9ac",
+    "preservation_commit": "6c1363fea50ddffe69ce6ca6bfcb3b8189fd3138",
+    "test_years": [
+      2024,
+      2025,
+      2026
+    ],
+    "benchmark_options": [
+      "S&P 500",
+      "Healthcare"
+    ],
+    "horizons_sessions": {
+      "5": [
+        2,
+        5
+      ],
+      "20": [
+        2,
+        20
+      ]
+    },
+    "schedules": {
+      "Expanding": "2010 through previous calendar year",
+      "Rolling 5Y": "Five calendar years before test year"
+    },
+    "controls": [
+      "sue",
+      "surprise_pct",
+      "vol_pre",
+      "car_-1_1",
+      "mom",
+      "bm",
+      "size",
+      "dispersion",
+      "avg_answer_words",
+      "words_prepared",
+      "words_questions",
+      "words_answers",
+      "n_questions",
+      "n_answers",
+      "n_analysts",
+      "prior_calls_observed"
+    ],
+    "lm": [
+      "tone_prepared",
+      "tone_answers",
+      "hedging_prepared",
+      "uncertainty_answers",
+      "tone_gap",
+      "tone_prepared_chg",
+      "tone_answers_chg",
+      "hedging_answers_chg"
+    ],
+    "history_count": "Prior calls of the same PERMNO observed before current call, irrespective of eventual CAR availability. Replaces target-availability-derived count.",
+    "native_source": "Native option tables through 2024. Saved archive labels retain legacy coverage and delisting rules. Preserve native 2024 return vintage.",
+    "extension_source": "2025 onward: verified snapshot/link/membership rules. Validated SPRTRN targets. Rebuild sector short horizon from original benchmark and CIZ stock returns. Reconcile legacy short and extended long before scoring.",
+    "clock": "CRSP trading dates, original 16:00 ET Day 0 rule. Wait until 16:00 ET of Day +1 plus 1 microsecond. The 16:00 bound is conservative for early closes. Predict prior to Day +2 session open (09:30 ET). Close-to-close CAR begins at the preceding close and cannot be traded in full after this signal.",
+    "eligibility": "Require valid early CAR and complete calendar endpoints. Refits use the earliest eligible signal across horizons and benchmarks for the test year. Strict Day +h close before refit for training. Train year strictly earlier than test year.",
+    "preprocessing": "Fit original log, 1st/99th-percentile winsorization, training median, scaling and unnormalized average target midranks separately within each inner fold and final refit. Fold all-missing inputs contribute a zero standardized column.",
+    "algorithms": {
+      "Ridge 1": {
+        "family": "ridge",
+        "alpha": 1.0
+      },
+      "Ridge 10": {
+        "family": "ridge",
+        "alpha": 10.0
+      },
+      "Ridge 50": {
+        "family": "ridge",
+        "alpha": 50.0
+      },
+      "Elastic Net .05": {
+        "family": "elastic",
+        "alpha": 0.05,
+        "l1_ratio": 0.7,
+        "max_iter": 5000
+      }
+    },
+    "inner_folds": "Last three prior calendar years for validation. Expand from each schedule start year. Purge training labels ending at or after the earliest validation signal. Validation labels strictly before the outer refit. Require 100 training events / 25 issuers and 50 validation events / 20 issuers in every fold.",
+    "selection": "Mean inner-fold Spearman Rank IC. A and B* choose estimators independently. B compares greedy forward and jointly fitted positive univariate LM subsets against A. Require >0.001 mean IC gain. Greedy steps also require >0.001. Ties within 1e-12 follow declared feature and estimator order, then prefer the shorter subset and forward route. Empty selection uses the exact A model.",
+    "evaluation": "Raw Spearman and supplementary Pearson by test year. Match schedules by event within horizon. For direct horizon comparisons score both predictions on the intersection, against each respective target. No cross-year pooling.",
+    "quintiles": "Prediction and factor sorts use qcut, preserve ties, require five distinct groups, 50 events and 20 issuers. Report means, counts, SD and Q5 minus Q1. No strategy returns.",
+    "factors": "Development discovery uses mature eligible pre-2024 events, independent of test factor results. Evaluate LM8 individually. Quarterly gate 25 pairs/15 issuers. Prespecified conditional groups SUE >= 0 vs < 0 and prevol above vs at/below pre-2024 median, using observed predictors only. Correlation heatmaps use development and each test year separately.",
+    "inference": "999 pointwise paired percentile draws by firm and overlapping noncircular two-month calendar blocks. Require 50 events / 30 issuers plus five nominal blocks for time inference. Partial 2026 has issuer-only intervals where feasible. Intervals conditional on fitted scores; no confirmatory multiple testing claims.",
+    "importance": "Signed standardized-input coefficient divided by training sample size, plus absolute coefficient share. Joint fits, descriptive rather than causal interpretation.",
+    "seed": 18431
+  },
+  "existing_outputs_sha256": {
+    "matched_predictions_local.csv": "cc8019efa0643f1c8cffbafcc641ede4a5a3717b2ae66e359de921f62744232c",
+    "event_timing_local.csv": "dd4d4ee8bf48d014a640f41776bf1e88f49acf665713fda867c2cc76418ec688",
+    "training_cohorts.csv": "3ab36b29b4d346ee5034b5f52e150101be2c226348bfa8622d2929bb45f1ef29",
+    "cv_folds.csv": "6bf9e868a1a2948743ea0a755dfbf16d363f26e81dece5a2781efb68555093b3",
+    "selected_features.csv": "edcb2efdf0a4962cfe14b3fbc13d5be301addafa11c968ca72d61eb5017e7760",
+    "frozen_research_spec.json": "9754d8c7cf66dee53cb706de308f81f581070ba740d14086ebb609621d33b000",
+    "data_provenance.json": "339063eba8ab4e0c73389aa1b9438006da7774acf31e7555eff38567b799d6ac",
+    "annual_model_performance.csv": "bd828a50d01aef28be32f390234f6fbb0f9eed2f234f1f529ae9dc39db188a31",
+    "run_comparison.py": "a69e5e9d879d2169343d21b12a46ca83eccfce48ad524e1346ae6b85d39e4382",
+    "research_metrics.py": "a6908f698749c0152bc079784d094811167dbcf31b363c1bca464fd8283f1368",
+    "factor_ic.csv": "c32a9ef6ea3e7f54b108a93b578b6acc197d5848acccf8f148c835615ff18ca0",
+    "factor_stability.csv": "961517e642f3e418a4e978e7032e99f411e4affd7dcd23fb6e8b0611f55fa3b6",
+    "factor_inference.csv": "6bf06fb3340f63a2f0770162705d5a7f2ca71787e840d24642b6326f871155c7",
+    "factor_quintiles.csv": "e6d50be209a99f520acaca5c03ba6202ef5fca5637d3f58791ca14cbaae8ac31",
+    "feature_importance.csv": "3b2a488de6b9c3f50372e7bf139495006d5cd94d3fec74efe98621378245286a",
+    "feature_selection_paths.csv": "18d30c82fdb6d61a8eb1ed49704ef24f917f695d5f7fbf05923be01c20b288e0",
+    "estimator_cv.csv": "5b2e95a1ff2ee272c3204c7eaad0809f21a3757b957ef1760ec1f9f84c849d2d",
+    "feature_missingness.csv": "acb135bc7ebce54245d9a37cb4217d1deb6c34a4ff10669e532c73cb8fd95e84",
+    "correlations.csv": "e093ce28f08ff4ac44e8ea422611d07769586e27f0343a598e0c7ccc7cccd9cd"
+  },
+  "finbert_feature_manifest_sha256": "08b3ab2e9c45d13f0a9a05cb21dc66b58a1e65ef0f042798a81a8a41c12902dd",
+  "finbert_features": [
+    "fb_sent_prepared",
+    "fb_sent_answers",
+    "fb_pos_pct_prepared",
+    "fb_neg_pct_prepared",
+    "fb_pos_pct_answers",
+    "fb_neg_pct_answers",
+    "fb_sent_std_prepared",
+    "fb_sent_std_answers",
+    "fb_sent_gap",
+    "fb_sent_prepared_chg",
+    "fb_sent_answers_chg",
+    "fb_n_sent_prepared",
+    "fb_n_sent_answers"
+  ],
+  "c_selection": "Greedy forward only. At each step, maximize the mean of the three inner fold Spearman ICs across candidate features and the original estimator grid. Require >0.001 gain each step. Ties within 1e-12 follow declared feature and estimator order. Empty selection copies stored A.",
+  "c_star_selection": "All thirteen features, estimator selected on the same inner chronological folds.",
+  "cohort_policy": "Exact existing test cohorts. Missing FinBERT predictors use train-fitted imputation and are included. Record native, partial and complete feature coverage separately."
+}

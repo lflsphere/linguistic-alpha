@@ -1,0 +1,337 @@
+year,scope,horizon,benchmark,factor,representation,observations,missing,eligible_events,missing_share
+0,Development,5,S&P 500,fb_sent_prepared,FinBERT,2939,0,2939,0
+0,Development,5,S&P 500,fb_sent_answers,FinBERT,2892,47,2939,0.015991833957128221
+0,Development,5,S&P 500,fb_pos_pct_prepared,FinBERT,2939,0,2939,0
+0,Development,5,S&P 500,fb_neg_pct_prepared,FinBERT,2939,0,2939,0
+0,Development,5,S&P 500,fb_pos_pct_answers,FinBERT,2892,47,2939,0.015991833957128221
+0,Development,5,S&P 500,fb_neg_pct_answers,FinBERT,2892,47,2939,0.015991833957128221
+0,Development,5,S&P 500,fb_sent_std_prepared,FinBERT,2939,0,2939,0
+0,Development,5,S&P 500,fb_sent_std_answers,FinBERT,2892,47,2939,0.015991833957128221
+0,Development,5,S&P 500,fb_sent_gap,FinBERT,2892,47,2939,0.015991833957128221
+0,Development,5,S&P 500,fb_sent_prepared_chg,FinBERT,2843,96,2939,0.032664171486900262
+0,Development,5,S&P 500,fb_sent_answers_chg,FinBERT,2797,142,2939,0.048315753657706684
+0,Development,5,S&P 500,fb_n_sent_prepared,FinBERT,2939,0,2939,0
+0,Development,5,S&P 500,fb_n_sent_answers,FinBERT,2939,0,2939,0
+0,Development,5,S&P 500,tone_prepared,LM,2939,0,2939,0
+0,Development,5,S&P 500,tone_answers,LM,2932,7,2939,0.0023817625042531487
+0,Development,5,S&P 500,hedging_prepared,LM,2939,0,2939,0
+0,Development,5,S&P 500,uncertainty_answers,LM,2932,7,2939,0.0023817625042531487
+0,Development,5,S&P 500,tone_gap,LM,2932,7,2939,0.0023817625042531487
+0,Development,5,S&P 500,tone_prepared_chg,LM,2843,96,2939,0.032664171486900262
+0,Development,5,S&P 500,tone_answers_chg,LM,2837,102,2939,0.034705682204831612
+0,Development,5,S&P 500,hedging_answers_chg,LM,2837,102,2939,0.034705682204831612
+2024,Outer test,5,S&P 500,fb_sent_prepared,FinBERT,205,0,205,0
+2024,Outer test,5,S&P 500,fb_sent_answers,FinBERT,205,0,205,0
+2024,Outer test,5,S&P 500,fb_pos_pct_prepared,FinBERT,205,0,205,0
+2024,Outer test,5,S&P 500,fb_neg_pct_prepared,FinBERT,205,0,205,0
+2024,Outer test,5,S&P 500,fb_pos_pct_answers,FinBERT,205,0,205,0
+2024,Outer test,5,S&P 500,fb_neg_pct_answers,FinBERT,205,0,205,0
+2024,Outer test,5,S&P 500,fb_sent_std_prepared,FinBERT,205,0,205,0
+2024,Outer test,5,S&P 500,fb_sent_std_answers,FinBERT,205,0,205,0
+2024,Outer test,5,S&P 500,fb_sent_gap,FinBERT,205,0,205,0
+2024,Outer test,5,S&P 500,fb_sent_prepared_chg,FinBERT,204,1,205,0.0048780487804878092
+2024,Outer test,5,S&P 500,fb_sent_answers_chg,FinBERT,204,1,205,0.0048780487804878092
+2024,Outer test,5,S&P 500,fb_n_sent_prepared,FinBERT,205,0,205,0
+2024,Outer test,5,S&P 500,fb_n_sent_answers,FinBERT,205,0,205,0
+2024,Outer test,5,S&P 500,tone_prepared,LM,205,0,205,0
+2024,Outer test,5,S&P 500,tone_answers,LM,205,0,205,0
+2024,Outer test,5,S&P 500,hedging_prepared,LM,205,0,205,0
+2024,Outer test,5,S&P 500,uncertainty_answers,LM,205,0,205,0
+2024,Outer test,5,S&P 500,tone_gap,LM,205,0,205,0
+2024,Outer test,5,S&P 500,tone_prepared_chg,LM,204,1,205,0.0048780487804878092
+2024,Outer test,5,S&P 500,tone_answers_chg,LM,204,1,205,0.0048780487804878092
+2024,Outer test,5,S&P 500,hedging_answers_chg,LM,204,1,205,0.0048780487804878092
+2025,Outer test,5,S&P 500,fb_sent_prepared,FinBERT,211,0,211,0
+2025,Outer test,5,S&P 500,fb_sent_answers,FinBERT,211,0,211,0
+2025,Outer test,5,S&P 500,fb_pos_pct_prepared,FinBERT,211,0,211,0
+2025,Outer test,5,S&P 500,fb_neg_pct_prepared,FinBERT,211,0,211,0
+2025,Outer test,5,S&P 500,fb_pos_pct_answers,FinBERT,211,0,211,0
+2025,Outer test,5,S&P 500,fb_neg_pct_answers,FinBERT,211,0,211,0
+2025,Outer test,5,S&P 500,fb_sent_std_prepared,FinBERT,211,0,211,0
+2025,Outer test,5,S&P 500,fb_sent_std_answers,FinBERT,211,0,211,0
+2025,Outer test,5,S&P 500,fb_sent_gap,FinBERT,211,0,211,0
+2025,Outer test,5,S&P 500,fb_sent_prepared_chg,FinBERT,211,0,211,0
+2025,Outer test,5,S&P 500,fb_sent_answers_chg,FinBERT,211,0,211,0
+2025,Outer test,5,S&P 500,fb_n_sent_prepared,FinBERT,211,0,211,0
+2025,Outer test,5,S&P 500,fb_n_sent_answers,FinBERT,211,0,211,0
+2025,Outer test,5,S&P 500,tone_prepared,LM,211,0,211,0
+2025,Outer test,5,S&P 500,tone_answers,LM,211,0,211,0
+2025,Outer test,5,S&P 500,hedging_prepared,LM,211,0,211,0
+2025,Outer test,5,S&P 500,uncertainty_answers,LM,211,0,211,0
+2025,Outer test,5,S&P 500,tone_gap,LM,211,0,211,0
+2025,Outer test,5,S&P 500,tone_prepared_chg,LM,211,0,211,0
+2025,Outer test,5,S&P 500,tone_answers_chg,LM,211,0,211,0
+2025,Outer test,5,S&P 500,hedging_answers_chg,LM,211,0,211,0
+2026,Outer test,5,S&P 500,fb_sent_prepared,FinBERT,106,0,106,0
+2026,Outer test,5,S&P 500,fb_sent_answers,FinBERT,106,0,106,0
+2026,Outer test,5,S&P 500,fb_pos_pct_prepared,FinBERT,106,0,106,0
+2026,Outer test,5,S&P 500,fb_neg_pct_prepared,FinBERT,106,0,106,0
+2026,Outer test,5,S&P 500,fb_pos_pct_answers,FinBERT,106,0,106,0
+2026,Outer test,5,S&P 500,fb_neg_pct_answers,FinBERT,106,0,106,0
+2026,Outer test,5,S&P 500,fb_sent_std_prepared,FinBERT,106,0,106,0
+2026,Outer test,5,S&P 500,fb_sent_std_answers,FinBERT,106,0,106,0
+2026,Outer test,5,S&P 500,fb_sent_gap,FinBERT,106,0,106,0
+2026,Outer test,5,S&P 500,fb_sent_prepared_chg,FinBERT,106,0,106,0
+2026,Outer test,5,S&P 500,fb_sent_answers_chg,FinBERT,106,0,106,0
+2026,Outer test,5,S&P 500,fb_n_sent_prepared,FinBERT,106,0,106,0
+2026,Outer test,5,S&P 500,fb_n_sent_answers,FinBERT,106,0,106,0
+2026,Outer test,5,S&P 500,tone_prepared,LM,106,0,106,0
+2026,Outer test,5,S&P 500,tone_answers,LM,106,0,106,0
+2026,Outer test,5,S&P 500,hedging_prepared,LM,106,0,106,0
+2026,Outer test,5,S&P 500,uncertainty_answers,LM,106,0,106,0
+2026,Outer test,5,S&P 500,tone_gap,LM,106,0,106,0
+2026,Outer test,5,S&P 500,tone_prepared_chg,LM,106,0,106,0
+2026,Outer test,5,S&P 500,tone_answers_chg,LM,106,0,106,0
+2026,Outer test,5,S&P 500,hedging_answers_chg,LM,106,0,106,0
+0,Development,20,S&P 500,fb_sent_prepared,FinBERT,2939,0,2939,0
+0,Development,20,S&P 500,fb_sent_answers,FinBERT,2892,47,2939,0.015991833957128221
+0,Development,20,S&P 500,fb_pos_pct_prepared,FinBERT,2939,0,2939,0
+0,Development,20,S&P 500,fb_neg_pct_prepared,FinBERT,2939,0,2939,0
+0,Development,20,S&P 500,fb_pos_pct_answers,FinBERT,2892,47,2939,0.015991833957128221
+0,Development,20,S&P 500,fb_neg_pct_answers,FinBERT,2892,47,2939,0.015991833957128221
+0,Development,20,S&P 500,fb_sent_std_prepared,FinBERT,2939,0,2939,0
+0,Development,20,S&P 500,fb_sent_std_answers,FinBERT,2892,47,2939,0.015991833957128221
+0,Development,20,S&P 500,fb_sent_gap,FinBERT,2892,47,2939,0.015991833957128221
+0,Development,20,S&P 500,fb_sent_prepared_chg,FinBERT,2843,96,2939,0.032664171486900262
+0,Development,20,S&P 500,fb_sent_answers_chg,FinBERT,2797,142,2939,0.048315753657706684
+0,Development,20,S&P 500,fb_n_sent_prepared,FinBERT,2939,0,2939,0
+0,Development,20,S&P 500,fb_n_sent_answers,FinBERT,2939,0,2939,0
+0,Development,20,S&P 500,tone_prepared,LM,2939,0,2939,0
+0,Development,20,S&P 500,tone_answers,LM,2932,7,2939,0.0023817625042531487
+0,Development,20,S&P 500,hedging_prepared,LM,2939,0,2939,0
+0,Development,20,S&P 500,uncertainty_answers,LM,2932,7,2939,0.0023817625042531487
+0,Development,20,S&P 500,tone_gap,LM,2932,7,2939,0.0023817625042531487
+0,Development,20,S&P 500,tone_prepared_chg,LM,2843,96,2939,0.032664171486900262
+0,Development,20,S&P 500,tone_answers_chg,LM,2837,102,2939,0.034705682204831612
+0,Development,20,S&P 500,hedging_answers_chg,LM,2837,102,2939,0.034705682204831612
+2024,Outer test,20,S&P 500,fb_sent_prepared,FinBERT,204,0,204,0
+2024,Outer test,20,S&P 500,fb_sent_answers,FinBERT,204,0,204,0
+2024,Outer test,20,S&P 500,fb_pos_pct_prepared,FinBERT,204,0,204,0
+2024,Outer test,20,S&P 500,fb_neg_pct_prepared,FinBERT,204,0,204,0
+2024,Outer test,20,S&P 500,fb_pos_pct_answers,FinBERT,204,0,204,0
+2024,Outer test,20,S&P 500,fb_neg_pct_answers,FinBERT,204,0,204,0
+2024,Outer test,20,S&P 500,fb_sent_std_prepared,FinBERT,204,0,204,0
+2024,Outer test,20,S&P 500,fb_sent_std_answers,FinBERT,204,0,204,0
+2024,Outer test,20,S&P 500,fb_sent_gap,FinBERT,204,0,204,0
+2024,Outer test,20,S&P 500,fb_sent_prepared_chg,FinBERT,203,1,204,0.0049019607843137081
+2024,Outer test,20,S&P 500,fb_sent_answers_chg,FinBERT,203,1,204,0.0049019607843137081
+2024,Outer test,20,S&P 500,fb_n_sent_prepared,FinBERT,204,0,204,0
+2024,Outer test,20,S&P 500,fb_n_sent_answers,FinBERT,204,0,204,0
+2024,Outer test,20,S&P 500,tone_prepared,LM,204,0,204,0
+2024,Outer test,20,S&P 500,tone_answers,LM,204,0,204,0
+2024,Outer test,20,S&P 500,hedging_prepared,LM,204,0,204,0
+2024,Outer test,20,S&P 500,uncertainty_answers,LM,204,0,204,0
+2024,Outer test,20,S&P 500,tone_gap,LM,204,0,204,0
+2024,Outer test,20,S&P 500,tone_prepared_chg,LM,203,1,204,0.0049019607843137081
+2024,Outer test,20,S&P 500,tone_answers_chg,LM,203,1,204,0.0049019607843137081
+2024,Outer test,20,S&P 500,hedging_answers_chg,LM,203,1,204,0.0049019607843137081
+2025,Outer test,20,S&P 500,fb_sent_prepared,FinBERT,211,0,211,0
+2025,Outer test,20,S&P 500,fb_sent_answers,FinBERT,211,0,211,0
+2025,Outer test,20,S&P 500,fb_pos_pct_prepared,FinBERT,211,0,211,0
+2025,Outer test,20,S&P 500,fb_neg_pct_prepared,FinBERT,211,0,211,0
+2025,Outer test,20,S&P 500,fb_pos_pct_answers,FinBERT,211,0,211,0
+2025,Outer test,20,S&P 500,fb_neg_pct_answers,FinBERT,211,0,211,0
+2025,Outer test,20,S&P 500,fb_sent_std_prepared,FinBERT,211,0,211,0
+2025,Outer test,20,S&P 500,fb_sent_std_answers,FinBERT,211,0,211,0
+2025,Outer test,20,S&P 500,fb_sent_gap,FinBERT,211,0,211,0
+2025,Outer test,20,S&P 500,fb_sent_prepared_chg,FinBERT,211,0,211,0
+2025,Outer test,20,S&P 500,fb_sent_answers_chg,FinBERT,211,0,211,0
+2025,Outer test,20,S&P 500,fb_n_sent_prepared,FinBERT,211,0,211,0
+2025,Outer test,20,S&P 500,fb_n_sent_answers,FinBERT,211,0,211,0
+2025,Outer test,20,S&P 500,tone_prepared,LM,211,0,211,0
+2025,Outer test,20,S&P 500,tone_answers,LM,211,0,211,0
+2025,Outer test,20,S&P 500,hedging_prepared,LM,211,0,211,0
+2025,Outer test,20,S&P 500,uncertainty_answers,LM,211,0,211,0
+2025,Outer test,20,S&P 500,tone_gap,LM,211,0,211,0
+2025,Outer test,20,S&P 500,tone_prepared_chg,LM,211,0,211,0
+2025,Outer test,20,S&P 500,tone_answers_chg,LM,211,0,211,0
+2025,Outer test,20,S&P 500,hedging_answers_chg,LM,211,0,211,0
+2026,Outer test,20,S&P 500,fb_sent_prepared,FinBERT,104,0,104,0
+2026,Outer test,20,S&P 500,fb_sent_answers,FinBERT,104,0,104,0
+2026,Outer test,20,S&P 500,fb_pos_pct_prepared,FinBERT,104,0,104,0
+2026,Outer test,20,S&P 500,fb_neg_pct_prepared,FinBERT,104,0,104,0
+2026,Outer test,20,S&P 500,fb_pos_pct_answers,FinBERT,104,0,104,0
+2026,Outer test,20,S&P 500,fb_neg_pct_answers,FinBERT,104,0,104,0
+2026,Outer test,20,S&P 500,fb_sent_std_prepared,FinBERT,104,0,104,0
+2026,Outer test,20,S&P 500,fb_sent_std_answers,FinBERT,104,0,104,0
+2026,Outer test,20,S&P 500,fb_sent_gap,FinBERT,104,0,104,0
+2026,Outer test,20,S&P 500,fb_sent_prepared_chg,FinBERT,104,0,104,0
+2026,Outer test,20,S&P 500,fb_sent_answers_chg,FinBERT,104,0,104,0
+2026,Outer test,20,S&P 500,fb_n_sent_prepared,FinBERT,104,0,104,0
+2026,Outer test,20,S&P 500,fb_n_sent_answers,FinBERT,104,0,104,0
+2026,Outer test,20,S&P 500,tone_prepared,LM,104,0,104,0
+2026,Outer test,20,S&P 500,tone_answers,LM,104,0,104,0
+2026,Outer test,20,S&P 500,hedging_prepared,LM,104,0,104,0
+2026,Outer test,20,S&P 500,uncertainty_answers,LM,104,0,104,0
+2026,Outer test,20,S&P 500,tone_gap,LM,104,0,104,0
+2026,Outer test,20,S&P 500,tone_prepared_chg,LM,104,0,104,0
+2026,Outer test,20,S&P 500,tone_answers_chg,LM,104,0,104,0
+2026,Outer test,20,S&P 500,hedging_answers_chg,LM,104,0,104,0
+0,Development,5,Healthcare,fb_sent_prepared,FinBERT,2939,0,2939,0
+0,Development,5,Healthcare,fb_sent_answers,FinBERT,2892,47,2939,0.015991833957128221
+0,Development,5,Healthcare,fb_pos_pct_prepared,FinBERT,2939,0,2939,0
+0,Development,5,Healthcare,fb_neg_pct_prepared,FinBERT,2939,0,2939,0
+0,Development,5,Healthcare,fb_pos_pct_answers,FinBERT,2892,47,2939,0.015991833957128221
+0,Development,5,Healthcare,fb_neg_pct_answers,FinBERT,2892,47,2939,0.015991833957128221
+0,Development,5,Healthcare,fb_sent_std_prepared,FinBERT,2939,0,2939,0
+0,Development,5,Healthcare,fb_sent_std_answers,FinBERT,2892,47,2939,0.015991833957128221
+0,Development,5,Healthcare,fb_sent_gap,FinBERT,2892,47,2939,0.015991833957128221
+0,Development,5,Healthcare,fb_sent_prepared_chg,FinBERT,2843,96,2939,0.032664171486900262
+0,Development,5,Healthcare,fb_sent_answers_chg,FinBERT,2797,142,2939,0.048315753657706684
+0,Development,5,Healthcare,fb_n_sent_prepared,FinBERT,2939,0,2939,0
+0,Development,5,Healthcare,fb_n_sent_answers,FinBERT,2939,0,2939,0
+0,Development,5,Healthcare,tone_prepared,LM,2939,0,2939,0
+0,Development,5,Healthcare,tone_answers,LM,2932,7,2939,0.0023817625042531487
+0,Development,5,Healthcare,hedging_prepared,LM,2939,0,2939,0
+0,Development,5,Healthcare,uncertainty_answers,LM,2932,7,2939,0.0023817625042531487
+0,Development,5,Healthcare,tone_gap,LM,2932,7,2939,0.0023817625042531487
+0,Development,5,Healthcare,tone_prepared_chg,LM,2843,96,2939,0.032664171486900262
+0,Development,5,Healthcare,tone_answers_chg,LM,2837,102,2939,0.034705682204831612
+0,Development,5,Healthcare,hedging_answers_chg,LM,2837,102,2939,0.034705682204831612
+2024,Outer test,5,Healthcare,fb_sent_prepared,FinBERT,205,0,205,0
+2024,Outer test,5,Healthcare,fb_sent_answers,FinBERT,205,0,205,0
+2024,Outer test,5,Healthcare,fb_pos_pct_prepared,FinBERT,205,0,205,0
+2024,Outer test,5,Healthcare,fb_neg_pct_prepared,FinBERT,205,0,205,0
+2024,Outer test,5,Healthcare,fb_pos_pct_answers,FinBERT,205,0,205,0
+2024,Outer test,5,Healthcare,fb_neg_pct_answers,FinBERT,205,0,205,0
+2024,Outer test,5,Healthcare,fb_sent_std_prepared,FinBERT,205,0,205,0
+2024,Outer test,5,Healthcare,fb_sent_std_answers,FinBERT,205,0,205,0
+2024,Outer test,5,Healthcare,fb_sent_gap,FinBERT,205,0,205,0
+2024,Outer test,5,Healthcare,fb_sent_prepared_chg,FinBERT,204,1,205,0.0048780487804878092
+2024,Outer test,5,Healthcare,fb_sent_answers_chg,FinBERT,204,1,205,0.0048780487804878092
+2024,Outer test,5,Healthcare,fb_n_sent_prepared,FinBERT,205,0,205,0
+2024,Outer test,5,Healthcare,fb_n_sent_answers,FinBERT,205,0,205,0
+2024,Outer test,5,Healthcare,tone_prepared,LM,205,0,205,0
+2024,Outer test,5,Healthcare,tone_answers,LM,205,0,205,0
+2024,Outer test,5,Healthcare,hedging_prepared,LM,205,0,205,0
+2024,Outer test,5,Healthcare,uncertainty_answers,LM,205,0,205,0
+2024,Outer test,5,Healthcare,tone_gap,LM,205,0,205,0
+2024,Outer test,5,Healthcare,tone_prepared_chg,LM,204,1,205,0.0048780487804878092
+2024,Outer test,5,Healthcare,tone_answers_chg,LM,204,1,205,0.0048780487804878092
+2024,Outer test,5,Healthcare,hedging_answers_chg,LM,204,1,205,0.0048780487804878092
+2025,Outer test,5,Healthcare,fb_sent_prepared,FinBERT,211,0,211,0
+2025,Outer test,5,Healthcare,fb_sent_answers,FinBERT,211,0,211,0
+2025,Outer test,5,Healthcare,fb_pos_pct_prepared,FinBERT,211,0,211,0
+2025,Outer test,5,Healthcare,fb_neg_pct_prepared,FinBERT,211,0,211,0
+2025,Outer test,5,Healthcare,fb_pos_pct_answers,FinBERT,211,0,211,0
+2025,Outer test,5,Healthcare,fb_neg_pct_answers,FinBERT,211,0,211,0
+2025,Outer test,5,Healthcare,fb_sent_std_prepared,FinBERT,211,0,211,0
+2025,Outer test,5,Healthcare,fb_sent_std_answers,FinBERT,211,0,211,0
+2025,Outer test,5,Healthcare,fb_sent_gap,FinBERT,211,0,211,0
+2025,Outer test,5,Healthcare,fb_sent_prepared_chg,FinBERT,211,0,211,0
+2025,Outer test,5,Healthcare,fb_sent_answers_chg,FinBERT,211,0,211,0
+2025,Outer test,5,Healthcare,fb_n_sent_prepared,FinBERT,211,0,211,0
+2025,Outer test,5,Healthcare,fb_n_sent_answers,FinBERT,211,0,211,0
+2025,Outer test,5,Healthcare,tone_prepared,LM,211,0,211,0
+2025,Outer test,5,Healthcare,tone_answers,LM,211,0,211,0
+2025,Outer test,5,Healthcare,hedging_prepared,LM,211,0,211,0
+2025,Outer test,5,Healthcare,uncertainty_answers,LM,211,0,211,0
+2025,Outer test,5,Healthcare,tone_gap,LM,211,0,211,0
+2025,Outer test,5,Healthcare,tone_prepared_chg,LM,211,0,211,0
+2025,Outer test,5,Healthcare,tone_answers_chg,LM,211,0,211,0
+2025,Outer test,5,Healthcare,hedging_answers_chg,LM,211,0,211,0
+2026,Outer test,5,Healthcare,fb_sent_prepared,FinBERT,106,0,106,0
+2026,Outer test,5,Healthcare,fb_sent_answers,FinBERT,106,0,106,0
+2026,Outer test,5,Healthcare,fb_pos_pct_prepared,FinBERT,106,0,106,0
+2026,Outer test,5,Healthcare,fb_neg_pct_prepared,FinBERT,106,0,106,0
+2026,Outer test,5,Healthcare,fb_pos_pct_answers,FinBERT,106,0,106,0
+2026,Outer test,5,Healthcare,fb_neg_pct_answers,FinBERT,106,0,106,0
+2026,Outer test,5,Healthcare,fb_sent_std_prepared,FinBERT,106,0,106,0
+2026,Outer test,5,Healthcare,fb_sent_std_answers,FinBERT,106,0,106,0
+2026,Outer test,5,Healthcare,fb_sent_gap,FinBERT,106,0,106,0
+2026,Outer test,5,Healthcare,fb_sent_prepared_chg,FinBERT,106,0,106,0
+2026,Outer test,5,Healthcare,fb_sent_answers_chg,FinBERT,106,0,106,0
+2026,Outer test,5,Healthcare,fb_n_sent_prepared,FinBERT,106,0,106,0
+2026,Outer test,5,Healthcare,fb_n_sent_answers,FinBERT,106,0,106,0
+2026,Outer test,5,Healthcare,tone_prepared,LM,106,0,106,0
+2026,Outer test,5,Healthcare,tone_answers,LM,106,0,106,0
+2026,Outer test,5,Healthcare,hedging_prepared,LM,106,0,106,0
+2026,Outer test,5,Healthcare,uncertainty_answers,LM,106,0,106,0
+2026,Outer test,5,Healthcare,tone_gap,LM,106,0,106,0
+2026,Outer test,5,Healthcare,tone_prepared_chg,LM,106,0,106,0
+2026,Outer test,5,Healthcare,tone_answers_chg,LM,106,0,106,0
+2026,Outer test,5,Healthcare,hedging_answers_chg,LM,106,0,106,0
+0,Development,20,Healthcare,fb_sent_prepared,FinBERT,2939,0,2939,0
+0,Development,20,Healthcare,fb_sent_answers,FinBERT,2892,47,2939,0.015991833957128221
+0,Development,20,Healthcare,fb_pos_pct_prepared,FinBERT,2939,0,2939,0
+0,Development,20,Healthcare,fb_neg_pct_prepared,FinBERT,2939,0,2939,0
+0,Development,20,Healthcare,fb_pos_pct_answers,FinBERT,2892,47,2939,0.015991833957128221
+0,Development,20,Healthcare,fb_neg_pct_answers,FinBERT,2892,47,2939,0.015991833957128221
+0,Development,20,Healthcare,fb_sent_std_prepared,FinBERT,2939,0,2939,0
+0,Development,20,Healthcare,fb_sent_std_answers,FinBERT,2892,47,2939,0.015991833957128221
+0,Development,20,Healthcare,fb_sent_gap,FinBERT,2892,47,2939,0.015991833957128221
+0,Development,20,Healthcare,fb_sent_prepared_chg,FinBERT,2843,96,2939,0.032664171486900262
+0,Development,20,Healthcare,fb_sent_answers_chg,FinBERT,2797,142,2939,0.048315753657706684
+0,Development,20,Healthcare,fb_n_sent_prepared,FinBERT,2939,0,2939,0
+0,Development,20,Healthcare,fb_n_sent_answers,FinBERT,2939,0,2939,0
+0,Development,20,Healthcare,tone_prepared,LM,2939,0,2939,0
+0,Development,20,Healthcare,tone_answers,LM,2932,7,2939,0.0023817625042531487
+0,Development,20,Healthcare,hedging_prepared,LM,2939,0,2939,0
+0,Development,20,Healthcare,uncertainty_answers,LM,2932,7,2939,0.0023817625042531487
+0,Development,20,Healthcare,tone_gap,LM,2932,7,2939,0.0023817625042531487
+0,Development,20,Healthcare,tone_prepared_chg,LM,2843,96,2939,0.032664171486900262
+0,Development,20,Healthcare,tone_answers_chg,LM,2837,102,2939,0.034705682204831612
+0,Development,20,Healthcare,hedging_answers_chg,LM,2837,102,2939,0.034705682204831612
+2024,Outer test,20,Healthcare,fb_sent_prepared,FinBERT,204,0,204,0
+2024,Outer test,20,Healthcare,fb_sent_answers,FinBERT,204,0,204,0
+2024,Outer test,20,Healthcare,fb_pos_pct_prepared,FinBERT,204,0,204,0
+2024,Outer test,20,Healthcare,fb_neg_pct_prepared,FinBERT,204,0,204,0
+2024,Outer test,20,Healthcare,fb_pos_pct_answers,FinBERT,204,0,204,0
+2024,Outer test,20,Healthcare,fb_neg_pct_answers,FinBERT,204,0,204,0
+2024,Outer test,20,Healthcare,fb_sent_std_prepared,FinBERT,204,0,204,0
+2024,Outer test,20,Healthcare,fb_sent_std_answers,FinBERT,204,0,204,0
+2024,Outer test,20,Healthcare,fb_sent_gap,FinBERT,204,0,204,0
+2024,Outer test,20,Healthcare,fb_sent_prepared_chg,FinBERT,203,1,204,0.0049019607843137081
+2024,Outer test,20,Healthcare,fb_sent_answers_chg,FinBERT,203,1,204,0.0049019607843137081
+2024,Outer test,20,Healthcare,fb_n_sent_prepared,FinBERT,204,0,204,0
+2024,Outer test,20,Healthcare,fb_n_sent_answers,FinBERT,204,0,204,0
+2024,Outer test,20,Healthcare,tone_prepared,LM,204,0,204,0
+2024,Outer test,20,Healthcare,tone_answers,LM,204,0,204,0
+2024,Outer test,20,Healthcare,hedging_prepared,LM,204,0,204,0
+2024,Outer test,20,Healthcare,uncertainty_answers,LM,204,0,204,0
+2024,Outer test,20,Healthcare,tone_gap,LM,204,0,204,0
+2024,Outer test,20,Healthcare,tone_prepared_chg,LM,203,1,204,0.0049019607843137081
+2024,Outer test,20,Healthcare,tone_answers_chg,LM,203,1,204,0.0049019607843137081
+2024,Outer test,20,Healthcare,hedging_answers_chg,LM,203,1,204,0.0049019607843137081
+2025,Outer test,20,Healthcare,fb_sent_prepared,FinBERT,211,0,211,0
+2025,Outer test,20,Healthcare,fb_sent_answers,FinBERT,211,0,211,0
+2025,Outer test,20,Healthcare,fb_pos_pct_prepared,FinBERT,211,0,211,0
+2025,Outer test,20,Healthcare,fb_neg_pct_prepared,FinBERT,211,0,211,0
+2025,Outer test,20,Healthcare,fb_pos_pct_answers,FinBERT,211,0,211,0
+2025,Outer test,20,Healthcare,fb_neg_pct_answers,FinBERT,211,0,211,0
+2025,Outer test,20,Healthcare,fb_sent_std_prepared,FinBERT,211,0,211,0
+2025,Outer test,20,Healthcare,fb_sent_std_answers,FinBERT,211,0,211,0
+2025,Outer test,20,Healthcare,fb_sent_gap,FinBERT,211,0,211,0
+2025,Outer test,20,Healthcare,fb_sent_prepared_chg,FinBERT,211,0,211,0
+2025,Outer test,20,Healthcare,fb_sent_answers_chg,FinBERT,211,0,211,0
+2025,Outer test,20,Healthcare,fb_n_sent_prepared,FinBERT,211,0,211,0
+2025,Outer test,20,Healthcare,fb_n_sent_answers,FinBERT,211,0,211,0
+2025,Outer test,20,Healthcare,tone_prepared,LM,211,0,211,0
+2025,Outer test,20,Healthcare,tone_answers,LM,211,0,211,0
+2025,Outer test,20,Healthcare,hedging_prepared,LM,211,0,211,0
+2025,Outer test,20,Healthcare,uncertainty_answers,LM,211,0,211,0
+2025,Outer test,20,Healthcare,tone_gap,LM,211,0,211,0
+2025,Outer test,20,Healthcare,tone_prepared_chg,LM,211,0,211,0
+2025,Outer test,20,Healthcare,tone_answers_chg,LM,211,0,211,0
+2025,Outer test,20,Healthcare,hedging_answers_chg,LM,211,0,211,0
+2026,Outer test,20,Healthcare,fb_sent_prepared,FinBERT,104,0,104,0
+2026,Outer test,20,Healthcare,fb_sent_answers,FinBERT,104,0,104,0
+2026,Outer test,20,Healthcare,fb_pos_pct_prepared,FinBERT,104,0,104,0
+2026,Outer test,20,Healthcare,fb_neg_pct_prepared,FinBERT,104,0,104,0
+2026,Outer test,20,Healthcare,fb_pos_pct_answers,FinBERT,104,0,104,0
+2026,Outer test,20,Healthcare,fb_neg_pct_answers,FinBERT,104,0,104,0
+2026,Outer test,20,Healthcare,fb_sent_std_prepared,FinBERT,104,0,104,0
+2026,Outer test,20,Healthcare,fb_sent_std_answers,FinBERT,104,0,104,0
+2026,Outer test,20,Healthcare,fb_sent_gap,FinBERT,104,0,104,0
+2026,Outer test,20,Healthcare,fb_sent_prepared_chg,FinBERT,104,0,104,0
+2026,Outer test,20,Healthcare,fb_sent_answers_chg,FinBERT,104,0,104,0
+2026,Outer test,20,Healthcare,fb_n_sent_prepared,FinBERT,104,0,104,0
+2026,Outer test,20,Healthcare,fb_n_sent_answers,FinBERT,104,0,104,0
+2026,Outer test,20,Healthcare,tone_prepared,LM,104,0,104,0
+2026,Outer test,20,Healthcare,tone_answers,LM,104,0,104,0
+2026,Outer test,20,Healthcare,hedging_prepared,LM,104,0,104,0
+2026,Outer test,20,Healthcare,uncertainty_answers,LM,104,0,104,0
+2026,Outer test,20,Healthcare,tone_gap,LM,104,0,104,0
+2026,Outer test,20,Healthcare,tone_prepared_chg,LM,104,0,104,0
+2026,Outer test,20,Healthcare,tone_answers_chg,LM,104,0,104,0
+2026,Outer test,20,Healthcare,hedging_answers_chg,LM,104,0,104,0

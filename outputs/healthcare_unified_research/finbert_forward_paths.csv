@@ -1,0 +1,1129 @@
+year,benchmark,horizon,window,model,step,candidate,prior_selection,estimator,inner_rank_ic,gain,accepted
+2024,S&P 500,5,Expanding,C,1,fb_sent_prepared,,Elastic Net .05,0.014358142341230435,-0.013793944751765033,False
+2024,S&P 500,5,Expanding,C,1,fb_sent_answers,,Elastic Net .05,0.015675985149148381,-0.012476101943847087,False
+2024,S&P 500,5,Expanding,C,1,fb_pos_pct_prepared,,Ridge 50,0.011621001330642701,-0.016531085762352765,False
+2024,S&P 500,5,Expanding,C,1,fb_neg_pct_prepared,,Ridge 50,0.027579718741053985,-0.00057236835194148308,False
+2024,S&P 500,5,Expanding,C,1,fb_pos_pct_answers,,Ridge 10,0.024497015487715174,-0.003655071605280294,False
+2024,S&P 500,5,Expanding,C,1,fb_neg_pct_answers,,Ridge 1,0.0053488656969361672,-0.022803221396059302,False
+2024,S&P 500,5,Expanding,C,1,fb_sent_std_prepared,,Ridge 50,0.032250440594415918,0.0040983535014204493,True
+2024,S&P 500,5,Expanding,C,1,fb_sent_std_answers,,Ridge 50,0.024774108614527768,-0.0033779784784676997,False
+2024,S&P 500,5,Expanding,C,1,fb_sent_gap,,Ridge 50,0.023949047295403109,-0.0042030397975923589,False
+2024,S&P 500,5,Expanding,C,1,fb_sent_prepared_chg,,Ridge 50,0.019373898252257493,-0.008778188840737975,False
+2024,S&P 500,5,Expanding,C,1,fb_sent_answers_chg,,Elastic Net .05,0.031842998558490661,0.0036909114654951926,False
+2024,S&P 500,5,Expanding,C,1,fb_n_sent_prepared,,Ridge 10,0.03038400201840628,0.002231914925410812,False
+2024,S&P 500,5,Expanding,C,1,fb_n_sent_answers,,Ridge 10,0.027913955643689616,-0.00023813144930585201,False
+2024,S&P 500,5,Expanding,C,2,fb_sent_prepared,fb_sent_std_prepared,Elastic Net .05,0.01588677164212423,-0.016363668952291688,False
+2024,S&P 500,5,Expanding,C,2,fb_sent_answers,fb_sent_std_prepared,Elastic Net .05,0.019871857449501554,-0.012378583144914364,False
+2024,S&P 500,5,Expanding,C,2,fb_pos_pct_prepared,fb_sent_std_prepared,Ridge 50,0.018291273512250031,-0.013959167082165887,False
+2024,S&P 500,5,Expanding,C,2,fb_neg_pct_prepared,fb_sent_std_prepared,Ridge 50,0.014775456636455651,-0.017474983957960266,False
+2024,S&P 500,5,Expanding,C,2,fb_pos_pct_answers,fb_sent_std_prepared,Ridge 1,0.027664977457172255,-0.0045854631372436623,False
+2024,S&P 500,5,Expanding,C,2,fb_neg_pct_answers,fb_sent_std_prepared,Elastic Net .05,0.010472403514764269,-0.021778037079651646,False
+2024,S&P 500,5,Expanding,C,2,fb_sent_std_answers,fb_sent_std_prepared,Elastic Net .05,0.032754779178059495,0.00050433858364357792,False
+2024,S&P 500,5,Expanding,C,2,fb_sent_gap,fb_sent_std_prepared,Elastic Net .05,0.029009963209785408,-0.00324047738463051,False
+2024,S&P 500,5,Expanding,C,2,fb_sent_prepared_chg,fb_sent_std_prepared,Ridge 50,0.031294838301939319,-0.00095560229247659834,False
+2024,S&P 500,5,Expanding,C,2,fb_sent_answers_chg,fb_sent_std_prepared,Ridge 50,0.038265726600535108,0.0060152860061191901,True
+2024,S&P 500,5,Expanding,C,2,fb_n_sent_prepared,fb_sent_std_prepared,Elastic Net .05,0.036036782878486141,0.0037863422840702238,False
+2024,S&P 500,5,Expanding,C,2,fb_n_sent_answers,fb_sent_std_prepared,Ridge 50,0.033874480190757623,0.0016240395963417059,False
+2024,S&P 500,5,Expanding,C,3,fb_sent_prepared,fb_sent_std_prepared|fb_sent_answers_chg,Ridge 50,0.017397956042067064,-0.020867770558468043,False
+2024,S&P 500,5,Expanding,C,3,fb_sent_answers,fb_sent_std_prepared|fb_sent_answers_chg,Ridge 10,0.019619856834337309,-0.018645869766197799,False
+2024,S&P 500,5,Expanding,C,3,fb_pos_pct_prepared,fb_sent_std_prepared|fb_sent_answers_chg,Ridge 50,0.020094755348493837,-0.018170971252041271,False
+2024,S&P 500,5,Expanding,C,3,fb_neg_pct_prepared,fb_sent_std_prepared|fb_sent_answers_chg,Ridge 50,0.017196482800168479,-0.021069243800366629,False
+2024,S&P 500,5,Expanding,C,3,fb_pos_pct_answers,fb_sent_std_prepared|fb_sent_answers_chg,Elastic Net .05,0.036334327862333163,-0.0019313987382019449,False
+2024,S&P 500,5,Expanding,C,3,fb_neg_pct_answers,fb_sent_std_prepared|fb_sent_answers_chg,Ridge 10,0.0099000381961053679,-0.02836568840442974,False
+2024,S&P 500,5,Expanding,C,3,fb_sent_std_answers,fb_sent_std_prepared|fb_sent_answers_chg,Ridge 50,0.039452864789327857,0.0011871381887927496,False
+2024,S&P 500,5,Expanding,C,3,fb_sent_gap,fb_sent_std_prepared|fb_sent_answers_chg,Elastic Net .05,0.031808778163448376,-0.0064569484370867319,False
+2024,S&P 500,5,Expanding,C,3,fb_sent_prepared_chg,fb_sent_std_prepared|fb_sent_answers_chg,Elastic Net .05,0.031473556228050682,-0.0067921703724844254,False
+2024,S&P 500,5,Expanding,C,3,fb_n_sent_prepared,fb_sent_std_prepared|fb_sent_answers_chg,Elastic Net .05,0.040657479580355364,0.0023917529798202566,True
+2024,S&P 500,5,Expanding,C,3,fb_n_sent_answers,fb_sent_std_prepared|fb_sent_answers_chg,Elastic Net .05,0.037644515614746653,-0.00062121098578845485,False
+2024,S&P 500,5,Expanding,C,4,fb_sent_prepared,fb_sent_std_prepared|fb_sent_answers_chg|fb_n_sent_prepared,Elastic Net .05,0.023518702337092925,-0.017138777243262439,False
+2024,S&P 500,5,Expanding,C,4,fb_sent_answers,fb_sent_std_prepared|fb_sent_answers_chg|fb_n_sent_prepared,Ridge 10,0.025787517414944578,-0.014869962165410786,False
+2024,S&P 500,5,Expanding,C,4,fb_pos_pct_prepared,fb_sent_std_prepared|fb_sent_answers_chg|fb_n_sent_prepared,Ridge 50,0.025696590450413101,-0.014960889129942263,False
+2024,S&P 500,5,Expanding,C,4,fb_neg_pct_prepared,fb_sent_std_prepared|fb_sent_answers_chg|fb_n_sent_prepared,Ridge 50,0.023776912061163825,-0.01688056751919154,False
+2024,S&P 500,5,Expanding,C,4,fb_pos_pct_answers,fb_sent_std_prepared|fb_sent_answers_chg|fb_n_sent_prepared,Ridge 10,0.041526561573906183,0.00086908199355081872,False
+2024,S&P 500,5,Expanding,C,4,fb_neg_pct_answers,fb_sent_std_prepared|fb_sent_answers_chg|fb_n_sent_prepared,Ridge 10,0.010887866708670693,-0.02976961287168467,False
+2024,S&P 500,5,Expanding,C,4,fb_sent_std_answers,fb_sent_std_prepared|fb_sent_answers_chg|fb_n_sent_prepared,Ridge 50,0.041949702435180529,0.0012922228548251646,True
+2024,S&P 500,5,Expanding,C,4,fb_sent_gap,fb_sent_std_prepared|fb_sent_answers_chg|fb_n_sent_prepared,Ridge 50,0.037343075276329657,-0.0033144043040257073,False
+2024,S&P 500,5,Expanding,C,4,fb_sent_prepared_chg,fb_sent_std_prepared|fb_sent_answers_chg|fb_n_sent_prepared,Elastic Net .05,0.034225912112826877,-0.0064315674675284873,False
+2024,S&P 500,5,Expanding,C,4,fb_n_sent_answers,fb_sent_std_prepared|fb_sent_answers_chg|fb_n_sent_prepared,Elastic Net .05,0.041489862662365769,0.00083238308201040445,False
+2024,S&P 500,5,Expanding,C,5,fb_sent_prepared,fb_sent_std_prepared|fb_sent_answers_chg|fb_n_sent_prepared|fb_sent_std_answers,Ridge 10,0.021067619255948411,-0.020882083179232118,False
+2024,S&P 500,5,Expanding,C,5,fb_sent_answers,fb_sent_std_prepared|fb_sent_answers_chg|fb_n_sent_prepared|fb_sent_std_answers,Ridge 1,0.010916290113255749,-0.031033412321924782,False
+2024,S&P 500,5,Expanding,C,5,fb_pos_pct_prepared,fb_sent_std_prepared|fb_sent_answers_chg|fb_n_sent_prepared|fb_sent_std_answers,Ridge 10,0.023963022808211068,-0.017986679626969461,False
+2024,S&P 500,5,Expanding,C,5,fb_neg_pct_prepared,fb_sent_std_prepared|fb_sent_answers_chg|fb_n_sent_prepared|fb_sent_std_answers,Ridge 50,0.023569713432825656,-0.018379989002354873,False
+2024,S&P 500,5,Expanding,C,5,fb_pos_pct_answers,fb_sent_std_prepared|fb_sent_answers_chg|fb_n_sent_prepared|fb_sent_std_answers,Ridge 1,0.019414168234153605,-0.022535534201026924,False
+2024,S&P 500,5,Expanding,C,5,fb_neg_pct_answers,fb_sent_std_prepared|fb_sent_answers_chg|fb_n_sent_prepared|fb_sent_std_answers,Ridge 10,0.0049367530465541558,-0.037012949388626371,False
+2024,S&P 500,5,Expanding,C,5,fb_sent_gap,fb_sent_std_prepared|fb_sent_answers_chg|fb_n_sent_prepared|fb_sent_std_answers,Ridge 10,0.037922452415257935,-0.0040272500199225944,False
+2024,S&P 500,5,Expanding,C,5,fb_sent_prepared_chg,fb_sent_std_prepared|fb_sent_answers_chg|fb_n_sent_prepared|fb_sent_std_answers,Ridge 50,0.036670063276233705,-0.0052796391589468236,False
+2024,S&P 500,5,Expanding,C,5,fb_n_sent_answers,fb_sent_std_prepared|fb_sent_answers_chg|fb_n_sent_prepared|fb_sent_std_answers,Ridge 50,0.041611064760677503,-0.00033863767450302562,False
+2024,S&P 500,5,Rolling 5Y,C,1,fb_sent_prepared,,Ridge 50,-0.004876727108700467,-0.0011250698802533323,False
+2024,S&P 500,5,Rolling 5Y,C,1,fb_sent_answers,,Ridge 50,0.00021720644650774271,0.0039688636749548771,False
+2024,S&P 500,5,Rolling 5Y,C,1,fb_pos_pct_prepared,,Ridge 50,-0.010062465709594902,-0.0063108084811477668,False
+2024,S&P 500,5,Rolling 5Y,C,1,fb_neg_pct_prepared,,Ridge 50,-0.0066157032892410041,-0.0028640460607938694,False
+2024,S&P 500,5,Rolling 5Y,C,1,fb_pos_pct_answers,,Ridge 50,0.01129289519853101,0.015044552426978145,True
+2024,S&P 500,5,Rolling 5Y,C,1,fb_neg_pct_answers,,Ridge 50,-0.0048215944578804265,-0.0010699372294332918,False
+2024,S&P 500,5,Rolling 5Y,C,1,fb_sent_std_prepared,,Ridge 50,-0.010577647507565645,-0.0068259902791185101,False
+2024,S&P 500,5,Rolling 5Y,C,1,fb_sent_std_answers,,Ridge 50,-0.0015076881963163428,0.0022439690321307921,False
+2024,S&P 500,5,Rolling 5Y,C,1,fb_sent_gap,,Ridge 50,-0.007152847198152487,-0.0034011899697053522,False
+2024,S&P 500,5,Rolling 5Y,C,1,fb_sent_prepared_chg,,Ridge 50,-0.019406026409254571,-0.015654369180807436,False
+2024,S&P 500,5,Rolling 5Y,C,1,fb_sent_answers_chg,,Ridge 50,0.000569499585846236,0.0043211568142933711,False
+2024,S&P 500,5,Rolling 5Y,C,1,fb_n_sent_prepared,,Ridge 50,-0.0014664982682110635,0.002285158960236071,False
+2024,S&P 500,5,Rolling 5Y,C,1,fb_n_sent_answers,,Ridge 50,-0.0033997072590728462,0.00035194996937428858,False
+2024,S&P 500,5,Rolling 5Y,C,2,fb_sent_prepared,fb_pos_pct_answers,Ridge 50,0.00053528492499254254,-0.010757610273538467,False
+2024,S&P 500,5,Rolling 5Y,C,2,fb_sent_answers,fb_pos_pct_answers,Ridge 50,0.0029626369974232619,-0.0083302582011077486,False
+2024,S&P 500,5,Rolling 5Y,C,2,fb_pos_pct_prepared,fb_pos_pct_answers,Ridge 50,-0.001666561721890757,-0.012959456920421768,False
+2024,S&P 500,5,Rolling 5Y,C,2,fb_neg_pct_prepared,fb_pos_pct_answers,Ridge 50,0.0029188650688080678,-0.0083740301297229418,False
+2024,S&P 500,5,Rolling 5Y,C,2,fb_neg_pct_answers,fb_pos_pct_answers,Ridge 50,0.001288485052160326,-0.010004410146370685,False
+2024,S&P 500,5,Rolling 5Y,C,2,fb_sent_std_prepared,fb_pos_pct_answers,Ridge 50,0.0049136503486595625,-0.0063792448498714476,False
+2024,S&P 500,5,Rolling 5Y,C,2,fb_sent_std_answers,fb_pos_pct_answers,Ridge 50,0.0046880165942898523,-0.0066048786042411578,False
+2024,S&P 500,5,Rolling 5Y,C,2,fb_sent_gap,fb_pos_pct_answers,Ridge 50,0.0017159405323993332,-0.0095769546661316762,False
+2024,S&P 500,5,Rolling 5Y,C,2,fb_sent_prepared_chg,fb_pos_pct_answers,Ridge 50,-0.0029294568252160452,-0.014222352023747055,False
+2024,S&P 500,5,Rolling 5Y,C,2,fb_sent_answers_chg,fb_pos_pct_answers,Ridge 50,0.012077568387544037,0.00078467318901302707,False
+2024,S&P 500,5,Rolling 5Y,C,2,fb_n_sent_prepared,fb_pos_pct_answers,Ridge 50,0.01120104342790096,-9.1851770630049789e-05,False
+2024,S&P 500,5,Rolling 5Y,C,2,fb_n_sent_answers,fb_pos_pct_answers,Ridge 50,0.0082925596753378409,-0.0030003355231931692,False
+2024,S&P 500,20,Expanding,C,1,fb_sent_prepared,,Ridge 50,-0.061856012317141461,-0.022559684697247548,False
+2024,S&P 500,20,Expanding,C,1,fb_sent_answers,,Elastic Net .05,-0.038245411729557907,0.0010509158903360058,False
+2024,S&P 500,20,Expanding,C,1,fb_pos_pct_prepared,,Elastic Net .05,-0.057262713643731672,-0.017966386023837759,False
+2024,S&P 500,20,Expanding,C,1,fb_neg_pct_prepared,,Elastic Net .05,-0.042391752568045747,-0.0030954249481518342,False
+2024,S&P 500,20,Expanding,C,1,fb_pos_pct_answers,,Ridge 50,-0.039041528424381584,0.00025479919551232855,False
+2024,S&P 500,20,Expanding,C,1,fb_neg_pct_answers,,Ridge 50,-0.04309925992343222,-0.0038029323035383075,False
+2024,S&P 500,20,Expanding,C,1,fb_sent_std_prepared,,Ridge 50,-0.031015112355671937,0.0082812152642219757,True
+2024,S&P 500,20,Expanding,C,1,fb_sent_std_answers,,Ridge 50,-0.042336493993967189,-0.0030401663740732762,False
+2024,S&P 500,20,Expanding,C,1,fb_sent_gap,,Ridge 50,-0.047412806388833217,-0.0081164787689393045,False
+2024,S&P 500,20,Expanding,C,1,fb_sent_prepared_chg,,Ridge 50,-0.039834701638851944,-0.00053837401895803078,False
+2024,S&P 500,20,Expanding,C,1,fb_sent_answers_chg,,Elastic Net .05,-0.041761396548185052,-0.0024650689282911392,False
+2024,S&P 500,20,Expanding,C,1,fb_n_sent_prepared,,Ridge 50,-0.042939426093024813,-0.0036430984731308999,False
+2024,S&P 500,20,Expanding,C,1,fb_n_sent_answers,,Ridge 50,-0.037676599381131673,0.00161972823876224,False
+2024,S&P 500,20,Expanding,C,2,fb_sent_prepared,fb_sent_std_prepared,Ridge 50,-0.047176268639704512,-0.016161156284032575,False
+2024,S&P 500,20,Expanding,C,2,fb_sent_answers,fb_sent_std_prepared,Elastic Net .05,-0.032042119158243308,-0.0010270068025713709,False
+2024,S&P 500,20,Expanding,C,2,fb_pos_pct_prepared,fb_sent_std_prepared,Ridge 50,-0.046461395953967401,-0.015446283598295463,False
+2024,S&P 500,20,Expanding,C,2,fb_neg_pct_prepared,fb_sent_std_prepared,Ridge 50,-0.041294691159397538,-0.010279578803725601,False
+2024,S&P 500,20,Expanding,C,2,fb_pos_pct_answers,fb_sent_std_prepared,Ridge 50,-0.033153941306969824,-0.0021388289512978866,False
+2024,S&P 500,20,Expanding,C,2,fb_neg_pct_answers,fb_sent_std_prepared,Ridge 50,-0.041262755495489446,-0.010247643139817509,False
+2024,S&P 500,20,Expanding,C,2,fb_sent_std_answers,fb_sent_std_prepared,Ridge 50,-0.039853413002803068,-0.0088383006471311303,False
+2024,S&P 500,20,Expanding,C,2,fb_sent_gap,fb_sent_std_prepared,Ridge 50,-0.031740615660345729,-0.00072550330467379201,False
+2024,S&P 500,20,Expanding,C,2,fb_sent_prepared_chg,fb_sent_std_prepared,Ridge 10,-0.02981405828293229,0.0012010540727396476,True
+2024,S&P 500,20,Expanding,C,2,fb_sent_answers_chg,fb_sent_std_prepared,Elastic Net .05,-0.029817166423799595,0.0011979459318723421,False
+2024,S&P 500,20,Expanding,C,2,fb_n_sent_prepared,fb_sent_std_prepared,Ridge 50,-0.031983597949613959,-0.00096848559394202213,False
+2024,S&P 500,20,Expanding,C,2,fb_n_sent_answers,fb_sent_std_prepared,Ridge 50,-0.031167463085486624,-0.00015235072981468686,False
+2024,S&P 500,20,Expanding,C,3,fb_sent_prepared,fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 10,-0.052723010316978076,-0.022908952034045787,False
+2024,S&P 500,20,Expanding,C,3,fb_sent_answers,fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 10,-0.030339018730240353,-0.00052496044730806352,False
+2024,S&P 500,20,Expanding,C,3,fb_pos_pct_prepared,fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 50,-0.049516112570303229,-0.01970205428737094,False
+2024,S&P 500,20,Expanding,C,3,fb_neg_pct_prepared,fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 50,-0.044028397642180965,-0.014214339359248675,False
+2024,S&P 500,20,Expanding,C,3,fb_pos_pct_answers,fb_sent_std_prepared|fb_sent_prepared_chg,Elastic Net .05,-0.03109315291562861,-0.0012790946326963204,False
+2024,S&P 500,20,Expanding,C,3,fb_neg_pct_answers,fb_sent_std_prepared|fb_sent_prepared_chg,Elastic Net .05,-0.039923977541568671,-0.010109919258636382,False
+2024,S&P 500,20,Expanding,C,3,fb_sent_std_answers,fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 50,-0.038630146938761011,-0.0088160886558287209,False
+2024,S&P 500,20,Expanding,C,3,fb_sent_gap,fb_sent_std_prepared|fb_sent_prepared_chg,Elastic Net .05,-0.034047483718332092,-0.004233425435399802,False
+2024,S&P 500,20,Expanding,C,3,fb_sent_answers_chg,fb_sent_std_prepared|fb_sent_prepared_chg,Elastic Net .05,-0.027825164361456867,0.0019888939214754223,True
+2024,S&P 500,20,Expanding,C,3,fb_n_sent_prepared,fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 50,-0.03136406045314627,-0.00155000217021398,False
+2024,S&P 500,20,Expanding,C,3,fb_n_sent_answers,fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 50,-0.030732511831033454,-0.00091845354810116478,False
+2024,S&P 500,20,Expanding,C,4,fb_sent_prepared,fb_sent_std_prepared|fb_sent_prepared_chg|fb_sent_answers_chg,Ridge 50,-0.050061072416247208,-0.022235908054790341,False
+2024,S&P 500,20,Expanding,C,4,fb_sent_answers,fb_sent_std_prepared|fb_sent_prepared_chg|fb_sent_answers_chg,Elastic Net .05,-0.029726440570220086,-0.0019012762087632189,False
+2024,S&P 500,20,Expanding,C,4,fb_pos_pct_prepared,fb_sent_std_prepared|fb_sent_prepared_chg|fb_sent_answers_chg,Ridge 50,-0.046881916822115975,-0.019056752460659108,False
+2024,S&P 500,20,Expanding,C,4,fb_neg_pct_prepared,fb_sent_std_prepared|fb_sent_prepared_chg|fb_sent_answers_chg,Ridge 50,-0.04031944140771658,-0.012494277046259713,False
+2024,S&P 500,20,Expanding,C,4,fb_pos_pct_answers,fb_sent_std_prepared|fb_sent_prepared_chg|fb_sent_answers_chg,Ridge 50,-0.030593130008214231,-0.0027679656467573636,False
+2024,S&P 500,20,Expanding,C,4,fb_neg_pct_answers,fb_sent_std_prepared|fb_sent_prepared_chg|fb_sent_answers_chg,Ridge 50,-0.042309665992219303,-0.014484501630762436,False
+2024,S&P 500,20,Expanding,C,4,fb_sent_std_answers,fb_sent_std_prepared|fb_sent_prepared_chg|fb_sent_answers_chg,Elastic Net .05,-0.036362054217829586,-0.0085368898563727182,False
+2024,S&P 500,20,Expanding,C,4,fb_sent_gap,fb_sent_std_prepared|fb_sent_prepared_chg|fb_sent_answers_chg,Ridge 50,-0.044119906534682597,-0.01629474217322573,False
+2024,S&P 500,20,Expanding,C,4,fb_n_sent_prepared,fb_sent_std_prepared|fb_sent_prepared_chg|fb_sent_answers_chg,Ridge 50,-0.032098658111931265,-0.0042734937504743976,False
+2024,S&P 500,20,Expanding,C,4,fb_n_sent_answers,fb_sent_std_prepared|fb_sent_prepared_chg|fb_sent_answers_chg,Ridge 50,-0.029925474979969991,-0.0021003106185131237,False
+2024,S&P 500,20,Rolling 5Y,C,1,fb_sent_prepared,,Ridge 1,-0.084587196688285918,-0.0091051558171939551,False
+2024,S&P 500,20,Rolling 5Y,C,1,fb_sent_answers,,Ridge 1,-0.063345435559108626,0.012136605311983337,False
+2024,S&P 500,20,Rolling 5Y,C,1,fb_pos_pct_prepared,,Ridge 1,-0.090463033648729832,-0.014980992777637869,False
+2024,S&P 500,20,Rolling 5Y,C,1,fb_neg_pct_prepared,,Ridge 1,-0.081129795632887733,-0.0056477547617957702,False
+2024,S&P 500,20,Rolling 5Y,C,1,fb_pos_pct_answers,,Ridge 1,-0.064052360609904144,0.011429680261187819,False
+2024,S&P 500,20,Rolling 5Y,C,1,fb_neg_pct_answers,,Ridge 1,-0.066071569053274007,0.0094104718178179558,False
+2024,S&P 500,20,Rolling 5Y,C,1,fb_sent_std_prepared,,Ridge 1,-0.076458807283027827,-0.00097676641193586433,False
+2024,S&P 500,20,Rolling 5Y,C,1,fb_sent_std_answers,,Ridge 1,-0.076126840134185567,-0.00064479926309360391,False
+2024,S&P 500,20,Rolling 5Y,C,1,fb_sent_gap,,Ridge 1,-0.061879359352500662,0.0136026815185913,True
+2024,S&P 500,20,Rolling 5Y,C,1,fb_sent_prepared_chg,,Ridge 1,-0.065263497995944289,0.010218542875147674,False
+2024,S&P 500,20,Rolling 5Y,C,1,fb_sent_answers_chg,,Ridge 1,-0.080363594221065052,-0.004881553349973089,False
+2024,S&P 500,20,Rolling 5Y,C,1,fb_n_sent_prepared,,Ridge 1,-0.072625866434596079,0.0028561744364958841,False
+2024,S&P 500,20,Rolling 5Y,C,1,fb_n_sent_answers,,Ridge 1,-0.069469213093249146,0.0060128277778428163,False
+2024,S&P 500,20,Rolling 5Y,C,2,fb_sent_prepared,fb_sent_gap,Ridge 1,-0.056650151240992652,0.0052292081115080102,False
+2024,S&P 500,20,Rolling 5Y,C,2,fb_sent_answers,fb_sent_gap,Ridge 1,-0.063066180044277262,-0.0011868206917765994,False
+2024,S&P 500,20,Rolling 5Y,C,2,fb_pos_pct_prepared,fb_sent_gap,Ridge 1,-0.082680543984221366,-0.020801184631720704,False
+2024,S&P 500,20,Rolling 5Y,C,2,fb_neg_pct_prepared,fb_sent_gap,Ridge 1,-0.05499083901990142,0.006888520332599242,False
+2024,S&P 500,20,Rolling 5Y,C,2,fb_pos_pct_answers,fb_sent_gap,Ridge 1,-0.064248179413662954,-0.0023688200611622912,False
+2024,S&P 500,20,Rolling 5Y,C,2,fb_neg_pct_answers,fb_sent_gap,Ridge 1,-0.053126162625488589,0.0087531967270120734,False
+2024,S&P 500,20,Rolling 5Y,C,2,fb_sent_std_prepared,fb_sent_gap,Ridge 1,-0.043980174567533219,0.017899184784967444,True
+2024,S&P 500,20,Rolling 5Y,C,2,fb_sent_std_answers,fb_sent_gap,Ridge 1,-0.052801053415336217,0.0090783059371644451,False
+2024,S&P 500,20,Rolling 5Y,C,2,fb_sent_prepared_chg,fb_sent_gap,Ridge 1,-0.065252579799017732,-0.0033732204465170695,False
+2024,S&P 500,20,Rolling 5Y,C,2,fb_sent_answers_chg,fb_sent_gap,Ridge 50,-0.075584488184089429,-0.013705128831588767,False
+2024,S&P 500,20,Rolling 5Y,C,2,fb_n_sent_prepared,fb_sent_gap,Ridge 1,-0.061947882538512522,-6.8523186011859583e-05,False
+2024,S&P 500,20,Rolling 5Y,C,2,fb_n_sent_answers,fb_sent_gap,Ridge 1,-0.057458132609717716,0.0044212267427829466,False
+2024,S&P 500,20,Rolling 5Y,C,3,fb_sent_prepared,fb_sent_gap|fb_sent_std_prepared,Ridge 1,-0.062216911786993449,-0.018236737219460231,False
+2024,S&P 500,20,Rolling 5Y,C,3,fb_sent_answers,fb_sent_gap|fb_sent_std_prepared,Ridge 10,-0.065681603558043491,-0.021701428990510273,False
+2024,S&P 500,20,Rolling 5Y,C,3,fb_pos_pct_prepared,fb_sent_gap|fb_sent_std_prepared,Ridge 1,-0.066523679788752385,-0.022543505221219166,False
+2024,S&P 500,20,Rolling 5Y,C,3,fb_neg_pct_prepared,fb_sent_gap|fb_sent_std_prepared,Ridge 1,-0.04549323076285771,-0.0015130561953244914,False
+2024,S&P 500,20,Rolling 5Y,C,3,fb_pos_pct_answers,fb_sent_gap|fb_sent_std_prepared,Ridge 1,-0.054509510211728229,-0.010529335644195011,False
+2024,S&P 500,20,Rolling 5Y,C,3,fb_neg_pct_answers,fb_sent_gap|fb_sent_std_prepared,Ridge 1,-0.05550013025319963,-0.011519955685666411,False
+2024,S&P 500,20,Rolling 5Y,C,3,fb_sent_std_answers,fb_sent_gap|fb_sent_std_prepared,Ridge 1,-0.045048509622624834,-0.0010683350550916154,False
+2024,S&P 500,20,Rolling 5Y,C,3,fb_sent_prepared_chg,fb_sent_gap|fb_sent_std_prepared,Elastic Net .05,-0.040501857298188206,0.0034783172693450132,True
+2024,S&P 500,20,Rolling 5Y,C,3,fb_sent_answers_chg,fb_sent_gap|fb_sent_std_prepared,Ridge 1,-0.066361534207880865,-0.022381359640347646,False
+2024,S&P 500,20,Rolling 5Y,C,3,fb_n_sent_prepared,fb_sent_gap|fb_sent_std_prepared,Ridge 1,-0.043906904368755599,7.3270198777619644e-05,False
+2024,S&P 500,20,Rolling 5Y,C,3,fb_n_sent_answers,fb_sent_gap|fb_sent_std_prepared,Ridge 1,-0.045354078899763887,-0.0013739043322306688,False
+2024,S&P 500,20,Rolling 5Y,C,4,fb_sent_prepared,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,-0.065193161555771262,-0.024691304257583056,False
+2024,S&P 500,20,Rolling 5Y,C,4,fb_sent_answers,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,-0.064353627855431014,-0.023851770557242809,False
+2024,S&P 500,20,Rolling 5Y,C,4,fb_pos_pct_prepared,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,-0.067189076129981193,-0.026687218831792987,False
+2024,S&P 500,20,Rolling 5Y,C,4,fb_neg_pct_prepared,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,-0.04256826320082787,-0.0020664059026396647,False
+2024,S&P 500,20,Rolling 5Y,C,4,fb_pos_pct_answers,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,-0.054114539252128578,-0.013612681953940373,False
+2024,S&P 500,20,Rolling 5Y,C,4,fb_neg_pct_answers,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,-0.049051763208993661,-0.0085499059108054554,False
+2024,S&P 500,20,Rolling 5Y,C,4,fb_sent_std_answers,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,-0.035525046861832096,0.0049768104363561091,False
+2024,S&P 500,20,Rolling 5Y,C,4,fb_sent_answers_chg,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,-0.053802988950689044,-0.013301131652500839,False
+2024,S&P 500,20,Rolling 5Y,C,4,fb_n_sent_prepared,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,-0.038600143454372765,0.0019017138438154405,False
+2024,S&P 500,20,Rolling 5Y,C,4,fb_n_sent_answers,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,-0.034551835927038026,0.0059500213711501798,True
+2024,S&P 500,20,Rolling 5Y,C,5,fb_sent_prepared,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers,Ridge 1,-0.066400272486504416,-0.031848436559466391,False
+2024,S&P 500,20,Rolling 5Y,C,5,fb_sent_answers,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers,Ridge 1,-0.064378352840803302,-0.029826516913765276,False
+2024,S&P 500,20,Rolling 5Y,C,5,fb_pos_pct_prepared,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers,Ridge 1,-0.067068731183409461,-0.032516895256371435,False
+2024,S&P 500,20,Rolling 5Y,C,5,fb_neg_pct_prepared,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers,Ridge 1,-0.03906999184700595,-0.0045181559199679242,False
+2024,S&P 500,20,Rolling 5Y,C,5,fb_pos_pct_answers,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers,Ridge 1,-0.05347712659546533,-0.018925290668427304,False
+2024,S&P 500,20,Rolling 5Y,C,5,fb_neg_pct_answers,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers,Ridge 1,-0.044710197874349093,-0.010158361947311068,False
+2024,S&P 500,20,Rolling 5Y,C,5,fb_sent_std_answers,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers,Ridge 1,-0.032989072584292144,0.001562763342745882,True
+2024,S&P 500,20,Rolling 5Y,C,5,fb_sent_answers_chg,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers,Ridge 1,-0.054254225998033097,-0.019702390070995071,False
+2024,S&P 500,20,Rolling 5Y,C,5,fb_n_sent_prepared,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers,Ridge 1,-0.035359373137100032,-0.00080753721006200652,False
+2024,S&P 500,20,Rolling 5Y,C,6,fb_sent_prepared,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers|fb_sent_std_answers,Ridge 1,-0.060534603567939049,-0.027545530983646906,False
+2024,S&P 500,20,Rolling 5Y,C,6,fb_sent_answers,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers|fb_sent_std_answers,Ridge 1,-0.057690247891505154,-0.024701175307213011,False
+2024,S&P 500,20,Rolling 5Y,C,6,fb_pos_pct_prepared,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers|fb_sent_std_answers,Ridge 1,-0.064187376335313809,-0.031198303751021665,False
+2024,S&P 500,20,Rolling 5Y,C,6,fb_neg_pct_prepared,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers|fb_sent_std_answers,Ridge 1,-0.032343685617737296,0.00064538696655484784,False
+2024,S&P 500,20,Rolling 5Y,C,6,fb_pos_pct_answers,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers|fb_sent_std_answers,Ridge 1,-0.054631465300066157,-0.021642392715774013,False
+2024,S&P 500,20,Rolling 5Y,C,6,fb_neg_pct_answers,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers|fb_sent_std_answers,Ridge 1,-0.050438623303067233,-0.017449550718775089,False
+2024,S&P 500,20,Rolling 5Y,C,6,fb_sent_answers_chg,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers|fb_sent_std_answers,Ridge 1,-0.050857178148698258,-0.017868105564406114,False
+2024,S&P 500,20,Rolling 5Y,C,6,fb_n_sent_prepared,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers|fb_sent_std_answers,Ridge 1,-0.029421527377732459,0.0035675452065596844,True
+2024,S&P 500,20,Rolling 5Y,C,7,fb_sent_prepared,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers|fb_sent_std_answers|fb_n_sent_prepared,Ridge 1,-0.060828357464792961,-0.031406830087060501,False
+2024,S&P 500,20,Rolling 5Y,C,7,fb_sent_answers,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers|fb_sent_std_answers|fb_n_sent_prepared,Ridge 1,-0.058020748354194941,-0.028599220976462482,False
+2024,S&P 500,20,Rolling 5Y,C,7,fb_pos_pct_prepared,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers|fb_sent_std_answers|fb_n_sent_prepared,Ridge 1,-0.062605155999190518,-0.033183628621458058,False
+2024,S&P 500,20,Rolling 5Y,C,7,fb_neg_pct_prepared,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers|fb_sent_std_answers|fb_n_sent_prepared,Ridge 1,-0.029346170591889181,7.5356785843277985e-05,False
+2024,S&P 500,20,Rolling 5Y,C,7,fb_pos_pct_answers,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers|fb_sent_std_answers|fb_n_sent_prepared,Ridge 1,-0.052100968013694016,-0.022679440635961556,False
+2024,S&P 500,20,Rolling 5Y,C,7,fb_neg_pct_answers,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers|fb_sent_std_answers|fb_n_sent_prepared,Ridge 1,-0.044386012352843396,-0.014964484975110937,False
+2024,S&P 500,20,Rolling 5Y,C,7,fb_sent_answers_chg,fb_sent_gap|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers|fb_sent_std_answers|fb_n_sent_prepared,Ridge 1,-0.049475621793339558,-0.020054094415607099,False
+2025,S&P 500,5,Expanding,C,1,fb_sent_prepared,,Elastic Net .05,0.0077865546270702952,-0.018539981383196142,False
+2025,S&P 500,5,Expanding,C,1,fb_sent_answers,,Elastic Net .05,0.012727466809628524,-0.013599069200637914,False
+2025,S&P 500,5,Expanding,C,1,fb_pos_pct_prepared,,Ridge 50,0.0027881383973599508,-0.023538397612906489,False
+2025,S&P 500,5,Expanding,C,1,fb_neg_pct_prepared,,Ridge 50,0.03283824703345397,0.0065117110231875316,False
+2025,S&P 500,5,Expanding,C,1,fb_pos_pct_answers,,Ridge 50,0.018341352155005933,-0.0079851838552605046,False
+2025,S&P 500,5,Expanding,C,1,fb_neg_pct_answers,,Elastic Net .05,0.0097893985361219207,-0.016537137474144516,False
+2025,S&P 500,5,Expanding,C,1,fb_sent_std_prepared,,Ridge 50,0.033894430274758726,0.0075678942644922878,False
+2025,S&P 500,5,Expanding,C,1,fb_sent_std_answers,,Ridge 1,0.024737765216899493,-0.0015887707933669448,False
+2025,S&P 500,5,Expanding,C,1,fb_sent_gap,,Ridge 50,0.0162422625097778,-0.010084273500488638,False
+2025,S&P 500,5,Expanding,C,1,fb_sent_prepared_chg,,Ridge 1,0.02096936365935077,-0.0053571723509156684,False
+2025,S&P 500,5,Expanding,C,1,fb_sent_answers_chg,,Ridge 50,0.029724419255484632,0.0033978832452181938,False
+2025,S&P 500,5,Expanding,C,1,fb_n_sent_prepared,,Ridge 10,0.034210487720436368,0.00788395171016993,True
+2025,S&P 500,5,Expanding,C,1,fb_n_sent_answers,,Ridge 10,0.026633697866655204,0.0003071618563887657,False
+2025,S&P 500,5,Expanding,C,2,fb_sent_prepared,fb_n_sent_prepared,Ridge 10,0.017221086100569643,-0.016989401619866725,False
+2025,S&P 500,5,Expanding,C,2,fb_sent_answers,fb_n_sent_prepared,Ridge 10,0.023153432239011413,-0.011057055481424955,False
+2025,S&P 500,5,Expanding,C,2,fb_pos_pct_prepared,fb_n_sent_prepared,Ridge 1,0.013020545677748518,-0.02118994204268785,False
+2025,S&P 500,5,Expanding,C,2,fb_neg_pct_prepared,fb_n_sent_prepared,Ridge 10,0.043498365516788436,0.0092878777963520676,True
+2025,S&P 500,5,Expanding,C,2,fb_pos_pct_answers,fb_n_sent_prepared,Ridge 1,0.026667154019466788,-0.0075433337009695803,False
+2025,S&P 500,5,Expanding,C,2,fb_neg_pct_answers,fb_n_sent_prepared,Ridge 1,0.019792334107570676,-0.014418153612865692,False
+2025,S&P 500,5,Expanding,C,2,fb_sent_std_prepared,fb_n_sent_prepared,Elastic Net .05,0.040910311356642873,0.0066998236362065047,False
+2025,S&P 500,5,Expanding,C,2,fb_sent_std_answers,fb_n_sent_prepared,Ridge 10,0.034088688336185051,-0.00012179938425131709,False
+2025,S&P 500,5,Expanding,C,2,fb_sent_gap,fb_n_sent_prepared,Ridge 10,0.027847052839229957,-0.0063634348812064111,False
+2025,S&P 500,5,Expanding,C,2,fb_sent_prepared_chg,fb_n_sent_prepared,Ridge 10,0.028016090742586073,-0.0061943969778502951,False
+2025,S&P 500,5,Expanding,C,2,fb_sent_answers_chg,fb_n_sent_prepared,Ridge 10,0.038410706136382762,0.004200218415946394,False
+2025,S&P 500,5,Expanding,C,2,fb_n_sent_answers,fb_n_sent_prepared,Ridge 10,0.034419468874440459,0.00020898115400409117,False
+2025,S&P 500,5,Expanding,C,3,fb_sent_prepared,fb_n_sent_prepared|fb_neg_pct_prepared,Ridge 50,0.032606385356156349,-0.010891980160632087,False
+2025,S&P 500,5,Expanding,C,3,fb_sent_answers,fb_n_sent_prepared|fb_neg_pct_prepared,Ridge 10,0.032995016484913924,-0.010503349031874512,False
+2025,S&P 500,5,Expanding,C,3,fb_pos_pct_prepared,fb_n_sent_prepared|fb_neg_pct_prepared,Ridge 50,0.03309458624974676,-0.010403779267041675,False
+2025,S&P 500,5,Expanding,C,3,fb_pos_pct_answers,fb_n_sent_prepared|fb_neg_pct_prepared,Ridge 10,0.034339859341581382,-0.009158506175207054,False
+2025,S&P 500,5,Expanding,C,3,fb_neg_pct_answers,fb_n_sent_prepared|fb_neg_pct_prepared,Ridge 1,0.031634759508328565,-0.01186360600845987,False
+2025,S&P 500,5,Expanding,C,3,fb_sent_std_prepared,fb_n_sent_prepared|fb_neg_pct_prepared,Elastic Net .05,0.028068891600402962,-0.015429473916385474,False
+2025,S&P 500,5,Expanding,C,3,fb_sent_std_answers,fb_n_sent_prepared|fb_neg_pct_prepared,Ridge 10,0.041582293567332014,-0.0019160719494564216,False
+2025,S&P 500,5,Expanding,C,3,fb_sent_gap,fb_n_sent_prepared|fb_neg_pct_prepared,Ridge 10,0.042174253806007971,-0.0013241117107804651,False
+2025,S&P 500,5,Expanding,C,3,fb_sent_prepared_chg,fb_n_sent_prepared|fb_neg_pct_prepared,Ridge 1,0.046349608386407809,0.0028512428696193734,False
+2025,S&P 500,5,Expanding,C,3,fb_sent_answers_chg,fb_n_sent_prepared|fb_neg_pct_prepared,Ridge 10,0.05369262753000642,0.010194262013217985,True
+2025,S&P 500,5,Expanding,C,3,fb_n_sent_answers,fb_n_sent_prepared|fb_neg_pct_prepared,Ridge 1,0.044246040500080679,0.00074767498329224302,False
+2025,S&P 500,5,Expanding,C,4,fb_sent_prepared,fb_n_sent_prepared|fb_neg_pct_prepared|fb_sent_answers_chg,Ridge 1,0.042802614335535012,-0.010890013194471408,False
+2025,S&P 500,5,Expanding,C,4,fb_sent_answers,fb_n_sent_prepared|fb_neg_pct_prepared|fb_sent_answers_chg,Ridge 1,0.035093099002810602,-0.018599528527195819,False
+2025,S&P 500,5,Expanding,C,4,fb_pos_pct_prepared,fb_n_sent_prepared|fb_neg_pct_prepared|fb_sent_answers_chg,Ridge 1,0.04294683474203978,-0.01074579278796664,False
+2025,S&P 500,5,Expanding,C,4,fb_pos_pct_answers,fb_n_sent_prepared|fb_neg_pct_prepared|fb_sent_answers_chg,Ridge 1,0.04109720543163068,-0.01259542209837574,False
+2025,S&P 500,5,Expanding,C,4,fb_neg_pct_answers,fb_n_sent_prepared|fb_neg_pct_prepared|fb_sent_answers_chg,Ridge 1,0.037352204744267717,-0.016340422785738704,False
+2025,S&P 500,5,Expanding,C,4,fb_sent_std_prepared,fb_n_sent_prepared|fb_neg_pct_prepared|fb_sent_answers_chg,Ridge 10,0.039179658518533979,-0.014512969011472442,False
+2025,S&P 500,5,Expanding,C,4,fb_sent_std_answers,fb_n_sent_prepared|fb_neg_pct_prepared|fb_sent_answers_chg,Ridge 10,0.049859074164511762,-0.0038335533654946588,False
+2025,S&P 500,5,Expanding,C,4,fb_sent_gap,fb_n_sent_prepared|fb_neg_pct_prepared|fb_sent_answers_chg,Ridge 1,0.05687937646316097,0.0031867489331545498,True
+2025,S&P 500,5,Expanding,C,4,fb_sent_prepared_chg,fb_n_sent_prepared|fb_neg_pct_prepared|fb_sent_answers_chg,Ridge 1,0.047073313539095669,-0.006619313990910751,False
+2025,S&P 500,5,Expanding,C,4,fb_n_sent_answers,fb_n_sent_prepared|fb_neg_pct_prepared|fb_sent_answers_chg,Ridge 1,0.054930613031094248,0.001237985501087828,False
+2025,S&P 500,5,Expanding,C,5,fb_sent_prepared,fb_n_sent_prepared|fb_neg_pct_prepared|fb_sent_answers_chg|fb_sent_gap,Ridge 1,0.036986589162480044,-0.019892787300680927,False
+2025,S&P 500,5,Expanding,C,5,fb_sent_answers,fb_n_sent_prepared|fb_neg_pct_prepared|fb_sent_answers_chg|fb_sent_gap,Ridge 1,0.032154546486224123,-0.024724829976936848,False
+2025,S&P 500,5,Expanding,C,5,fb_pos_pct_prepared,fb_n_sent_prepared|fb_neg_pct_prepared|fb_sent_answers_chg|fb_sent_gap,Ridge 10,0.037894437360145833,-0.018984939103015137,False
+2025,S&P 500,5,Expanding,C,5,fb_pos_pct_answers,fb_n_sent_prepared|fb_neg_pct_prepared|fb_sent_answers_chg|fb_sent_gap,Ridge 10,0.041537172140862923,-0.015342204322298048,False
+2025,S&P 500,5,Expanding,C,5,fb_neg_pct_answers,fb_n_sent_prepared|fb_neg_pct_prepared|fb_sent_answers_chg|fb_sent_gap,Ridge 1,0.038631704589527048,-0.018247671873633922,False
+2025,S&P 500,5,Expanding,C,5,fb_sent_std_prepared,fb_n_sent_prepared|fb_neg_pct_prepared|fb_sent_answers_chg|fb_sent_gap,Ridge 10,0.045742200032895176,-0.011137176430265794,False
+2025,S&P 500,5,Expanding,C,5,fb_sent_std_answers,fb_n_sent_prepared|fb_neg_pct_prepared|fb_sent_answers_chg|fb_sent_gap,Ridge 1,0.054025259779611166,-0.0028541166835498039,False
+2025,S&P 500,5,Expanding,C,5,fb_sent_prepared_chg,fb_n_sent_prepared|fb_neg_pct_prepared|fb_sent_answers_chg|fb_sent_gap,Ridge 1,0.047960020876069105,-0.008919355587091865,False
+2025,S&P 500,5,Expanding,C,5,fb_n_sent_answers,fb_n_sent_prepared|fb_neg_pct_prepared|fb_sent_answers_chg|fb_sent_gap,Ridge 1,0.055614123421259487,-0.0012652530419014832,False
+2025,S&P 500,5,Rolling 5Y,C,1,fb_sent_prepared,,Ridge 50,-0.00020709697956295772,-0.0014538865900243596,False
+2025,S&P 500,5,Rolling 5Y,C,1,fb_sent_answers,,Ridge 50,0.00096984821895043877,-0.00027694139151096303,False
+2025,S&P 500,5,Rolling 5Y,C,1,fb_pos_pct_prepared,,Ridge 50,0.0002651681073330715,-0.00098162150312833024,False
+2025,S&P 500,5,Rolling 5Y,C,1,fb_neg_pct_prepared,,Ridge 50,0.0028910899916224399,0.0016443003811610381,False
+2025,S&P 500,5,Rolling 5Y,C,1,fb_pos_pct_answers,,Ridge 50,0.0053503289045504819,0.0041035392940890801,False
+2025,S&P 500,5,Rolling 5Y,C,1,fb_neg_pct_answers,,Ridge 50,-0.00464253595579026,-0.0058893255662516618,False
+2025,S&P 500,5,Rolling 5Y,C,1,fb_sent_std_prepared,,Ridge 50,0.0069260890616037124,0.0056792994511423106,False
+2025,S&P 500,5,Rolling 5Y,C,1,fb_sent_std_answers,,Ridge 50,0.0022677690267681877,0.0010209794163067859,False
+2025,S&P 500,5,Rolling 5Y,C,1,fb_sent_gap,,Ridge 50,-0.0036710536885705275,-0.0049178432990319293,False
+2025,S&P 500,5,Rolling 5Y,C,1,fb_sent_prepared_chg,,Ridge 50,-0.0023654472676100332,-0.003612236878071435,False
+2025,S&P 500,5,Rolling 5Y,C,1,fb_sent_answers_chg,,Ridge 50,-0.00031956548799219375,-0.0015663550984535955,False
+2025,S&P 500,5,Rolling 5Y,C,1,fb_n_sent_prepared,,Ridge 1,0.018555074974817672,0.01730828536435627,True
+2025,S&P 500,5,Rolling 5Y,C,1,fb_n_sent_answers,,Ridge 50,-0.0058151768703010613,-0.0070619664807624631,False
+2025,S&P 500,5,Rolling 5Y,C,2,fb_sent_prepared,fb_n_sent_prepared,Ridge 1,0.011769085581281721,-0.0067859893935359513,False
+2025,S&P 500,5,Rolling 5Y,C,2,fb_sent_answers,fb_n_sent_prepared,Ridge 1,0.015394669099502356,-0.0031604058753153166,False
+2025,S&P 500,5,Rolling 5Y,C,2,fb_pos_pct_prepared,fb_n_sent_prepared,Ridge 1,0.013995888437516238,-0.004559186537301434,False
+2025,S&P 500,5,Rolling 5Y,C,2,fb_neg_pct_prepared,fb_n_sent_prepared,Ridge 1,0.018042794505187709,-0.00051228046962996376,False
+2025,S&P 500,5,Rolling 5Y,C,2,fb_pos_pct_answers,fb_n_sent_prepared,Ridge 1,0.01930026426728285,0.00074518929246517734,False
+2025,S&P 500,5,Rolling 5Y,C,2,fb_neg_pct_answers,fb_n_sent_prepared,Ridge 1,0.0091190470078930524,-0.0094360279669246198,False
+2025,S&P 500,5,Rolling 5Y,C,2,fb_sent_std_prepared,fb_n_sent_prepared,Ridge 1,0.022760423952399439,0.0042053489775817667,True
+2025,S&P 500,5,Rolling 5Y,C,2,fb_sent_std_answers,fb_n_sent_prepared,Ridge 1,0.016884786772316581,-0.0016702882025010912,False
+2025,S&P 500,5,Rolling 5Y,C,2,fb_sent_gap,fb_n_sent_prepared,Ridge 1,0.010539020309295814,-0.008016054665521858,False
+2025,S&P 500,5,Rolling 5Y,C,2,fb_sent_prepared_chg,fb_n_sent_prepared,Ridge 1,0.015426488665446958,-0.003128586309370714,False
+2025,S&P 500,5,Rolling 5Y,C,2,fb_sent_answers_chg,fb_n_sent_prepared,Ridge 1,0.014630115247721334,-0.0039249597270963384,False
+2025,S&P 500,5,Rolling 5Y,C,2,fb_n_sent_answers,fb_n_sent_prepared,Ridge 1,0.01278893719151508,-0.0057661377833025922,False
+2025,S&P 500,5,Rolling 5Y,C,3,fb_sent_prepared,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.013345692389142854,-0.0094147315632565846,False
+2025,S&P 500,5,Rolling 5Y,C,3,fb_sent_answers,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.022923825689669605,0.00016340173727016558,False
+2025,S&P 500,5,Rolling 5Y,C,3,fb_pos_pct_prepared,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.017370056129218683,-0.0053903678231807563,False
+2025,S&P 500,5,Rolling 5Y,C,3,fb_neg_pct_prepared,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.0087069246113438917,-0.014053499341055547,False
+2025,S&P 500,5,Rolling 5Y,C,3,fb_pos_pct_answers,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.025223933639840712,0.0024635096874412732,False
+2025,S&P 500,5,Rolling 5Y,C,3,fb_neg_pct_answers,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.013458968533229511,-0.0093014554191699281,False
+2025,S&P 500,5,Rolling 5Y,C,3,fb_sent_std_answers,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.023298832008650971,0.00053840805625153185,False
+2025,S&P 500,5,Rolling 5Y,C,3,fb_sent_gap,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.020036445459810009,-0.0027239784925894295,False
+2025,S&P 500,5,Rolling 5Y,C,3,fb_sent_prepared_chg,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.030783343799635977,0.0080229198472365378,True
+2025,S&P 500,5,Rolling 5Y,C,3,fb_sent_answers_chg,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.021207838952001411,-0.0015525850003980275,False
+2025,S&P 500,5,Rolling 5Y,C,3,fb_n_sent_answers,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.022739905344101852,-2.0518608297586532e-05,False
+2025,S&P 500,5,Rolling 5Y,C,4,fb_sent_prepared,fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,0.018889406114668154,-0.011893937684967822,False
+2025,S&P 500,5,Rolling 5Y,C,4,fb_sent_answers,fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,0.02802903424723208,-0.0027543095524038969,False
+2025,S&P 500,5,Rolling 5Y,C,4,fb_pos_pct_prepared,fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,0.021426170719734124,-0.0093571730799018524,False
+2025,S&P 500,5,Rolling 5Y,C,4,fb_neg_pct_prepared,fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 50,0.021122512634624117,-0.00966083116501186,False
+2025,S&P 500,5,Rolling 5Y,C,4,fb_pos_pct_answers,fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,0.031710344686493641,0.00092700088685766444,False
+2025,S&P 500,5,Rolling 5Y,C,4,fb_neg_pct_answers,fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,0.018030334301244583,-0.012753009498391393,False
+2025,S&P 500,5,Rolling 5Y,C,4,fb_sent_std_answers,fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,0.029204627580564191,-0.0015787162190717859,False
+2025,S&P 500,5,Rolling 5Y,C,4,fb_sent_gap,fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,0.025652141507658349,-0.0051312022919776275,False
+2025,S&P 500,5,Rolling 5Y,C,4,fb_sent_answers_chg,fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,0.027795648005810566,-0.0029876957938254102,False
+2025,S&P 500,5,Rolling 5Y,C,4,fb_n_sent_answers,fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,0.026792987011291056,-0.0039903567883449211,False
+2025,S&P 500,20,Expanding,C,1,fb_sent_prepared,,Elastic Net .05,-0.053920045562206885,-0.031103335063591732,False
+2025,S&P 500,20,Expanding,C,1,fb_sent_answers,,Ridge 10,-0.026048663684107232,-0.0032319531854920792,False
+2025,S&P 500,20,Expanding,C,1,fb_pos_pct_prepared,,Ridge 10,-0.042987236201821627,-0.020170525703206474,False
+2025,S&P 500,20,Expanding,C,1,fb_neg_pct_prepared,,Elastic Net .05,-0.036180388608723378,-0.013363678110108225,False
+2025,S&P 500,20,Expanding,C,1,fb_pos_pct_answers,,Ridge 50,-0.017857849836365264,0.0049588606622498893,False
+2025,S&P 500,20,Expanding,C,1,fb_neg_pct_answers,,Ridge 50,-0.02641410250974675,-0.003597392011131597,False
+2025,S&P 500,20,Expanding,C,1,fb_sent_std_prepared,,Ridge 50,-0.022457858701619263,0.00035885179699588973,False
+2025,S&P 500,20,Expanding,C,1,fb_sent_std_answers,,Ridge 50,-0.0085358916196488915,0.014280818878966262,True
+2025,S&P 500,20,Expanding,C,1,fb_sent_gap,,Ridge 1,-0.032896922259500812,-0.010080211760885659,False
+2025,S&P 500,20,Expanding,C,1,fb_sent_prepared_chg,,Ridge 50,-0.021579357200322179,0.0012373532982929737,False
+2025,S&P 500,20,Expanding,C,1,fb_sent_answers_chg,,Ridge 10,-0.036621815679849228,-0.013805105181234074,False
+2025,S&P 500,20,Expanding,C,1,fb_n_sent_prepared,,Ridge 1,-0.024131265426666687,-0.001314554928051534,False
+2025,S&P 500,20,Expanding,C,1,fb_n_sent_answers,,Elastic Net .05,-0.022344233289980239,0.00047247720863491383,False
+2025,S&P 500,20,Expanding,C,2,fb_sent_prepared,fb_sent_std_answers,Ridge 50,-0.039124802191074448,-0.030588910571425557,False
+2025,S&P 500,20,Expanding,C,2,fb_sent_answers,fb_sent_std_answers,Ridge 50,-0.02004554531299493,-0.011509653693346038,False
+2025,S&P 500,20,Expanding,C,2,fb_pos_pct_prepared,fb_sent_std_answers,Ridge 50,-0.031759447402114623,-0.023223555782465731,False
+2025,S&P 500,20,Expanding,C,2,fb_neg_pct_prepared,fb_sent_std_answers,Ridge 1,-0.022108875058457423,-0.013572983438808531,False
+2025,S&P 500,20,Expanding,C,2,fb_pos_pct_answers,fb_sent_std_answers,Ridge 50,-0.019446564246327864,-0.010910672626678972,False
+2025,S&P 500,20,Expanding,C,2,fb_neg_pct_answers,fb_sent_std_answers,Ridge 50,-0.022181208382765726,-0.013645316763116835,False
+2025,S&P 500,20,Expanding,C,2,fb_sent_std_prepared,fb_sent_std_answers,Ridge 50,-0.01673767754148241,-0.0082017859218335189,False
+2025,S&P 500,20,Expanding,C,2,fb_sent_gap,fb_sent_std_answers,Ridge 50,-0.0099287033970670603,-0.0013928117774181688,False
+2025,S&P 500,20,Expanding,C,2,fb_sent_prepared_chg,fb_sent_std_answers,Elastic Net .05,-0.0085913976698080863,-5.5506050159194811e-05,False
+2025,S&P 500,20,Expanding,C,2,fb_sent_answers_chg,fb_sent_std_answers,Ridge 50,-0.025762023905662651,-0.017226132286013759,False
+2025,S&P 500,20,Expanding,C,2,fb_n_sent_prepared,fb_sent_std_answers,Ridge 50,-0.0093777589708287524,-0.00084186735117986085,False
+2025,S&P 500,20,Expanding,C,2,fb_n_sent_answers,fb_sent_std_answers,Ridge 50,-0.0085226167948877409,1.3274824761150619e-05,False
+2025,S&P 500,20,Rolling 5Y,C,1,fb_sent_prepared,,Ridge 1,0.054364135600112003,-0.0061403185308102001,False
+2025,S&P 500,20,Rolling 5Y,C,1,fb_sent_answers,,Ridge 1,0.051372412794333855,-0.0091320413365883479,False
+2025,S&P 500,20,Rolling 5Y,C,1,fb_pos_pct_prepared,,Ridge 10,0.075680149323728657,0.015175695192806454,False
+2025,S&P 500,20,Rolling 5Y,C,1,fb_neg_pct_prepared,,Ridge 50,0.057654542446450706,-0.002849911684471497,False
+2025,S&P 500,20,Rolling 5Y,C,1,fb_pos_pct_answers,,Ridge 1,0.057885153822232728,-0.0026193003086894748,False
+2025,S&P 500,20,Rolling 5Y,C,1,fb_neg_pct_answers,,Ridge 1,0.049814659457985293,-0.01068979467293691,False
+2025,S&P 500,20,Rolling 5Y,C,1,fb_sent_std_prepared,,Ridge 50,0.083209954445434206,0.022705500314512003,True
+2025,S&P 500,20,Rolling 5Y,C,1,fb_sent_std_answers,,Elastic Net .05,0.06979919265605132,0.0092947385251291176,False
+2025,S&P 500,20,Rolling 5Y,C,1,fb_sent_gap,,Ridge 1,0.061891361223709036,0.0013869070927868335,False
+2025,S&P 500,20,Rolling 5Y,C,1,fb_sent_prepared_chg,,Ridge 1,0.058219564709285083,-0.0022848894216371193,False
+2025,S&P 500,20,Rolling 5Y,C,1,fb_sent_answers_chg,,Ridge 50,0.04138751822355196,-0.019116935907370243,False
+2025,S&P 500,20,Rolling 5Y,C,1,fb_n_sent_prepared,,Elastic Net .05,0.07814135224192735,0.017636898111005148,False
+2025,S&P 500,20,Rolling 5Y,C,1,fb_n_sent_answers,,Ridge 10,0.062018477765809675,0.0015140236348874722,False
+2025,S&P 500,20,Rolling 5Y,C,2,fb_sent_prepared,fb_sent_std_prepared,Ridge 1,0.1161982289144325,0.032988274468998297,False
+2025,S&P 500,20,Rolling 5Y,C,2,fb_sent_answers,fb_sent_std_prepared,Ridge 50,0.073021755650256495,-0.010188198795177711,False
+2025,S&P 500,20,Rolling 5Y,C,2,fb_pos_pct_prepared,fb_sent_std_prepared,Ridge 10,0.12330993904149447,0.040099984596060262,True
+2025,S&P 500,20,Rolling 5Y,C,2,fb_neg_pct_prepared,fb_sent_std_prepared,Ridge 1,0.11222007792740001,0.029010123481965799,False
+2025,S&P 500,20,Rolling 5Y,C,2,fb_pos_pct_answers,fb_sent_std_prepared,Ridge 50,0.076586040571607505,-0.0066239138738267006,False
+2025,S&P 500,20,Rolling 5Y,C,2,fb_neg_pct_answers,fb_sent_std_prepared,Ridge 50,0.05499538464589012,-0.028214569799544086,False
+2025,S&P 500,20,Rolling 5Y,C,2,fb_sent_std_answers,fb_sent_std_prepared,Ridge 50,0.078220326881023108,-0.0049896275644110977,False
+2025,S&P 500,20,Rolling 5Y,C,2,fb_sent_gap,fb_sent_std_prepared,Ridge 10,0.11133401068637221,0.028124056240938,False
+2025,S&P 500,20,Rolling 5Y,C,2,fb_sent_prepared_chg,fb_sent_std_prepared,Elastic Net .05,0.092984458523618432,0.0097745040781842263,False
+2025,S&P 500,20,Rolling 5Y,C,2,fb_sent_answers_chg,fb_sent_std_prepared,Ridge 50,0.055814117557612196,-0.02739583688782201,False
+2025,S&P 500,20,Rolling 5Y,C,2,fb_n_sent_prepared,fb_sent_std_prepared,Ridge 1,0.10004896668613776,0.016839012240703555,False
+2025,S&P 500,20,Rolling 5Y,C,2,fb_n_sent_answers,fb_sent_std_prepared,Ridge 50,0.080084910233883991,-0.0031250442115502153,False
+2025,S&P 500,20,Rolling 5Y,C,3,fb_sent_prepared,fb_sent_std_prepared|fb_pos_pct_prepared,Elastic Net .05,0.11985131148442485,-0.0034586275570696184,False
+2025,S&P 500,20,Rolling 5Y,C,3,fb_sent_answers,fb_sent_std_prepared|fb_pos_pct_prepared,Ridge 1,0.11846481880696974,-0.0048451202345247274,False
+2025,S&P 500,20,Rolling 5Y,C,3,fb_neg_pct_prepared,fb_sent_std_prepared|fb_pos_pct_prepared,Elastic Net .05,0.11710086514767322,-0.0062090738938212486,False
+2025,S&P 500,20,Rolling 5Y,C,3,fb_pos_pct_answers,fb_sent_std_prepared|fb_pos_pct_prepared,Ridge 1,0.12198849166859223,-0.0013214473729022402,False
+2025,S&P 500,20,Rolling 5Y,C,3,fb_neg_pct_answers,fb_sent_std_prepared|fb_pos_pct_prepared,Ridge 10,0.10250849320570625,-0.020801445835788218,False
+2025,S&P 500,20,Rolling 5Y,C,3,fb_sent_std_answers,fb_sent_std_prepared|fb_pos_pct_prepared,Ridge 1,0.11117821969376222,-0.012131719347732245,False
+2025,S&P 500,20,Rolling 5Y,C,3,fb_sent_gap,fb_sent_std_prepared|fb_pos_pct_prepared,Ridge 10,0.11743286803818832,-0.0058770710033061446,False
+2025,S&P 500,20,Rolling 5Y,C,3,fb_sent_prepared_chg,fb_sent_std_prepared|fb_pos_pct_prepared,Ridge 10,0.10868779801103033,-0.014622141030464136,False
+2025,S&P 500,20,Rolling 5Y,C,3,fb_sent_answers_chg,fb_sent_std_prepared|fb_pos_pct_prepared,Ridge 10,0.099370804880965669,-0.023939134160528799,False
+2025,S&P 500,20,Rolling 5Y,C,3,fb_n_sent_prepared,fb_sent_std_prepared|fb_pos_pct_prepared,Ridge 10,0.11930840553283201,-0.0040015335086624609,False
+2025,S&P 500,20,Rolling 5Y,C,3,fb_n_sent_answers,fb_sent_std_prepared|fb_pos_pct_prepared,Ridge 10,0.11678138036203982,-0.0065285586794546491,False
+2026,S&P 500,5,Expanding,C,1,fb_sent_prepared,,Ridge 50,0.01002937310550131,-0.01083861363189309,False
+2026,S&P 500,5,Expanding,C,1,fb_sent_answers,,Ridge 50,0.018271469249276424,-0.0025965174881179762,False
+2026,S&P 500,5,Expanding,C,1,fb_pos_pct_prepared,,Elastic Net .05,0.0057506568349415628,-0.015117329902452837,False
+2026,S&P 500,5,Expanding,C,1,fb_neg_pct_prepared,,Ridge 50,0.02577819310435996,0.0049102063669655589,False
+2026,S&P 500,5,Expanding,C,1,fb_pos_pct_answers,,Ridge 1,0.01928581960416309,-0.0015821671332313103,False
+2026,S&P 500,5,Expanding,C,1,fb_neg_pct_answers,,Ridge 50,0.018273387667363025,-0.002594599070031376,False
+2026,S&P 500,5,Expanding,C,1,fb_sent_std_prepared,,Ridge 50,0.029879198774952747,0.0090112120375583464,False
+2026,S&P 500,5,Expanding,C,1,fb_sent_std_answers,,Ridge 1,0.018616445526342968,-0.0022515412110514325,False
+2026,S&P 500,5,Expanding,C,1,fb_sent_gap,,Ridge 10,0.010374505712732887,-0.010493481024661513,False
+2026,S&P 500,5,Expanding,C,1,fb_sent_prepared_chg,,Ridge 10,0.020213752348642009,-0.00065423438875239145,False
+2026,S&P 500,5,Expanding,C,1,fb_sent_answers_chg,,Ridge 10,0.028120185876048656,0.0072521991386542556,False
+2026,S&P 500,5,Expanding,C,1,fb_n_sent_prepared,,Ridge 1,0.030764692133328539,0.0098967053959341383,True
+2026,S&P 500,5,Expanding,C,1,fb_n_sent_answers,,Ridge 10,0.021582706333155594,0.00071471959576119293,False
+2026,S&P 500,5,Expanding,C,2,fb_sent_prepared,fb_n_sent_prepared,Ridge 10,0.026631969176530646,-0.0041327229567978928,False
+2026,S&P 500,5,Expanding,C,2,fb_sent_answers,fb_n_sent_prepared,Ridge 1,0.033481558229546217,0.002716866096217678,False
+2026,S&P 500,5,Expanding,C,2,fb_pos_pct_prepared,fb_n_sent_prepared,Ridge 1,0.022943774249025356,-0.0078209178843031829,False
+2026,S&P 500,5,Expanding,C,2,fb_neg_pct_prepared,fb_n_sent_prepared,Ridge 1,0.037104642609846389,0.0063399504765178499,False
+2026,S&P 500,5,Expanding,C,2,fb_pos_pct_answers,fb_n_sent_prepared,Ridge 1,0.030302412174925592,-0.00046227995840294675,False
+2026,S&P 500,5,Expanding,C,2,fb_neg_pct_answers,fb_n_sent_prepared,Ridge 1,0.032686948486547233,0.0019222563532186945,False
+2026,S&P 500,5,Expanding,C,2,fb_sent_std_prepared,fb_n_sent_prepared,Ridge 10,0.037737619565634518,0.0069729274323059795,False
+2026,S&P 500,5,Expanding,C,2,fb_sent_std_answers,fb_n_sent_prepared,Ridge 1,0.030012786418832139,-0.00075190571449640017,False
+2026,S&P 500,5,Expanding,C,2,fb_sent_gap,fb_n_sent_prepared,Ridge 10,0.027074108833037475,-0.0036905833002910636,False
+2026,S&P 500,5,Expanding,C,2,fb_sent_prepared_chg,fb_n_sent_prepared,Ridge 10,0.02893160371969122,-0.0018330884136373189,False
+2026,S&P 500,5,Expanding,C,2,fb_sent_answers_chg,fb_n_sent_prepared,Ridge 10,0.039166962109425517,0.008402269976096978,True
+2026,S&P 500,5,Expanding,C,2,fb_n_sent_answers,fb_n_sent_prepared,Ridge 10,0.030950766568000471,0.00018607443467193174,False
+2026,S&P 500,5,Expanding,C,3,fb_sent_prepared,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.03696437672924071,-0.0022025853801848072,False
+2026,S&P 500,5,Expanding,C,3,fb_sent_answers,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.053257488704936302,0.014090526595510786,True
+2026,S&P 500,5,Expanding,C,3,fb_pos_pct_prepared,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.030108722932711968,-0.0090582391767135492,False
+2026,S&P 500,5,Expanding,C,3,fb_neg_pct_prepared,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 10,0.050616828359667458,0.011449866250241941,False
+2026,S&P 500,5,Expanding,C,3,fb_pos_pct_answers,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 10,0.046546249471723512,0.0073792873622979954,False
+2026,S&P 500,5,Expanding,C,3,fb_neg_pct_answers,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 10,0.041157768430134994,0.0019908063207094776,False
+2026,S&P 500,5,Expanding,C,3,fb_sent_std_prepared,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.047235869337271842,0.0080689072278463253,False
+2026,S&P 500,5,Expanding,C,3,fb_sent_std_answers,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 10,0.036779493466373596,-0.002387468643051921,False
+2026,S&P 500,5,Expanding,C,3,fb_sent_gap,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 10,0.028361227851066706,-0.010805734258358811,False
+2026,S&P 500,5,Expanding,C,3,fb_sent_prepared_chg,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.034879610390479508,-0.0042873517189460086,False
+2026,S&P 500,5,Expanding,C,3,fb_n_sent_answers,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.039499763064707892,0.00033280095528237519,False
+2026,S&P 500,5,Expanding,C,4,fb_sent_prepared,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_answers,Ridge 1,0.048311392173443823,-0.004946096531492479,False
+2026,S&P 500,5,Expanding,C,4,fb_pos_pct_prepared,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_answers,Ridge 1,0.047713717749602445,-0.0055437709553338571,False
+2026,S&P 500,5,Expanding,C,4,fb_neg_pct_prepared,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_answers,Ridge 1,0.05849360310570656,0.0052361144007702573,False
+2026,S&P 500,5,Expanding,C,4,fb_pos_pct_answers,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_answers,Ridge 1,0.054635144712763185,0.0013776560078268829,False
+2026,S&P 500,5,Expanding,C,4,fb_neg_pct_answers,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_answers,Ridge 1,0.054401769498951369,0.0011442807940150665,False
+2026,S&P 500,5,Expanding,C,4,fb_sent_std_prepared,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_answers,Ridge 10,0.066105106273683309,0.012847617568747007,True
+2026,S&P 500,5,Expanding,C,4,fb_sent_std_answers,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_answers,Ridge 1,0.056588366978098936,0.0033308782731626338,False
+2026,S&P 500,5,Expanding,C,4,fb_sent_gap,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_answers,Ridge 1,0.049265475368263624,-0.0039920133366726784,False
+2026,S&P 500,5,Expanding,C,4,fb_sent_prepared_chg,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_answers,Ridge 1,0.05116296615851329,-0.0020945225464230124,False
+2026,S&P 500,5,Expanding,C,4,fb_n_sent_answers,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_answers,Ridge 10,0.05430882710506163,0.0010513384001253276,False
+2026,S&P 500,5,Expanding,C,5,fb_sent_prepared,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_answers|fb_sent_std_prepared,Ridge 1,0.056708421147325681,-0.0093966851263576276,False
+2026,S&P 500,5,Expanding,C,5,fb_pos_pct_prepared,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_answers|fb_sent_std_prepared,Ridge 1,0.056784767097635358,-0.0093203391760479509,False
+2026,S&P 500,5,Expanding,C,5,fb_neg_pct_prepared,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_answers|fb_sent_std_prepared,Ridge 10,0.049607518693465913,-0.016497587580217396,False
+2026,S&P 500,5,Expanding,C,5,fb_pos_pct_answers,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_answers|fb_sent_std_prepared,Ridge 10,0.064622695131963684,-0.0014824111417196251,False
+2026,S&P 500,5,Expanding,C,5,fb_neg_pct_answers,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_answers|fb_sent_std_prepared,Ridge 10,0.063949252754510702,-0.0021558535191726069,False
+2026,S&P 500,5,Expanding,C,5,fb_sent_std_answers,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_answers|fb_sent_std_prepared,Ridge 10,0.065646174438927313,-0.00045893183475599619,False
+2026,S&P 500,5,Expanding,C,5,fb_sent_gap,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_answers|fb_sent_std_prepared,Ridge 1,0.05748405935562146,-0.008621046918061849,False
+2026,S&P 500,5,Expanding,C,5,fb_sent_prepared_chg,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_answers|fb_sent_std_prepared,Ridge 10,0.067078057490136761,0.00097295121645345206,False
+2026,S&P 500,5,Expanding,C,5,fb_n_sent_answers,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_answers|fb_sent_std_prepared,Ridge 1,0.066772943261083115,0.00066783698739980579,False
+2026,S&P 500,5,Rolling 5Y,C,1,fb_sent_prepared,,Ridge 50,0.022293781200579999,-0.0034994943853484083,False
+2026,S&P 500,5,Rolling 5Y,C,1,fb_sent_answers,,Ridge 50,0.018957082605054566,-0.0068361929808738418,False
+2026,S&P 500,5,Rolling 5Y,C,1,fb_pos_pct_prepared,,Ridge 50,0.028892893350330181,0.0030996177644017735,False
+2026,S&P 500,5,Rolling 5Y,C,1,fb_neg_pct_prepared,,Ridge 50,0.026020609275501341,0.00022733368957293318,False
+2026,S&P 500,5,Rolling 5Y,C,1,fb_pos_pct_answers,,Ridge 50,0.022697347122472036,-0.0030959284634563718,False
+2026,S&P 500,5,Rolling 5Y,C,1,fb_neg_pct_answers,,Ridge 50,0.018734610796331163,-0.0070586647895972444,False
+2026,S&P 500,5,Rolling 5Y,C,1,fb_sent_std_prepared,,Ridge 50,0.036934110133353716,0.011140834547425309,False
+2026,S&P 500,5,Rolling 5Y,C,1,fb_sent_std_answers,,Ridge 50,0.025854158966466947,6.0883380538539339e-05,False
+2026,S&P 500,5,Rolling 5Y,C,1,fb_sent_gap,,Ridge 50,0.025495654304917962,-0.00029762128101044547,False
+2026,S&P 500,5,Rolling 5Y,C,1,fb_sent_prepared_chg,,Ridge 50,0.043869043127523023,0.018075767541594616,False
+2026,S&P 500,5,Rolling 5Y,C,1,fb_sent_answers_chg,,Ridge 50,0.027656322562009925,0.0018630469760815178,False
+2026,S&P 500,5,Rolling 5Y,C,1,fb_n_sent_prepared,,Ridge 1,0.044287409364422381,0.018494133778493974,True
+2026,S&P 500,5,Rolling 5Y,C,1,fb_n_sent_answers,,Ridge 50,0.024389188407989568,-0.0014040871779388391,False
+2026,S&P 500,5,Rolling 5Y,C,2,fb_sent_prepared,fb_n_sent_prepared,Ridge 1,0.037564431822767107,-0.0067229775416552742,False
+2026,S&P 500,5,Rolling 5Y,C,2,fb_sent_answers,fb_n_sent_prepared,Ridge 1,0.036244315042919216,-0.008043094321503165,False
+2026,S&P 500,5,Rolling 5Y,C,2,fb_pos_pct_prepared,fb_n_sent_prepared,Ridge 1,0.040709255133732331,-0.0035781542306900505,False
+2026,S&P 500,5,Rolling 5Y,C,2,fb_neg_pct_prepared,fb_n_sent_prepared,Ridge 1,0.043091004816547145,-0.0011964045478752364,False
+2026,S&P 500,5,Rolling 5Y,C,2,fb_pos_pct_answers,fb_n_sent_prepared,Ridge 1,0.04053682314312166,-0.003750586221300721,False
+2026,S&P 500,5,Rolling 5Y,C,2,fb_neg_pct_answers,fb_n_sent_prepared,Ridge 1,0.034068293915020809,-0.010219115449401572,False
+2026,S&P 500,5,Rolling 5Y,C,2,fb_sent_std_prepared,fb_n_sent_prepared,Ridge 1,0.0571001210849146,0.012812711720492219,True
+2026,S&P 500,5,Rolling 5Y,C,2,fb_sent_std_answers,fb_n_sent_prepared,Ridge 1,0.044644412699654058,0.00035700333523167732,False
+2026,S&P 500,5,Rolling 5Y,C,2,fb_sent_gap,fb_n_sent_prepared,Ridge 1,0.037120420396391532,-0.0071669889680308491,False
+2026,S&P 500,5,Rolling 5Y,C,2,fb_sent_prepared_chg,fb_n_sent_prepared,Ridge 1,0.056390860491651477,0.012103451127229096,False
+2026,S&P 500,5,Rolling 5Y,C,2,fb_sent_answers_chg,fb_n_sent_prepared,Elastic Net .05,0.042635958176002381,-0.00165145118842,False
+2026,S&P 500,5,Rolling 5Y,C,2,fb_n_sent_answers,fb_n_sent_prepared,Ridge 1,0.041788174709549618,-0.0024992346548727631,False
+2026,S&P 500,5,Rolling 5Y,C,3,fb_sent_prepared,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.052179654131173155,-0.0049204669537414453,False
+2026,S&P 500,5,Rolling 5Y,C,3,fb_sent_answers,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.048720575300514768,-0.0083795457843998319,False
+2026,S&P 500,5,Rolling 5Y,C,3,fb_pos_pct_prepared,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.057239283785094963,0.00013916270018036331,False
+2026,S&P 500,5,Rolling 5Y,C,3,fb_neg_pct_prepared,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 10,0.044460762372008238,-0.012639358712906362,False
+2026,S&P 500,5,Rolling 5Y,C,3,fb_pos_pct_answers,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.054934970871818749,-0.0021651502130958511,False
+2026,S&P 500,5,Rolling 5Y,C,3,fb_neg_pct_answers,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.046688347869138967,-0.010411773215775633,False
+2026,S&P 500,5,Rolling 5Y,C,3,fb_sent_std_answers,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.056642090149441736,-0.000458030935472864,False
+2026,S&P 500,5,Rolling 5Y,C,3,fb_sent_gap,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.06152027595463605,0.0044201548697214502,False
+2026,S&P 500,5,Rolling 5Y,C,3,fb_sent_prepared_chg,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 10,0.084776028679419635,0.027675907594505035,True
+2026,S&P 500,5,Rolling 5Y,C,3,fb_sent_answers_chg,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.056686339806722517,-0.00041378127819208244,False
+2026,S&P 500,5,Rolling 5Y,C,3,fb_n_sent_answers,fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.054125932310372521,-0.0029741887745420789,False
+2026,S&P 500,5,Rolling 5Y,C,4,fb_sent_prepared,fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 10,0.075170150547786238,-0.0096058781316333969,False
+2026,S&P 500,5,Rolling 5Y,C,4,fb_sent_answers,fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,0.080865681942636672,-0.0039103467367829631,False
+2026,S&P 500,5,Rolling 5Y,C,4,fb_pos_pct_prepared,fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 10,0.076006881703544013,-0.0087691469758756219,False
+2026,S&P 500,5,Rolling 5Y,C,4,fb_neg_pct_prepared,fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Elastic Net .05,0.074438992452167382,-0.010337036227252253,False
+2026,S&P 500,5,Rolling 5Y,C,4,fb_pos_pct_answers,fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 10,0.084364061146465774,-0.00041196753295386079,False
+2026,S&P 500,5,Rolling 5Y,C,4,fb_neg_pct_answers,fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,0.072033076595860612,-0.012742952083559023,False
+2026,S&P 500,5,Rolling 5Y,C,4,fb_sent_std_answers,fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 10,0.077722325621327693,-0.0070537030580919424,False
+2026,S&P 500,5,Rolling 5Y,C,4,fb_sent_gap,fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Elastic Net .05,0.082073744996248518,-0.0027022836831711167,False
+2026,S&P 500,5,Rolling 5Y,C,4,fb_sent_answers_chg,fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,0.083114562428622751,-0.0016614662507968836,False
+2026,S&P 500,5,Rolling 5Y,C,4,fb_n_sent_answers,fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,0.081222205773290312,-0.0035538229061293225,False
+2026,S&P 500,20,Expanding,C,1,fb_sent_prepared,,Ridge 1,-0.074316850710161406,-0.024289365881286711,False
+2026,S&P 500,20,Expanding,C,1,fb_sent_answers,,Ridge 10,-0.060348292355843915,-0.01032080752696922,False
+2026,S&P 500,20,Expanding,C,1,fb_pos_pct_prepared,,Ridge 10,-0.060014562775153213,-0.0099870779462785178,False
+2026,S&P 500,20,Expanding,C,1,fb_neg_pct_prepared,,Ridge 10,-0.069553214016740625,-0.01952572918786593,False
+2026,S&P 500,20,Expanding,C,1,fb_pos_pct_answers,,Ridge 1,-0.038813112128001467,0.011214372700873228,False
+2026,S&P 500,20,Expanding,C,1,fb_neg_pct_answers,,Ridge 1,-0.060418456624606716,-0.010390971795732021,False
+2026,S&P 500,20,Expanding,C,1,fb_sent_std_prepared,,Ridge 1,-0.054973301230818422,-0.004945816401943727,False
+2026,S&P 500,20,Expanding,C,1,fb_sent_std_answers,,Ridge 10,-0.029435202746342305,0.020592282082532391,True
+2026,S&P 500,20,Expanding,C,1,fb_sent_gap,,Ridge 1,-0.053096909356305504,-0.0030694245274308085,False
+2026,S&P 500,20,Expanding,C,1,fb_sent_prepared_chg,,Ridge 1,-0.044724056544115376,0.0053034282847593192,False
+2026,S&P 500,20,Expanding,C,1,fb_sent_answers_chg,,Ridge 1,-0.070662341997736633,-0.020634857168861938,False
+2026,S&P 500,20,Expanding,C,1,fb_n_sent_prepared,,Ridge 1,-0.048924297397988925,0.00110318743088577,False
+2026,S&P 500,20,Expanding,C,1,fb_n_sent_answers,,Ridge 1,-0.049628315062858142,0.00039916976601655357,False
+2026,S&P 500,20,Expanding,C,2,fb_sent_prepared,fb_sent_std_answers,Elastic Net .05,-0.058219277679233551,-0.028784074932891247,False
+2026,S&P 500,20,Expanding,C,2,fb_sent_answers,fb_sent_std_answers,Ridge 50,-0.053947520365465164,-0.024512317619122859,False
+2026,S&P 500,20,Expanding,C,2,fb_pos_pct_prepared,fb_sent_std_answers,Ridge 50,-0.045840557539886882,-0.016405354793544578,False
+2026,S&P 500,20,Expanding,C,2,fb_neg_pct_prepared,fb_sent_std_answers,Ridge 10,-0.048730876066684442,-0.019295673320342138,False
+2026,S&P 500,20,Expanding,C,2,fb_pos_pct_answers,fb_sent_std_answers,Ridge 50,-0.053813866749015095,-0.02437866400267279,False
+2026,S&P 500,20,Expanding,C,2,fb_neg_pct_answers,fb_sent_std_answers,Ridge 10,-0.053984939716855217,-0.024549736970512912,False
+2026,S&P 500,20,Expanding,C,2,fb_sent_std_prepared,fb_sent_std_answers,Ridge 1,-0.044090557772226681,-0.014655355025884376,False
+2026,S&P 500,20,Expanding,C,2,fb_sent_gap,fb_sent_std_answers,Ridge 1,-0.027414592696884541,0.0020206100494577633,False
+2026,S&P 500,20,Expanding,C,2,fb_sent_prepared_chg,fb_sent_std_answers,Ridge 1,-0.022244544172715968,0.0071906585736263365,True
+2026,S&P 500,20,Expanding,C,2,fb_sent_answers_chg,fb_sent_std_answers,Ridge 1,-0.054652258171602609,-0.025217055425260305,False
+2026,S&P 500,20,Expanding,C,2,fb_n_sent_prepared,fb_sent_std_answers,Ridge 1,-0.028569066695265478,0.00086613605107682679,False
+2026,S&P 500,20,Expanding,C,2,fb_n_sent_answers,fb_sent_std_answers,Ridge 10,-0.029191171924499677,0.00024403082184262792,False
+2026,S&P 500,20,Expanding,C,3,fb_sent_prepared,fb_sent_std_answers|fb_sent_prepared_chg,Ridge 50,-0.042486187960053434,-0.020241643787337466,False
+2026,S&P 500,20,Expanding,C,3,fb_sent_answers,fb_sent_std_answers|fb_sent_prepared_chg,Ridge 10,-0.040087410868202174,-0.017842866695486206,False
+2026,S&P 500,20,Expanding,C,3,fb_pos_pct_prepared,fb_sent_std_answers|fb_sent_prepared_chg,Elastic Net .05,-0.036669898143881149,-0.014425353971165181,False
+2026,S&P 500,20,Expanding,C,3,fb_neg_pct_prepared,fb_sent_std_answers|fb_sent_prepared_chg,Ridge 10,-0.034123243497417126,-0.011878699324701158,False
+2026,S&P 500,20,Expanding,C,3,fb_pos_pct_answers,fb_sent_std_answers|fb_sent_prepared_chg,Ridge 10,-0.040274931497882679,-0.018030387325166711,False
+2026,S&P 500,20,Expanding,C,3,fb_neg_pct_answers,fb_sent_std_answers|fb_sent_prepared_chg,Ridge 50,-0.038837688228154872,-0.016593144055438904,False
+2026,S&P 500,20,Expanding,C,3,fb_sent_std_prepared,fb_sent_std_answers|fb_sent_prepared_chg,Ridge 10,-0.029081821064029175,-0.006837276891313207,False
+2026,S&P 500,20,Expanding,C,3,fb_sent_gap,fb_sent_std_answers|fb_sent_prepared_chg,Ridge 1,-0.022408030573827505,-0.00016348640111153723,False
+2026,S&P 500,20,Expanding,C,3,fb_sent_answers_chg,fb_sent_std_answers|fb_sent_prepared_chg,Ridge 1,-0.041706365473878459,-0.019461821301162491,False
+2026,S&P 500,20,Expanding,C,3,fb_n_sent_prepared,fb_sent_std_answers|fb_sent_prepared_chg,Ridge 1,-0.022968496403748598,-0.00072395223103263046,False
+2026,S&P 500,20,Expanding,C,3,fb_n_sent_answers,fb_sent_std_answers|fb_sent_prepared_chg,Ridge 1,-0.022460793454064255,-0.00021624928134828664,False
+2026,S&P 500,20,Rolling 5Y,C,1,fb_sent_prepared,,Ridge 50,0.014199684818378086,0.010697321127227571,False
+2026,S&P 500,20,Rolling 5Y,C,1,fb_sent_answers,,Ridge 50,-0.00060269724338325259,-0.0041050609345337679,False
+2026,S&P 500,20,Rolling 5Y,C,1,fb_pos_pct_prepared,,Elastic Net .05,0.032776046744231541,0.029273683053081024,True
+2026,S&P 500,20,Rolling 5Y,C,1,fb_neg_pct_prepared,,Ridge 50,-0.0030503666676040728,-0.0065527303587545882,False
+2026,S&P 500,20,Rolling 5Y,C,1,fb_pos_pct_answers,,Elastic Net .05,0.00080527514103428954,-0.0026970885501162258,False
+2026,S&P 500,20,Rolling 5Y,C,1,fb_neg_pct_answers,,Ridge 50,-0.012522367767196318,-0.016024731458346833,False
+2026,S&P 500,20,Rolling 5Y,C,1,fb_sent_std_prepared,,Ridge 10,0.014048253578140435,0.01054588988698992,False
+2026,S&P 500,20,Rolling 5Y,C,1,fb_sent_std_answers,,Ridge 50,-0.0032330975834328757,-0.0067354612745833906,False
+2026,S&P 500,20,Rolling 5Y,C,1,fb_sent_gap,,Ridge 50,0.0064249260670115049,0.0029225623758609895,False
+2026,S&P 500,20,Rolling 5Y,C,1,fb_sent_prepared_chg,,Ridge 50,0.016844954860688353,0.013342591169537838,False
+2026,S&P 500,20,Rolling 5Y,C,1,fb_sent_answers_chg,,Ridge 50,-0.017563154623492339,-0.021065518314642855,False
+2026,S&P 500,20,Rolling 5Y,C,1,fb_n_sent_prepared,,Ridge 1,0.011825309289060115,0.0083229455979096003,False
+2026,S&P 500,20,Rolling 5Y,C,1,fb_n_sent_answers,,Ridge 1,0.011974371812721799,0.0084720081215712839,False
+2026,S&P 500,20,Rolling 5Y,C,2,fb_sent_prepared,fb_pos_pct_prepared,Ridge 10,0.036779635787635129,0.0040035890434035881,False
+2026,S&P 500,20,Rolling 5Y,C,2,fb_sent_answers,fb_pos_pct_prepared,Ridge 50,0.026146229377755747,-0.0066298173664757938,False
+2026,S&P 500,20,Rolling 5Y,C,2,fb_neg_pct_prepared,fb_pos_pct_prepared,Ridge 50,0.03611864047578231,0.0033425937315507692,False
+2026,S&P 500,20,Rolling 5Y,C,2,fb_pos_pct_answers,fb_pos_pct_prepared,Ridge 50,0.024781207896405321,-0.0079948388478262196,False
+2026,S&P 500,20,Rolling 5Y,C,2,fb_neg_pct_answers,fb_pos_pct_prepared,Ridge 50,0.023165283978651752,-0.0096107627655797889,False
+2026,S&P 500,20,Rolling 5Y,C,2,fb_sent_std_prepared,fb_pos_pct_prepared,Ridge 50,0.049255776573421207,0.016479729829189667,True
+2026,S&P 500,20,Rolling 5Y,C,2,fb_sent_std_answers,fb_pos_pct_prepared,Ridge 50,0.028275752812827043,-0.0045002939314044976,False
+2026,S&P 500,20,Rolling 5Y,C,2,fb_sent_gap,fb_pos_pct_prepared,Ridge 50,0.035784569537996774,0.0030085227937652337,False
+2026,S&P 500,20,Rolling 5Y,C,2,fb_sent_prepared_chg,fb_pos_pct_prepared,Ridge 50,0.034131550220166756,0.0013555034759352158,False
+2026,S&P 500,20,Rolling 5Y,C,2,fb_sent_answers_chg,fb_pos_pct_prepared,Ridge 50,0.01006680727189054,-0.022709239472340999,False
+2026,S&P 500,20,Rolling 5Y,C,2,fb_n_sent_prepared,fb_pos_pct_prepared,Ridge 1,0.032535978040741688,-0.00024006870348985271,False
+2026,S&P 500,20,Rolling 5Y,C,2,fb_n_sent_answers,fb_pos_pct_prepared,Ridge 10,0.037484773760620621,0.0047087270163890804,False
+2026,S&P 500,20,Rolling 5Y,C,3,fb_sent_prepared,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 50,0.049543241498391476,0.00028746492497026821,False
+2026,S&P 500,20,Rolling 5Y,C,3,fb_sent_answers,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 50,0.042191568581129248,-0.0070642079922919598,False
+2026,S&P 500,20,Rolling 5Y,C,3,fb_neg_pct_prepared,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 50,0.051583616486407392,0.0023278399129861849,False
+2026,S&P 500,20,Rolling 5Y,C,3,fb_pos_pct_answers,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 50,0.037442152329850494,-0.011813624243570714,False
+2026,S&P 500,20,Rolling 5Y,C,3,fb_neg_pct_answers,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 50,0.038371858903846583,-0.010883917669574625,False
+2026,S&P 500,20,Rolling 5Y,C,3,fb_sent_std_answers,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 50,0.038786087948518642,-0.010469688624902565,False
+2026,S&P 500,20,Rolling 5Y,C,3,fb_sent_gap,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 50,0.041464583602310791,-0.0077911929711104166,False
+2026,S&P 500,20,Rolling 5Y,C,3,fb_sent_prepared_chg,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 50,0.056980916211270216,0.0077251396378490086,True
+2026,S&P 500,20,Rolling 5Y,C,3,fb_sent_answers_chg,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 50,0.03094965431599736,-0.018306122257423847,False
+2026,S&P 500,20,Rolling 5Y,C,3,fb_n_sent_prepared,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 50,0.04945011408516773,0.00019433751174652292,False
+2026,S&P 500,20,Rolling 5Y,C,3,fb_n_sent_answers,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 50,0.053096780378339425,0.003841003804918218,False
+2026,S&P 500,20,Rolling 5Y,C,4,fb_sent_prepared,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 50,0.056249323801333788,-0.00073159240993642821,False
+2026,S&P 500,20,Rolling 5Y,C,4,fb_sent_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 50,0.050811437948208422,-0.0061694782630617936,False
+2026,S&P 500,20,Rolling 5Y,C,4,fb_neg_pct_prepared,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 10,0.062104519403640666,0.0051236031923704503,True
+2026,S&P 500,20,Rolling 5Y,C,4,fb_pos_pct_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 50,0.046403500283819295,-0.010577415927450921,False
+2026,S&P 500,20,Rolling 5Y,C,4,fb_neg_pct_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 50,0.043529263603237368,-0.013451652608032848,False
+2026,S&P 500,20,Rolling 5Y,C,4,fb_sent_std_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 50,0.043736206363230327,-0.013244709848039889,False
+2026,S&P 500,20,Rolling 5Y,C,4,fb_sent_gap,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 50,0.048467895296840625,-0.0085130209144295907,False
+2026,S&P 500,20,Rolling 5Y,C,4,fb_sent_answers_chg,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 50,0.036025965438748218,-0.020954950772521998,False
+2026,S&P 500,20,Rolling 5Y,C,4,fb_n_sent_prepared,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 10,0.057754963796110594,0.00077404758484037745,False
+2026,S&P 500,20,Rolling 5Y,C,4,fb_n_sent_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 10,0.061611493456923599,0.0046305772456533834,False
+2026,S&P 500,20,Rolling 5Y,C,5,fb_sent_prepared,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared,Ridge 1,0.070020228612971094,0.0079157092093304279,True
+2026,S&P 500,20,Rolling 5Y,C,5,fb_sent_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared,Ridge 1,0.055689821959341891,-0.0064146974442987753,False
+2026,S&P 500,20,Rolling 5Y,C,5,fb_pos_pct_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared,Ridge 1,0.051019703772039494,-0.011084815631601172,False
+2026,S&P 500,20,Rolling 5Y,C,5,fb_neg_pct_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared,Ridge 1,0.047984716175781233,-0.014119803227859433,False
+2026,S&P 500,20,Rolling 5Y,C,5,fb_sent_std_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared,Ridge 10,0.045634007580559965,-0.016470511823080701,False
+2026,S&P 500,20,Rolling 5Y,C,5,fb_sent_gap,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared,Ridge 1,0.052872146245451751,-0.0092323731581889154,False
+2026,S&P 500,20,Rolling 5Y,C,5,fb_sent_answers_chg,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared,Ridge 1,0.0350678544635145,-0.027036664940126166,False
+2026,S&P 500,20,Rolling 5Y,C,5,fb_n_sent_prepared,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared,Ridge 10,0.063744713199348449,0.0016401937957077825,False
+2026,S&P 500,20,Rolling 5Y,C,5,fb_n_sent_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared,Ridge 1,0.066621290395722829,0.0045167709920821628,False
+2026,S&P 500,20,Rolling 5Y,C,6,fb_sent_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared|fb_sent_prepared,Ridge 1,0.064205783892070059,-0.0058144447209010353,False
+2026,S&P 500,20,Rolling 5Y,C,6,fb_pos_pct_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared|fb_sent_prepared,Ridge 1,0.059926292301565064,-0.010093936311406031,False
+2026,S&P 500,20,Rolling 5Y,C,6,fb_neg_pct_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared|fb_sent_prepared,Ridge 1,0.058234188631001209,-0.011786039981969886,False
+2026,S&P 500,20,Rolling 5Y,C,6,fb_sent_std_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared|fb_sent_prepared,Ridge 1,0.054340610999653094,-0.015679617613318,False
+2026,S&P 500,20,Rolling 5Y,C,6,fb_sent_gap,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared|fb_sent_prepared,Ridge 1,0.059458420440463983,-0.010561808172507112,False
+2026,S&P 500,20,Rolling 5Y,C,6,fb_sent_answers_chg,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared|fb_sent_prepared,Ridge 1,0.044848727483175789,-0.025171501129795305,False
+2026,S&P 500,20,Rolling 5Y,C,6,fb_n_sent_prepared,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared|fb_sent_prepared,Ridge 1,0.073761000669382001,0.003740772056410907,True
+2026,S&P 500,20,Rolling 5Y,C,6,fb_n_sent_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared|fb_sent_prepared,Ridge 1,0.071855309702350531,0.0018350810893794367,False
+2026,S&P 500,20,Rolling 5Y,C,7,fb_sent_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared|fb_sent_prepared|fb_n_sent_prepared,Ridge 1,0.065743044911572623,-0.008017955757809378,False
+2026,S&P 500,20,Rolling 5Y,C,7,fb_pos_pct_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared|fb_sent_prepared|fb_n_sent_prepared,Ridge 1,0.061541855116569122,-0.01221914555281288,False
+2026,S&P 500,20,Rolling 5Y,C,7,fb_neg_pct_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared|fb_sent_prepared|fb_n_sent_prepared,Ridge 1,0.061253230176985883,-0.012507770492396118,False
+2026,S&P 500,20,Rolling 5Y,C,7,fb_sent_std_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared|fb_sent_prepared|fb_n_sent_prepared,Ridge 1,0.056000790093571264,-0.017760210575810738,False
+2026,S&P 500,20,Rolling 5Y,C,7,fb_sent_gap,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared|fb_sent_prepared|fb_n_sent_prepared,Ridge 1,0.061314867774189485,-0.012446132895192516,False
+2026,S&P 500,20,Rolling 5Y,C,7,fb_sent_answers_chg,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared|fb_sent_prepared|fb_n_sent_prepared,Ridge 1,0.046732423981281267,-0.027028576688100735,False
+2026,S&P 500,20,Rolling 5Y,C,7,fb_n_sent_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared|fb_sent_prepared|fb_n_sent_prepared,Ridge 1,0.077266598324935834,0.0035055976555538326,True
+2026,S&P 500,20,Rolling 5Y,C,8,fb_sent_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared|fb_sent_prepared|fb_n_sent_prepared|fb_n_sent_answers,Ridge 1,0.069956343040332547,-0.007310255284603287,False
+2026,S&P 500,20,Rolling 5Y,C,8,fb_pos_pct_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared|fb_sent_prepared|fb_n_sent_prepared|fb_n_sent_answers,Ridge 1,0.065292390250345167,-0.011974208074590667,False
+2026,S&P 500,20,Rolling 5Y,C,8,fb_neg_pct_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared|fb_sent_prepared|fb_n_sent_prepared|fb_n_sent_answers,Ridge 1,0.064179074655104154,-0.01308752366983168,False
+2026,S&P 500,20,Rolling 5Y,C,8,fb_sent_std_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared|fb_sent_prepared|fb_n_sent_prepared|fb_n_sent_answers,Ridge 1,0.059144728317867552,-0.018121870007068282,False
+2026,S&P 500,20,Rolling 5Y,C,8,fb_sent_gap,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared|fb_sent_prepared|fb_n_sent_prepared|fb_n_sent_answers,Ridge 1,0.066917801748792138,-0.010348796576143696,False
+2026,S&P 500,20,Rolling 5Y,C,8,fb_sent_answers_chg,fb_pos_pct_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_neg_pct_prepared|fb_sent_prepared|fb_n_sent_prepared|fb_n_sent_answers,Ridge 1,0.050750731419417668,-0.026515866905518166,False
+2024,Healthcare,5,Expanding,C,1,fb_sent_prepared,,Ridge 1,0.011486492314989293,-0.026513057676047731,False
+2024,Healthcare,5,Expanding,C,1,fb_sent_answers,,Ridge 10,0.029820664945289413,-0.0081788850457476109,False
+2024,Healthcare,5,Expanding,C,1,fb_pos_pct_prepared,,Ridge 1,0.01385794911251236,-0.024141600878524662,False
+2024,Healthcare,5,Expanding,C,1,fb_neg_pct_prepared,,Ridge 1,0.021683103107880877,-0.016316446883156147,False
+2024,Healthcare,5,Expanding,C,1,fb_pos_pct_answers,,Ridge 10,0.036107212036107526,-0.0018923379549294975,False
+2024,Healthcare,5,Expanding,C,1,fb_neg_pct_answers,,Ridge 1,0.016732664340045451,-0.021266885650991572,False
+2024,Healthcare,5,Expanding,C,1,fb_sent_std_prepared,,Ridge 1,0.032766075221325491,-0.0052334747697115325,False
+2024,Healthcare,5,Expanding,C,1,fb_sent_std_answers,,Ridge 1,0.034197138322045913,-0.0038024116689911111,False
+2024,Healthcare,5,Expanding,C,1,fb_sent_gap,,Ridge 10,0.01705042445714329,-0.020949125533893734,False
+2024,Healthcare,5,Expanding,C,1,fb_sent_prepared_chg,,Ridge 10,0.030069787713448069,-0.0079297622775889552,False
+2024,Healthcare,5,Expanding,C,1,fb_sent_answers_chg,,Elastic Net .05,0.037920505418222727,-7.9044572814296332e-05,False
+2024,Healthcare,5,Expanding,C,1,fb_n_sent_prepared,,Ridge 1,0.042748168745696591,0.0047486187546595671,True
+2024,Healthcare,5,Expanding,C,1,fb_n_sent_answers,,Ridge 1,0.041500430663127232,0.0035008806720902078,False
+2024,Healthcare,5,Expanding,C,2,fb_sent_prepared,fb_n_sent_prepared,Ridge 10,0.021810369792686652,-0.020937798953009939,False
+2024,Healthcare,5,Expanding,C,2,fb_sent_answers,fb_n_sent_prepared,Ridge 1,0.036741843579416206,-0.0060063251662803852,False
+2024,Healthcare,5,Expanding,C,2,fb_pos_pct_prepared,fb_n_sent_prepared,Ridge 10,0.024013231372131932,-0.018734937373564658,False
+2024,Healthcare,5,Expanding,C,2,fb_neg_pct_prepared,fb_n_sent_prepared,Ridge 1,0.030672792257425929,-0.012075376488270662,False
+2024,Healthcare,5,Expanding,C,2,fb_pos_pct_answers,fb_n_sent_prepared,Ridge 1,0.042024118967852485,-0.00072404977784410601,False
+2024,Healthcare,5,Expanding,C,2,fb_neg_pct_answers,fb_n_sent_prepared,Ridge 1,0.024862584327079343,-0.017885584418617248,False
+2024,Healthcare,5,Expanding,C,2,fb_sent_std_prepared,fb_n_sent_prepared,Ridge 10,0.039283728063062885,-0.0034644406826337057,False
+2024,Healthcare,5,Expanding,C,2,fb_sent_std_answers,fb_n_sent_prepared,Ridge 1,0.039479010151678283,-0.0032691585940183079,False
+2024,Healthcare,5,Expanding,C,2,fb_sent_gap,fb_n_sent_prepared,Ridge 1,0.027982885839895073,-0.014765282905801518,False
+2024,Healthcare,5,Expanding,C,2,fb_sent_prepared_chg,fb_n_sent_prepared,Ridge 1,0.036622099681351765,-0.006126069064344826,False
+2024,Healthcare,5,Expanding,C,2,fb_sent_answers_chg,fb_n_sent_prepared,Ridge 10,0.043867210480635244,0.0011190417349386528,False
+2024,Healthcare,5,Expanding,C,2,fb_n_sent_answers,fb_n_sent_prepared,Ridge 1,0.044961447408475665,0.0022132786627790738,True
+2024,Healthcare,5,Expanding,C,3,fb_sent_prepared,fb_n_sent_prepared|fb_n_sent_answers,Ridge 1,0.023973515839085632,-0.020987931569390033,False
+2024,Healthcare,5,Expanding,C,3,fb_sent_answers,fb_n_sent_prepared|fb_n_sent_answers,Ridge 10,0.037205206023585936,-0.0077562413848897283,False
+2024,Healthcare,5,Expanding,C,3,fb_pos_pct_prepared,fb_n_sent_prepared|fb_n_sent_answers,Ridge 1,0.025808257328867459,-0.019153190079608206,False
+2024,Healthcare,5,Expanding,C,3,fb_neg_pct_prepared,fb_n_sent_prepared|fb_n_sent_answers,Ridge 1,0.029869399127310309,-0.015092048281165355,False
+2024,Healthcare,5,Expanding,C,3,fb_pos_pct_answers,fb_n_sent_prepared|fb_n_sent_answers,Ridge 10,0.042843343876099199,-0.0021181035323764655,False
+2024,Healthcare,5,Expanding,C,3,fb_neg_pct_answers,fb_n_sent_prepared|fb_n_sent_answers,Ridge 1,0.027571324409822694,-0.01739012299865297,False
+2024,Healthcare,5,Expanding,C,3,fb_sent_std_prepared,fb_n_sent_prepared|fb_n_sent_answers,Ridge 10,0.039806461031399815,-0.00515498637707585,False
+2024,Healthcare,5,Expanding,C,3,fb_sent_std_answers,fb_n_sent_prepared|fb_n_sent_answers,Ridge 1,0.042307624547680833,-0.0026538228607948314,False
+2024,Healthcare,5,Expanding,C,3,fb_sent_gap,fb_n_sent_prepared|fb_n_sent_answers,Ridge 1,0.029722451638466801,-0.015238995770008864,False
+2024,Healthcare,5,Expanding,C,3,fb_sent_prepared_chg,fb_n_sent_prepared|fb_n_sent_answers,Ridge 1,0.037988192329089426,-0.0069732550793862383,False
+2024,Healthcare,5,Expanding,C,3,fb_sent_answers_chg,fb_n_sent_prepared|fb_n_sent_answers,Ridge 1,0.046604680554442092,0.0016432331459664273,True
+2024,Healthcare,5,Expanding,C,4,fb_sent_prepared,fb_n_sent_prepared|fb_n_sent_answers|fb_sent_answers_chg,Ridge 1,0.027934764671872354,-0.018669915882569738,False
+2024,Healthcare,5,Expanding,C,4,fb_sent_answers,fb_n_sent_prepared|fb_n_sent_answers|fb_sent_answers_chg,Ridge 1,0.033839255621863434,-0.012765424932578658,False
+2024,Healthcare,5,Expanding,C,4,fb_pos_pct_prepared,fb_n_sent_prepared|fb_n_sent_answers|fb_sent_answers_chg,Ridge 1,0.027965665872677153,-0.018639014681764939,False
+2024,Healthcare,5,Expanding,C,4,fb_neg_pct_prepared,fb_n_sent_prepared|fb_n_sent_answers|fb_sent_answers_chg,Ridge 1,0.0342812971781025,-0.012323383376339592,False
+2024,Healthcare,5,Expanding,C,4,fb_pos_pct_answers,fb_n_sent_prepared|fb_n_sent_answers|fb_sent_answers_chg,Ridge 1,0.046326991916858129,-0.00027768863758396295,False
+2024,Healthcare,5,Expanding,C,4,fb_neg_pct_answers,fb_n_sent_prepared|fb_n_sent_answers|fb_sent_answers_chg,Ridge 1,0.024472994859618662,-0.02213168569482343,False
+2024,Healthcare,5,Expanding,C,4,fb_sent_std_prepared,fb_n_sent_prepared|fb_n_sent_answers|fb_sent_answers_chg,Ridge 1,0.041538809307464758,-0.005065871246977334,False
+2024,Healthcare,5,Expanding,C,4,fb_sent_std_answers,fb_n_sent_prepared|fb_n_sent_answers|fb_sent_answers_chg,Ridge 1,0.043003127375994689,-0.0036015531784474031,False
+2024,Healthcare,5,Expanding,C,4,fb_sent_gap,fb_n_sent_prepared|fb_n_sent_answers|fb_sent_answers_chg,Ridge 10,0.030448648829418418,-0.016156031725023674,False
+2024,Healthcare,5,Expanding,C,4,fb_sent_prepared_chg,fb_n_sent_prepared|fb_n_sent_answers|fb_sent_answers_chg,Ridge 1,0.038082433844672331,-0.008522246709769761,False
+2024,Healthcare,5,Rolling 5Y,C,1,fb_sent_prepared,,Ridge 50,0.0045271795239392289,-0.0061184263564546355,False
+2024,Healthcare,5,Rolling 5Y,C,1,fb_sent_answers,,Ridge 50,0.00051826174509954359,-0.010127344135294321,False
+2024,Healthcare,5,Rolling 5Y,C,1,fb_pos_pct_prepared,,Ridge 50,0.0065182793023764894,-0.004127326578017375,False
+2024,Healthcare,5,Rolling 5Y,C,1,fb_neg_pct_prepared,,Ridge 50,-0.0011152509692512261,-0.01176085684964509,False
+2024,Healthcare,5,Rolling 5Y,C,1,fb_pos_pct_answers,,Ridge 50,0.0074252155689140511,-0.0032203903114798134,False
+2024,Healthcare,5,Rolling 5Y,C,1,fb_neg_pct_answers,,Ridge 50,0.0085572174742520792,-0.0020883884061417852,False
+2024,Healthcare,5,Rolling 5Y,C,1,fb_sent_std_prepared,,Ridge 50,-8.566103708243511e-05,-0.0107312669174763,False
+2024,Healthcare,5,Rolling 5Y,C,1,fb_sent_std_answers,,Ridge 50,0.0094980351780503125,-0.0011475707023435519,False
+2024,Healthcare,5,Rolling 5Y,C,1,fb_sent_gap,,Ridge 50,0.0029211770263623863,-0.0077244288540314777,False
+2024,Healthcare,5,Rolling 5Y,C,1,fb_sent_prepared_chg,,Ridge 50,0.00044853866564219247,-0.010197067214751672,False
+2024,Healthcare,5,Rolling 5Y,C,1,fb_sent_answers_chg,,Ridge 50,-0.00085690752387026364,-0.011502513404264128,False
+2024,Healthcare,5,Rolling 5Y,C,1,fb_n_sent_prepared,,Ridge 50,0.012444524519698514,0.0017989186393046492,True
+2024,Healthcare,5,Rolling 5Y,C,1,fb_n_sent_answers,,Ridge 50,0.0046170033278882597,-0.0060286025525056047,False
+2024,Healthcare,5,Rolling 5Y,C,2,fb_sent_prepared,fb_n_sent_prepared,Ridge 50,0.0010163998364780893,-0.011428124683220424,False
+2024,Healthcare,5,Rolling 5Y,C,2,fb_sent_answers,fb_n_sent_prepared,Ridge 10,-0.00015065670079328353,-0.012595181220491797,False
+2024,Healthcare,5,Rolling 5Y,C,2,fb_pos_pct_prepared,fb_n_sent_prepared,Ridge 50,0.0039184191310889238,-0.0085261053886095898,False
+2024,Healthcare,5,Rolling 5Y,C,2,fb_neg_pct_prepared,fb_n_sent_prepared,Ridge 50,-0.00061974098380244752,-0.013064265503500962,False
+2024,Healthcare,5,Rolling 5Y,C,2,fb_pos_pct_answers,fb_n_sent_prepared,Ridge 50,0.0089444764008161561,-0.0035000481188823575,False
+2024,Healthcare,5,Rolling 5Y,C,2,fb_neg_pct_answers,fb_n_sent_prepared,Ridge 50,0.0061160073205489178,-0.0063285171991495958,False
+2024,Healthcare,5,Rolling 5Y,C,2,fb_sent_std_prepared,fb_n_sent_prepared,Ridge 50,-3.1772707787647292e-05,-0.012476297227486161,False
+2024,Healthcare,5,Rolling 5Y,C,2,fb_sent_std_answers,fb_n_sent_prepared,Ridge 50,0.0098117890162507226,-0.002632735503447791,False
+2024,Healthcare,5,Rolling 5Y,C,2,fb_sent_gap,fb_n_sent_prepared,Ridge 50,0.0016884421696849682,-0.010756082350013546,False
+2024,Healthcare,5,Rolling 5Y,C,2,fb_sent_prepared_chg,fb_n_sent_prepared,Ridge 50,0.0036240139574148142,-0.0088205105622836989,False
+2024,Healthcare,5,Rolling 5Y,C,2,fb_sent_answers_chg,fb_n_sent_prepared,Ridge 50,0.0021795107930203486,-0.010265013726678165,False
+2024,Healthcare,5,Rolling 5Y,C,2,fb_n_sent_answers,fb_n_sent_prepared,Ridge 50,0.0068367378374018101,-0.0056077866822967035,False
+2024,Healthcare,20,Expanding,C,1,fb_sent_prepared,,Ridge 1,-0.072407369199625121,-0.0099912699769660815,False
+2024,Healthcare,20,Expanding,C,1,fb_sent_answers,,Elastic Net .05,-0.069903053676583449,-0.007486954453924409,False
+2024,Healthcare,20,Expanding,C,1,fb_pos_pct_prepared,,Ridge 50,-0.074492075820761103,-0.012075976598102063,False
+2024,Healthcare,20,Expanding,C,1,fb_neg_pct_prepared,,Ridge 10,-0.063740597248385197,-0.0013244980257261577,False
+2024,Healthcare,20,Expanding,C,1,fb_pos_pct_answers,,Ridge 1,-0.063399415511145793,-0.00098331628848675329,False
+2024,Healthcare,20,Expanding,C,1,fb_neg_pct_answers,,Ridge 50,-0.059497610216291234,0.0029184890063678054,False
+2024,Healthcare,20,Expanding,C,1,fb_sent_std_prepared,,Ridge 10,-0.060450294663789796,0.0019658045588692441,False
+2024,Healthcare,20,Expanding,C,1,fb_sent_std_answers,,Ridge 1,-0.060298156339150956,0.0021179428835080838,False
+2024,Healthcare,20,Expanding,C,1,fb_sent_gap,,Ridge 10,-0.064424511369854456,-0.0020084121471954167,False
+2024,Healthcare,20,Expanding,C,1,fb_sent_prepared_chg,,Ridge 50,-0.05552530527439975,0.0068907939482592898,True
+2024,Healthcare,20,Expanding,C,1,fb_sent_answers_chg,,Ridge 50,-0.073768448815474216,-0.011352349592815177,False
+2024,Healthcare,20,Expanding,C,1,fb_n_sent_prepared,,Ridge 10,-0.061310041979695508,0.0011060572429635318,False
+2024,Healthcare,20,Expanding,C,1,fb_n_sent_answers,,Ridge 1,-0.066103836138135544,-0.0036877369154765041,False
+2024,Healthcare,20,Expanding,C,2,fb_sent_prepared,fb_sent_prepared_chg,Ridge 50,-0.06114595530214597,-0.0056206500277462199,False
+2024,Healthcare,20,Expanding,C,2,fb_sent_answers,fb_sent_prepared_chg,Ridge 50,-0.060153504391710855,-0.0046281991173111048,False
+2024,Healthcare,20,Expanding,C,2,fb_pos_pct_prepared,fb_sent_prepared_chg,Ridge 50,-0.06776471298226526,-0.01223940770786551,False
+2024,Healthcare,20,Expanding,C,2,fb_neg_pct_prepared,fb_sent_prepared_chg,Ridge 50,-0.052429244106983332,0.0030960611674164182,False
+2024,Healthcare,20,Expanding,C,2,fb_pos_pct_answers,fb_sent_prepared_chg,Ridge 50,-0.056224699568560438,-0.00069939429416068788,False
+2024,Healthcare,20,Expanding,C,2,fb_neg_pct_answers,fb_sent_prepared_chg,Ridge 50,-0.046911587842023095,0.0086137174323766552,False
+2024,Healthcare,20,Expanding,C,2,fb_sent_std_prepared,fb_sent_prepared_chg,Ridge 50,-0.046025817287092784,0.0094994879873069663,True
+2024,Healthcare,20,Expanding,C,2,fb_sent_std_answers,fb_sent_prepared_chg,Elastic Net .05,-0.049096323659910478,0.0064289816144892722,False
+2024,Healthcare,20,Expanding,C,2,fb_sent_gap,fb_sent_prepared_chg,Elastic Net .05,-0.06188658139263134,-0.0063612761182315902,False
+2024,Healthcare,20,Expanding,C,2,fb_sent_answers_chg,fb_sent_prepared_chg,Ridge 10,-0.064379111562089489,-0.0088538062876897389,False
+2024,Healthcare,20,Expanding,C,2,fb_n_sent_prepared,fb_sent_prepared_chg,Ridge 50,-0.055365455305086748,0.00015984996931300149,False
+2024,Healthcare,20,Expanding,C,2,fb_n_sent_answers,fb_sent_prepared_chg,Ridge 1,-0.056630205557504608,-0.0011049002831048579,False
+2024,Healthcare,20,Expanding,C,3,fb_sent_prepared,fb_sent_prepared_chg|fb_sent_std_prepared,Ridge 50,-0.058064847609184712,-0.012039030322091929,False
+2024,Healthcare,20,Expanding,C,3,fb_sent_answers,fb_sent_prepared_chg|fb_sent_std_prepared,Ridge 1,-0.050974773439586889,-0.004948956152494105,False
+2024,Healthcare,20,Expanding,C,3,fb_pos_pct_prepared,fb_sent_prepared_chg|fb_sent_std_prepared,Ridge 50,-0.056980147768441215,-0.010954330481348432,False
+2024,Healthcare,20,Expanding,C,3,fb_neg_pct_prepared,fb_sent_prepared_chg|fb_sent_std_prepared,Elastic Net .05,-0.053822022561046838,-0.0077962052739540544,False
+2024,Healthcare,20,Expanding,C,3,fb_pos_pct_answers,fb_sent_prepared_chg|fb_sent_std_prepared,Ridge 1,-0.046029465041670437,-3.6477545776528175e-06,False
+2024,Healthcare,20,Expanding,C,3,fb_neg_pct_answers,fb_sent_prepared_chg|fb_sent_std_prepared,Ridge 50,-0.044360013266783314,0.0016658040203094693,True
+2024,Healthcare,20,Expanding,C,3,fb_sent_std_answers,fb_sent_prepared_chg|fb_sent_std_prepared,Ridge 10,-0.044972061979096402,0.0010537553079963818,False
+2024,Healthcare,20,Expanding,C,3,fb_sent_gap,fb_sent_prepared_chg|fb_sent_std_prepared,Ridge 50,-0.057051276032198311,-0.011025458745105528,False
+2024,Healthcare,20,Expanding,C,3,fb_sent_answers_chg,fb_sent_prepared_chg|fb_sent_std_prepared,Ridge 1,-0.052105501352936817,-0.0060796840658440335,False
+2024,Healthcare,20,Expanding,C,3,fb_n_sent_prepared,fb_sent_prepared_chg|fb_sent_std_prepared,Ridge 50,-0.047974437872609153,-0.0019486205855163696,False
+2024,Healthcare,20,Expanding,C,3,fb_n_sent_answers,fb_sent_prepared_chg|fb_sent_std_prepared,Ridge 10,-0.045431885243003678,0.00059393204408910577,False
+2024,Healthcare,20,Expanding,C,4,fb_sent_prepared,fb_sent_prepared_chg|fb_sent_std_prepared|fb_neg_pct_answers,Ridge 50,-0.055531813698842171,-0.011171800432058857,False
+2024,Healthcare,20,Expanding,C,4,fb_sent_answers,fb_sent_prepared_chg|fb_sent_std_prepared|fb_neg_pct_answers,Ridge 50,-0.044644707083238248,-0.00028469381645493397,False
+2024,Healthcare,20,Expanding,C,4,fb_pos_pct_prepared,fb_sent_prepared_chg|fb_sent_std_prepared|fb_neg_pct_answers,Ridge 50,-0.054403649104545149,-0.010043635837761834,False
+2024,Healthcare,20,Expanding,C,4,fb_neg_pct_prepared,fb_sent_prepared_chg|fb_sent_std_prepared|fb_neg_pct_answers,Ridge 50,-0.045708494533133748,-0.0013484812663504334,False
+2024,Healthcare,20,Expanding,C,4,fb_pos_pct_answers,fb_sent_prepared_chg|fb_sent_std_prepared|fb_neg_pct_answers,Ridge 50,-0.044838799182557544,-0.00047878591577422969,False
+2024,Healthcare,20,Expanding,C,4,fb_sent_std_answers,fb_sent_prepared_chg|fb_sent_std_prepared|fb_neg_pct_answers,Ridge 50,-0.044148162934716816,0.00021185033206649884,False
+2024,Healthcare,20,Expanding,C,4,fb_sent_gap,fb_sent_prepared_chg|fb_sent_std_prepared|fb_neg_pct_answers,Ridge 50,-0.055051551206082634,-0.01069153793929932,False
+2024,Healthcare,20,Expanding,C,4,fb_sent_answers_chg,fb_sent_prepared_chg|fb_sent_std_prepared|fb_neg_pct_answers,Ridge 50,-0.049268447309219476,-0.0049084340424361619,False
+2024,Healthcare,20,Expanding,C,4,fb_n_sent_prepared,fb_sent_prepared_chg|fb_sent_std_prepared|fb_neg_pct_answers,Elastic Net .05,-0.040749551008810031,0.0036104622579732834,True
+2024,Healthcare,20,Expanding,C,4,fb_n_sent_answers,fb_sent_prepared_chg|fb_sent_std_prepared|fb_neg_pct_answers,Elastic Net .05,-0.043141880528958655,0.0012181327378246593,False
+2024,Healthcare,20,Expanding,C,5,fb_sent_prepared,fb_sent_prepared_chg|fb_sent_std_prepared|fb_neg_pct_answers|fb_n_sent_prepared,Ridge 50,-0.055726828273185203,-0.014977277264375172,False
+2024,Healthcare,20,Expanding,C,5,fb_sent_answers,fb_sent_prepared_chg|fb_sent_std_prepared|fb_neg_pct_answers|fb_n_sent_prepared,Ridge 50,-0.041653554511508838,-0.00090400350269880664,False
+2024,Healthcare,20,Expanding,C,5,fb_pos_pct_prepared,fb_sent_prepared_chg|fb_sent_std_prepared|fb_neg_pct_answers|fb_n_sent_prepared,Ridge 50,-0.054032455200270703,-0.013282904191460672,False
+2024,Healthcare,20,Expanding,C,5,fb_neg_pct_prepared,fb_sent_prepared_chg|fb_sent_std_prepared|fb_neg_pct_answers|fb_n_sent_prepared,Ridge 50,-0.043064078639386306,-0.0023145276305762755,False
+2024,Healthcare,20,Expanding,C,5,fb_pos_pct_answers,fb_sent_prepared_chg|fb_sent_std_prepared|fb_neg_pct_answers|fb_n_sent_prepared,Ridge 50,-0.040746382244092584,3.1687647174469258e-06,False
+2024,Healthcare,20,Expanding,C,5,fb_sent_std_answers,fb_sent_prepared_chg|fb_sent_std_prepared|fb_neg_pct_answers|fb_n_sent_prepared,Ridge 50,-0.042006274426027966,-0.0012567234172179351,False
+2024,Healthcare,20,Expanding,C,5,fb_sent_gap,fb_sent_prepared_chg|fb_sent_std_prepared|fb_neg_pct_answers|fb_n_sent_prepared,Ridge 50,-0.054301923831272775,-0.013552372822462744,False
+2024,Healthcare,20,Expanding,C,5,fb_sent_answers_chg,fb_sent_prepared_chg|fb_sent_std_prepared|fb_neg_pct_answers|fb_n_sent_prepared,Ridge 50,-0.046559223211319618,-0.0058096722025095873,False
+2024,Healthcare,20,Expanding,C,5,fb_n_sent_answers,fb_sent_prepared_chg|fb_sent_std_prepared|fb_neg_pct_answers|fb_n_sent_prepared,Ridge 50,-0.041911557254383981,-0.0011620062455739502,False
+2024,Healthcare,20,Rolling 5Y,C,1,fb_sent_prepared,,Ridge 50,0.014775732129105254,0.0040091408565485487,False
+2024,Healthcare,20,Rolling 5Y,C,1,fb_sent_answers,,Ridge 50,0.0012218019163173037,-0.0095447893562394023,False
+2024,Healthcare,20,Rolling 5Y,C,1,fb_pos_pct_prepared,,Ridge 50,-0.0076385204812006125,-0.018405111753757319,False
+2024,Healthcare,20,Rolling 5Y,C,1,fb_neg_pct_prepared,,Elastic Net .05,0.023315404120179007,0.012548812847622302,False
+2024,Healthcare,20,Rolling 5Y,C,1,fb_pos_pct_answers,,Ridge 50,0.0038641542640536716,-0.0069024370085030342,False
+2024,Healthcare,20,Rolling 5Y,C,1,fb_neg_pct_answers,,Ridge 50,0.0081728314230313983,-0.002593759849525307,False
+2024,Healthcare,20,Rolling 5Y,C,1,fb_sent_std_prepared,,Elastic Net .05,0.0028925884061423248,-0.0078740028664143809,False
+2024,Healthcare,20,Rolling 5Y,C,1,fb_sent_std_answers,,Ridge 1,0.0073719522431412166,-0.0033946390294154888,False
+2024,Healthcare,20,Rolling 5Y,C,1,fb_sent_gap,,Ridge 50,0.031430571637951731,0.020663980365395025,False
+2024,Healthcare,20,Rolling 5Y,C,1,fb_sent_prepared_chg,,Ridge 50,0.042089129679256244,0.031322538406699539,True
+2024,Healthcare,20,Rolling 5Y,C,1,fb_sent_answers_chg,,Ridge 50,-0.0027033011945721136,-0.013469892467128819,False
+2024,Healthcare,20,Rolling 5Y,C,1,fb_n_sent_prepared,,Ridge 50,0.0091321211446511921,-0.0016344701279055133,False
+2024,Healthcare,20,Rolling 5Y,C,1,fb_n_sent_answers,,Ridge 50,0.011063151697681123,0.00029656042512441784,False
+2024,Healthcare,20,Rolling 5Y,C,2,fb_sent_prepared,fb_sent_prepared_chg,Ridge 50,0.023925673268319014,-0.01816345641093723,False
+2024,Healthcare,20,Rolling 5Y,C,2,fb_sent_answers,fb_sent_prepared_chg,Ridge 50,0.022377750262242799,-0.019711379417013446,False
+2024,Healthcare,20,Rolling 5Y,C,2,fb_pos_pct_prepared,fb_sent_prepared_chg,Ridge 50,0.0025585625267503498,-0.039530567152505892,False
+2024,Healthcare,20,Rolling 5Y,C,2,fb_neg_pct_prepared,fb_sent_prepared_chg,Ridge 50,0.042170789203825554,8.1659524569309416e-05,False
+2024,Healthcare,20,Rolling 5Y,C,2,fb_pos_pct_answers,fb_sent_prepared_chg,Elastic Net .05,0.025024456494083008,-0.017064673185173237,False
+2024,Healthcare,20,Rolling 5Y,C,2,fb_neg_pct_answers,fb_sent_prepared_chg,Ridge 50,0.036550598048929336,-0.005538531630326908,False
+2024,Healthcare,20,Rolling 5Y,C,2,fb_sent_std_prepared,fb_sent_prepared_chg,Ridge 50,0.036678177988534094,-0.0054109516907221503,False
+2024,Healthcare,20,Rolling 5Y,C,2,fb_sent_std_answers,fb_sent_prepared_chg,Ridge 1,0.034895581851010639,-0.0071935478282456056,False
+2024,Healthcare,20,Rolling 5Y,C,2,fb_sent_gap,fb_sent_prepared_chg,Ridge 50,0.040214880961456818,-0.001874248717799426,False
+2024,Healthcare,20,Rolling 5Y,C,2,fb_sent_answers_chg,fb_sent_prepared_chg,Ridge 50,0.022970659617152171,-0.019118470062104074,False
+2024,Healthcare,20,Rolling 5Y,C,2,fb_n_sent_prepared,fb_sent_prepared_chg,Ridge 50,0.038054214408631971,-0.004034915270624273,False
+2024,Healthcare,20,Rolling 5Y,C,2,fb_n_sent_answers,fb_sent_prepared_chg,Ridge 50,0.040659063801069734,-0.0014300658781865108,False
+2025,Healthcare,5,Expanding,C,1,fb_sent_prepared,,Ridge 1,-0.0019400733540242271,-0.026484893511844066,False
+2025,Healthcare,5,Expanding,C,1,fb_sent_answers,,Elastic Net .05,0.019511896393398051,-0.0050329237644217879,False
+2025,Healthcare,5,Expanding,C,1,fb_pos_pct_prepared,,Ridge 10,-0.0019705712195196754,-0.026515391377339513,False
+2025,Healthcare,5,Expanding,C,1,fb_neg_pct_prepared,,Ridge 1,0.016796330683492396,-0.0077484894743274427,False
+2025,Healthcare,5,Expanding,C,1,fb_pos_pct_answers,,Ridge 10,0.023650564765024362,-0.00089425539279547675,False
+2025,Healthcare,5,Expanding,C,1,fb_neg_pct_answers,,Ridge 50,0.0037377589907472003,-0.020807061167072639,False
+2025,Healthcare,5,Expanding,C,1,fb_sent_std_prepared,,Ridge 10,0.027289515902117756,0.0027446957442979168,False
+2025,Healthcare,5,Expanding,C,1,fb_sent_std_answers,,Elastic Net .05,0.020597377178153357,-0.0039474429796664823,False
+2025,Healthcare,5,Expanding,C,1,fb_sent_gap,,Ridge 10,0.0047255668830525665,-0.019819253274767273,False
+2025,Healthcare,5,Expanding,C,1,fb_sent_prepared_chg,,Elastic Net .05,0.018722224390593286,-0.005822595767226553,False
+2025,Healthcare,5,Expanding,C,1,fb_sent_answers_chg,,Elastic Net .05,0.032309671006879946,0.0077648508490601072,False
+2025,Healthcare,5,Expanding,C,1,fb_n_sent_prepared,,Ridge 10,0.036919640600728658,0.012374820442908819,True
+2025,Healthcare,5,Expanding,C,1,fb_n_sent_answers,,Ridge 10,0.030765749471352351,0.0062209293135325125,False
+2025,Healthcare,5,Expanding,C,2,fb_sent_prepared,fb_n_sent_prepared,Ridge 1,0.018996644212842761,-0.017922996387885897,False
+2025,Healthcare,5,Expanding,C,2,fb_sent_answers,fb_n_sent_prepared,Ridge 1,0.035667060632234938,-0.0012525799684937194,False
+2025,Healthcare,5,Expanding,C,2,fb_pos_pct_prepared,fb_n_sent_prepared,Ridge 1,0.015929113173866066,-0.020990527426862592,False
+2025,Healthcare,5,Expanding,C,2,fb_neg_pct_prepared,fb_n_sent_prepared,Ridge 1,0.034610673270339981,-0.0023089673303886768,False
+2025,Healthcare,5,Expanding,C,2,fb_pos_pct_answers,fb_n_sent_prepared,Ridge 1,0.037719003851252021,0.00079936325052336332,False
+2025,Healthcare,5,Expanding,C,2,fb_neg_pct_answers,fb_n_sent_prepared,Ridge 1,0.01932871344482413,-0.017590927155904528,False
+2025,Healthcare,5,Expanding,C,2,fb_sent_std_prepared,fb_n_sent_prepared,Ridge 1,0.041894717354690192,0.004975076753961534,False
+2025,Healthcare,5,Expanding,C,2,fb_sent_std_answers,fb_n_sent_prepared,Ridge 1,0.033586194381033725,-0.0033334462196949327,False
+2025,Healthcare,5,Expanding,C,2,fb_sent_gap,fb_n_sent_prepared,Ridge 1,0.026139926581425544,-0.010779714019303114,False
+2025,Healthcare,5,Expanding,C,2,fb_sent_prepared_chg,fb_n_sent_prepared,Ridge 1,0.032684327177702567,-0.0042353134230260908,False
+2025,Healthcare,5,Expanding,C,2,fb_sent_answers_chg,fb_n_sent_prepared,Ridge 10,0.043549894429432336,0.0066302538287036777,True
+2025,Healthcare,5,Expanding,C,2,fb_n_sent_answers,fb_n_sent_prepared,Ridge 10,0.041013488619855661,0.0040938480191270027,False
+2025,Healthcare,5,Expanding,C,3,fb_sent_prepared,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.032077347854627812,-0.011472546574804524,False
+2025,Healthcare,5,Expanding,C,3,fb_sent_answers,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.04081377675653227,-0.0027361176729000652,False
+2025,Healthcare,5,Expanding,C,3,fb_pos_pct_prepared,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.025719719608199031,-0.017830174821233304,False
+2025,Healthcare,5,Expanding,C,3,fb_neg_pct_prepared,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.043878980348477821,0.00032908591904548534,False
+2025,Healthcare,5,Expanding,C,3,fb_pos_pct_answers,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 10,0.044891513294290454,0.0013416188648581184,False
+2025,Healthcare,5,Expanding,C,3,fb_neg_pct_answers,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.02736582161231969,-0.016184072817112646,False
+2025,Healthcare,5,Expanding,C,3,fb_sent_std_prepared,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.051295951114831671,0.0077460566853993357,True
+2025,Healthcare,5,Expanding,C,3,fb_sent_std_answers,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.038747738527438479,-0.004802155901993857,False
+2025,Healthcare,5,Expanding,C,3,fb_sent_gap,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.031193073008142475,-0.012356821421289861,False
+2025,Healthcare,5,Expanding,C,3,fb_sent_prepared_chg,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.037298301935685174,-0.0062515924937471615,False
+2025,Healthcare,5,Expanding,C,3,fb_n_sent_answers,fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.049077935693718155,0.0055280412642858198,False
+2025,Healthcare,5,Expanding,C,4,fb_sent_prepared,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared,Ridge 1,0.034498764812470689,-0.016797186302360982,False
+2025,Healthcare,5,Expanding,C,4,fb_sent_answers,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared,Ridge 1,0.046013374435094199,-0.0052825766797374718,False
+2025,Healthcare,5,Expanding,C,4,fb_pos_pct_prepared,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared,Ridge 1,0.035485706390362019,-0.015810244724469652,False
+2025,Healthcare,5,Expanding,C,4,fb_neg_pct_prepared,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared,Ridge 1,0.027684514711838522,-0.023611436402993149,False
+2025,Healthcare,5,Expanding,C,4,fb_pos_pct_answers,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared,Ridge 10,0.055775943490818027,0.0044799923759863552,True
+2025,Healthcare,5,Expanding,C,4,fb_neg_pct_answers,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared,Ridge 1,0.027562634112274918,-0.023733317002556754,False
+2025,Healthcare,5,Expanding,C,4,fb_sent_std_answers,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared,Ridge 1,0.049541452078302073,-0.0017544990365295984,False
+2025,Healthcare,5,Expanding,C,4,fb_sent_gap,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared,Ridge 1,0.037261864743530548,-0.014034086371301123,False
+2025,Healthcare,5,Expanding,C,4,fb_sent_prepared_chg,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared,Ridge 1,0.048523774364613782,-0.002772176750217889,False
+2025,Healthcare,5,Expanding,C,4,fb_n_sent_answers,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared,Ridge 10,0.055760755307331954,0.0044648041925002824,False
+2025,Healthcare,5,Expanding,C,5,fb_sent_prepared,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared|fb_pos_pct_answers,Ridge 1,0.03634315302203308,-0.019432790468784947,False
+2025,Healthcare,5,Expanding,C,5,fb_sent_answers,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared|fb_pos_pct_answers,Ridge 50,0.036032521968827606,-0.01974342152199042,False
+2025,Healthcare,5,Expanding,C,5,fb_pos_pct_prepared,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared|fb_pos_pct_answers,Ridge 1,0.038984225710505617,-0.01679171778031241,False
+2025,Healthcare,5,Expanding,C,5,fb_neg_pct_prepared,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared|fb_pos_pct_answers,Ridge 1,0.02791522812320375,-0.027860715367614277,False
+2025,Healthcare,5,Expanding,C,5,fb_neg_pct_answers,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared|fb_pos_pct_answers,Ridge 1,0.026258022816651381,-0.029517920674166646,False
+2025,Healthcare,5,Expanding,C,5,fb_sent_std_answers,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared|fb_pos_pct_answers,Ridge 1,0.035545040170799277,-0.020230903320018749,False
+2025,Healthcare,5,Expanding,C,5,fb_sent_gap,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared|fb_pos_pct_answers,Ridge 1,0.034901941097922141,-0.020874002392895885,False
+2025,Healthcare,5,Expanding,C,5,fb_sent_prepared_chg,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared|fb_pos_pct_answers,Ridge 10,0.05369542885273218,-0.0020805146380858466,False
+2025,Healthcare,5,Expanding,C,5,fb_n_sent_answers,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared|fb_pos_pct_answers,Ridge 1,0.060989340294132895,0.0052133968033148681,True
+2025,Healthcare,5,Expanding,C,6,fb_sent_prepared,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared|fb_pos_pct_answers|fb_n_sent_answers,Ridge 1,0.040921503793573288,-0.020067836500559606,False
+2025,Healthcare,5,Expanding,C,6,fb_sent_answers,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared|fb_pos_pct_answers|fb_n_sent_answers,Ridge 10,0.04194960231823306,-0.019039737975899834,False
+2025,Healthcare,5,Expanding,C,6,fb_pos_pct_prepared,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared|fb_pos_pct_answers|fb_n_sent_answers,Ridge 1,0.043845848539289162,-0.017143491754843733,False
+2025,Healthcare,5,Expanding,C,6,fb_neg_pct_prepared,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared|fb_pos_pct_answers|fb_n_sent_answers,Ridge 1,0.033846261620894227,-0.027143078673238667,False
+2025,Healthcare,5,Expanding,C,6,fb_neg_pct_answers,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared|fb_pos_pct_answers|fb_n_sent_answers,Ridge 1,0.033591668676224921,-0.027397671617907973,False
+2025,Healthcare,5,Expanding,C,6,fb_sent_std_answers,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared|fb_pos_pct_answers|fb_n_sent_answers,Ridge 1,0.043062470003711571,-0.017926870290421323,False
+2025,Healthcare,5,Expanding,C,6,fb_sent_gap,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared|fb_pos_pct_answers|fb_n_sent_answers,Ridge 1,0.040579806065531264,-0.020409534228601631,False
+2025,Healthcare,5,Expanding,C,6,fb_sent_prepared_chg,fb_n_sent_prepared|fb_sent_answers_chg|fb_sent_std_prepared|fb_pos_pct_answers|fb_n_sent_answers,Ridge 1,0.058125944641034342,-0.0028633956530985522,False
+2025,Healthcare,5,Rolling 5Y,C,1,fb_sent_prepared,,Ridge 50,0.0076030208207686148,-0.0054702788720970858,False
+2025,Healthcare,5,Rolling 5Y,C,1,fb_sent_answers,,Ridge 50,0.014028600429519103,0.00095530073665340241,False
+2025,Healthcare,5,Rolling 5Y,C,1,fb_pos_pct_prepared,,Ridge 50,0.014121139348706067,0.0010478396558403665,False
+2025,Healthcare,5,Rolling 5Y,C,1,fb_neg_pct_prepared,,Ridge 1,0.0039552497644106469,-0.0091180499284550538,False
+2025,Healthcare,5,Rolling 5Y,C,1,fb_pos_pct_answers,,Ridge 50,0.013220645005378194,0.00014734531251249343,False
+2025,Healthcare,5,Rolling 5Y,C,1,fb_neg_pct_answers,,Ridge 50,0.0075519831577341824,-0.0055213165351315182,False
+2025,Healthcare,5,Rolling 5Y,C,1,fb_sent_std_prepared,,Elastic Net .05,0.0046663158522312871,-0.0084069838406344126,False
+2025,Healthcare,5,Rolling 5Y,C,1,fb_sent_std_answers,,Ridge 50,0.0097385705575407794,-0.0033347291353249212,False
+2025,Healthcare,5,Rolling 5Y,C,1,fb_sent_gap,,Ridge 50,0.0068191799892168238,-0.0062541197036488768,False
+2025,Healthcare,5,Rolling 5Y,C,1,fb_sent_prepared_chg,,Ridge 50,0.013347788709857861,0.00027448901699216044,False
+2025,Healthcare,5,Rolling 5Y,C,1,fb_sent_answers_chg,,Elastic Net .05,0.0093169752586785854,-0.0037563244341871152,False
+2025,Healthcare,5,Rolling 5Y,C,1,fb_n_sent_prepared,,Elastic Net .05,0.02630701451608038,0.013233714823214679,True
+2025,Healthcare,5,Rolling 5Y,C,1,fb_n_sent_answers,,Ridge 50,0.0070737207031676312,-0.0059995789896980694,False
+2025,Healthcare,5,Rolling 5Y,C,2,fb_sent_prepared,fb_n_sent_prepared,Ridge 1,0.019766629810441191,-0.0065403847056391892,False
+2025,Healthcare,5,Rolling 5Y,C,2,fb_sent_answers,fb_n_sent_prepared,Elastic Net .05,0.026405431717939895,9.8417201859515163e-05,False
+2025,Healthcare,5,Rolling 5Y,C,2,fb_pos_pct_prepared,fb_n_sent_prepared,Ridge 1,0.024514457563668837,-0.0017925569524115427,False
+2025,Healthcare,5,Rolling 5Y,C,2,fb_neg_pct_prepared,fb_n_sent_prepared,Ridge 1,0.019183146671369142,-0.0071238678447112375,False
+2025,Healthcare,5,Rolling 5Y,C,2,fb_pos_pct_answers,fb_n_sent_prepared,Ridge 10,0.026583420917324695,0.00027640640124431543,False
+2025,Healthcare,5,Rolling 5Y,C,2,fb_neg_pct_answers,fb_n_sent_prepared,Elastic Net .05,0.020561179611044578,-0.0057458349050358015,False
+2025,Healthcare,5,Rolling 5Y,C,2,fb_sent_std_prepared,fb_n_sent_prepared,Ridge 1,0.019162502629102709,-0.0071445118869776711,False
+2025,Healthcare,5,Rolling 5Y,C,2,fb_sent_std_answers,fb_n_sent_prepared,Ridge 1,0.024185846683119544,-0.0021211678329608359,False
+2025,Healthcare,5,Rolling 5Y,C,2,fb_sent_gap,fb_n_sent_prepared,Ridge 1,0.02004705862466186,-0.0062599558914185199,False
+2025,Healthcare,5,Rolling 5Y,C,2,fb_sent_prepared_chg,fb_n_sent_prepared,Ridge 1,0.024618775638005203,-0.0016882388780751767,False
+2025,Healthcare,5,Rolling 5Y,C,2,fb_sent_answers_chg,fb_n_sent_prepared,Ridge 1,0.023225213799123245,-0.0030818007169571351,False
+2025,Healthcare,5,Rolling 5Y,C,2,fb_n_sent_answers,fb_n_sent_prepared,Ridge 1,0.019004196288317527,-0.0073028182277628528,False
+2025,Healthcare,20,Expanding,C,1,fb_sent_prepared,,Ridge 1,-0.038248859625555735,-0.011424292213447533,False
+2025,Healthcare,20,Expanding,C,1,fb_sent_answers,,Ridge 1,-0.03338703126691412,-0.006562463854805918,False
+2025,Healthcare,20,Expanding,C,1,fb_pos_pct_prepared,,Ridge 1,-0.038250091618166816,-0.011425524206058614,False
+2025,Healthcare,20,Expanding,C,1,fb_neg_pct_prepared,,Ridge 1,-0.02828909992428269,-0.0014645325121744879,False
+2025,Healthcare,20,Expanding,C,1,fb_pos_pct_answers,,Ridge 1,-0.020843050252467705,0.0059815171596404974,False
+2025,Healthcare,20,Expanding,C,1,fb_neg_pct_answers,,Ridge 50,-0.029195320759356633,-0.0023707533472484311,False
+2025,Healthcare,20,Expanding,C,1,fb_sent_std_prepared,,Ridge 1,-0.027114276743058805,-0.00028970933095060283,False
+2025,Healthcare,20,Expanding,C,1,fb_sent_std_answers,,Ridge 1,-0.017949362433713829,0.0088752049783943736,False
+2025,Healthcare,20,Expanding,C,1,fb_sent_gap,,Ridge 1,-0.027984925649571942,-0.0011603582374637399,False
+2025,Healthcare,20,Expanding,C,1,fb_sent_prepared_chg,,Ridge 1,-0.0096448324058836937,0.017179735006224509,True
+2025,Healthcare,20,Expanding,C,1,fb_sent_answers_chg,,Ridge 1,-0.037474799609073073,-0.010650232196964871,False
+2025,Healthcare,20,Expanding,C,1,fb_n_sent_prepared,,Ridge 10,-0.029155758661017384,-0.0023311912489091813,False
+2025,Healthcare,20,Expanding,C,1,fb_n_sent_answers,,Ridge 1,-0.026309220070838728,0.00051534734126947382,False
+2025,Healthcare,20,Expanding,C,2,fb_sent_prepared,fb_sent_prepared_chg,Ridge 1,-0.032931713404386838,-0.023286880998503144,False
+2025,Healthcare,20,Expanding,C,2,fb_sent_answers,fb_sent_prepared_chg,Ridge 1,-0.017507592377184904,-0.00786275997130121,False
+2025,Healthcare,20,Expanding,C,2,fb_pos_pct_prepared,fb_sent_prepared_chg,Ridge 50,-0.036022701167541783,-0.02637786876165809,False
+2025,Healthcare,20,Expanding,C,2,fb_neg_pct_prepared,fb_sent_prepared_chg,Ridge 1,-0.010124040655194655,-0.00047920824931096083,False
+2025,Healthcare,20,Expanding,C,2,fb_pos_pct_answers,fb_sent_prepared_chg,Ridge 1,-0.0095307428120524548,0.0001140895938312389,False
+2025,Healthcare,20,Expanding,C,2,fb_neg_pct_answers,fb_sent_prepared_chg,Ridge 1,-0.0037608618068299495,0.0058839705990537446,False
+2025,Healthcare,20,Expanding,C,2,fb_sent_std_prepared,fb_sent_prepared_chg,Ridge 10,-4.3597925347508655e-06,0.0096404726133489434,False
+2025,Healthcare,20,Expanding,C,2,fb_sent_std_answers,fb_sent_prepared_chg,Ridge 10,0.003115802795373527,0.01276063520125722,True
+2025,Healthcare,20,Expanding,C,2,fb_sent_gap,fb_sent_prepared_chg,Ridge 10,-0.019383744163396988,-0.0097389117575132945,False
+2025,Healthcare,20,Expanding,C,2,fb_sent_answers_chg,fb_sent_prepared_chg,Ridge 1,-0.023602025737713101,-0.013957193331829407,False
+2025,Healthcare,20,Expanding,C,2,fb_n_sent_prepared,fb_sent_prepared_chg,Ridge 50,-0.015612018275518814,-0.0059671858696351207,False
+2025,Healthcare,20,Expanding,C,2,fb_n_sent_answers,fb_sent_prepared_chg,Ridge 1,-0.0078253709102757366,0.0018194614956079571,False
+2025,Healthcare,20,Expanding,C,3,fb_sent_prepared,fb_sent_prepared_chg|fb_sent_std_answers,Ridge 1,-0.022060088190913974,-0.025175890986287502,False
+2025,Healthcare,20,Expanding,C,3,fb_sent_answers,fb_sent_prepared_chg|fb_sent_std_answers,Ridge 10,-0.0070004709998646624,-0.01011627379523819,False
+2025,Healthcare,20,Expanding,C,3,fb_pos_pct_prepared,fb_sent_prepared_chg|fb_sent_std_answers,Ridge 1,-0.02763001401991047,-0.030745816815283999,False
+2025,Healthcare,20,Expanding,C,3,fb_neg_pct_prepared,fb_sent_prepared_chg|fb_sent_std_answers,Ridge 1,0.00019726017209393634,-0.0029185426232795908,False
+2025,Healthcare,20,Expanding,C,3,fb_pos_pct_answers,fb_sent_prepared_chg|fb_sent_std_answers,Ridge 50,-0.0048318962576951218,-0.0079476990530686492,False
+2025,Healthcare,20,Expanding,C,3,fb_neg_pct_answers,fb_sent_prepared_chg|fb_sent_std_answers,Ridge 10,-0.0052057085131914276,-0.008321511308564955,False
+2025,Healthcare,20,Expanding,C,3,fb_sent_std_prepared,fb_sent_prepared_chg|fb_sent_std_answers,Ridge 1,0.0058595903520113485,0.0027437875566378215,True
+2025,Healthcare,20,Expanding,C,3,fb_sent_gap,fb_sent_prepared_chg|fb_sent_std_answers,Elastic Net .05,-0.0086942160723631669,-0.011810018867736694,False
+2025,Healthcare,20,Expanding,C,3,fb_sent_answers_chg,fb_sent_prepared_chg|fb_sent_std_answers,Ridge 1,-0.01135046643652827,-0.014466269231901797,False
+2025,Healthcare,20,Expanding,C,3,fb_n_sent_prepared,fb_sent_prepared_chg|fb_sent_std_answers,Ridge 50,-0.0010293923026817402,-0.004145195098055267,False
+2025,Healthcare,20,Expanding,C,3,fb_n_sent_answers,fb_sent_prepared_chg|fb_sent_std_answers,Ridge 1,0.0053570786105839457,0.0022412758152104187,False
+2025,Healthcare,20,Expanding,C,4,fb_sent_prepared,fb_sent_prepared_chg|fb_sent_std_answers|fb_sent_std_prepared,Ridge 1,-0.026752226894268722,-0.032611817246280067,False
+2025,Healthcare,20,Expanding,C,4,fb_sent_answers,fb_sent_prepared_chg|fb_sent_std_answers|fb_sent_std_prepared,Ridge 10,-0.0028743405175100933,-0.0087339308695214418,False
+2025,Healthcare,20,Expanding,C,4,fb_pos_pct_prepared,fb_sent_prepared_chg|fb_sent_std_answers|fb_sent_std_prepared,Elastic Net .05,-0.024435559764835069,-0.030295150116846418,False
+2025,Healthcare,20,Expanding,C,4,fb_neg_pct_prepared,fb_sent_prepared_chg|fb_sent_std_answers|fb_sent_std_prepared,Ridge 10,-0.0045105598985768587,-0.010370150250588208,False
+2025,Healthcare,20,Expanding,C,4,fb_pos_pct_answers,fb_sent_prepared_chg|fb_sent_std_answers|fb_sent_std_prepared,Ridge 1,-0.0010614659015362228,-0.006921056253547571,False
+2025,Healthcare,20,Expanding,C,4,fb_neg_pct_answers,fb_sent_prepared_chg|fb_sent_std_answers|fb_sent_std_prepared,Ridge 10,-0.0017649531627174319,-0.0076245435147287806,False
+2025,Healthcare,20,Expanding,C,4,fb_sent_gap,fb_sent_prepared_chg|fb_sent_std_answers|fb_sent_std_prepared,Ridge 1,-0.0068863150251293609,-0.012745905377140709,False
+2025,Healthcare,20,Expanding,C,4,fb_sent_answers_chg,fb_sent_prepared_chg|fb_sent_std_answers|fb_sent_std_prepared,Ridge 1,-0.010138096507766639,-0.015997686859777989,False
+2025,Healthcare,20,Expanding,C,4,fb_n_sent_prepared,fb_sent_prepared_chg|fb_sent_std_answers|fb_sent_std_prepared,Ridge 1,0.00030810037226021897,-0.0055514899797511298,False
+2025,Healthcare,20,Expanding,C,4,fb_n_sent_answers,fb_sent_prepared_chg|fb_sent_std_answers|fb_sent_std_prepared,Ridge 10,0.0064951484998265795,0.00063555814781523102,False
+2025,Healthcare,20,Rolling 5Y,C,1,fb_sent_prepared,,Ridge 1,0.090009029010250277,0.018084633992138638,False
+2025,Healthcare,20,Rolling 5Y,C,1,fb_sent_answers,,Ridge 1,0.071817695822919914,-0.00010669919519172566,False
+2025,Healthcare,20,Rolling 5Y,C,1,fb_pos_pct_prepared,,Ridge 1,0.10053396324604695,0.028609568227935311,True
+2025,Healthcare,20,Rolling 5Y,C,1,fb_neg_pct_prepared,,Ridge 1,0.069166462568699974,-0.0027579324494116653,False
+2025,Healthcare,20,Rolling 5Y,C,1,fb_pos_pct_answers,,Ridge 1,0.075177505216902363,0.0032531101987907235,False
+2025,Healthcare,20,Rolling 5Y,C,1,fb_neg_pct_answers,,Ridge 10,0.068746934516402,-0.0031774605017096391,False
+2025,Healthcare,20,Rolling 5Y,C,1,fb_sent_std_prepared,,Ridge 1,0.074730688589134439,0.0028062935710227999,False
+2025,Healthcare,20,Rolling 5Y,C,1,fb_sent_std_answers,,Ridge 1,0.074510169385258285,0.0025857743671466454,False
+2025,Healthcare,20,Rolling 5Y,C,1,fb_sent_gap,,Ridge 1,0.081474951982314983,0.0095505569642033439,False
+2025,Healthcare,20,Rolling 5Y,C,1,fb_sent_prepared_chg,,Ridge 1,0.082548083795931107,0.010623688777819468,False
+2025,Healthcare,20,Rolling 5Y,C,1,fb_sent_answers_chg,,Ridge 1,0.06377715244100883,-0.008147242577102809,False
+2025,Healthcare,20,Rolling 5Y,C,1,fb_n_sent_prepared,,Ridge 1,0.077311235561946398,0.0053868405438347589,False
+2025,Healthcare,20,Rolling 5Y,C,1,fb_n_sent_answers,,Ridge 1,0.067139963345204126,-0.0047844316729075131,False
+2025,Healthcare,20,Rolling 5Y,C,2,fb_sent_prepared,fb_pos_pct_prepared,Ridge 1,0.098876887656772827,-0.0016570755892741235,False
+2025,Healthcare,20,Rolling 5Y,C,2,fb_sent_answers,fb_pos_pct_prepared,Ridge 1,0.09734188354206541,-0.0031920797039815402,False
+2025,Healthcare,20,Rolling 5Y,C,2,fb_neg_pct_prepared,fb_pos_pct_prepared,Ridge 1,0.099534918211492962,-0.00099904503455398863,False
+2025,Healthcare,20,Rolling 5Y,C,2,fb_pos_pct_answers,fb_pos_pct_prepared,Ridge 50,0.09801087794488117,-0.0025230853011657811,False
+2025,Healthcare,20,Rolling 5Y,C,2,fb_neg_pct_answers,fb_pos_pct_prepared,Ridge 1,0.10468307956958771,0.004149116323540758,False
+2025,Healthcare,20,Rolling 5Y,C,2,fb_sent_std_prepared,fb_pos_pct_prepared,Ridge 1,0.11409100971115042,0.013557046465103473,True
+2025,Healthcare,20,Rolling 5Y,C,2,fb_sent_std_answers,fb_pos_pct_prepared,Ridge 1,0.10211377604443983,0.0015798127983928795,False
+2025,Healthcare,20,Rolling 5Y,C,2,fb_sent_gap,fb_pos_pct_prepared,Ridge 1,0.098451456374502991,-0.0020825068715439599,False
+2025,Healthcare,20,Rolling 5Y,C,2,fb_sent_prepared_chg,fb_pos_pct_prepared,Ridge 1,0.084549829903883336,-0.015984133342163614,False
+2025,Healthcare,20,Rolling 5Y,C,2,fb_sent_answers_chg,fb_pos_pct_prepared,Ridge 1,0.089721213694959515,-0.010812749551087436,False
+2025,Healthcare,20,Rolling 5Y,C,2,fb_n_sent_prepared,fb_pos_pct_prepared,Ridge 1,0.10036578094470457,-0.00016818230134238443,False
+2025,Healthcare,20,Rolling 5Y,C,2,fb_n_sent_answers,fb_pos_pct_prepared,Ridge 10,0.097683866956319962,-0.0028500962897269888,False
+2025,Healthcare,20,Rolling 5Y,C,3,fb_sent_prepared,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 1,0.12130133540515513,0.0072103256940047045,False
+2025,Healthcare,20,Rolling 5Y,C,3,fb_sent_answers,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 1,0.11001078456510853,-0.0040802251460418937,False
+2025,Healthcare,20,Rolling 5Y,C,3,fb_neg_pct_prepared,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 1,0.12405088854376466,0.0099598788326142329,True
+2025,Healthcare,20,Rolling 5Y,C,3,fb_pos_pct_answers,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 1,0.1073443126400293,-0.0067466970711211188,False
+2025,Healthcare,20,Rolling 5Y,C,3,fb_neg_pct_answers,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 1,0.11022762704012708,-0.0038633826710233465,False
+2025,Healthcare,20,Rolling 5Y,C,3,fb_sent_std_answers,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 1,0.11080198714777863,-0.0032890225633717962,False
+2025,Healthcare,20,Rolling 5Y,C,3,fb_sent_gap,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 1,0.10950625780887246,-0.0045847519022779587,False
+2025,Healthcare,20,Rolling 5Y,C,3,fb_sent_prepared_chg,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 10,0.11125716280443863,-0.00283384690671179,False
+2025,Healthcare,20,Rolling 5Y,C,3,fb_sent_answers_chg,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 1,0.10091080365465444,-0.013180206056495988,False
+2025,Healthcare,20,Rolling 5Y,C,3,fb_n_sent_prepared,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 1,0.11236619158489251,-0.0017248181262579099,False
+2025,Healthcare,20,Rolling 5Y,C,3,fb_n_sent_answers,fb_pos_pct_prepared|fb_sent_std_prepared,Ridge 1,0.1129167370042421,-0.0011742727069083275,False
+2025,Healthcare,20,Rolling 5Y,C,4,fb_sent_prepared,fb_pos_pct_prepared|fb_sent_std_prepared|fb_neg_pct_prepared,Ridge 1,0.12356619501803863,-0.00048469352572602653,False
+2025,Healthcare,20,Rolling 5Y,C,4,fb_sent_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_neg_pct_prepared,Ridge 1,0.12087018317151656,-0.0031807053722480993,False
+2025,Healthcare,20,Rolling 5Y,C,4,fb_pos_pct_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_neg_pct_prepared,Ridge 1,0.12185914078047307,-0.0021917477632915905,False
+2025,Healthcare,20,Rolling 5Y,C,4,fb_neg_pct_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_neg_pct_prepared,Ridge 1,0.11848601307865318,-0.005564875465111474,False
+2025,Healthcare,20,Rolling 5Y,C,4,fb_sent_std_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_neg_pct_prepared,Ridge 1,0.11946178487917418,-0.004589103664590477,False
+2025,Healthcare,20,Rolling 5Y,C,4,fb_sent_gap,fb_pos_pct_prepared|fb_sent_std_prepared|fb_neg_pct_prepared,Ridge 1,0.12062698466892267,-0.0034239038748419826,False
+2025,Healthcare,20,Rolling 5Y,C,4,fb_sent_prepared_chg,fb_pos_pct_prepared|fb_sent_std_prepared|fb_neg_pct_prepared,Ridge 1,0.11743161375801338,-0.0066192747857512779,False
+2025,Healthcare,20,Rolling 5Y,C,4,fb_sent_answers_chg,fb_pos_pct_prepared|fb_sent_std_prepared|fb_neg_pct_prepared,Ridge 1,0.11530181201081945,-0.0087490765329452103,False
+2025,Healthcare,20,Rolling 5Y,C,4,fb_n_sent_prepared,fb_pos_pct_prepared|fb_sent_std_prepared|fb_neg_pct_prepared,Ridge 1,0.12419291842102025,0.00014202987725558947,False
+2025,Healthcare,20,Rolling 5Y,C,4,fb_n_sent_answers,fb_pos_pct_prepared|fb_sent_std_prepared|fb_neg_pct_prepared,Ridge 1,0.12401210920499724,-3.8779338767419569e-05,False
+2026,Healthcare,5,Expanding,C,1,fb_sent_prepared,,Ridge 1,0.019731457578104485,-0.021782437183904008,False
+2026,Healthcare,5,Expanding,C,1,fb_sent_answers,,Ridge 1,0.039929556399060852,-0.0015843383629476418,False
+2026,Healthcare,5,Expanding,C,1,fb_pos_pct_prepared,,Ridge 1,0.025454926423903974,-0.01605896833810452,False
+2026,Healthcare,5,Expanding,C,1,fb_neg_pct_prepared,,Ridge 1,0.02689753580592702,-0.014616358956081474,False
+2026,Healthcare,5,Expanding,C,1,fb_pos_pct_answers,,Ridge 1,0.04070648582434206,-0.00080740893766643312,False
+2026,Healthcare,5,Expanding,C,1,fb_neg_pct_answers,,Ridge 50,0.036632797742020939,-0.0048810970199875542,False
+2026,Healthcare,5,Expanding,C,1,fb_sent_std_prepared,,Elastic Net .05,0.043055232531531422,0.0015413377695229283,False
+2026,Healthcare,5,Expanding,C,1,fb_sent_std_answers,,Ridge 50,0.038289257332348392,-0.0032246374296601016,False
+2026,Healthcare,5,Expanding,C,1,fb_sent_gap,,Ridge 1,0.02148481078361501,-0.020029083978393484,False
+2026,Healthcare,5,Expanding,C,1,fb_sent_prepared_chg,,Elastic Net .05,0.048551908357615137,0.0070380135956066431,False
+2026,Healthcare,5,Expanding,C,1,fb_sent_answers_chg,,Elastic Net .05,0.063647407350786792,0.022133512588778298,True
+2026,Healthcare,5,Expanding,C,1,fb_n_sent_prepared,,Ridge 1,0.052883908713558421,0.011370013951549927,False
+2026,Healthcare,5,Expanding,C,1,fb_n_sent_answers,,Ridge 10,0.046747862324955723,0.0052339675629472296,False
+2026,Healthcare,5,Expanding,C,2,fb_sent_prepared,fb_sent_answers_chg,Ridge 1,0.045962348912348315,-0.017685058438438477,False
+2026,Healthcare,5,Expanding,C,2,fb_sent_answers,fb_sent_answers_chg,Elastic Net .05,0.074576964032910878,0.010929556682124086,True
+2026,Healthcare,5,Expanding,C,2,fb_pos_pct_prepared,fb_sent_answers_chg,Ridge 10,0.048507697009655605,-0.015139710341131186,False
+2026,Healthcare,5,Expanding,C,2,fb_neg_pct_prepared,fb_sent_answers_chg,Ridge 1,0.052762556563772212,-0.01088485078701458,False
+2026,Healthcare,5,Expanding,C,2,fb_pos_pct_answers,fb_sent_answers_chg,Elastic Net .05,0.072509301101152113,0.0088618937503653211,False
+2026,Healthcare,5,Expanding,C,2,fb_neg_pct_answers,fb_sent_answers_chg,Ridge 50,0.063110868985385885,-0.00053653836540090705,False
+2026,Healthcare,5,Expanding,C,2,fb_sent_std_prepared,fb_sent_answers_chg,Ridge 10,0.065961767322197537,0.0023143599714107455,False
+2026,Healthcare,5,Expanding,C,2,fb_sent_std_answers,fb_sent_answers_chg,Ridge 50,0.061061860775586459,-0.0025855465752003329,False
+2026,Healthcare,5,Expanding,C,2,fb_sent_gap,fb_sent_answers_chg,Ridge 50,0.041796495236432696,-0.021850912114354096,False
+2026,Healthcare,5,Expanding,C,2,fb_sent_prepared_chg,fb_sent_answers_chg,Ridge 50,0.064344067647300746,0.000696660296513954,False
+2026,Healthcare,5,Expanding,C,2,fb_n_sent_prepared,fb_sent_answers_chg,Ridge 1,0.071988656173903057,0.0083412488231162651,False
+2026,Healthcare,5,Expanding,C,2,fb_n_sent_answers,fb_sent_answers_chg,Ridge 50,0.066060591650781625,0.0024131842999948333,False
+2026,Healthcare,5,Expanding,C,3,fb_sent_prepared,fb_sent_answers_chg|fb_sent_answers,Elastic Net .05,0.049197032959713095,-0.025379931073197783,False
+2026,Healthcare,5,Expanding,C,3,fb_pos_pct_prepared,fb_sent_answers_chg|fb_sent_answers,Elastic Net .05,0.058186457800435472,-0.016390506232475406,False
+2026,Healthcare,5,Expanding,C,3,fb_neg_pct_prepared,fb_sent_answers_chg|fb_sent_answers,Ridge 1,0.057092274068896672,-0.017484689964014206,False
+2026,Healthcare,5,Expanding,C,3,fb_pos_pct_answers,fb_sent_answers_chg|fb_sent_answers,Ridge 50,0.073938661328292896,-0.00063830270461798233,False
+2026,Healthcare,5,Expanding,C,3,fb_neg_pct_answers,fb_sent_answers_chg|fb_sent_answers,Ridge 50,0.065978718539051365,-0.0085982454938595132,False
+2026,Healthcare,5,Expanding,C,3,fb_sent_std_prepared,fb_sent_answers_chg|fb_sent_answers,Ridge 1,0.072358752946113852,-0.0022182110867970256,False
+2026,Healthcare,5,Expanding,C,3,fb_sent_std_answers,fb_sent_answers_chg|fb_sent_answers,Ridge 50,0.06724432024929973,-0.007332643783611148,False
+2026,Healthcare,5,Expanding,C,3,fb_sent_gap,fb_sent_answers_chg|fb_sent_answers,Ridge 10,0.046806002253834987,-0.027770961779075891,False
+2026,Healthcare,5,Expanding,C,3,fb_sent_prepared_chg,fb_sent_answers_chg|fb_sent_answers,Ridge 50,0.070818207956309193,-0.0037587560766016853,False
+2026,Healthcare,5,Expanding,C,3,fb_n_sent_prepared,fb_sent_answers_chg|fb_sent_answers,Ridge 50,0.085529016723523962,0.010952052690613084,True
+2026,Healthcare,5,Expanding,C,3,fb_n_sent_answers,fb_sent_answers_chg|fb_sent_answers,Ridge 50,0.074815544213610474,0.0002385801806995963,False
+2026,Healthcare,5,Expanding,C,4,fb_sent_prepared,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared,Ridge 1,0.067034080723646083,-0.018494935999877879,False
+2026,Healthcare,5,Expanding,C,4,fb_pos_pct_prepared,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared,Ridge 1,0.070219469990181346,-0.015309546733342616,False
+2026,Healthcare,5,Expanding,C,4,fb_neg_pct_prepared,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared,Ridge 1,0.072413966388022458,-0.013115050335501505,False
+2026,Healthcare,5,Expanding,C,4,fb_pos_pct_answers,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared,Ridge 50,0.084000805493891315,-0.0015282112296326478,False
+2026,Healthcare,5,Expanding,C,4,fb_neg_pct_answers,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared,Ridge 1,0.079511665119381805,-0.0060173516041421571,False
+2026,Healthcare,5,Expanding,C,4,fb_sent_std_prepared,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared,Ridge 1,0.088144998731693527,0.0026159820081695651,True
+2026,Healthcare,5,Expanding,C,4,fb_sent_std_answers,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared,Ridge 1,0.080129753208644655,-0.0053992635148793072,False
+2026,Healthcare,5,Expanding,C,4,fb_sent_gap,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared,Ridge 1,0.065779719044450541,-0.019749297679073421,False
+2026,Healthcare,5,Expanding,C,4,fb_sent_prepared_chg,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared,Ridge 10,0.083040366293606782,-0.0024886504299171802,False
+2026,Healthcare,5,Expanding,C,4,fb_n_sent_answers,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared,Ridge 1,0.086218569315594185,0.00068955259207022224,False
+2026,Healthcare,5,Expanding,C,5,fb_sent_prepared,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.071596922328828042,-0.016548076402865486,False
+2026,Healthcare,5,Expanding,C,5,fb_pos_pct_prepared,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.075800361845662023,-0.012344636886031504,False
+2026,Healthcare,5,Expanding,C,5,fb_neg_pct_prepared,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared,Ridge 10,0.06121634477905117,-0.026928653952642358,False
+2026,Healthcare,5,Expanding,C,5,fb_pos_pct_answers,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.088729001648256658,0.00058400291656313108,False
+2026,Healthcare,5,Expanding,C,5,fb_neg_pct_answers,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared,Ridge 50,0.082119684767559917,-0.0060253139641336106,False
+2026,Healthcare,5,Expanding,C,5,fb_sent_std_answers,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.085164589827709233,-0.002980408903984294,False
+2026,Healthcare,5,Expanding,C,5,fb_sent_gap,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.069691811980354304,-0.018453186751339223,False
+2026,Healthcare,5,Expanding,C,5,fb_sent_prepared_chg,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.096060002395648561,0.0079150036639550336,True
+2026,Healthcare,5,Expanding,C,5,fb_n_sent_answers,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared,Ridge 1,0.09259731396266925,0.004452315230975723,False
+2026,Healthcare,5,Expanding,C,6,fb_sent_prepared,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,0.081739594030328169,-0.014320408365320392,False
+2026,Healthcare,5,Expanding,C,6,fb_pos_pct_prepared,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,0.086034131436594483,-0.010025870959054078,False
+2026,Healthcare,5,Expanding,C,6,fb_neg_pct_prepared,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 50,0.066633525967993476,-0.029426476427655085,False
+2026,Healthcare,5,Expanding,C,6,fb_pos_pct_answers,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 10,0.097355634320429318,0.0012956319247807574,False
+2026,Healthcare,5,Expanding,C,6,fb_neg_pct_answers,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,0.093424365218770677,-0.0026356371768778836,False
+2026,Healthcare,5,Expanding,C,6,fb_sent_std_answers,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,0.092784986380940834,-0.0032750160147077267,False
+2026,Healthcare,5,Expanding,C,6,fb_sent_gap,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 10,0.079880038446196941,-0.01617996394945162,False
+2026,Healthcare,5,Expanding,C,6,fb_n_sent_answers,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg,Ridge 1,0.099609324434292823,0.003549322038644262,True
+2026,Healthcare,5,Expanding,C,7,fb_sent_prepared,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers,Ridge 1,0.084845642472073379,-0.014763681962219444,False
+2026,Healthcare,5,Expanding,C,7,fb_pos_pct_prepared,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers,Ridge 10,0.088700062507607605,-0.010909261926685218,False
+2026,Healthcare,5,Expanding,C,7,fb_neg_pct_prepared,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers,Ridge 10,0.069567319342893189,-0.030042005091399634,False
+2026,Healthcare,5,Expanding,C,7,fb_pos_pct_answers,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers,Ridge 1,0.099905814565040149,0.00029649013074732611,False
+2026,Healthcare,5,Expanding,C,7,fb_neg_pct_answers,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers,Ridge 1,0.094237319345614926,-0.0053720050886778975,False
+2026,Healthcare,5,Expanding,C,7,fb_sent_std_answers,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers,Ridge 1,0.095502499234080426,-0.0041068252002123967,False
+2026,Healthcare,5,Expanding,C,7,fb_sent_gap,fb_sent_answers_chg|fb_sent_answers|fb_n_sent_prepared|fb_sent_std_prepared|fb_sent_prepared_chg|fb_n_sent_answers,Ridge 1,0.082013865402769462,-0.017595459031523361,False
+2026,Healthcare,5,Rolling 5Y,C,1,fb_sent_prepared,,Ridge 50,0.056075372870869424,-0.00099801566766757888,False
+2026,Healthcare,5,Rolling 5Y,C,1,fb_sent_answers,,Ridge 50,0.053619574245931188,-0.0034538142926058141,False
+2026,Healthcare,5,Rolling 5Y,C,1,fb_pos_pct_prepared,,Ridge 50,0.065608285076148909,0.0085348965376119065,False
+2026,Healthcare,5,Rolling 5Y,C,1,fb_neg_pct_prepared,,Elastic Net .05,0.048638086029119475,-0.0084353025094175277,False
+2026,Healthcare,5,Rolling 5Y,C,1,fb_pos_pct_answers,,Ridge 50,0.055384497193361602,-0.0016888913451754001,False
+2026,Healthcare,5,Rolling 5Y,C,1,fb_neg_pct_answers,,Ridge 50,0.059078928177627166,0.0020055396390901634,False
+2026,Healthcare,5,Rolling 5Y,C,1,fb_sent_std_prepared,,Ridge 10,0.055997751183865262,-0.0010756373546717407,False
+2026,Healthcare,5,Rolling 5Y,C,1,fb_sent_std_answers,,Ridge 50,0.057190354367677887,0.00011696582914088455,False
+2026,Healthcare,5,Rolling 5Y,C,1,fb_sent_gap,,Ridge 50,0.049905352011117711,-0.0071680365274192914,False
+2026,Healthcare,5,Rolling 5Y,C,1,fb_sent_prepared_chg,,Ridge 50,0.088887417462374496,0.031814028923837494,True
+2026,Healthcare,5,Rolling 5Y,C,1,fb_sent_answers_chg,,Ridge 50,0.07449752828354235,0.017424139745005347,False
+2026,Healthcare,5,Rolling 5Y,C,1,fb_n_sent_prepared,,Ridge 10,0.065986154759005544,0.0089127662204685418,False
+2026,Healthcare,5,Rolling 5Y,C,1,fb_n_sent_answers,,Ridge 50,0.053346880397853708,-0.0037265081406832948,False
+2026,Healthcare,5,Rolling 5Y,C,2,fb_sent_prepared,fb_sent_prepared_chg,Ridge 50,0.084224193998560778,-0.0046632234638137177,False
+2026,Healthcare,5,Rolling 5Y,C,2,fb_sent_answers,fb_sent_prepared_chg,Ridge 50,0.084032487668116232,-0.0048549297942582642,False
+2026,Healthcare,5,Rolling 5Y,C,2,fb_pos_pct_prepared,fb_sent_prepared_chg,Ridge 50,0.085987235304014642,-0.0029001821583598542,False
+2026,Healthcare,5,Rolling 5Y,C,2,fb_neg_pct_prepared,fb_sent_prepared_chg,Ridge 50,0.092894044046225629,0.0040066265838511333,False
+2026,Healthcare,5,Rolling 5Y,C,2,fb_pos_pct_answers,fb_sent_prepared_chg,Ridge 50,0.087344291489005063,-0.001543125973369433,False
+2026,Healthcare,5,Rolling 5Y,C,2,fb_neg_pct_answers,fb_sent_prepared_chg,Ridge 50,0.081077378610584561,-0.0078100388517899355,False
+2026,Healthcare,5,Rolling 5Y,C,2,fb_sent_std_prepared,fb_sent_prepared_chg,Ridge 10,0.10441855773702842,0.015531140274653923,True
+2026,Healthcare,5,Rolling 5Y,C,2,fb_sent_std_answers,fb_sent_prepared_chg,Ridge 50,0.084934474048719941,-0.0039529434136545555,False
+2026,Healthcare,5,Rolling 5Y,C,2,fb_sent_gap,fb_sent_prepared_chg,Ridge 50,0.083061496789995679,-0.0058259206723788176,False
+2026,Healthcare,5,Rolling 5Y,C,2,fb_sent_answers_chg,fb_sent_prepared_chg,Ridge 50,0.092045062403049438,0.0031576449406749418,False
+2026,Healthcare,5,Rolling 5Y,C,2,fb_n_sent_prepared,fb_sent_prepared_chg,Ridge 50,0.095183672427325547,0.0062962549649510507,False
+2026,Healthcare,5,Rolling 5Y,C,2,fb_n_sent_answers,fb_sent_prepared_chg,Ridge 50,0.088346845999300275,-0.00054057146307422144,False
+2026,Healthcare,5,Rolling 5Y,C,3,fb_sent_prepared,fb_sent_prepared_chg|fb_sent_std_prepared,Ridge 10,0.097383837734701384,-0.0070347200023270356,False
+2026,Healthcare,5,Rolling 5Y,C,3,fb_sent_answers,fb_sent_prepared_chg|fb_sent_std_prepared,Elastic Net .05,0.099435158452354899,-0.0049833992846735203,False
+2026,Healthcare,5,Rolling 5Y,C,3,fb_pos_pct_prepared,fb_sent_prepared_chg|fb_sent_std_prepared,Ridge 10,0.1021978965168498,-0.0022206612201786241,False
+2026,Healthcare,5,Rolling 5Y,C,3,fb_neg_pct_prepared,fb_sent_prepared_chg|fb_sent_std_prepared,Ridge 50,0.0941607345383461,-0.01025782319868232,False
+2026,Healthcare,5,Rolling 5Y,C,3,fb_pos_pct_answers,fb_sent_prepared_chg|fb_sent_std_prepared,Elastic Net .05,0.10410583470850854,-0.00031272302851988176,False
+2026,Healthcare,5,Rolling 5Y,C,3,fb_neg_pct_answers,fb_sent_prepared_chg|fb_sent_std_prepared,Ridge 1,0.10340824693828261,-0.001010310798745806,False
+2026,Healthcare,5,Rolling 5Y,C,3,fb_sent_std_answers,fb_sent_prepared_chg|fb_sent_std_prepared,Ridge 1,0.10561916345223617,0.0012006057152077476,False
+2026,Healthcare,5,Rolling 5Y,C,3,fb_sent_gap,fb_sent_prepared_chg|fb_sent_std_prepared,Ridge 50,0.094354014297899469,-0.010064543439128951,False
+2026,Healthcare,5,Rolling 5Y,C,3,fb_sent_answers_chg,fb_sent_prepared_chg|fb_sent_std_prepared,Elastic Net .05,0.10568751535179589,0.0012689576147674742,False
+2026,Healthcare,5,Rolling 5Y,C,3,fb_n_sent_prepared,fb_sent_prepared_chg|fb_sent_std_prepared,Ridge 1,0.1163884440259277,0.011969886288899279,True
+2026,Healthcare,5,Rolling 5Y,C,3,fb_n_sent_answers,fb_sent_prepared_chg|fb_sent_std_prepared,Ridge 50,0.099032025078227393,-0.0053865326588010271,False
+2026,Healthcare,5,Rolling 5Y,C,4,fb_sent_prepared,fb_sent_prepared_chg|fb_sent_std_prepared|fb_n_sent_prepared,Ridge 10,0.10713433017242545,-0.0092541138535022494,False
+2026,Healthcare,5,Rolling 5Y,C,4,fb_sent_answers,fb_sent_prepared_chg|fb_sent_std_prepared|fb_n_sent_prepared,Ridge 1,0.1139682018386929,-0.0024202421872348001,False
+2026,Healthcare,5,Rolling 5Y,C,4,fb_pos_pct_prepared,fb_sent_prepared_chg|fb_sent_std_prepared|fb_n_sent_prepared,Ridge 1,0.11121041132399916,-0.0051780327019285421,False
+2026,Healthcare,5,Rolling 5Y,C,4,fb_neg_pct_prepared,fb_sent_prepared_chg|fb_sent_std_prepared|fb_n_sent_prepared,Ridge 10,0.10478284478331275,-0.01160559924261495,False
+2026,Healthcare,5,Rolling 5Y,C,4,fb_pos_pct_answers,fb_sent_prepared_chg|fb_sent_std_prepared|fb_n_sent_prepared,Ridge 1,0.11751535938662627,0.0011269153606985743,False
+2026,Healthcare,5,Rolling 5Y,C,4,fb_neg_pct_answers,fb_sent_prepared_chg|fb_sent_std_prepared|fb_n_sent_prepared,Ridge 1,0.1116740818117492,-0.0047143622141784941,False
+2026,Healthcare,5,Rolling 5Y,C,4,fb_sent_std_answers,fb_sent_prepared_chg|fb_sent_std_prepared|fb_n_sent_prepared,Ridge 1,0.11451211327331721,-0.0018763307526104833,False
+2026,Healthcare,5,Rolling 5Y,C,4,fb_sent_gap,fb_sent_prepared_chg|fb_sent_std_prepared|fb_n_sent_prepared,Ridge 1,0.10696094493985175,-0.0094274990860759439,False
+2026,Healthcare,5,Rolling 5Y,C,4,fb_sent_answers_chg,fb_sent_prepared_chg|fb_sent_std_prepared|fb_n_sent_prepared,Ridge 1,0.11796938855405703,0.0015809445281293327,True
+2026,Healthcare,5,Rolling 5Y,C,4,fb_n_sent_answers,fb_sent_prepared_chg|fb_sent_std_prepared|fb_n_sent_prepared,Ridge 10,0.11057323547775487,-0.0058152085481728288,False
+2026,Healthcare,5,Rolling 5Y,C,5,fb_sent_prepared,fb_sent_prepared_chg|fb_sent_std_prepared|fb_n_sent_prepared|fb_sent_answers_chg,Ridge 10,0.10827918714843905,-0.0096902014056179792,False
+2026,Healthcare,5,Rolling 5Y,C,5,fb_sent_answers,fb_sent_prepared_chg|fb_sent_std_prepared|fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.09970581412806849,-0.018263574425988541,False
+2026,Healthcare,5,Rolling 5Y,C,5,fb_pos_pct_prepared,fb_sent_prepared_chg|fb_sent_std_prepared|fb_n_sent_prepared|fb_sent_answers_chg,Ridge 10,0.11286408155280325,-0.0051053070012537782,False
+2026,Healthcare,5,Rolling 5Y,C,5,fb_neg_pct_prepared,fb_sent_prepared_chg|fb_sent_std_prepared|fb_n_sent_prepared|fb_sent_answers_chg,Ridge 10,0.10674406892696002,-0.011225319627097011,False
+2026,Healthcare,5,Rolling 5Y,C,5,fb_pos_pct_answers,fb_sent_prepared_chg|fb_sent_std_prepared|fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.11316079917019106,-0.0048085893838659688,False
+2026,Healthcare,5,Rolling 5Y,C,5,fb_neg_pct_answers,fb_sent_prepared_chg|fb_sent_std_prepared|fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.10246830367030273,-0.015501084883754304,False
+2026,Healthcare,5,Rolling 5Y,C,5,fb_sent_std_answers,fb_sent_prepared_chg|fb_sent_std_prepared|fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.11813861510698659,0.00016922655292955779,False
+2026,Healthcare,5,Rolling 5Y,C,5,fb_sent_gap,fb_sent_prepared_chg|fb_sent_std_prepared|fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.098018350024185616,-0.019951038529871415,False
+2026,Healthcare,5,Rolling 5Y,C,5,fb_n_sent_answers,fb_sent_prepared_chg|fb_sent_std_prepared|fb_n_sent_prepared|fb_sent_answers_chg,Ridge 1,0.11138615920517976,-0.0065832293488772703,False
+2026,Healthcare,20,Expanding,C,1,fb_sent_prepared,,Elastic Net .05,0.0074816663013954204,-0.0056425569508333703,False
+2026,Healthcare,20,Expanding,C,1,fb_sent_answers,,Elastic Net .05,0.010692855380201613,-0.0024313678720271781,False
+2026,Healthcare,20,Expanding,C,1,fb_pos_pct_prepared,,Elastic Net .05,0.011828707212013479,-0.001295516040215312,False
+2026,Healthcare,20,Expanding,C,1,fb_neg_pct_prepared,,Ridge 1,0.010122285267884099,-0.0030019379843446922,False
+2026,Healthcare,20,Expanding,C,1,fb_pos_pct_answers,,Ridge 50,0.028540594063176227,0.015416370810947436,False
+2026,Healthcare,20,Expanding,C,1,fb_neg_pct_answers,,Elastic Net .05,-0.0028290512399744791,-0.015953274492203271,False
+2026,Healthcare,20,Expanding,C,1,fb_sent_std_prepared,,Ridge 1,0.0085211476210105084,-0.0046030756312182824,False
+2026,Healthcare,20,Expanding,C,1,fb_sent_std_answers,,Ridge 50,0.023244713034558478,0.010120489782329687,False
+2026,Healthcare,20,Expanding,C,1,fb_sent_gap,,Ridge 1,0.014811090134017874,0.0016868668817890831,False
+2026,Healthcare,20,Expanding,C,1,fb_sent_prepared_chg,,Ridge 1,0.048611182159737094,0.035486958907508304,True
+2026,Healthcare,20,Expanding,C,1,fb_sent_answers_chg,,Elastic Net .05,0.012729201147841008,-0.00039502210438778322,False
+2026,Healthcare,20,Expanding,C,1,fb_n_sent_prepared,,Ridge 1,0.011197516960892903,-0.001926706291335888,False
+2026,Healthcare,20,Expanding,C,1,fb_n_sent_answers,,Ridge 1,0.015719054359982883,0.0025948311077540927,False
+2026,Healthcare,20,Expanding,C,2,fb_sent_prepared,fb_sent_prepared_chg,Ridge 50,0.03827193016185796,-0.010339251997879134,False
+2026,Healthcare,20,Expanding,C,2,fb_sent_answers,fb_sent_prepared_chg,Ridge 50,0.042213202367817247,-0.0063979797919198472,False
+2026,Healthcare,20,Expanding,C,2,fb_pos_pct_prepared,fb_sent_prepared_chg,Ridge 50,0.040256949670181279,-0.0083542324895558157,False
+2026,Healthcare,20,Expanding,C,2,fb_neg_pct_prepared,fb_sent_prepared_chg,Elastic Net .05,0.050656134984911429,0.0020449528251743343,False
+2026,Healthcare,20,Expanding,C,2,fb_pos_pct_answers,fb_sent_prepared_chg,Ridge 50,0.057523654378668153,0.0089124722189310585,False
+2026,Healthcare,20,Expanding,C,2,fb_neg_pct_answers,fb_sent_prepared_chg,Ridge 1,0.045725610455901677,-0.002885571703835417,False
+2026,Healthcare,20,Expanding,C,2,fb_sent_std_prepared,fb_sent_prepared_chg,Ridge 10,0.059091110012381813,0.010479927852644719,False
+2026,Healthcare,20,Expanding,C,2,fb_sent_std_answers,fb_sent_prepared_chg,Elastic Net .05,0.063673453658238635,0.015062271498501541,True
+2026,Healthcare,20,Expanding,C,2,fb_sent_gap,fb_sent_prepared_chg,Ridge 10,0.052575096650080727,0.0039639144903436327,False
+2026,Healthcare,20,Expanding,C,2,fb_sent_answers_chg,fb_sent_prepared_chg,Ridge 1,0.034749904976985636,-0.013861277182751458,False
+2026,Healthcare,20,Expanding,C,2,fb_n_sent_prepared,fb_sent_prepared_chg,Ridge 50,0.045795331241549352,-0.0028158509181877428,False
+2026,Healthcare,20,Expanding,C,2,fb_n_sent_answers,fb_sent_prepared_chg,Elastic Net .05,0.052132773272935917,0.0035215911131988228,False
+2026,Healthcare,20,Expanding,C,3,fb_sent_prepared,fb_sent_prepared_chg|fb_sent_std_answers,Elastic Net .05,0.048355749250403673,-0.015317704407834962,False
+2026,Healthcare,20,Expanding,C,3,fb_sent_answers,fb_sent_prepared_chg|fb_sent_std_answers,Ridge 50,0.043446332885049808,-0.020227120773188827,False
+2026,Healthcare,20,Expanding,C,3,fb_pos_pct_prepared,fb_sent_prepared_chg|fb_sent_std_answers,Ridge 50,0.047238116927346363,-0.016435336730892272,False
+2026,Healthcare,20,Expanding,C,3,fb_neg_pct_prepared,fb_sent_prepared_chg|fb_sent_std_answers,Elastic Net .05,0.061037741713105907,-0.0026357119451327279,False
+2026,Healthcare,20,Expanding,C,3,fb_pos_pct_answers,fb_sent_prepared_chg|fb_sent_std_answers,Ridge 50,0.048841524321010889,-0.014831929337227746,False
+2026,Healthcare,20,Expanding,C,3,fb_neg_pct_answers,fb_sent_prepared_chg|fb_sent_std_answers,Elastic Net .05,0.045769619279790792,-0.017903834378447843,False
+2026,Healthcare,20,Expanding,C,3,fb_sent_std_prepared,fb_sent_prepared_chg|fb_sent_std_answers,Ridge 50,0.063994719479511561,0.0003212658212729258,False
+2026,Healthcare,20,Expanding,C,3,fb_sent_gap,fb_sent_prepared_chg|fb_sent_std_answers,Elastic Net .05,0.062728929893255236,-0.00094452376498339874,False
+2026,Healthcare,20,Expanding,C,3,fb_sent_answers_chg,fb_sent_prepared_chg|fb_sent_std_answers,Ridge 1,0.046256878823878189,-0.017416574834360446,False
+2026,Healthcare,20,Expanding,C,3,fb_n_sent_prepared,fb_sent_prepared_chg|fb_sent_std_answers,Ridge 50,0.060300310211831583,-0.0033731434464070523,False
+2026,Healthcare,20,Expanding,C,3,fb_n_sent_answers,fb_sent_prepared_chg|fb_sent_std_answers,Ridge 50,0.065415961048724366,0.0017425073904857313,True
+2026,Healthcare,20,Expanding,C,4,fb_sent_prepared,fb_sent_prepared_chg|fb_sent_std_answers|fb_n_sent_answers,Elastic Net .05,0.050371775134432084,-0.015044185914292282,False
+2026,Healthcare,20,Expanding,C,4,fb_sent_answers,fb_sent_prepared_chg|fb_sent_std_answers|fb_n_sent_answers,Ridge 1,0.047042438185695097,-0.018373522863029269,False
+2026,Healthcare,20,Expanding,C,4,fb_pos_pct_prepared,fb_sent_prepared_chg|fb_sent_std_answers|fb_n_sent_answers,Ridge 1,0.0497492114502932,-0.015666749598431166,False
+2026,Healthcare,20,Expanding,C,4,fb_neg_pct_prepared,fb_sent_prepared_chg|fb_sent_std_answers|fb_n_sent_answers,Elastic Net .05,0.062695098005326064,-0.0027208630433983028,False
+2026,Healthcare,20,Expanding,C,4,fb_pos_pct_answers,fb_sent_prepared_chg|fb_sent_std_answers|fb_n_sent_answers,Elastic Net .05,0.053496859723220637,-0.01191910132550373,False
+2026,Healthcare,20,Expanding,C,4,fb_neg_pct_answers,fb_sent_prepared_chg|fb_sent_std_answers|fb_n_sent_answers,Ridge 50,0.050039370086678497,-0.015376590962045869,False
+2026,Healthcare,20,Expanding,C,4,fb_sent_std_prepared,fb_sent_prepared_chg|fb_sent_std_answers|fb_n_sent_answers,Elastic Net .05,0.06575665892452745,0.00034069787580308375,False
+2026,Healthcare,20,Expanding,C,4,fb_sent_gap,fb_sent_prepared_chg|fb_sent_std_answers|fb_n_sent_answers,Ridge 10,0.066347953360014769,0.00093199231129040272,False
+2026,Healthcare,20,Expanding,C,4,fb_sent_answers_chg,fb_sent_prepared_chg|fb_sent_std_answers|fb_n_sent_answers,Ridge 10,0.049343934730904905,-0.016072026317819461,False
+2026,Healthcare,20,Expanding,C,4,fb_n_sent_prepared,fb_sent_prepared_chg|fb_sent_std_answers|fb_n_sent_answers,Ridge 50,0.066330310140934309,0.00091434909220994287,False
+2026,Healthcare,20,Rolling 5Y,C,1,fb_sent_prepared,,Ridge 50,0.089166207580426815,0.018283635924629324,False
+2026,Healthcare,20,Rolling 5Y,C,1,fb_sent_answers,,Ridge 50,0.089537540189787213,0.018654968533989721,False
+2026,Healthcare,20,Rolling 5Y,C,1,fb_pos_pct_prepared,,Ridge 50,0.10580207091821366,0.034919499262416165,True
+2026,Healthcare,20,Rolling 5Y,C,1,fb_neg_pct_prepared,,Ridge 50,0.069745309716132992,-0.0011372619396644995,False
+2026,Healthcare,20,Rolling 5Y,C,1,fb_pos_pct_answers,,Ridge 50,0.09309649212543554,0.022213920469638049,False
+2026,Healthcare,20,Rolling 5Y,C,1,fb_neg_pct_answers,,Ridge 50,0.064503628807783098,-0.0063789428480143934,False
+2026,Healthcare,20,Rolling 5Y,C,1,fb_sent_std_prepared,,Ridge 50,0.078507329399644471,0.0076247577438469799,False
+2026,Healthcare,20,Rolling 5Y,C,1,fb_sent_std_answers,,Ridge 50,0.076131102931671885,0.0052485312758743935,False
+2026,Healthcare,20,Rolling 5Y,C,1,fb_sent_gap,,Ridge 50,0.071700917554892385,0.00081834589909489386,False
+2026,Healthcare,20,Rolling 5Y,C,1,fb_sent_prepared_chg,,Ridge 50,0.092936713033974272,0.022054141378176781,False
+2026,Healthcare,20,Rolling 5Y,C,1,fb_sent_answers_chg,,Ridge 50,0.076450883217318119,0.005568311561520628,False
+2026,Healthcare,20,Rolling 5Y,C,1,fb_n_sent_prepared,,Elastic Net .05,0.075385454559655354,0.0045028829038578633,False
+2026,Healthcare,20,Rolling 5Y,C,1,fb_n_sent_answers,,Elastic Net .05,0.073158227703493325,0.0022756560476958343,False
+2026,Healthcare,20,Rolling 5Y,C,2,fb_sent_prepared,fb_pos_pct_prepared,Ridge 10,0.10439065824287862,-0.0014114126753350387,False
+2026,Healthcare,20,Rolling 5Y,C,2,fb_sent_answers,fb_pos_pct_prepared,Ridge 50,0.11015832956082938,0.0043562586426157263,False
+2026,Healthcare,20,Rolling 5Y,C,2,fb_neg_pct_prepared,fb_pos_pct_prepared,Ridge 50,0.10477136268646244,-0.0010307082317512206,False
+2026,Healthcare,20,Rolling 5Y,C,2,fb_pos_pct_answers,fb_pos_pct_prepared,Ridge 50,0.11253238140508302,0.0067303104868693675,True
+2026,Healthcare,20,Rolling 5Y,C,2,fb_neg_pct_answers,fb_pos_pct_prepared,Ridge 50,0.099807219659617544,-0.0059948512585961122,False
+2026,Healthcare,20,Rolling 5Y,C,2,fb_sent_std_prepared,fb_pos_pct_prepared,Elastic Net .05,0.10702139060874173,0.0012193196905280757,False
+2026,Healthcare,20,Rolling 5Y,C,2,fb_sent_std_answers,fb_pos_pct_prepared,Ridge 50,0.10316334289743206,-0.0026387280207815916,False
+2026,Healthcare,20,Rolling 5Y,C,2,fb_sent_gap,fb_pos_pct_prepared,Ridge 1,0.11007738929410767,0.0042753183758940105,False
+2026,Healthcare,20,Rolling 5Y,C,2,fb_sent_prepared_chg,fb_pos_pct_prepared,Ridge 50,0.1035293010123524,-0.0022727699058612549,False
+2026,Healthcare,20,Rolling 5Y,C,2,fb_sent_answers_chg,fb_pos_pct_prepared,Ridge 50,0.096971829031915577,-0.0088302418862980792,False
+2026,Healthcare,20,Rolling 5Y,C,2,fb_n_sent_prepared,fb_pos_pct_prepared,Ridge 50,0.10602729383091082,0.00022522291269716499,False
+2026,Healthcare,20,Rolling 5Y,C,2,fb_n_sent_answers,fb_pos_pct_prepared,Elastic Net .05,0.10926455363131822,0.0034624827131045643,False
+2026,Healthcare,20,Rolling 5Y,C,3,fb_sent_prepared,fb_pos_pct_prepared|fb_pos_pct_answers,Ridge 50,0.11164065763960568,-0.00089172376547734522,False
+2026,Healthcare,20,Rolling 5Y,C,3,fb_sent_answers,fb_pos_pct_prepared|fb_pos_pct_answers,Ridge 50,0.11110378854558806,-0.0014285928594949676,False
+2026,Healthcare,20,Rolling 5Y,C,3,fb_neg_pct_prepared,fb_pos_pct_prepared|fb_pos_pct_answers,Ridge 50,0.1099339267605849,-0.0025984546444981216,False
+2026,Healthcare,20,Rolling 5Y,C,3,fb_neg_pct_answers,fb_pos_pct_prepared|fb_pos_pct_answers,Ridge 50,0.10844681866785526,-0.0040855627372277659,False
+2026,Healthcare,20,Rolling 5Y,C,3,fb_sent_std_prepared,fb_pos_pct_prepared|fb_pos_pct_answers,Elastic Net .05,0.1100589350906908,-0.0024734463143922247,False
+2026,Healthcare,20,Rolling 5Y,C,3,fb_sent_std_answers,fb_pos_pct_prepared|fb_pos_pct_answers,Ridge 50,0.1054423397414791,-0.0070900416636039271,False
+2026,Healthcare,20,Rolling 5Y,C,3,fb_sent_gap,fb_pos_pct_prepared|fb_pos_pct_answers,Ridge 50,0.11309089744309202,0.00055851603800899374,False
+2026,Healthcare,20,Rolling 5Y,C,3,fb_sent_prepared_chg,fb_pos_pct_prepared|fb_pos_pct_answers,Ridge 50,0.10903115670728065,-0.0035012246978023687,False
+2026,Healthcare,20,Rolling 5Y,C,3,fb_sent_answers_chg,fb_pos_pct_prepared|fb_pos_pct_answers,Ridge 50,0.096118162672200705,-0.016414218732882319,False
+2026,Healthcare,20,Rolling 5Y,C,3,fb_n_sent_prepared,fb_pos_pct_prepared|fb_pos_pct_answers,Ridge 50,0.11325006869460415,0.00071768728952112393,False
+2026,Healthcare,20,Rolling 5Y,C,3,fb_n_sent_answers,fb_pos_pct_prepared|fb_pos_pct_answers,Ridge 50,0.11398347405942633,0.0014510926543433028,True
+2026,Healthcare,20,Rolling 5Y,C,4,fb_sent_prepared,fb_pos_pct_prepared|fb_pos_pct_answers|fb_n_sent_answers,Elastic Net .05,0.11273623398208084,-0.0012472400773454878,False
+2026,Healthcare,20,Rolling 5Y,C,4,fb_sent_answers,fb_pos_pct_prepared|fb_pos_pct_answers|fb_n_sent_answers,Ridge 50,0.11351070822687655,-0.00047276583254977911,False
+2026,Healthcare,20,Rolling 5Y,C,4,fb_neg_pct_prepared,fb_pos_pct_prepared|fb_pos_pct_answers|fb_n_sent_answers,Ridge 50,0.11176298242646211,-0.0022204916329642138,False
+2026,Healthcare,20,Rolling 5Y,C,4,fb_neg_pct_answers,fb_pos_pct_prepared|fb_pos_pct_answers|fb_n_sent_answers,Ridge 50,0.11041814431508805,-0.0035653297443382775,False
+2026,Healthcare,20,Rolling 5Y,C,4,fb_sent_std_prepared,fb_pos_pct_prepared|fb_pos_pct_answers|fb_n_sent_answers,Elastic Net .05,0.1128547311073043,-0.0011287429521220221,False
+2026,Healthcare,20,Rolling 5Y,C,4,fb_sent_std_answers,fb_pos_pct_prepared|fb_pos_pct_answers|fb_n_sent_answers,Ridge 50,0.10640823787794511,-0.007575236181481218,False
+2026,Healthcare,20,Rolling 5Y,C,4,fb_sent_gap,fb_pos_pct_prepared|fb_pos_pct_answers|fb_n_sent_answers,Ridge 50,0.11430433242836195,0.00032085836893562536,False
+2026,Healthcare,20,Rolling 5Y,C,4,fb_sent_prepared_chg,fb_pos_pct_prepared|fb_pos_pct_answers|fb_n_sent_answers,Ridge 50,0.11110182847403423,-0.002881645585392098,False
+2026,Healthcare,20,Rolling 5Y,C,4,fb_sent_answers_chg,fb_pos_pct_prepared|fb_pos_pct_answers|fb_n_sent_answers,Ridge 50,0.097144183807289911,-0.016839290252136416,False
+2026,Healthcare,20,Rolling 5Y,C,4,fb_n_sent_prepared,fb_pos_pct_prepared|fb_pos_pct_answers|fb_n_sent_answers,Ridge 50,0.11556274436767987,0.0015792703082535414,True
+2026,Healthcare,20,Rolling 5Y,C,5,fb_sent_prepared,fb_pos_pct_prepared|fb_pos_pct_answers|fb_n_sent_answers|fb_n_sent_prepared,Elastic Net .05,0.11383326544962891,-0.0017294789180509612,False
+2026,Healthcare,20,Rolling 5Y,C,5,fb_sent_answers,fb_pos_pct_prepared|fb_pos_pct_answers|fb_n_sent_answers|fb_n_sent_prepared,Ridge 50,0.11352587415981985,-0.002036870207860017,False
+2026,Healthcare,20,Rolling 5Y,C,5,fb_neg_pct_prepared,fb_pos_pct_prepared|fb_pos_pct_answers|fb_n_sent_answers|fb_n_sent_prepared,Ridge 50,0.11222837153951463,-0.0033343728281652329,False
+2026,Healthcare,20,Rolling 5Y,C,5,fb_neg_pct_answers,fb_pos_pct_prepared|fb_pos_pct_answers|fb_n_sent_answers|fb_n_sent_prepared,Ridge 10,0.11157257406067023,-0.0039901703070096411,False
+2026,Healthcare,20,Rolling 5Y,C,5,fb_sent_std_prepared,fb_pos_pct_prepared|fb_pos_pct_answers|fb_n_sent_answers|fb_n_sent_prepared,Elastic Net .05,0.11144017562210035,-0.0041225687455795218,False
+2026,Healthcare,20,Rolling 5Y,C,5,fb_sent_std_answers,fb_pos_pct_prepared|fb_pos_pct_answers|fb_n_sent_answers|fb_n_sent_prepared,Ridge 50,0.10603428429025123,-0.0095284600774286354,False
+2026,Healthcare,20,Rolling 5Y,C,5,fb_sent_gap,fb_pos_pct_prepared|fb_pos_pct_answers|fb_n_sent_answers|fb_n_sent_prepared,Ridge 10,0.11507577489038882,-0.00048696947729104378,False
+2026,Healthcare,20,Rolling 5Y,C,5,fb_sent_prepared_chg,fb_pos_pct_prepared|fb_pos_pct_answers|fb_n_sent_answers|fb_n_sent_prepared,Ridge 50,0.11226968056877767,-0.0032930637989021933,False
+2026,Healthcare,20,Rolling 5Y,C,5,fb_sent_answers_chg,fb_pos_pct_prepared|fb_pos_pct_answers|fb_n_sent_answers|fb_n_sent_prepared,Ridge 50,0.098771354608006331,-0.016791389759673536,False

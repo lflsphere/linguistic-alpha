@@ -1,0 +1,2101 @@
+year,scope,benchmark,horizon,factor,quarter,events,issuers,rank_ic,eligible,partial
+0,Development,S&P 500,5,tone_prepared,2010Q1,46,46,-0.19494896552486293,True,False
+0,Development,S&P 500,5,tone_prepared,2010Q2,51,51,0.08615384615384615,True,False
+0,Development,S&P 500,5,tone_prepared,2010Q3,51,51,0.04343891402714932,True,False
+0,Development,S&P 500,5,tone_prepared,2010Q4,50,50,0.055368805288582734,True,False
+0,Development,S&P 500,5,tone_prepared,2011Q1,48,48,0.3317502104513726,True,False
+0,Development,S&P 500,5,tone_prepared,2011Q2,50,50,0.22992148677663876,True,False
+0,Development,S&P 500,5,tone_prepared,2011Q3,51,51,-0.0056566205318109184,True,False
+0,Development,S&P 500,5,tone_prepared,2011Q4,48,48,0.046678245766391666,True,False
+0,Development,S&P 500,5,tone_prepared,2012Q1,49,49,0.028521863397501689,True,False
+0,Development,S&P 500,5,tone_prepared,2012Q2,50,50,-0.053881432175713562,True,False
+0,Development,S&P 500,5,tone_prepared,2012Q3,49,49,0.062503189019569888,True,False
+0,Development,S&P 500,5,tone_prepared,2012Q4,52,52,0.059039487780584037,True,False
+0,Development,S&P 500,5,tone_prepared,2013Q1,51,51,0.08407239819004525,True,False
+0,Development,S&P 500,5,tone_prepared,2013Q2,50,50,0.17975747518202184,True,False
+0,Development,S&P 500,5,tone_prepared,2013Q3,48,48,-0.013677811550151976,True,False
+0,Development,S&P 500,5,tone_prepared,2013Q4,51,51,0.17357466063348415,True,False
+0,Development,S&P 500,5,tone_prepared,2014Q1,49,49,-0.045409321681145316,True,False
+0,Development,S&P 500,5,tone_prepared,2014Q2,48,47,0.10709439303623408,True,False
+0,Development,S&P 500,5,tone_prepared,2014Q3,47,47,0.26772291146995275,True,False
+0,Development,S&P 500,5,tone_prepared,2014Q4,53,52,-0.036083617238770634,True,False
+0,Development,S&P 500,5,tone_prepared,2015Q1,48,48,-0.014329524796983371,True,False
+0,Development,S&P 500,5,tone_prepared,2015Q2,50,50,0.15188840072567009,True,False
+0,Development,S&P 500,5,tone_prepared,2015Q3,52,52,-0.1721311481684166,True,False
+0,Development,S&P 500,5,tone_prepared,2015Q4,51,51,-0.11638535692263323,True,False
+0,Development,S&P 500,5,tone_prepared,2016Q1,52,52,-0.025400213470316343,True,False
+0,Development,S&P 500,5,tone_prepared,2016Q2,55,55,0.10873408138682363,True,False
+0,Development,S&P 500,5,tone_prepared,2016Q3,55,55,0.097546897546897562,True,False
+0,Development,S&P 500,5,tone_prepared,2016Q4,54,54,0.051419858967028768,True,False
+0,Development,S&P 500,5,tone_prepared,2017Q1,54,54,-0.095065657834262546,True,False
+0,Development,S&P 500,5,tone_prepared,2017Q2,55,55,-0.1282828282828283,True,False
+0,Development,S&P 500,5,tone_prepared,2017Q3,54,54,0.33935582237469025,True,False
+0,Development,S&P 500,5,tone_prepared,2017Q4,55,55,0.015079365079365083,True,False
+0,Development,S&P 500,5,tone_prepared,2018Q1,55,55,0.11183462906994404,True,False
+0,Development,S&P 500,5,tone_prepared,2018Q2,53,53,0.13897232248272889,True,False
+0,Development,S&P 500,5,tone_prepared,2018Q3,53,53,-0.025963554265441058,True,False
+0,Development,S&P 500,5,tone_prepared,2018Q4,55,55,0.012266618612176268,True,False
+0,Development,S&P 500,5,tone_prepared,2019Q1,58,58,0.063029669170904801,True,False
+0,Development,S&P 500,5,tone_prepared,2019Q2,54,54,0.4235643904788795,True,False
+0,Development,S&P 500,5,tone_prepared,2019Q3,57,57,0.27375994558859973,True,False
+0,Development,S&P 500,5,tone_prepared,2019Q4,54,54,-0.033124952375975313,True,False
+0,Development,S&P 500,5,tone_prepared,2020Q1,55,55,0.13125281915028608,True,False
+0,Development,S&P 500,5,tone_prepared,2020Q2,55,55,0.16139971139971143,True,False
+0,Development,S&P 500,5,tone_prepared,2020Q3,60,60,0.19292005898136277,True,False
+0,Development,S&P 500,5,tone_prepared,2020Q4,59,59,0.16119464049997301,True,False
+0,Development,S&P 500,5,tone_prepared,2021Q1,55,55,-0.18755749565633517,True,False
+0,Development,S&P 500,5,tone_prepared,2021Q2,59,59,-0.020397726444702891,True,False
+0,Development,S&P 500,5,tone_prepared,2021Q3,57,57,-0.014260249561856586,True,False
+0,Development,S&P 500,5,tone_prepared,2021Q4,59,59,0.20982495114018276,True,False
+0,Development,S&P 500,5,tone_prepared,2022Q1,53,53,-0.080067731011127227,True,False
+0,Development,S&P 500,5,tone_prepared,2022Q2,50,50,-0.11596638655462185,True,False
+0,Development,S&P 500,5,tone_prepared,2022Q3,53,53,-0.1521559457643803,True,False
+0,Development,S&P 500,5,tone_prepared,2022Q4,50,50,0.068043217286914759,True,False
+0,Development,S&P 500,5,tone_prepared,2023Q1,55,55,-0.010173160173160176,True,False
+0,Development,S&P 500,5,tone_prepared,2023Q2,47,47,-0.0645235892691952,True,False
+0,Development,S&P 500,5,tone_prepared,2023Q3,53,53,-0.12776422684878674,True,False
+0,Development,S&P 500,5,tone_prepared,2023Q4,53,53,0.069185179268422922,True,False
+0,Development,S&P 500,5,tone_answers,2010Q1,46,46,0.006599235241365747,True,False
+0,Development,S&P 500,5,tone_answers,2010Q2,50,50,-0.049603841536614644,True,False
+0,Development,S&P 500,5,tone_answers,2010Q3,51,51,-0.074570135746606328,True,False
+0,Development,S&P 500,5,tone_answers,2010Q4,50,50,-0.027611044417767107,True,False
+0,Development,S&P 500,5,tone_answers,2011Q1,48,48,0.15556218965209978,True,False
+0,Development,S&P 500,5,tone_answers,2011Q2,50,50,0.1700881174107883,True,False
+0,Development,S&P 500,5,tone_answers,2011Q3,51,51,0.046064390608862235,True,False
+0,Development,S&P 500,5,tone_answers,2011Q4,48,48,-0.1551321719703786,True,False
+0,Development,S&P 500,5,tone_answers,2012Q1,49,49,0.053980968919833415,True,False
+0,Development,S&P 500,5,tone_answers,2012Q2,50,50,-0.035678271308523413,True,False
+0,Development,S&P 500,5,tone_answers,2012Q3,49,49,0.21245981965509309,True,False
+0,Development,S&P 500,5,tone_answers,2012Q4,52,52,0.20361990950226244,True,False
+0,Development,S&P 500,5,tone_answers,2013Q1,51,51,-0.062671101172175045,True,False
+0,Development,S&P 500,5,tone_answers,2013Q2,50,50,0.1063625450180072,True,False
+0,Development,S&P 500,5,tone_answers,2013Q3,48,48,0.25282240555796787,True,False
+0,Development,S&P 500,5,tone_answers,2013Q4,51,51,0.029186180690290907,True,False
+0,Development,S&P 500,5,tone_answers,2014Q1,49,49,-0.021635412856229812,True,False
+0,Development,S&P 500,5,tone_answers,2014Q2,48,47,-0.17575379277512182,True,False
+0,Development,S&P 500,5,tone_answers,2014Q3,46,46,-0.18255265357595524,True,False
+0,Development,S&P 500,5,tone_answers,2014Q4,53,52,-0.16904872299683268,True,False
+0,Development,S&P 500,5,tone_answers,2015Q1,48,48,-0.023122014763352149,True,False
+0,Development,S&P 500,5,tone_answers,2015Q2,50,50,0.0096523242523895315,True,False
+0,Development,S&P 500,5,tone_answers,2015Q3,52,52,-0.071167844664320773,True,False
+0,Development,S&P 500,5,tone_answers,2015Q4,51,51,-0.12760180995475112,True,False
+0,Development,S&P 500,5,tone_answers,2016Q1,52,52,-0.04892104758750275,True,False
+0,Development,S&P 500,5,tone_answers,2016Q2,55,55,0.35174429114848388,True,False
+0,Development,S&P 500,5,tone_answers,2016Q3,54,54,0.025805222031637119,True,False
+0,Development,S&P 500,5,tone_answers,2016Q4,53,53,-0.32621711580673979,True,False
+0,Development,S&P 500,5,tone_answers,2017Q1,54,54,-0.18789311227556674,True,False
+0,Development,S&P 500,5,tone_answers,2017Q2,55,55,-0.15498394613065505,True,False
+0,Development,S&P 500,5,tone_answers,2017Q3,54,54,0.098458137203648821,True,False
+0,Development,S&P 500,5,tone_answers,2017Q4,55,55,0.11648839266672559,True,False
+0,Development,S&P 500,5,tone_answers,2018Q1,55,55,-0.054112554112554126,True,False
+0,Development,S&P 500,5,tone_answers,2018Q2,53,53,-0.092807611675536208,True,False
+0,Development,S&P 500,5,tone_answers,2018Q3,53,53,0.07039329128367991,True,False
+0,Development,S&P 500,5,tone_answers,2018Q4,55,55,-0.10613849971346943,True,False
+0,Development,S&P 500,5,tone_answers,2019Q1,58,58,0.34791435970687867,True,False
+0,Development,S&P 500,5,tone_answers,2019Q2,53,53,0.50497923679312184,True,False
+0,Development,S&P 500,5,tone_answers,2019Q3,56,56,0.10448245822640904,True,False
+0,Development,S&P 500,5,tone_answers,2019Q4,53,53,-0.11224448664527355,True,False
+0,Development,S&P 500,5,tone_answers,2020Q1,55,55,-0.021790107882429154,True,False
+0,Development,S&P 500,5,tone_answers,2020Q2,55,55,0.15216450216450217,True,False
+0,Development,S&P 500,5,tone_answers,2020Q3,60,60,0.14356965227354232,True,False
+0,Development,S&P 500,5,tone_answers,2020Q4,59,59,0.013676612414151188,True,False
+0,Development,S&P 500,5,tone_answers,2021Q1,55,55,0.034668735011682654,True,False
+0,Development,S&P 500,5,tone_answers,2021Q2,59,59,-0.18638495596606741,True,False
+0,Development,S&P 500,5,tone_answers,2021Q3,57,57,0.091815073499763603,True,False
+0,Development,S&P 500,5,tone_answers,2021Q4,59,59,0.013091950497459735,True,False
+0,Development,S&P 500,5,tone_answers,2022Q1,53,53,-0.059184002580228996,True,False
+0,Development,S&P 500,5,tone_answers,2022Q2,50,50,-0.16669067934544715,True,False
+0,Development,S&P 500,5,tone_answers,2022Q3,53,53,0.018385243456664608,True,False
+0,Development,S&P 500,5,tone_answers,2022Q4,50,50,-0.10214175962603253,True,False
+0,Development,S&P 500,5,tone_answers,2023Q1,55,55,0.11277870005547221,True,False
+0,Development,S&P 500,5,tone_answers,2023Q2,47,47,0.15575855689176688,True,False
+0,Development,S&P 500,5,tone_answers,2023Q3,53,53,-0.086521791789065036,True,False
+0,Development,S&P 500,5,tone_answers,2023Q4,53,53,-0.039592783057992638,True,False
+0,Development,S&P 500,5,hedging_prepared,2010Q1,46,46,0.17089115016959608,True,False
+0,Development,S&P 500,5,hedging_prepared,2010Q2,51,51,0.012669683257918552,True,False
+0,Development,S&P 500,5,hedging_prepared,2010Q3,51,51,0.11457013574660634,True,False
+0,Development,S&P 500,5,hedging_prepared,2010Q4,50,50,0.0049460971466152451,True,False
+0,Development,S&P 500,5,hedging_prepared,2011Q1,48,48,0.026378636561007383,True,False
+0,Development,S&P 500,5,hedging_prepared,2011Q2,50,50,0.011860744297719087,True,False
+0,Development,S&P 500,5,hedging_prepared,2011Q3,51,51,0.033936651583710405,True,False
+0,Development,S&P 500,5,hedging_prepared,2011Q4,48,48,-0.037559704732957014,True,False
+0,Development,S&P 500,5,hedging_prepared,2012Q1,49,49,-0.014999999999999999,True,False
+0,Development,S&P 500,5,hedging_prepared,2012Q2,50,50,-0.046242496998799516,True,False
+0,Development,S&P 500,5,hedging_prepared,2012Q3,49,49,-0.084795918367346942,True,False
+0,Development,S&P 500,5,hedging_prepared,2012Q4,52,52,0.0082813967386664387,True,False
+0,Development,S&P 500,5,hedging_prepared,2013Q1,51,51,-0.17529411764705882,True,False
+0,Development,S&P 500,5,hedging_prepared,2013Q2,50,50,-0.15390156062424967,True,False
+0,Development,S&P 500,5,hedging_prepared,2013Q3,48,48,-0.29667824576639168,True,False
+0,Development,S&P 500,5,hedging_prepared,2013Q4,51,51,0.0048868778280542983,True,False
+0,Development,S&P 500,5,hedging_prepared,2014Q1,49,49,-0.38948979591836735,True,False
+0,Development,S&P 500,5,hedging_prepared,2014Q2,48,47,0.010746851932262266,True,False
+0,Development,S&P 500,5,hedging_prepared,2014Q3,47,47,0.26179463459759483,True,False
+0,Development,S&P 500,5,hedging_prepared,2014Q4,53,52,-0.17569746815029832,True,False
+0,Development,S&P 500,5,hedging_prepared,2015Q1,48,48,0.20983499782891882,True,False
+0,Development,S&P 500,5,hedging_prepared,2015Q2,50,50,-0.024057623049219684,True,False
+0,Development,S&P 500,5,hedging_prepared,2015Q3,52,52,0.404593187057116,True,False
+0,Development,S&P 500,5,hedging_prepared,2015Q4,51,51,0.0091402714932126688,True,False
+0,Development,S&P 500,5,hedging_prepared,2016Q1,52,52,0.080850337232135222,True,False
+0,Development,S&P 500,5,hedging_prepared,2016Q2,55,55,-0.25346320346320356,True,False
+0,Development,S&P 500,5,hedging_prepared,2016Q3,55,55,-0.059235209235209245,True,False
+0,Development,S&P 500,5,hedging_prepared,2016Q4,54,54,-0.0519534972365161,True,False
+0,Development,S&P 500,5,hedging_prepared,2017Q1,54,54,-0.23323804078521057,True,False
+0,Development,S&P 500,5,hedging_prepared,2017Q2,55,55,0.19372294372294377,True,False
+0,Development,S&P 500,5,hedging_prepared,2017Q3,54,54,-0.33455307794930439,True,False
+0,Development,S&P 500,5,hedging_prepared,2017Q4,55,55,0.039321789321789327,True,False
+0,Development,S&P 500,5,hedging_prepared,2018Q1,55,55,-0.044155844155844164,True,False
+0,Development,S&P 500,5,hedging_prepared,2018Q2,53,53,0.038622802773746162,True,False
+0,Development,S&P 500,5,hedging_prepared,2018Q3,53,53,-0.25124979841960976,True,False
+0,Development,S&P 500,5,hedging_prepared,2018Q4,55,55,-0.28455988455988462,True,False
+0,Development,S&P 500,5,hedging_prepared,2019Q1,58,58,-0.0078439816666153999,True,False
+0,Development,S&P 500,5,hedging_prepared,2019Q2,54,54,-0.21791499904707451,True,False
+0,Development,S&P 500,5,hedging_prepared,2019Q3,57,57,-0.22673061965257973,True,False
+0,Development,S&P 500,5,hedging_prepared,2019Q4,54,54,-0.024204768534385211,True,False
+0,Development,S&P 500,5,hedging_prepared,2020Q1,55,55,-0.21962481962481967,True,False
+0,Development,S&P 500,5,hedging_prepared,2020Q2,55,55,-0.15591630591630598,True,False
+0,Development,S&P 500,5,hedging_prepared,2020Q3,60,60,-0.15248680188941374,True,False
+0,Development,S&P 500,5,hedging_prepared,2020Q4,59,59,-0.061835184102863823,True,False
+0,Development,S&P 500,5,hedging_prepared,2021Q1,55,55,0.16334776334776338,True,False
+0,Development,S&P 500,5,hedging_prepared,2021Q2,59,59,-0.00946814728229106,True,False
+0,Development,S&P 500,5,hedging_prepared,2021Q3,57,57,0.21059113300492613,True,False
+0,Development,S&P 500,5,hedging_prepared,2021Q4,59,59,0.08726401324158263,True,False
+0,Development,S&P 500,5,hedging_prepared,2022Q1,53,53,-0.070553136590872437,True,False
+0,Development,S&P 500,5,hedging_prepared,2022Q2,50,50,0.1063625450180072,True,False
+0,Development,S&P 500,5,hedging_prepared,2022Q3,53,53,0.27568134171907754,True,False
+0,Development,S&P 500,5,hedging_prepared,2022Q4,50,50,-0.0015846338535414166,True,False
+0,Development,S&P 500,5,hedging_prepared,2023Q1,55,55,-0.059451659451659457,True,False
+0,Development,S&P 500,5,hedging_prepared,2023Q2,47,47,0.13992078870291413,True,False
+0,Development,S&P 500,5,hedging_prepared,2023Q3,53,53,0.15892597968069663,True,False
+0,Development,S&P 500,5,hedging_prepared,2023Q4,53,53,-0.27253668763102723,True,False
+0,Development,S&P 500,5,uncertainty_answers,2010Q1,46,46,0.077397471477027441,True,False
+0,Development,S&P 500,5,uncertainty_answers,2010Q2,50,50,0.013205282112845136,True,False
+0,Development,S&P 500,5,uncertainty_answers,2010Q3,51,51,0.20045248868778281,True,False
+0,Development,S&P 500,5,uncertainty_answers,2010Q4,50,50,-0.023193277310924368,True,False
+0,Development,S&P 500,5,uncertainty_answers,2011Q1,48,48,0.13862353452019105,True,False
+0,Development,S&P 500,5,uncertainty_answers,2011Q2,50,50,-0.049123649459783911,True,False
+0,Development,S&P 500,5,uncertainty_answers,2011Q3,51,51,-0.099730763164963029,True,False
+0,Development,S&P 500,5,uncertainty_answers,2011Q4,48,48,-0.1403603994789405,True,False
+0,Development,S&P 500,5,uncertainty_answers,2012Q1,49,49,-0.015918367346938776,True,False
+0,Development,S&P 500,5,uncertainty_answers,2012Q2,50,50,0.17695078031212486,True,False
+0,Development,S&P 500,5,uncertainty_answers,2012Q3,49,49,0.064795918367346925,True,False
+0,Development,S&P 500,5,uncertainty_answers,2012Q4,52,52,0.032186459489456157,True,False
+0,Development,S&P 500,5,uncertainty_answers,2013Q1,51,51,-0.25538461538461538,True,False
+0,Development,S&P 500,5,uncertainty_answers,2013Q2,50,50,-0.15860744297719087,True,False
+0,Development,S&P 500,5,uncertainty_answers,2013Q3,48,48,-0.1265740338688667,True,False
+0,Development,S&P 500,5,uncertainty_answers,2013Q4,51,51,-0.23990950226244345,True,False
+0,Development,S&P 500,5,uncertainty_answers,2014Q1,49,49,-0.25938775510204082,True,False
+0,Development,S&P 500,5,uncertainty_answers,2014Q2,48,47,0.18693009118541032,True,False
+0,Development,S&P 500,5,uncertainty_answers,2014Q3,46,46,0.052975639839654635,True,False
+0,Development,S&P 500,5,uncertainty_answers,2014Q4,53,52,-0.029995162070633768,True,False
+0,Development,S&P 500,5,uncertainty_answers,2015Q1,48,48,-0.035822839774207547,True,False
+0,Development,S&P 500,5,uncertainty_answers,2015Q2,50,50,0.092533013205282108,True,False
+0,Development,S&P 500,5,uncertainty_answers,2015Q3,52,52,0.22726884658072227,True,False
+0,Development,S&P 500,5,uncertainty_answers,2015Q4,51,51,0.15511312217194567,True,False
+0,Development,S&P 500,5,uncertainty_answers,2016Q1,52,52,-0.017843421838982326,True,False
+0,Development,S&P 500,5,uncertainty_answers,2016Q2,55,55,-0.079509379509379516,True,False
+0,Development,S&P 500,5,uncertainty_answers,2016Q3,54,54,-0.13352391842957881,True,False
+0,Development,S&P 500,5,uncertainty_answers,2016Q4,53,53,0.098290598290598288,True,False
+0,Development,S&P 500,5,uncertainty_answers,2017Q1,54,54,-0.0024013722126929671,True,False
+0,Development,S&P 500,5,uncertainty_answers,2017Q2,55,55,0.22142857142857147,True,False
+0,Development,S&P 500,5,uncertainty_answers,2017Q3,54,54,-0.078559176672384212,True,False
+0,Development,S&P 500,5,uncertainty_answers,2017Q4,55,55,-0.16904761904761906,True,False
+0,Development,S&P 500,5,uncertainty_answers,2018Q1,55,55,0.071428571428571438,True,False
+0,Development,S&P 500,5,uncertainty_answers,2018Q2,53,53,-0.059667795516852119,True,False
+0,Development,S&P 500,5,uncertainty_answers,2018Q3,53,53,-0.22601193355910335,True,False
+0,Development,S&P 500,5,uncertainty_answers,2018Q4,55,55,0.015079365079365083,True,False
+0,Development,S&P 500,5,uncertainty_answers,2019Q1,58,58,-0.026115844842966567,True,False
+0,Development,S&P 500,5,uncertainty_answers,2019Q2,53,53,-0.47564908885663598,True,False
+0,Development,S&P 500,5,uncertainty_answers,2019Q3,56,56,-0.33062200956937798,True,False
+0,Development,S&P 500,5,uncertainty_answers,2019Q4,53,53,0.2474600870827286,True,False
+0,Development,S&P 500,5,uncertainty_answers,2020Q1,55,55,-0.0087301587301587304,True,False
+0,Development,S&P 500,5,uncertainty_answers,2020Q2,55,55,0.16183261183261188,True,False
+0,Development,S&P 500,5,uncertainty_answers,2020Q3,60,60,-0.22389552653514866,True,False
+0,Development,S&P 500,5,uncertainty_answers,2020Q4,59,59,-0.087434248977206322,True,False
+0,Development,S&P 500,5,uncertainty_answers,2021Q1,55,55,0.16572871572871575,True,False
+0,Development,S&P 500,5,uncertainty_answers,2021Q2,59,59,0.22191700759789598,True,False
+0,Development,S&P 500,5,uncertainty_answers,2021Q3,57,57,0.051724137931034489,True,False
+0,Development,S&P 500,5,uncertainty_answers,2021Q4,59,59,0.072296902396259508,True,False
+0,Development,S&P 500,5,uncertainty_answers,2022Q1,53,53,0.015239477503628448,True,False
+0,Development,S&P 500,5,uncertainty_answers,2022Q2,50,50,-0.084657863145258097,True,False
+0,Development,S&P 500,5,uncertainty_answers,2022Q3,53,53,0.076278019674246078,True,False
+0,Development,S&P 500,5,uncertainty_answers,2022Q4,50,50,0.16129651860744296,True,False
+0,Development,S&P 500,5,uncertainty_answers,2023Q1,55,55,-0.078643578643578654,True,False
+0,Development,S&P 500,5,uncertainty_answers,2023Q2,47,47,-0.070536540240518031,True,False
+0,Development,S&P 500,5,uncertainty_answers,2023Q3,53,53,0.16392517335913562,True,False
+0,Development,S&P 500,5,uncertainty_answers,2023Q4,53,53,0.078293823576842447,True,False
+0,Development,S&P 500,5,tone_gap,2010Q1,46,46,0.20690718470551955,True,False
+0,Development,S&P 500,5,tone_gap,2010Q2,50,50,-0.15092436974789916,True,False
+0,Development,S&P 500,5,tone_gap,2010Q3,51,51,-0.02868778280542986,True,False
+0,Development,S&P 500,5,tone_gap,2010Q4,50,50,-0.053061224489795916,True,False
+0,Development,S&P 500,5,tone_gap,2011Q1,48,48,-0.12201476335214935,True,False
+0,Development,S&P 500,5,tone_gap,2011Q2,50,50,-0.042496998799519813,True,False
+0,Development,S&P 500,5,tone_gap,2011Q3,51,51,0.0098642533936651594,True,False
+0,Development,S&P 500,5,tone_gap,2011Q4,48,48,-0.21417716022579245,True,False
+0,Development,S&P 500,5,tone_gap,2012Q1,49,49,0.095102040816326505,True,False
+0,Development,S&P 500,5,tone_gap,2012Q2,50,50,0.021368547418967588,True,False
+0,Development,S&P 500,5,tone_gap,2012Q3,49,49,0.15622448979591833,True,False
+0,Development,S&P 500,5,tone_gap,2012Q4,52,52,0.20421753607103216,True,False
+0,Development,S&P 500,5,tone_gap,2013Q1,51,51,-0.16063348416289591,True,False
+0,Development,S&P 500,5,tone_gap,2013Q2,50,50,-0.073517406962785109,True,False
+0,Development,S&P 500,5,tone_gap,2013Q3,48,48,0.16576204950065132,True,False
+0,Development,S&P 500,5,tone_gap,2013Q4,51,51,-0.10868778280542986,True,False
+0,Development,S&P 500,5,tone_gap,2014Q1,49,49,0.04204081632653061,True,False
+0,Development,S&P 500,5,tone_gap,2014Q2,48,47,-0.23056882327399042,True,False
+0,Development,S&P 500,5,tone_gap,2014Q3,46,46,-0.42041319765649093,True,False
+0,Development,S&P 500,5,tone_gap,2014Q4,53,52,-0.14005805515239475,True,False
+0,Development,S&P 500,5,tone_gap,2015Q1,48,48,-0.059487624837168906,True,False
+0,Development,S&P 500,5,tone_gap,2015Q2,50,50,-0.13959183673469386,True,False
+0,Development,S&P 500,5,tone_gap,2015Q3,52,52,0.068300179287970622,True,False
+0,Development,S&P 500,5,tone_gap,2015Q4,51,51,-0.036651583710407235,True,False
+0,Development,S&P 500,5,tone_gap,2016Q1,52,52,-0.02083155468283104,True,False
+0,Development,S&P 500,5,tone_gap,2016Q2,55,55,0.28831168831168841,True,False
+0,Development,S&P 500,5,tone_gap,2016Q3,54,54,-0.054011816275967212,True,False
+0,Development,S&P 500,5,tone_gap,2016Q4,53,53,-0.29124334784712147,True,False
+0,Development,S&P 500,5,tone_gap,2017Q1,54,54,-0.071393177053554399,True,False
+0,Development,S&P 500,5,tone_gap,2017Q2,55,55,-0.089177489177489203,True,False
+0,Development,S&P 500,5,tone_gap,2017Q3,54,54,-0.18589670287783491,True,False
+0,Development,S&P 500,5,tone_gap,2017Q4,55,55,0.067965367965367979,True,False
+0,Development,S&P 500,5,tone_gap,2018Q1,55,55,-0.1088744588744589,True,False
+0,Development,S&P 500,5,tone_gap,2018Q2,53,53,-0.13602644734720207,True,False
+0,Development,S&P 500,5,tone_gap,2018Q3,53,53,0.068779229156587629,True,False
+0,Development,S&P 500,5,tone_gap,2018Q4,55,55,-0.061544011544011561,True,False
+0,Development,S&P 500,5,tone_gap,2019Q1,58,58,0.20194407702482389,True,False
+0,Development,S&P 500,5,tone_gap,2019Q2,53,53,0.075229801644895983,True,False
+0,Development,S&P 500,5,tone_gap,2019Q3,56,56,-0.20498974709501028,True,False
+0,Development,S&P 500,5,tone_gap,2019Q4,53,53,-0.17497177874536365,True,False
+0,Development,S&P 500,5,tone_gap,2020Q1,55,55,-0.065873015873015875,True,False
+0,Development,S&P 500,5,tone_gap,2020Q2,55,55,-0.051659451659451669,True,False
+0,Development,S&P 500,5,tone_gap,2020Q3,60,60,0.0082800777993887204,True,False
+0,Development,S&P 500,5,tone_gap,2020Q4,59,59,-0.14979544126241967,True,False
+0,Development,S&P 500,5,tone_gap,2021Q1,55,55,0.27409812409812417,True,False
+0,Development,S&P 500,5,tone_gap,2021Q2,59,59,-0.12133255406195209,True,False
+0,Development,S&P 500,5,tone_gap,2021Q3,57,57,-0.040964480165932078,True,False
+0,Development,S&P 500,5,tone_gap,2021Q4,59,59,-0.10888369374634718,True,False
+0,Development,S&P 500,5,tone_gap,2022Q1,53,53,-0.0041122399612965651,True,False
+0,Development,S&P 500,5,tone_gap,2022Q2,50,50,-0.040768307322929173,True,False
+0,Development,S&P 500,5,tone_gap,2022Q3,53,53,0.14408966295758749,True,False
+0,Development,S&P 500,5,tone_gap,2022Q4,50,50,-0.19241296518607443,True,False
+0,Development,S&P 500,5,tone_gap,2023Q1,55,55,0.14148629148629152,True,False
+0,Development,S&P 500,5,tone_gap,2023Q2,47,47,0.12592506938020354,True,False
+0,Development,S&P 500,5,tone_gap,2023Q3,53,53,0.012578616352201257,True,False
+0,Development,S&P 500,5,tone_gap,2023Q4,53,53,-0.074181583615545874,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2010Q2,44,44,-0.15898520084566595,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2010Q3,49,49,0.16663265306122446,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2010Q4,50,50,0.084369747899159658,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2011Q1,48,48,0.35258358662613981,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2011Q2,49,49,0.19540816326530608,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2011Q3,50,50,0.11020408163265305,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2011Q4,48,48,-0.0016283108988276161,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2012Q1,48,48,-0.11528441163699521,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2012Q2,50,50,-0.026938775510204082,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2012Q3,48,48,0.12863656100738169,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2012Q4,52,52,0.051225134465977963,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2013Q1,50,50,0.070924369747899146,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2013Q2,49,49,0.20908163265306121,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2013Q3,47,47,-0.015841813135985199,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2013Q4,50,50,0.042304921968787511,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2014Q1,49,49,-0.042346938775510191,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2014Q2,48,47,0.017802865827181935,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2014Q3,47,47,0.046716003700277529,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2014Q4,51,50,-0.11040723981900454,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2015Q1,46,46,0.013506012950971322,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2015Q2,49,49,0.036020408163265301,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2015Q3,52,52,-0.12490395287287628,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2015Q4,51,51,-0.034751131221719453,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2016Q1,51,51,-0.05647058823529412,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2016Q2,53,53,0.19730688598613128,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2016Q3,55,55,0.096969696969696983,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2016Q4,52,52,-0.029710577990267221,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2017Q1,52,52,0.0062323913600273199,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2017Q2,54,54,0.16508481036782924,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2017Q3,52,52,0.18014172287202254,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2017Q4,55,55,0.05173160173160174,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2018Q1,55,55,0.17698412698412702,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2018Q2,51,51,0.060090497737556557,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2018Q3,52,52,-0.16545718432510884,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2018Q4,54,54,-0.025119115685153418,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2019Q1,57,57,0.10150375939849625,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2019Q2,54,54,-0.10745187726319801,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2019Q3,57,57,0.22446201711174488,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2019Q4,54,54,-0.044711263579188101,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2020Q1,54,54,0.21623785020011432,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2020Q2,55,55,0.034126984126984131,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2020Q3,57,57,-0.12943997925849107,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2020Q4,58,58,0.14731305177027901,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2021Q1,55,55,-0.15483405483405488,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2021Q2,58,58,0.091451598019010136,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2021Q3,55,55,-0.13116883116883121,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2021Q4,57,57,0.010176302826030595,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2022Q1,53,53,-0.091436865021770675,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2022Q2,49,49,-0.073775510204081629,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2022Q3,53,53,-0.019593613933236574,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2022Q4,50,50,0.051140456182472989,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2023Q1,54,54,-0.21852487135506002,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2023Q2,46,46,-0.17927844588344127,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2023Q3,53,53,-0.00056442509272697954,True,False
+0,Development,S&P 500,5,tone_prepared_chg,2023Q4,53,53,0.18198677632639895,True,False
+0,Development,S&P 500,5,tone_answers_chg,2010Q2,44,44,-0.021423537702607472,True,False
+0,Development,S&P 500,5,tone_answers_chg,2010Q3,49,49,-0.036530612244897953,True,False
+0,Development,S&P 500,5,tone_answers_chg,2010Q4,50,50,0.12144057623049219,True,False
+0,Development,S&P 500,5,tone_answers_chg,2011Q1,48,48,0.04125054277029961,True,False
+0,Development,S&P 500,5,tone_answers_chg,2011Q2,49,49,-0.038163265306122442,True,False
+0,Development,S&P 500,5,tone_answers_chg,2011Q3,50,50,-0.20422569027611043,True,False
+0,Development,S&P 500,5,tone_answers_chg,2011Q4,48,48,-0.4338905775075988,True,False
+0,Development,S&P 500,5,tone_answers_chg,2012Q1,48,48,-0.14198871037776811,True,False
+0,Development,S&P 500,5,tone_answers_chg,2012Q2,50,50,0.038751500600240102,True,False
+0,Development,S&P 500,5,tone_answers_chg,2012Q3,48,48,-0.048198002605297434,True,False
+0,Development,S&P 500,5,tone_answers_chg,2012Q4,52,52,0.1892768718517886,True,False
+0,Development,S&P 500,5,tone_answers_chg,2013Q1,50,50,0.074477791116446576,True,False
+0,Development,S&P 500,5,tone_answers_chg,2013Q2,49,49,-0.061224489795918366,True,False
+0,Development,S&P 500,5,tone_answers_chg,2013Q3,47,47,0.18235430157261795,True,False
+0,Development,S&P 500,5,tone_answers_chg,2013Q4,50,50,-0.25915966386554623,True,False
+0,Development,S&P 500,5,tone_answers_chg,2014Q1,49,49,-0.12387755102040815,True,False
+0,Development,S&P 500,5,tone_answers_chg,2014Q2,48,47,-0.19387755102040818,True,False
+0,Development,S&P 500,5,tone_answers_chg,2014Q3,46,46,-0.33913043478260868,True,False
+0,Development,S&P 500,5,tone_answers_chg,2014Q4,51,50,-0.2586425339366516,True,False
+0,Development,S&P 500,5,tone_answers_chg,2015Q1,46,46,-0.10033919210607462,True,False
+0,Development,S&P 500,5,tone_answers_chg,2015Q2,49,49,-0.17346938775510201,True,False
+0,Development,S&P 500,5,tone_answers_chg,2015Q3,52,52,0.037906599504823696,True,False
+0,Development,S&P 500,5,tone_answers_chg,2015Q4,51,51,-0.14932126696832579,True,False
+0,Development,S&P 500,5,tone_answers_chg,2016Q1,51,51,0.13981900452488688,True,False
+0,Development,S&P 500,5,tone_answers_chg,2016Q2,53,53,0.44363812288340587,True,False
+0,Development,S&P 500,5,tone_answers_chg,2016Q3,54,54,0.25511720983419095,True,False
+0,Development,S&P 500,5,tone_answers_chg,2016Q4,51,51,-0.37891402714932121,True,False
+0,Development,S&P 500,5,tone_answers_chg,2017Q1,52,52,-0.16673781268675833,True,False
+0,Development,S&P 500,5,tone_answers_chg,2017Q2,54,54,-0.1573089384410139,True,False
+0,Development,S&P 500,5,tone_answers_chg,2017Q3,52,52,0.24144113378297619,True,False
+0,Development,S&P 500,5,tone_answers_chg,2017Q4,55,55,0.12683982683982689,True,False
+0,Development,S&P 500,5,tone_answers_chg,2018Q1,55,55,0.18318903318903323,True,False
+0,Development,S&P 500,5,tone_answers_chg,2018Q2,51,51,-0.23638009049773753,True,False
+0,Development,S&P 500,5,tone_answers_chg,2018Q3,52,52,-0.055493895671476126,True,False
+0,Development,S&P 500,5,tone_answers_chg,2018Q4,54,54,-0.068115113398132254,True,False
+0,Development,S&P 500,5,tone_answers_chg,2019Q1,57,57,0.40543168265491319,True,False
+0,Development,S&P 500,5,tone_answers_chg,2019Q2,53,53,0.11490082244799225,True,False
+0,Development,S&P 500,5,tone_answers_chg,2019Q3,56,56,-0.0071086807928913195,True,False
+0,Development,S&P 500,5,tone_answers_chg,2019Q4,53,53,-0.11611030478955006,True,False
+0,Development,S&P 500,5,tone_answers_chg,2020Q1,54,54,0.29811320754716975,True,False
+0,Development,S&P 500,5,tone_answers_chg,2020Q2,55,55,0.024747474747474751,True,False
+0,Development,S&P 500,5,tone_answers_chg,2020Q3,57,57,0.046149857402126009,True,False
+0,Development,S&P 500,5,tone_answers_chg,2020Q4,58,58,0.2026208126980221,True,False
+0,Development,S&P 500,5,tone_answers_chg,2021Q1,55,55,-0.16702741702741708,True,False
+0,Development,S&P 500,5,tone_answers_chg,2021Q2,58,58,0.08382294133932143,True,False
+0,Development,S&P 500,5,tone_answers_chg,2021Q3,55,55,0.13398268398268401,True,False
+0,Development,S&P 500,5,tone_answers_chg,2021Q4,57,57,0.093336790251490803,True,False
+0,Development,S&P 500,5,tone_answers_chg,2022Q1,53,53,0.14699242057732623,True,False
+0,Development,S&P 500,5,tone_answers_chg,2022Q2,49,49,-0.14561224489795918,True,False
+0,Development,S&P 500,5,tone_answers_chg,2022Q3,53,53,0.17642315755523302,True,False
+0,Development,S&P 500,5,tone_answers_chg,2022Q4,50,50,-0.10079231692677069,True,False
+0,Development,S&P 500,5,tone_answers_chg,2023Q1,54,54,-0.094720792834000367,True,False
+0,Development,S&P 500,5,tone_answers_chg,2023Q2,46,46,-0.16891766882516188,True,False
+0,Development,S&P 500,5,tone_answers_chg,2023Q3,53,53,-0.049266247379454918,True,False
+0,Development,S&P 500,5,tone_answers_chg,2023Q4,53,53,-0.14167069827447187,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2010Q2,44,44,0.0019732205778717408,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2010Q3,49,49,0.20632653061224487,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2010Q4,50,50,0.11903961584633853,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2011Q1,48,48,0.15089014329135911,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2011Q2,49,49,-0.11193877551020406,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2011Q3,50,50,-0.061416566626650661,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2011Q4,48,48,-0.040490664350846715,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2012Q1,48,48,0.11376465479808943,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2012Q2,50,50,0.021752701080432171,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2012Q3,48,48,0.23751628310898829,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2012Q4,52,52,0.080679586783915305,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2013Q1,50,50,-0.33358943577430972,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2013Q2,49,49,0.059693877551020402,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2013Q3,47,47,-0.057123034227567066,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2013Q4,50,50,0.22833133253301321,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2014Q1,49,49,-0.11275510204081632,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2014Q2,48,47,0.19659140251845417,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2014Q3,46,46,0.031267345050878817,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2014Q4,51,50,-0.066244343891402713,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2015Q1,46,46,0.045328399629972253,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2015Q2,49,49,0.0025510204081632651,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2015Q3,52,52,0.237172372577478,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2015Q4,51,51,0.12678733031674208,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2016Q1,51,51,-0.085429864253393661,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2016Q2,53,53,-0.042089985486211901,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2016Q3,54,54,-0.063312368972746322,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2016Q4,51,51,-0.020995475113122171,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2017Q1,52,52,-0.10501152565525484,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2017Q2,54,54,-0.070402134553077936,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2017Q3,52,52,0.033296337402885678,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2017Q4,55,55,-0.11370851370851373,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2018Q1,55,55,0.064285714285714293,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2018Q2,51,51,0.019909502262443441,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2018Q3,52,52,-0.062836164944932979,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2018Q4,54,54,0.10181055841433199,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2019Q1,57,57,-0.040316308011407835,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2019Q2,53,53,-0.11965811965811965,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2019Q3,56,56,0.14668489405331511,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2019Q4,53,53,0.18045476536042573,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2020Q1,54,54,0.048141795311606624,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2020Q2,55,55,0.16067821067821073,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2020Q3,57,57,-0.14856105781695617,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2020Q4,58,58,-0.022793687901811813,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2021Q1,55,55,0.10331890331890334,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2021Q2,58,58,0.10061829031960381,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2021Q3,55,55,-0.094155844155844173,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2021Q4,57,57,0.092105263157894746,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2022Q1,53,53,-0.062086760199967742,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2022Q2,49,49,-0.070204081632653056,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2022Q3,53,53,0.2116594097726173,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2022Q4,50,50,0.13767106842737095,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2023Q1,54,54,-0.076043453401943947,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2023Q2,46,46,-0.10625963613937711,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2023Q3,53,53,-0.021528785679729077,True,False
+0,Development,S&P 500,5,hedging_answers_chg,2023Q4,53,53,0.096355426544105796,True,False
+2024,Outer test,S&P 500,5,tone_prepared,2024Q1,52,52,0.070263809442499783,True,False
+2024,Outer test,S&P 500,5,tone_prepared,2024Q2,52,52,-0.25800392726030907,True,False
+2024,Outer test,S&P 500,5,tone_prepared,2024Q3,47,47,-0.11795316585198246,True,False
+2024,Outer test,S&P 500,5,tone_prepared,2024Q4,54,54,-0.049133774237515811,True,False
+2024,Outer test,S&P 500,5,tone_answers,2024Q1,52,52,0.029927210023808552,True,False
+2024,Outer test,S&P 500,5,tone_answers,2024Q2,52,52,-0.21335268505079827,True,False
+2024,Outer test,S&P 500,5,tone_answers,2024Q3,47,47,0.12442542863168232,True,False
+2024,Outer test,S&P 500,5,tone_answers,2024Q4,54,54,-0.020203175362280862,True,False
+2024,Outer test,S&P 500,5,hedging_prepared,2024Q1,52,52,0.3043626739520191,True,False
+2024,Outer test,S&P 500,5,hedging_prepared,2024Q2,52,52,0.060445658669854012,True,False
+2024,Outer test,S&P 500,5,hedging_prepared,2024Q3,47,47,0.053654024051803896,True,False
+2024,Outer test,S&P 500,5,hedging_prepared,2024Q4,54,54,-0.10150562226033923,True,False
+2024,Outer test,S&P 500,5,uncertainty_answers,2024Q1,52,52,-0.10535302655169469,True,False
+2024,Outer test,S&P 500,5,uncertainty_answers,2024Q2,52,52,0.18381285750875098,True,False
+2024,Outer test,S&P 500,5,uncertainty_answers,2024Q3,47,47,0.13899167437557819,True,False
+2024,Outer test,S&P 500,5,uncertainty_answers,2024Q4,54,54,-0.1781208309510196,True,False
+2024,Outer test,S&P 500,5,tone_gap,2024Q1,52,52,-0.035601468453854687,True,False
+2024,Outer test,S&P 500,5,tone_gap,2024Q2,52,52,0.0022197558268590451,True,False
+2024,Outer test,S&P 500,5,tone_gap,2024Q3,47,47,0.14506663589074859,True,False
+2024,Outer test,S&P 500,5,tone_gap,2024Q4,54,54,-0.044939965694682664,True,False
+2024,Outer test,S&P 500,5,tone_prepared_chg,2024Q1,52,52,0.25108853410740201,True,False
+2024,Outer test,S&P 500,5,tone_prepared_chg,2024Q2,52,52,-0.2030222829334927,True,False
+2024,Outer test,S&P 500,5,tone_prepared_chg,2024Q3,46,46,-0.24588344125809439,True,False
+2024,Outer test,S&P 500,5,tone_prepared_chg,2024Q4,54,54,-0.14770344959024201,True,False
+2024,Outer test,S&P 500,5,tone_answers_chg,2024Q1,52,52,0.10031588832920685,True,False
+2024,Outer test,S&P 500,5,tone_answers_chg,2024Q2,52,52,-0.22803722359771192,True,False
+2024,Outer test,S&P 500,5,tone_answers_chg,2024Q3,46,46,-0.010052420598211532,True,False
+2024,Outer test,S&P 500,5,tone_answers_chg,2024Q4,54,54,-0.12323232323232321,True,False
+2024,Outer test,S&P 500,5,hedging_answers_chg,2024Q1,52,52,-0.11235379492871168,True,False
+2024,Outer test,S&P 500,5,hedging_answers_chg,2024Q2,52,52,0.23213523435499017,True,False
+2024,Outer test,S&P 500,5,hedging_answers_chg,2024Q3,46,46,0.097872340425531903,True,False
+2024,Outer test,S&P 500,5,hedging_answers_chg,2024Q4,54,54,-0.19542595769010862,True,False
+2025,Outer test,S&P 500,5,tone_prepared,2025Q1,52,52,-0.055837780200292071,True,False
+2025,Outer test,S&P 500,5,tone_prepared,2025Q2,51,51,0.16598036127224677,True,False
+2025,Outer test,S&P 500,5,tone_prepared,2025Q3,53,53,0.018545395903886468,True,False
+2025,Outer test,S&P 500,5,tone_prepared,2025Q4,55,55,-0.040515188791521196,True,False
+2025,Outer test,S&P 500,5,tone_answers,2025Q1,52,52,-0.0014087212656087181,True,False
+2025,Outer test,S&P 500,5,tone_answers,2025Q2,51,51,0.32108597285067875,True,False
+2025,Outer test,S&P 500,5,tone_answers,2025Q3,53,53,-0.071522164225228044,True,False
+2025,Outer test,S&P 500,5,tone_answers,2025Q4,55,55,-0.23843281597767488,True,False
+2025,Outer test,S&P 500,5,hedging_prepared,2025Q1,52,52,-0.3220353453427815,True,False
+2025,Outer test,S&P 500,5,hedging_prepared,2025Q2,51,51,0.24859728506787326,True,False
+2025,Outer test,S&P 500,5,hedging_prepared,2025Q3,53,53,0.076600548298661503,True,False
+2025,Outer test,S&P 500,5,hedging_prepared,2025Q4,55,55,-0.0065656565656565672,True,False
+2025,Outer test,S&P 500,5,uncertainty_answers,2025Q1,52,52,-0.17578758644241441,True,False
+2025,Outer test,S&P 500,5,uncertainty_answers,2025Q2,51,51,-0.31601809954751131,True,False
+2025,Outer test,S&P 500,5,uncertainty_answers,2025Q3,53,53,0.073375262054507326,True,False
+2025,Outer test,S&P 500,5,uncertainty_answers,2025Q4,55,55,0.18044733044733047,True,False
+2025,Outer test,S&P 500,5,tone_gap,2025Q1,52,52,0.027490822163408177,True,False
+2025,Outer test,S&P 500,5,tone_gap,2025Q2,51,51,0.24036199095022623,True,False
+2025,Outer test,S&P 500,5,tone_gap,2025Q3,53,53,-0.16102241573939688,True,False
+2025,Outer test,S&P 500,5,tone_gap,2025Q4,55,55,-0.17489177489177493,True,False
+2025,Outer test,S&P 500,5,tone_prepared_chg,2025Q1,52,52,0.080679586783915305,True,False
+2025,Outer test,S&P 500,5,tone_prepared_chg,2025Q2,51,51,-0.098914027149321265,True,False
+2025,Outer test,S&P 500,5,tone_prepared_chg,2025Q3,53,53,0.18561522335107242,True,False
+2025,Outer test,S&P 500,5,tone_prepared_chg,2025Q4,55,55,-0.16652236652236654,True,False
+2025,Outer test,S&P 500,5,tone_answers_chg,2025Q1,52,52,-0.043541364296081277,True,False
+2025,Outer test,S&P 500,5,tone_answers_chg,2025Q2,51,51,0.10018099547511312,True,False
+2025,Outer test,S&P 500,5,tone_answers_chg,2025Q3,53,53,-0.2189163038219642,True,False
+2025,Outer test,S&P 500,5,tone_answers_chg,2025Q4,55,55,-0.054978354978354994,True,False
+2025,Outer test,S&P 500,5,hedging_answers_chg,2025Q1,52,52,0.13036796721591393,True,False
+2025,Outer test,S&P 500,5,hedging_answers_chg,2025Q2,51,51,-0.2278733031674208,True,False
+2025,Outer test,S&P 500,5,hedging_answers_chg,2025Q3,53,53,0.26632801161103048,True,False
+2025,Outer test,S&P 500,5,hedging_answers_chg,2025Q4,55,55,0.20490620490620495,True,False
+2026,Outer test,S&P 500,5,tone_prepared,2026Q1,55,55,-0.21385281385281388,True,False
+2026,Outer test,S&P 500,5,tone_prepared,2026Q2,51,51,-0.0037106591030569426,True,True
+2026,Outer test,S&P 500,5,tone_answers,2026Q1,55,55,-0.23222757398218991,True,False
+2026,Outer test,S&P 500,5,tone_answers,2026Q2,51,51,-0.040095033631414777,True,True
+2026,Outer test,S&P 500,5,hedging_prepared,2026Q1,55,55,0.1388888888888889,True,False
+2026,Outer test,S&P 500,5,hedging_prepared,2026Q2,51,51,0.15013574660633483,True,True
+2026,Outer test,S&P 500,5,uncertainty_answers,2026Q1,55,55,0.10194805194805197,True,False
+2026,Outer test,S&P 500,5,uncertainty_answers,2026Q2,51,51,-0.06298642533936652,True,True
+2026,Outer test,S&P 500,5,tone_gap,2026Q1,55,55,-0.022871572871572876,True,False
+2026,Outer test,S&P 500,5,tone_gap,2026Q2,51,51,-0.001990950226244344,True,True
+2026,Outer test,S&P 500,5,tone_prepared_chg,2026Q1,55,55,-0.17720057720057725,True,False
+2026,Outer test,S&P 500,5,tone_prepared_chg,2026Q2,51,51,0.041447963800904979,True,True
+2026,Outer test,S&P 500,5,tone_answers_chg,2026Q1,55,55,-0.21847041847041848,True,False
+2026,Outer test,S&P 500,5,tone_answers_chg,2026Q2,51,51,0.21131221719457013,True,True
+2026,Outer test,S&P 500,5,hedging_answers_chg,2026Q1,55,55,-0.019552669552669558,True,False
+2026,Outer test,S&P 500,5,hedging_answers_chg,2026Q2,51,51,-0.22606334841628958,True,True
+0,Development,S&P 500,20,tone_prepared,2010Q1,46,46,-0.079126707614172481,True,False
+0,Development,S&P 500,20,tone_prepared,2010Q2,51,51,0.33656108597285062,True,False
+0,Development,S&P 500,20,tone_prepared,2010Q3,51,51,-0.022443438914027145,True,False
+0,Development,S&P 500,20,tone_prepared,2010Q4,50,50,0.24827122579529298,True,False
+0,Development,S&P 500,20,tone_prepared,2011Q1,48,48,-0.15062284587738203,True,False
+0,Development,S&P 500,20,tone_prepared,2011Q2,50,50,0.26488030932747275,True,False
+0,Development,S&P 500,20,tone_prepared,2011Q3,51,51,0.071318671665072053,True,False
+0,Development,S&P 500,20,tone_prepared,2011Q4,48,48,0.027898393399913155,True,False
+0,Development,S&P 500,20,tone_prepared,2012Q1,49,49,0.17332516987712565,True,False
+0,Development,S&P 500,20,tone_prepared,2012Q2,50,50,-0.17667539124282547,True,False
+0,Development,S&P 500,20,tone_prepared,2012Q3,49,49,0.19006071763093701,True,False
+0,Development,S&P 500,20,tone_prepared,2012Q4,52,52,0.026808964805644816,True,False
+0,Development,S&P 500,20,tone_prepared,2013Q1,51,51,0.059095022624434383,True,False
+0,Development,S&P 500,20,tone_prepared,2013Q2,50,50,0.23162444638068161,True,False
+0,Development,S&P 500,20,tone_prepared,2013Q3,48,48,0.011398176291793311,True,False
+0,Development,S&P 500,20,tone_prepared,2013Q4,51,51,0.44624434389140272,True,False
+0,Development,S&P 500,20,tone_prepared,2014Q1,49,49,-0.31827342544604997,True,False
+0,Development,S&P 500,20,tone_prepared,2014Q2,48,47,0.12609238470510481,True,False
+0,Development,S&P 500,20,tone_prepared,2014Q3,47,47,0.018503527358614446,True,False
+0,Development,S&P 500,20,tone_prepared,2014Q4,53,52,0.024552986478671858,True,False
+0,Development,S&P 500,20,tone_prepared,2015Q1,48,48,-0.18004179451361305,True,False
+0,Development,S&P 500,20,tone_prepared,2015Q2,50,50,0.1890081395056078,True,False
+0,Development,S&P 500,20,tone_prepared,2015Q3,52,52,-0.02851775966679124,True,False
+0,Development,S&P 500,20,tone_prepared,2015Q4,51,51,-0.066971356238529234,True,False
+0,Development,S&P 500,20,tone_prepared,2016Q1,52,52,0.11829242273318755,True,False
+0,Development,S&P 500,20,tone_prepared,2016Q2,55,55,-0.14484649527806798,True,False
+0,Development,S&P 500,20,tone_prepared,2016Q3,55,55,-0.048484848484848492,True,False
+0,Development,S&P 500,20,tone_prepared,2016Q4,54,54,0.069868496283590611,True,False
+0,Development,S&P 500,20,tone_prepared,2017Q1,54,54,-0.040557281449741522,True,False
+0,Development,S&P 500,20,tone_prepared,2017Q2,55,55,0.16493506493506493,True,False
+0,Development,S&P 500,20,tone_prepared,2017Q3,54,54,0.2687631027253668,True,False
+0,Development,S&P 500,20,tone_prepared,2017Q4,55,55,-0.10014430014430016,True,False
+0,Development,S&P 500,20,tone_prepared,2018Q1,55,55,0.27190245138715108,True,False
+0,Development,S&P 500,20,tone_prepared,2018Q2,53,53,-0.077730965403742761,True,False
+0,Development,S&P 500,20,tone_prepared,2018Q3,53,53,-0.17803580067731012,True,False
+0,Development,S&P 500,20,tone_prepared,2018Q4,55,55,-0.05227744226189239,True,False
+0,Development,S&P 500,20,tone_prepared,2019Q1,58,58,0.12919697926686197,True,False
+0,Development,S&P 500,20,tone_prepared,2019Q2,54,54,0.35899292922336995,True,False
+0,Development,S&P 500,20,tone_prepared,2019Q3,57,57,0.25648587775401666,True,False
+0,Development,S&P 500,20,tone_prepared,2019Q4,54,54,0.019364183897578199,True,False
+0,Development,S&P 500,20,tone_prepared,2020Q1,55,55,0.10321998779245971,True,False
+0,Development,S&P 500,20,tone_prepared,2020Q2,55,55,-0.059884559884559901,True,False
+0,Development,S&P 500,20,tone_prepared,2020Q3,60,60,0.096029342336106827,True,False
+0,Development,S&P 500,20,tone_prepared,2020Q4,59,59,-0.053916626490654491,True,False
+0,Development,S&P 500,20,tone_prepared,2021Q1,55,55,-0.30649903502524017,True,False
+0,Development,S&P 500,20,tone_prepared,2021Q2,59,59,0.16309414224625621,True,False
+0,Development,S&P 500,20,tone_prepared,2021Q3,57,57,-0.075676551652125293,True,False
+0,Development,S&P 500,20,tone_prepared,2021Q4,59,59,0.071831438705093204,True,False
+0,Development,S&P 500,20,tone_prepared,2022Q1,53,53,0.10087082728592163,True,False
+0,Development,S&P 500,20,tone_prepared,2022Q2,50,50,-0.1592797118847539,True,False
+0,Development,S&P 500,20,tone_prepared,2022Q3,53,53,-0.030358618749490824,True,False
+0,Development,S&P 500,20,tone_prepared,2022Q4,50,50,-0.25474189675870346,True,False
+0,Development,S&P 500,20,tone_prepared,2023Q1,55,55,0.022366522366522371,True,False
+0,Development,S&P 500,20,tone_prepared,2023Q2,47,47,-0.071345975948196111,True,False
+0,Development,S&P 500,20,tone_prepared,2023Q3,53,53,-0.19610135670321827,True,False
+0,Development,S&P 500,20,tone_prepared,2023Q4,53,53,-0.16356892324708147,True,False
+0,Development,S&P 500,20,tone_answers,2010Q1,46,46,0.046379671976701328,True,False
+0,Development,S&P 500,20,tone_answers,2010Q2,50,50,-0.0012004801920768309,True,False
+0,Development,S&P 500,20,tone_answers,2010Q3,51,51,-0.18651583710407238,True,False
+0,Development,S&P 500,20,tone_answers,2010Q4,50,50,0.27875150060024007,True,False
+0,Development,S&P 500,20,tone_answers,2011Q1,48,48,-0.12370070838001933,True,False
+0,Development,S&P 500,20,tone_answers,2011Q2,50,50,-0.054022905727593697,True,False
+0,Development,S&P 500,20,tone_answers,2011Q3,51,51,0.050996628896058681,True,False
+0,Development,S&P 500,20,tone_answers,2011Q4,48,48,-0.03566194436128018,True,False
+0,Development,S&P 500,20,tone_answers,2012Q1,49,49,0.14423837347482898,True,False
+0,Development,S&P 500,20,tone_answers,2012Q2,50,50,0.061992797118847545,True,False
+0,Development,S&P 500,20,tone_answers,2012Q3,49,49,0.10418898936976466,True,False
+0,Development,S&P 500,20,tone_answers,2012Q4,52,52,0.072056689148809,True,False
+0,Development,S&P 500,20,tone_answers,2013Q1,51,51,-0.050182130830283125,True,False
+0,Development,S&P 500,20,tone_answers,2013Q2,50,50,0.26818727490996397,True,False
+0,Development,S&P 500,20,tone_answers,2013Q3,48,48,0.30666521927920104,True,False
+0,Development,S&P 500,20,tone_answers,2013Q4,51,51,0.17357858779528049,True,False
+0,Development,S&P 500,20,tone_answers,2014Q1,49,49,-0.17027682240858227,True,False
+0,Development,S&P 500,20,tone_answers,2014Q2,48,47,-0.17629657780531058,True,False
+0,Development,S&P 500,20,tone_answers,2014Q3,46,46,-0.31021616469157254,True,False
+0,Development,S&P 500,20,tone_answers,2014Q4,53,52,-0.10067127625163159,True,False
+0,Development,S&P 500,20,tone_answers,2015Q1,48,48,-0.23024316109422491,True,False
+0,Development,S&P 500,20,tone_answers,2015Q2,50,50,-0.026747983127268508,True,False
+0,Development,S&P 500,20,tone_answers,2015Q3,52,52,0.029030674488145246,True,False
+0,Development,S&P 500,20,tone_answers,2015Q4,51,51,-0.19203619909502262,True,False
+0,Development,S&P 500,20,tone_answers,2016Q1,52,52,0.055281637544342122,True,False
+0,Development,S&P 500,20,tone_answers,2016Q2,55,55,0.19932176498414086,True,False
+0,Development,S&P 500,20,tone_answers,2016Q3,54,54,0.14495902420430723,True,False
+0,Development,S&P 500,20,tone_answers,2016Q4,53,53,-0.28799516230472649,True,False
+0,Development,S&P 500,20,tone_answers,2017Q1,54,54,0.046163229654232363,True,False
+0,Development,S&P 500,20,tone_answers,2017Q2,55,55,0.11140373036579675,True,False
+0,Development,S&P 500,20,tone_answers,2017Q3,54,54,0.28493014928272359,True,False
+0,Development,S&P 500,20,tone_answers,2017Q4,55,55,0.070167210819690712,True,False
+0,Development,S&P 500,20,tone_answers,2018Q1,55,55,0.044083694083694093,True,False
+0,Development,S&P 500,20,tone_answers,2018Q2,53,53,-0.1060312852765683,True,False
+0,Development,S&P 500,20,tone_answers,2018Q3,53,53,0.018545769754005015,True,False
+0,Development,S&P 500,20,tone_answers,2018Q4,55,55,-0.048090625465008412,True,False
+0,Development,S&P 500,20,tone_answers,2019Q1,58,58,0.37332348977919361,True,False
+0,Development,S&P 500,20,tone_answers,2019Q2,53,53,0.29173890278922399,True,False
+0,Development,S&P 500,20,tone_answers,2019Q3,56,56,0.082437582349394384,True,False
+0,Development,S&P 500,20,tone_answers,2019Q4,53,53,-0.036245615479202915,True,False
+0,Development,S&P 500,20,tone_answers,2020Q1,55,55,-0.065803239697931767,True,False
+0,Development,S&P 500,20,tone_answers,2020Q2,55,55,-0.076839826839826861,True,False
+0,Development,S&P 500,20,tone_answers,2020Q3,60,60,0.23515191933249247,True,False
+0,Development,S&P 500,20,tone_answers,2020Q4,59,59,-0.076594874225406548,True,False
+0,Development,S&P 500,20,tone_answers,2021Q1,55,55,-0.16367539099688261,True,False
+0,Development,S&P 500,20,tone_answers,2021Q2,59,59,0.024284399248636249,True,False
+0,Development,S&P 500,20,tone_answers,2021Q3,57,57,0.1644115311910698,True,False
+0,Development,S&P 500,20,tone_answers,2021Q4,59,59,0.11510980582476316,True,False
+0,Development,S&P 500,20,tone_answers,2022Q1,53,53,-0.20262860828898563,True,False
+0,Development,S&P 500,20,tone_answers,2022Q2,50,50,-0.092445853569572384,True,False
+0,Development,S&P 500,20,tone_answers,2022Q3,53,53,-0.052817256421558406,True,False
+0,Development,S&P 500,20,tone_answers,2022Q4,50,50,-0.021993853271613961,True,False
+0,Development,S&P 500,20,tone_answers,2023Q1,55,55,-0.01327657121574337,True,False
+0,Development,S&P 500,20,tone_answers,2023Q2,47,47,-0.068686401480111015,True,False
+0,Development,S&P 500,20,tone_answers,2023Q3,53,53,-0.028504616400218535,True,False
+0,Development,S&P 500,20,tone_answers,2023Q4,53,53,-0.16724120582948418,True,False
+0,Development,S&P 500,20,hedging_prepared,2010Q1,46,46,0.2757323465926611,True,False
+0,Development,S&P 500,20,hedging_prepared,2010Q2,51,51,-0.22895927601809954,True,False
+0,Development,S&P 500,20,hedging_prepared,2010Q3,51,51,-0.094208144796380094,True,False
+0,Development,S&P 500,20,hedging_prepared,2010Q4,50,50,-0.050949602646201693,True,False
+0,Development,S&P 500,20,hedging_prepared,2011Q1,48,48,-0.14806773773339121,True,False
+0,Development,S&P 500,20,hedging_prepared,2011Q2,50,50,0.10607442977190876,True,False
+0,Development,S&P 500,20,hedging_prepared,2011Q3,51,51,-0.013303167420814478,True,False
+0,Development,S&P 500,20,hedging_prepared,2011Q4,48,48,0.12635692574902302,True,False
+0,Development,S&P 500,20,hedging_prepared,2012Q1,49,49,-0.084693877551020383,True,False
+0,Development,S&P 500,20,hedging_prepared,2012Q2,50,50,0.050180072028811522,True,False
+0,Development,S&P 500,20,hedging_prepared,2012Q3,49,49,0.06928571428571427,True,False
+0,Development,S&P 500,20,hedging_prepared,2012Q4,52,52,0.051566635362417831,True,False
+0,Development,S&P 500,20,hedging_prepared,2013Q1,51,51,-0.46389140271493212,True,False
+0,Development,S&P 500,20,hedging_prepared,2013Q2,50,50,0.11865546218487394,True,False
+0,Development,S&P 500,20,hedging_prepared,2013Q3,48,48,-0.11995223621363439,True,False
+0,Development,S&P 500,20,hedging_prepared,2013Q4,51,51,0.0086877828054298632,True,False
+0,Development,S&P 500,20,hedging_prepared,2014Q1,49,49,-0.15897959183673466,True,False
+0,Development,S&P 500,20,hedging_prepared,2014Q2,48,47,0.13699522362136343,True,False
+0,Development,S&P 500,20,hedging_prepared,2014Q3,47,47,0.070652173913043487,True,False
+0,Development,S&P 500,20,hedging_prepared,2014Q4,53,52,-0.23867118206740848,True,False
+0,Development,S&P 500,20,hedging_prepared,2015Q1,48,48,0.048740772904906637,True,False
+0,Development,S&P 500,20,hedging_prepared,2015Q2,50,50,0.27260504201680674,True,False
+0,Development,S&P 500,20,hedging_prepared,2015Q3,52,52,0.19798514471100487,True,False
+0,Development,S&P 500,20,hedging_prepared,2015Q4,51,51,-0.037285067873303164,True,False
+0,Development,S&P 500,20,hedging_prepared,2016Q1,52,52,0.12908733885426449,True,False
+0,Development,S&P 500,20,hedging_prepared,2016Q2,55,55,-0.21998556998557003,True,False
+0,Development,S&P 500,20,hedging_prepared,2016Q3,55,55,0.12251082251082254,True,False
+0,Development,S&P 500,20,hedging_prepared,2016Q4,54,54,0.046693348580141028,True,False
+0,Development,S&P 500,20,hedging_prepared,2017Q1,54,54,-0.024433009338669712,True,False
+0,Development,S&P 500,20,hedging_prepared,2017Q2,55,55,0.25707070707070712,True,False
+0,Development,S&P 500,20,hedging_prepared,2017Q3,54,54,-0.015437392795883359,True,False
+0,Development,S&P 500,20,hedging_prepared,2017Q4,55,55,-0.018975468975468982,True,False
+0,Development,S&P 500,20,hedging_prepared,2018Q1,55,55,-0.026623376623376629,True,False
+0,Development,S&P 500,20,hedging_prepared,2018Q2,53,53,0.037332688276084498,True,False
+0,Development,S&P 500,20,hedging_prepared,2018Q3,53,53,-0.20125786163522011,True,False
+0,Development,S&P 500,20,hedging_prepared,2018Q4,55,55,-0.10555555555555558,True,False
+0,Development,S&P 500,20,hedging_prepared,2019Q1,58,58,-0.089236826724906959,True,False
+0,Development,S&P 500,20,hedging_prepared,2019Q2,54,54,-0.066666666666666652,True,False
+0,Development,S&P 500,20,hedging_prepared,2019Q3,57,57,-0.21817474721285976,True,False
+0,Development,S&P 500,20,hedging_prepared,2019Q4,54,54,-0.17652328044525659,True,False
+0,Development,S&P 500,20,hedging_prepared,2020Q1,55,55,-0.19386724386724394,True,False
+0,Development,S&P 500,20,hedging_prepared,2020Q2,55,55,-0.3161616161616162,True,False
+0,Development,S&P 500,20,hedging_prepared,2020Q3,60,60,-0.013003612114476246,True,False
+0,Development,S&P 500,20,hedging_prepared,2020Q4,59,59,0.075686732904734086,True,False
+0,Development,S&P 500,20,hedging_prepared,2021Q1,55,55,0.28376623376623383,True,False
+0,Development,S&P 500,20,hedging_prepared,2021Q2,59,59,-0.067738164815897145,True,False
+0,Development,S&P 500,20,hedging_prepared,2021Q3,57,57,0.048872180451127824,True,False
+0,Development,S&P 500,20,hedging_prepared,2021Q4,59,59,-0.067332982755728868,True,False
+0,Development,S&P 500,20,hedging_prepared,2022Q1,53,53,-0.11998064828253507,True,False
+0,Development,S&P 500,20,hedging_prepared,2022Q2,50,50,0.0026410564225690276,True,False
+0,Development,S&P 500,20,hedging_prepared,2022Q3,53,53,0.1007095629737139,True,False
+0,Development,S&P 500,20,hedging_prepared,2022Q4,50,50,-0.074573829531812727,True,False
+0,Development,S&P 500,20,hedging_prepared,2023Q1,55,55,0.022077922077922082,True,False
+0,Development,S&P 500,20,hedging_prepared,2023Q2,47,47,0.14656991709168901,True,False
+0,Development,S&P 500,20,hedging_prepared,2023Q3,53,53,0.2321399774229963,True,False
+0,Development,S&P 500,20,hedging_prepared,2023Q4,53,53,0.046766650540235447,True,False
+0,Development,S&P 500,20,uncertainty_answers,2010Q1,46,46,0.23798951588035769,True,False
+0,Development,S&P 500,20,uncertainty_answers,2010Q2,50,50,-0.014645858343337334,True,False
+0,Development,S&P 500,20,uncertainty_answers,2010Q3,51,51,0.084343891402714935,True,False
+0,Development,S&P 500,20,uncertainty_answers,2010Q4,50,50,-0.21795918367346939,True,False
+0,Development,S&P 500,20,uncertainty_answers,2011Q1,48,48,0.29928354320451583,True,False
+0,Development,S&P 500,20,uncertainty_answers,2011Q2,50,50,-0.14804321728691477,True,False
+0,Development,S&P 500,20,uncertainty_answers,2011Q3,51,51,-0.10805674339289098,True,False
+0,Development,S&P 500,20,uncertainty_answers,2011Q4,48,48,0.053734259661311332,True,False
+0,Development,S&P 500,20,uncertainty_answers,2012Q1,49,49,-0.080714285714285697,True,False
+0,Development,S&P 500,20,uncertainty_answers,2012Q2,50,50,0.10905162064825931,True,False
+0,Development,S&P 500,20,uncertainty_answers,2012Q3,49,49,-0.15091836734693875,True,False
+0,Development,S&P 500,20,uncertainty_answers,2012Q4,52,52,-0.012294032271834711,True,False
+0,Development,S&P 500,20,uncertainty_answers,2013Q1,51,51,-0.19900452488687781,True,False
+0,Development,S&P 500,20,uncertainty_answers,2013Q2,50,50,-0.18511404561824726,True,False
+0,Development,S&P 500,20,uncertainty_answers,2013Q3,48,48,0.081741207121146325,True,False
+0,Development,S&P 500,20,uncertainty_answers,2013Q4,51,51,-0.2409049773755656,True,False
+0,Development,S&P 500,20,uncertainty_answers,2014Q1,49,49,-0.0027551020408163262,True,False
+0,Development,S&P 500,20,uncertainty_answers,2014Q2,48,47,0.19214068606165871,True,False
+0,Development,S&P 500,20,uncertainty_answers,2014Q3,46,46,0.071477027443724944,True,False
+0,Development,S&P 500,20,uncertainty_answers,2014Q4,53,52,-0.10909530720851475,True,False
+0,Development,S&P 500,20,uncertainty_answers,2015Q1,48,48,0.12092922275293096,True,False
+0,Development,S&P 500,20,uncertainty_answers,2015Q2,50,50,0.20019207683073229,True,False
+0,Development,S&P 500,20,uncertainty_answers,2015Q3,52,52,-0.067873303167420809,True,False
+0,Development,S&P 500,20,uncertainty_answers,2015Q4,51,51,0.070950226244343884,True,False
+0,Development,S&P 500,20,uncertainty_answers,2016Q1,52,52,-0.014172287202253905,True,False
+0,Development,S&P 500,20,uncertainty_answers,2016Q2,55,55,-0.19350649350649354,True,False
+0,Development,S&P 500,20,uncertainty_answers,2016Q3,54,54,-0.058433390508862197,True,False
+0,Development,S&P 500,20,uncertainty_answers,2016Q4,53,53,0.25479761328817929,True,False
+0,Development,S&P 500,20,uncertainty_answers,2017Q1,54,54,-0.022145988183724027,True,False
+0,Development,S&P 500,20,uncertainty_answers,2017Q2,55,55,0.094805194805194823,True,False
+0,Development,S&P 500,20,uncertainty_answers,2017Q3,54,54,-0.17636744806556126,True,False
+0,Development,S&P 500,20,uncertainty_answers,2017Q4,55,55,0.011904761904761908,True,False
+0,Development,S&P 500,20,uncertainty_answers,2018Q1,55,55,-0.03441558441558442,True,False
+0,Development,S&P 500,20,uncertainty_answers,2018Q2,53,53,0.1546524754071924,True,False
+0,Development,S&P 500,20,uncertainty_answers,2018Q3,53,53,-0.012981777132720529,True,False
+0,Development,S&P 500,20,uncertainty_answers,2018Q4,55,55,0.069624819624819645,True,False
+0,Development,S&P 500,20,uncertainty_answers,2019Q1,58,58,-0.095758097757544083,True,False
+0,Development,S&P 500,20,uncertainty_answers,2019Q2,53,53,-0.26890824060635382,True,False
+0,Development,S&P 500,20,uncertainty_answers,2019Q3,56,56,-0.26985645933014357,True,False
+0,Development,S&P 500,20,uncertainty_answers,2019Q4,53,53,0.32107724560554751,True,False
+0,Development,S&P 500,20,uncertainty_answers,2020Q1,55,55,-0.055699855699855715,True,False
+0,Development,S&P 500,20,uncertainty_answers,2020Q2,55,55,-0.17063492063492064,True,False
+0,Development,S&P 500,20,uncertainty_answers,2020Q3,60,60,-0.22161711586551824,True,False
+0,Development,S&P 500,20,uncertainty_answers,2020Q4,59,59,-0.082115721800116906,True,False
+0,Development,S&P 500,20,uncertainty_answers,2021Q1,55,55,0.20656565656565665,True,False
+0,Development,S&P 500,20,uncertainty_answers,2021Q2,59,59,0.048042080654587968,True,False
+0,Development,S&P 500,20,uncertainty_answers,2021Q3,57,57,-0.094114596836919903,True,False
+0,Development,S&P 500,20,uncertainty_answers,2021Q4,59,59,0.066569257744009361,True,False
+0,Development,S&P 500,20,uncertainty_answers,2022Q1,53,53,-0.049266247379454918,True,False
+0,Development,S&P 500,20,uncertainty_answers,2022Q2,50,50,-0.033181272509003601,True,False
+0,Development,S&P 500,20,uncertainty_answers,2022Q3,53,53,-0.09579100145137881,True,False
+0,Development,S&P 500,20,uncertainty_answers,2022Q4,50,50,0.23908763505402159,True,False
+0,Development,S&P 500,20,uncertainty_answers,2023Q1,55,55,-0.12344877344877347,True,False
+0,Development,S&P 500,20,uncertainty_answers,2023Q2,47,47,0.2458371877890842,True,False
+0,Development,S&P 500,20,uncertainty_answers,2023Q3,53,53,0.21182067408482502,True,False
+0,Development,S&P 500,20,uncertainty_answers,2023Q4,53,53,-0.059184002580228996,True,False
+0,Development,S&P 500,20,tone_gap,2010Q1,46,46,0.11859389454209066,True,False
+0,Development,S&P 500,20,tone_gap,2010Q2,50,50,-0.21824729891956784,True,False
+0,Development,S&P 500,20,tone_gap,2010Q3,51,51,-0.10642533936651583,True,False
+0,Development,S&P 500,20,tone_gap,2010Q4,50,50,0.013013205282112843,True,False
+0,Development,S&P 500,20,tone_gap,2011Q1,48,48,0.09900130264871905,True,False
+0,Development,S&P 500,20,tone_gap,2011Q2,50,50,-0.22823529411764704,True,False
+0,Development,S&P 500,20,tone_gap,2011Q3,51,51,0.026787330316742079,True,False
+0,Development,S&P 500,20,tone_gap,2011Q4,48,48,0.011615284411636995,True,False
+0,Development,S&P 500,20,tone_gap,2012Q1,49,49,0.081938775510204065,True,False
+0,Development,S&P 500,20,tone_gap,2012Q2,50,50,0.1874189675870348,True,False
+0,Development,S&P 500,20,tone_gap,2012Q3,49,49,-0.059999999999999998,True,False
+0,Development,S&P 500,20,tone_gap,2012Q4,52,52,0.023307436182019976,True,False
+0,Development,S&P 500,20,tone_gap,2013Q1,51,51,-0.11864253393665157,True,False
+0,Development,S&P 500,20,tone_gap,2013Q2,50,50,-0.018103241296518604,True,False
+0,Development,S&P 500,20,tone_gap,2013Q3,48,48,0.28636561007381678,True,False
+0,Development,S&P 500,20,tone_gap,2013Q4,51,51,-0.25158371040723981,True,False
+0,Development,S&P 500,20,tone_gap,2014Q1,49,49,0.070816326530612234,True,False
+0,Development,S&P 500,20,tone_gap,2014Q2,48,47,-0.2566217976552323,True,False
+0,Development,S&P 500,20,tone_gap,2014Q3,46,46,-0.32075238976256554,True,False
+0,Development,S&P 500,20,tone_gap,2014Q4,53,52,-0.16069988711498145,True,False
+0,Development,S&P 500,20,tone_gap,2015Q1,48,48,-0.19485453755970469,True,False
+0,Development,S&P 500,20,tone_gap,2015Q2,50,50,-0.20403361344537815,True,False
+0,Development,S&P 500,20,tone_gap,2015Q3,52,52,0.037906599504823696,True,False
+0,Development,S&P 500,20,tone_gap,2015Q4,51,51,-0.13239819004524886,True,False
+0,Development,S&P 500,20,tone_gap,2016Q1,52,52,0.00093912746520959621,True,False
+0,Development,S&P 500,20,tone_gap,2016Q2,55,55,0.2634920634920635,True,False
+0,Development,S&P 500,20,tone_gap,2016Q3,54,54,0.17530017152658658,True,False
+0,Development,S&P 500,20,tone_gap,2016Q4,53,53,-0.31865828092243181,True,False
+0,Development,S&P 500,20,tone_gap,2017Q1,54,54,0.19092814941871544,True,False
+0,Development,S&P 500,20,tone_gap,2017Q2,55,55,-0.13189033189033189,True,False
+0,Development,S&P 500,20,tone_gap,2017Q3,54,54,0.084734133790737548,True,False
+0,Development,S&P 500,20,tone_gap,2017Q4,55,55,0.13953823953823957,True,False
+0,Development,S&P 500,20,tone_gap,2018Q1,55,55,-0.14848484848484853,True,False
+0,Development,S&P 500,20,tone_gap,2018Q2,53,53,0.018061602967263345,True,False
+0,Development,S&P 500,20,tone_gap,2018Q3,53,53,0.18013223673601031,True,False
+0,Development,S&P 500,20,tone_gap,2018Q4,55,55,0.014935064935064937,True,False
+0,Development,S&P 500,20,tone_gap,2019Q1,58,58,0.20508166969147007,True,False
+0,Development,S&P 500,20,tone_gap,2019Q2,53,53,-0.03620383809063054,True,False
+0,Development,S&P 500,20,tone_gap,2019Q3,56,56,-0.1583732057416268,True,False
+0,Development,S&P 500,20,tone_gap,2019Q4,53,53,-0.048701822286727946,True,False
+0,Development,S&P 500,20,tone_gap,2020Q1,55,55,-0.088816738816738822,True,False
+0,Development,S&P 500,20,tone_gap,2020Q2,55,55,0.0033189033189033198,True,False
+0,Development,S&P 500,20,tone_gap,2020Q3,60,60,0.16999166435120872,True,False
+0,Development,S&P 500,20,tone_gap,2020Q4,59,59,-0.037229690239625954,True,False
+0,Development,S&P 500,20,tone_gap,2021Q1,55,55,0.15505050505050508,True,False
+0,Development,S&P 500,20,tone_gap,2021Q2,59,59,-0.12174167153711282,True,False
+0,Development,S&P 500,20,tone_gap,2021Q3,57,57,0.21143375680580767,True,False
+0,Development,S&P 500,20,tone_gap,2021Q4,59,59,0.048684979544126247,True,False
+0,Development,S&P 500,20,tone_gap,2022Q1,53,53,-0.25737784228350263,True,False
+0,Development,S&P 500,20,tone_gap,2022Q2,50,50,0.097911164465786321,True,False
+0,Development,S&P 500,20,tone_gap,2022Q3,53,53,-0.026527979358168037,True,False
+0,Development,S&P 500,20,tone_gap,2022Q4,50,50,0.22448979591836735,True,False
+0,Development,S&P 500,20,tone_gap,2023Q1,55,55,-0.04689754689754691,True,False
+0,Development,S&P 500,20,tone_gap,2023Q2,47,47,0.050994449583718779,True,False
+0,Development,S&P 500,20,tone_gap,2023Q3,53,53,0.12360909530720851,True,False
+0,Development,S&P 500,20,tone_gap,2023Q4,53,53,0.068617964844379944,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2010Q2,44,44,0.20380549682875262,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2010Q3,49,49,0.1060204081632653,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2010Q4,50,50,0.32571428571428568,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2011Q1,48,48,-0.16011723838471559,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2011Q2,49,49,0.11367346938775509,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2011Q3,50,50,0.15745498199279709,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2011Q4,48,48,-0.072188449848024319,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2012Q1,48,48,-0.14709075119409465,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2012Q2,50,50,-0.19558223289315724,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2012Q3,48,48,0.19420321320017367,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2012Q4,52,52,0.089985486211901305,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2013Q1,50,50,0.090612244897959174,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2013Q2,49,49,0.34795918367346929,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2013Q3,47,47,0.040124884366327475,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2013Q4,50,50,0.026170468187274906,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2014Q1,49,49,-0.26204081632653059,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2014Q2,48,47,0.0077073382544507168,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2014Q3,47,47,0.074005550416281221,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2014Q4,51,50,0.05375565610859729,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2015Q1,46,46,0.051865556583410417,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2015Q2,49,49,0.20510204081632652,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2015Q3,52,52,0.077008452147186879,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2015Q4,51,51,0.010226244343891404,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2016Q1,51,51,0.060452488687782795,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2016Q2,53,53,-0.031849701661022412,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2016Q3,55,55,-0.072150072150072173,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2016Q4,52,52,-0.12840433706138477,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2017Q1,52,52,0.098096132502347805,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2017Q2,54,54,0.24734133790737559,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2017Q3,52,52,0.19448476052249636,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2017Q4,55,55,0.048484848484848492,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2018Q1,55,55,0.064790764790764815,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2018Q2,51,51,-0.0017194570135746607,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2018Q3,52,52,-0.19474088619482627,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2018Q4,54,54,0.082370878597293681,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2019Q1,57,57,-0.064687581021519322,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2019Q2,54,54,-0.035258242805412614,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2019Q3,57,57,0.19710915219082187,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2019Q4,54,54,0.1016580903373356,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2020Q1,54,54,0.049209071850581279,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2020Q2,55,55,-0.1202741702741703,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2020Q3,57,57,-0.10247601763028261,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2020Q4,58,58,-0.10492479005813775,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2021Q1,55,55,-0.23665223665223672,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2021Q2,58,58,0.03774339413700821,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2021Q3,55,55,-0.10663780663780667,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2021Q4,57,57,0.044270158154005708,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2022Q1,53,53,-0.027334300919206578,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2022Q2,49,49,0.11591836734693876,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2022Q3,53,53,-0.066844057410095137,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2022Q4,50,50,0.019735894357743092,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2023Q1,54,54,-0.055231560891938238,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2023Q2,46,46,-0.16275053962380509,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2023Q3,53,53,-0.13199483954200936,True,False
+0,Development,S&P 500,20,tone_prepared_chg,2023Q4,53,53,-0.12352846315110466,True,False
+0,Development,S&P 500,20,tone_answers_chg,2010Q2,44,44,0.1271317829457364,True,False
+0,Development,S&P 500,20,tone_answers_chg,2010Q3,49,49,-0.10744897959183673,True,False
+0,Development,S&P 500,20,tone_answers_chg,2010Q4,50,50,0.084273709483793507,True,False
+0,Development,S&P 500,20,tone_answers_chg,2011Q1,48,48,0.08999131567520624,True,False
+0,Development,S&P 500,20,tone_answers_chg,2011Q2,49,49,-0.16285714285714284,True,False
+0,Development,S&P 500,20,tone_answers_chg,2011Q3,50,50,-0.053925570228091232,True,False
+0,Development,S&P 500,20,tone_answers_chg,2011Q4,48,48,0.044832826747720364,True,False
+0,Development,S&P 500,20,tone_answers_chg,2012Q1,48,48,-0.1107251411202779,True,False
+0,Development,S&P 500,20,tone_answers_chg,2012Q2,50,50,0.16062424969987996,True,False
+0,Development,S&P 500,20,tone_answers_chg,2012Q3,48,48,-0.069040382110290927,True,False
+0,Development,S&P 500,20,tone_answers_chg,2012Q4,52,52,-0.032613335610005977,True,False
+0,Development,S&P 500,20,tone_answers_chg,2013Q1,50,50,-0.10684273709483794,True,False
+0,Development,S&P 500,20,tone_answers_chg,2013Q2,49,49,0.15795918367346937,True,False
+0,Development,S&P 500,20,tone_answers_chg,2013Q3,47,47,0.30978260869565222,True,False
+0,Development,S&P 500,20,tone_answers_chg,2013Q4,50,50,-0.0453781512605042,True,False
+0,Development,S&P 500,20,tone_answers_chg,2014Q1,49,49,-0.30326530612244895,True,False
+0,Development,S&P 500,20,tone_answers_chg,2014Q2,48,47,-0.012592270950933565,True,False
+0,Development,S&P 500,20,tone_answers_chg,2014Q3,46,46,-0.36688251618871415,True,False
+0,Development,S&P 500,20,tone_answers_chg,2014Q4,51,50,-0.16904977375565611,True,False
+0,Development,S&P 500,20,tone_answers_chg,2015Q1,46,46,-0.2271353684859698,True,False
+0,Development,S&P 500,20,tone_answers_chg,2015Q2,49,49,0.013163265306122449,True,False
+0,Development,S&P 500,20,tone_answers_chg,2015Q3,52,52,-0.14897976607188596,True,False
+0,Development,S&P 500,20,tone_answers_chg,2015Q4,51,51,-0.18832579185520359,True,False
+0,Development,S&P 500,20,tone_answers_chg,2016Q1,51,51,0.017194570135746604,True,False
+0,Development,S&P 500,20,tone_answers_chg,2016Q2,53,53,0.21125624899209802,True,False
+0,Development,S&P 500,20,tone_answers_chg,2016Q3,54,54,0.38654469220506954,True,False
+0,Development,S&P 500,20,tone_answers_chg,2016Q4,51,51,-0.32235294117647056,True,False
+0,Development,S&P 500,20,tone_answers_chg,2017Q1,52,52,0.026978570818748399,True,False
+0,Development,S&P 500,20,tone_answers_chg,2017Q2,54,54,0.0092624356775300159,True,False
+0,Development,S&P 500,20,tone_answers_chg,2017Q3,52,52,0.3189618372748228,True,False
+0,Development,S&P 500,20,tone_answers_chg,2017Q4,55,55,0.16940836940836945,True,False
+0,Development,S&P 500,20,tone_answers_chg,2018Q1,55,55,0.15887445887445892,True,False
+0,Development,S&P 500,20,tone_answers_chg,2018Q2,51,51,-0.15737556561085972,True,False
+0,Development,S&P 500,20,tone_answers_chg,2018Q3,52,52,0.24366088960983523,True,False
+0,Development,S&P 500,20,tone_answers_chg,2018Q4,54,54,0.04715075281113016,True,False
+0,Development,S&P 500,20,tone_answers_chg,2019Q1,57,57,0.22212859735545762,True,False
+0,Development,S&P 500,20,tone_answers_chg,2019Q2,53,53,0.041848089017900339,True,False
+0,Development,S&P 500,20,tone_answers_chg,2019Q3,56,56,0.11360218728639782,True,False
+0,Development,S&P 500,20,tone_answers_chg,2019Q4,53,53,-0.043057571359458154,True,False
+0,Development,S&P 500,20,tone_answers_chg,2020Q1,54,54,0.2452830188679245,True,False
+0,Development,S&P 500,20,tone_answers_chg,2020Q2,55,55,-0.21767676767676772,True,False
+0,Development,S&P 500,20,tone_answers_chg,2020Q3,57,57,0.097031371532278976,True,False
+0,Development,S&P 500,20,tone_answers_chg,2020Q4,58,58,0.043895536620628138,True,False
+0,Development,S&P 500,20,tone_answers_chg,2021Q1,55,55,-0.20173160173160176,True,False
+0,Development,S&P 500,20,tone_answers_chg,2021Q2,58,58,0.17210618597926727,True,False
+0,Development,S&P 500,20,tone_answers_chg,2021Q3,55,55,0.20786435786435792,True,False
+0,Development,S&P 500,20,tone_answers_chg,2021Q4,57,57,0.19075706507648432,True,False
+0,Development,S&P 500,20,tone_answers_chg,2022Q1,53,53,-0.13393001128850185,True,False
+0,Development,S&P 500,20,tone_answers_chg,2022Q2,49,49,0.020306122448979589,True,False
+0,Development,S&P 500,20,tone_answers_chg,2022Q3,53,53,0.31253023705853894,True,False
+0,Development,S&P 500,20,tone_answers_chg,2022Q4,50,50,0.1065546218487395,True,False
+0,Development,S&P 500,20,tone_answers_chg,2023Q1,54,54,-0.18033161806746709,True,False
+0,Development,S&P 500,20,tone_answers_chg,2023Q2,46,46,-0.24390995991366018,True,False
+0,Development,S&P 500,20,tone_answers_chg,2023Q3,53,53,0.18875987743912273,True,False
+0,Development,S&P 500,20,tone_answers_chg,2023Q4,53,53,-0.29874213836477986,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2010Q2,44,44,0.023255813953488372,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2010Q3,49,49,0.26061224489795914,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2010Q4,50,50,0.053061224489795916,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2011Q1,48,48,0.21233174120712112,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2011Q2,49,49,-0.091020408163265301,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2011Q3,50,50,-0.060168067226890755,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2011Q4,48,48,0.046895353886235343,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2012Q1,48,48,-0.035931393834129396,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2012Q2,50,50,-0.011668667466986795,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2012Q3,48,48,0.191923577941815,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2012Q4,52,52,0.039955604883462816,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2013Q1,50,50,-0.35884753901560623,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2013Q2,49,49,0.10387755102040816,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2013Q3,47,47,0.14049491211840887,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2013Q4,50,50,0.065642256902761098,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2014Q1,49,49,0.06091836734693877,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2014Q2,48,47,0.1088797221016066,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2014Q3,46,46,0.039284613012642612,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2014Q4,51,50,-0.029773755656108594,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2015Q1,46,46,0.090225100215849521,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2015Q2,49,49,-0.093367346938775506,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2015Q3,52,52,-0.18227610347477161,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2015Q4,51,51,0.22398190045248867,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2016Q1,51,51,-0.19411764705882351,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2016Q2,53,53,-0.026608611514271893,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2016Q3,54,54,-0.13138936535162951,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2016Q4,51,51,0.11357466063348416,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2017Q1,52,52,-0.25808930248441897,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2017Q2,54,54,-0.012159329140461214,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2017Q3,52,52,-0.260479808759498,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2017Q4,55,55,-0.0041847041847041851,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2018Q1,55,55,-0.033549783549783559,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2018Q2,51,51,0.21375565610859726,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2018Q3,52,52,0.29061726287031503,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2018Q4,54,54,-0.012616733371450351,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2019Q1,57,57,-0.032214156079854811,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2019Q2,53,53,-0.017900338655055633,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2019Q3,56,56,-0.077580314422419694,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2019Q4,53,53,0.20037090791807774,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2020Q1,54,54,-0.11301696207356583,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2020Q2,55,55,-0.060750360750360763,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2020Q3,57,57,-0.20747990666320978,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2020Q4,58,58,-0.12061275339136855,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2021Q1,55,55,0.10627705627705629,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2021Q2,58,58,0.076440370358977522,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2021Q3,55,55,-0.14538239538239539,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2021Q4,57,57,-0.082641949701840828,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2022Q1,53,53,-0.06498951781970648,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2022Q2,49,49,-0.25357142857142856,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2022Q3,53,53,-0.16279632317368165,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2022Q4,50,50,0.18857142857142856,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2023Q1,54,54,-0.082218410520297297,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2023Q2,46,46,0.055935861856305877,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2023Q3,53,53,-0.13215610385421706,True,False
+0,Development,S&P 500,20,hedging_answers_chg,2023Q4,53,53,0.16666666666666663,True,False
+2024,Outer test,S&P 500,20,tone_prepared,2024Q1,52,52,-0.0066592674805771353,True,False
+2024,Outer test,S&P 500,20,tone_prepared,2024Q2,52,52,-0.089131733970801666,True,False
+2024,Outer test,S&P 500,20,tone_prepared,2024Q3,47,47,-0.15634576493321597,True,False
+2024,Outer test,S&P 500,20,tone_prepared,2024Q4,53,53,-0.14175418794582964,True,False
+2024,Outer test,S&P 500,20,tone_answers,2024Q1,52,52,0.070185924791927617,True,False
+2024,Outer test,S&P 500,20,tone_answers,2024Q2,52,52,-0.24400239050627509,True,False
+2024,Outer test,S&P 500,20,tone_answers,2024Q3,47,47,-0.060304703560801427,True,False
+2024,Outer test,S&P 500,20,tone_answers,2024Q4,53,53,0.017175341706496601,True,False
+2024,Outer test,S&P 500,20,hedging_prepared,2024Q1,52,52,0.19064287543754799,True,False
+2024,Outer test,S&P 500,20,hedging_prepared,2024Q2,52,52,0.28856825749167597,True,False
+2024,Outer test,S&P 500,20,hedging_prepared,2024Q3,47,47,0.052960222016651244,True,False
+2024,Outer test,S&P 500,20,hedging_prepared,2024Q4,53,53,-0.14699242057732623,True,False
+2024,Outer test,S&P 500,20,uncertainty_answers,2024Q1,52,52,0.027576197387518139,True,False
+2024,Outer test,S&P 500,20,uncertainty_answers,2024Q2,52,52,0.28464099718261759,True,False
+2024,Outer test,S&P 500,20,uncertainty_answers,2024Q3,47,47,0.056891766882516188,True,False
+2024,Outer test,S&P 500,20,uncertainty_answers,2024Q4,53,53,-0.28318013223673599,True,False
+2024,Outer test,S&P 500,20,tone_gap,2024Q1,52,52,0.046529497139929987,True,False
+2024,Outer test,S&P 500,20,tone_gap,2024Q2,52,52,-0.12268419704601724,True,False
+2024,Outer test,S&P 500,20,tone_gap,2024Q3,47,47,0.13471712300735122,True,False
+2024,Outer test,S&P 500,20,tone_gap,2024Q4,53,53,0.11925495887760039,True,False
+2024,Outer test,S&P 500,20,tone_prepared_chg,2024Q1,52,52,0.0015367540339793389,True,False
+2024,Outer test,S&P 500,20,tone_prepared_chg,2024Q2,52,52,-0.11978143942627849,True,False
+2024,Outer test,S&P 500,20,tone_prepared_chg,2024Q3,46,46,-0.36219549799568301,True,False
+2024,Outer test,S&P 500,20,tone_prepared_chg,2024Q4,53,53,-0.27640703112401221,True,False
+2024,Outer test,S&P 500,20,tone_answers_chg,2024Q1,52,52,0.089558610091351479,True,False
+2024,Outer test,S&P 500,20,tone_answers_chg,2024Q2,52,52,-0.21318193460257831,True,False
+2024,Outer test,S&P 500,20,tone_answers_chg,2024Q3,46,46,-0.1009559050262103,True,False
+2024,Outer test,S&P 500,20,tone_answers_chg,2024Q4,53,53,-0.12506047411707788,True,False
+2024,Outer test,S&P 500,20,hedging_answers_chg,2024Q1,52,52,-0.068129428839750691,True,False
+2024,Outer test,S&P 500,20,hedging_answers_chg,2024Q2,52,52,0.095364125330828983,True,False
+2024,Outer test,S&P 500,20,hedging_answers_chg,2024Q3,46,46,0.12414431082331175,True,False
+2024,Outer test,S&P 500,20,hedging_answers_chg,2024Q4,53,53,-0.26205450733752617,True,False
+2025,Outer test,S&P 500,20,tone_prepared,2025Q1,52,52,-0.2986979725240394,True,False
+2025,Outer test,S&P 500,20,tone_prepared,2025Q2,51,51,0.054436852401993703,True,False
+2025,Outer test,S&P 500,20,tone_prepared,2025Q3,53,53,-0.21270762780196742,True,False
+2025,Outer test,S&P 500,20,tone_prepared,2025Q4,55,55,-0.020131322658654346,True,False
+2025,Outer test,S&P 500,20,tone_answers,2025Q1,52,52,-0.24426372975191166,True,False
+2025,Outer test,S&P 500,20,tone_answers,2025Q2,51,51,0.02,True,False
+2025,Outer test,S&P 500,20,tone_answers,2025Q3,53,53,-0.29979639976256806,True,False
+2025,Outer test,S&P 500,20,tone_answers,2025Q4,55,55,-0.31722495852499549,True,False
+2025,Outer test,S&P 500,20,hedging_prepared,2025Q1,52,52,0.050371382224878337,True,False
+2025,Outer test,S&P 500,20,hedging_prepared,2025Q2,51,51,-0.027420814479638012,True,False
+2025,Outer test,S&P 500,20,hedging_prepared,2025Q3,53,53,0.36179648443799389,True,False
+2025,Outer test,S&P 500,20,hedging_prepared,2025Q4,55,55,-0.097474747474747478,True,False
+2025,Outer test,S&P 500,20,uncertainty_answers,2025Q1,52,52,0.17075044821992658,True,False
+2025,Outer test,S&P 500,20,uncertainty_answers,2025Q2,51,51,-0.11963800904977374,True,False
+2025,Outer test,S&P 500,20,uncertainty_answers,2025Q3,53,53,0.14247701983551039,True,False
+2025,Outer test,S&P 500,20,uncertainty_answers,2025Q4,55,55,0.25714285714285717,True,False
+2025,Outer test,S&P 500,20,tone_gap,2025Q1,52,52,-0.03987022965935285,True,False
+2025,Outer test,S&P 500,20,tone_gap,2025Q2,51,51,0.019366515837104071,True,False
+2025,Outer test,S&P 500,20,tone_gap,2025Q3,53,53,-0.049669408159974199,True,False
+2025,Outer test,S&P 500,20,tone_gap,2025Q4,55,55,-0.23470418470418478,True,False
+2025,Outer test,S&P 500,20,tone_prepared_chg,2025Q1,52,52,-0.11465892597968069,True,False
+2025,Outer test,S&P 500,20,tone_prepared_chg,2025Q2,51,51,-0.041719457013574664,True,False
+2025,Outer test,S&P 500,20,tone_prepared_chg,2025Q3,53,53,-0.10901467505241089,True,False
+2025,Outer test,S&P 500,20,tone_prepared_chg,2025Q4,55,55,-0.072510822510822526,True,False
+2025,Outer test,S&P 500,20,tone_answers_chg,2025Q1,52,52,-0.0134892854093742,True,False
+2025,Outer test,S&P 500,20,tone_answers_chg,2025Q2,51,51,-0.065158371040723972,True,False
+2025,Outer test,S&P 500,20,tone_answers_chg,2025Q3,53,53,-0.31752943073697792,True,False
+2025,Outer test,S&P 500,20,tone_answers_chg,2025Q4,55,55,-0.030591630591630597,True,False
+2025,Outer test,S&P 500,20,hedging_answers_chg,2025Q1,52,52,0.17314095449500555,True,False
+2025,Outer test,S&P 500,20,hedging_answers_chg,2025Q2,51,51,-0.085701357466063346,True,False
+2025,Outer test,S&P 500,20,hedging_answers_chg,2025Q3,53,53,0.1849701661022416,True,False
+2025,Outer test,S&P 500,20,hedging_answers_chg,2025Q4,55,55,0.032106782106782118,True,False
+2026,Outer test,S&P 500,20,tone_prepared,2026Q1,55,55,-0.23196248196248198,True,False
+2026,Outer test,S&P 500,20,tone_prepared,2026Q2,49,49,0.16914559837280174,True,True
+2026,Outer test,S&P 500,20,tone_answers,2026Q1,55,55,-0.34965817104790814,True,False
+2026,Outer test,S&P 500,20,tone_answers,2026Q2,49,49,0.18532503413167908,True,True
+2026,Outer test,S&P 500,20,hedging_prepared,2026Q1,55,55,0.1334776334776335,True,False
+2026,Outer test,S&P 500,20,hedging_prepared,2026Q2,49,49,-0.089999999999999997,True,True
+2026,Outer test,S&P 500,20,uncertainty_answers,2026Q1,55,55,0.14321789321789327,True,False
+2026,Outer test,S&P 500,20,uncertainty_answers,2026Q2,49,49,-0.096224489795918369,True,True
+2026,Outer test,S&P 500,20,tone_gap,2026Q1,55,55,-0.16313131313131315,True,False
+2026,Outer test,S&P 500,20,tone_gap,2026Q2,49,49,0.01714285714285714,True,True
+2026,Outer test,S&P 500,20,tone_prepared_chg,2026Q1,55,55,-0.20274170274170275,True,False
+2026,Outer test,S&P 500,20,tone_prepared_chg,2026Q2,49,49,0.21581632653061225,True,True
+2026,Outer test,S&P 500,20,tone_answers_chg,2026Q1,55,55,-0.18571428571428575,True,False
+2026,Outer test,S&P 500,20,tone_answers_chg,2026Q2,49,49,0.059183673469387743,True,True
+2026,Outer test,S&P 500,20,hedging_answers_chg,2026Q1,55,55,0.02330447330447331,True,False
+2026,Outer test,S&P 500,20,hedging_answers_chg,2026Q2,49,49,-0.15571428571428569,True,True
+0,Development,Healthcare,5,tone_prepared,2010Q1,46,46,-0.12149619173805126,True,False
+0,Development,Healthcare,5,tone_prepared,2010Q2,51,51,-0.084796380090497739,True,False
+0,Development,Healthcare,5,tone_prepared,2010Q3,51,51,-0.05800904977375565,True,False
+0,Development,Healthcare,5,tone_prepared,2010Q4,50,50,0.093401844133819106,True,False
+0,Development,Healthcare,5,tone_prepared,2011Q1,48,48,0.32800499374307013,True,False
+0,Development,Healthcare,5,tone_prepared,2011Q2,50,50,0.20547912320744305,True,False
+0,Development,Healthcare,5,tone_prepared,2011Q3,51,51,-0.088514798081777243,True,False
+0,Development,Healthcare,5,tone_prepared,2011Q4,48,48,0.11788970907511941,True,False
+0,Development,Healthcare,5,tone_prepared,2012Q1,49,49,0.12725139054269985,True,False
+0,Development,Healthcare,5,tone_prepared,2012Q2,50,50,0.015127140049331345,True,False
+0,Development,Healthcare,5,tone_prepared,2012Q3,49,49,0.098576458110864518,True,False
+0,Development,Healthcare,5,tone_prepared,2012Q4,52,52,0.12034151558457441,True,False
+0,Development,Healthcare,5,tone_prepared,2013Q1,51,51,0.10832579185520362,True,False
+0,Development,Healthcare,5,tone_prepared,2013Q2,50,50,0.20549886088802335,True,False
+0,Development,Healthcare,5,tone_prepared,2013Q3,48,48,-0.0096613113330438569,True,False
+0,Development,Healthcare,5,tone_prepared,2013Q4,51,51,0.15285067873303168,True,False
+0,Development,Healthcare,5,tone_prepared,2014Q1,49,49,-0.037705043508276845,True,False
+0,Development,Healthcare,5,tone_prepared,2014Q2,48,47,0.11290235048928883,True,False
+0,Development,Healthcare,5,tone_prepared,2014Q3,47,47,0.24442003170269769,True,False
+0,Development,Healthcare,5,tone_prepared,2014Q4,53,52,-0.029350696480251418,True,False
+0,Development,Healthcare,5,tone_prepared,2015Q1,48,48,0.079680842431710572,True,False
+0,Development,Healthcare,5,tone_prepared,2015Q2,50,50,0.036447453730883213,True,False
+0,Development,Healthcare,5,tone_prepared,2015Q3,52,52,-0.16401980934103585,True,False
+0,Development,Healthcare,5,tone_prepared,2015Q4,51,51,-0.044436399882591696,True,False
+0,Development,Healthcare,5,tone_prepared,2016Q1,52,52,-0.044397011780048734,True,False
+0,Development,Healthcare,5,tone_prepared,2016Q2,55,55,0.1061365850829579,True,False
+0,Development,Healthcare,5,tone_prepared,2016Q3,55,55,0.003968253968253968,True,False
+0,Development,Healthcare,5,tone_prepared,2016Q4,54,54,-0.032894987611968747,True,False
+0,Development,Healthcare,5,tone_prepared,2017Q1,54,54,-0.13745259107872926,True,False
+0,Development,Healthcare,5,tone_prepared,2017Q2,55,55,-0.18333333333333335,True,False
+0,Development,Healthcare,5,tone_prepared,2017Q3,54,54,0.31404612159329137,True,False
+0,Development,Healthcare,5,tone_prepared,2017Q4,55,55,0.01262626262626263,True,False
+0,Development,Healthcare,5,tone_prepared,2018Q1,55,55,0.15999567094361347,True,False
+0,Development,Healthcare,5,tone_prepared,2018Q2,53,53,0.22085592763573803,True,False
+0,Development,Healthcare,5,tone_prepared,2018Q3,53,53,0.021931946460248347,True,False
+0,Development,Healthcare,5,tone_prepared,2018Q4,55,55,0.024208532614030224,True,False
+0,Development,Healthcare,5,tone_prepared,2019Q1,58,58,0.053709029952366899,True,False
+0,Development,Healthcare,5,tone_prepared,2019Q2,54,54,0.37500238242721529,True,False
+0,Development,Healthcare,5,tone_prepared,2019Q3,57,57,0.32574419475683869,True,False
+0,Development,Healthcare,5,tone_prepared,2019Q4,54,54,-0.031600213486402219,True,False
+0,Development,Healthcare,5,tone_prepared,2020Q1,55,55,0.16444484598323361,True,False
+0,Development,Healthcare,5,tone_prepared,2020Q2,55,55,0.28809523809523818,True,False
+0,Development,Healthcare,5,tone_prepared,2020Q3,60,60,0.14282141771052925,True,False
+0,Development,Healthcare,5,tone_prepared,2020Q4,59,59,0.12992591944577228,True,False
+0,Development,Healthcare,5,tone_prepared,2021Q1,55,55,-0.2198091596526352,True,False
+0,Development,Healthcare,5,tone_prepared,2021Q2,59,59,-0.096757696645288355,True,False
+0,Development,Healthcare,5,tone_prepared,2021Q3,57,57,0.10442391838250437,True,False
+0,Development,Healthcare,5,tone_prepared,2021Q4,59,59,0.20225605666312046,True,False
+0,Development,Healthcare,5,tone_prepared,2022Q1,53,53,-0.017094017094017096,True,False
+0,Development,Healthcare,5,tone_prepared,2022Q2,50,50,-0.056422569027611037,True,False
+0,Development,Healthcare,5,tone_prepared,2022Q3,53,53,-0.13183623281651394,True,False
+0,Development,Healthcare,5,tone_prepared,2022Q4,50,50,0.082352941176470601,True,False
+0,Development,Healthcare,5,tone_prepared,2023Q1,55,55,0.003535353535353536,True,False
+0,Development,Healthcare,5,tone_prepared,2023Q2,47,47,-0.061054579093432003,True,False
+0,Development,Healthcare,5,tone_prepared,2023Q3,53,53,-0.20811579015255197,True,False
+0,Development,Healthcare,5,tone_prepared,2023Q4,53,53,0.1039390397167799,True,False
+0,Development,Healthcare,5,tone_answers,2010Q1,46,46,0.033674602259679422,True,False
+0,Development,Healthcare,5,tone_answers,2010Q2,50,50,-0.10242496998799519,True,False
+0,Development,Healthcare,5,tone_answers,2010Q3,51,51,-0.14597285067873303,True,False
+0,Development,Healthcare,5,tone_answers,2010Q4,50,50,0.0094597839135654258,True,False
+0,Development,Healthcare,5,tone_answers,2011Q1,48,48,0.10459467531737483,True,False
+0,Development,Healthcare,5,tone_answers,2011Q2,50,50,0.093591682900515644,True,False
+0,Development,Healthcare,5,tone_answers,2011Q3,51,51,0.034435168225288963,True,False
+0,Development,Healthcare,5,tone_answers,2011Q4,48,48,-0.055962655458873467,True,False
+0,Development,Healthcare,5,tone_answers,2012Q1,49,49,0.079899997474914122,True,False
+0,Development,Healthcare,5,tone_answers,2012Q2,50,50,0.070252100840336132,True,False
+0,Development,Healthcare,5,tone_answers,2012Q3,49,49,0.18735649802437604,True,False
+0,Development,Healthcare,5,tone_answers,2012Q4,52,52,0.11559805344489028,True,False
+0,Development,Healthcare,5,tone_answers,2013Q1,51,51,-0.021991447775940125,True,False
+0,Development,Healthcare,5,tone_answers,2013Q2,50,50,0.17935174069627849,True,False
+0,Development,Healthcare,5,tone_answers,2013Q3,48,48,0.23002605297438122,True,False
+0,Development,Healthcare,5,tone_answers,2013Q4,51,51,-0.0040272404363347145,True,False
+0,Development,Healthcare,5,tone_answers,2014Q1,49,49,-0.025717566225329783,True,False
+0,Development,Healthcare,5,tone_answers,2014Q2,48,47,-0.14714902168417396,True,False
+0,Development,Healthcare,5,tone_answers,2014Q3,46,46,-0.224737118118507,True,False
+0,Development,Healthcare,5,tone_answers,2014Q4,53,52,-0.20759167057254749,True,False
+0,Development,Healthcare,5,tone_answers,2015Q1,48,48,-0.02105948762483717,True,False
+0,Development,Healthcare,5,tone_answers,2015Q2,50,50,0.066653861006550602,True,False
+0,Development,Healthcare,5,tone_answers,2015Q3,52,52,-0.15309411575660126,True,False
+0,Development,Healthcare,5,tone_answers,2015Q4,51,51,-0.15095022624434387,True,False
+0,Development,Healthcare,5,tone_answers,2016Q1,52,52,0.010501376707264989,True,False
+0,Development,Healthcare,5,tone_answers,2016Q2,55,55,0.31444135811796775,True,False
+0,Development,Healthcare,5,tone_answers,2016Q3,54,54,-0.025500285877644364,True,False
+0,Development,Healthcare,5,tone_answers,2016Q4,53,53,-0.23658905395549984,True,False
+0,Development,Healthcare,5,tone_answers,2017Q1,54,54,-0.17241642256489925,True,False
+0,Development,Healthcare,5,tone_answers,2017Q2,55,55,-0.14040910575896404,True,False
+0,Development,Healthcare,5,tone_answers,2017Q3,54,54,0.100287788998374,True,False
+0,Development,Healthcare,5,tone_answers,2017Q4,55,55,0.081170295292701325,True,False
+0,Development,Healthcare,5,tone_answers,2018Q1,55,55,-0.018109668109668114,True,False
+0,Development,Healthcare,5,tone_answers,2018Q2,53,53,-0.17311723915497498,True,False
+0,Development,Healthcare,5,tone_answers,2018Q3,53,53,0.091922510954633552,True,False
+0,Development,Healthcare,5,tone_answers,2018Q4,55,55,-0.13817486536457782,True,False
+0,Development,Healthcare,5,tone_answers,2019Q1,58,58,0.28260735832246636,True,False
+0,Development,Healthcare,5,tone_answers,2019Q2,53,53,0.55670685043029355,True,False
+0,Development,Healthcare,5,tone_answers,2019Q3,56,56,0.159680093174283,True,False
+0,Development,Healthcare,5,tone_answers,2019Q4,53,53,-0.10684191437139903,True,False
+0,Development,Healthcare,5,tone_answers,2020Q1,55,55,0.031097802971281344,True,False
+0,Development,Healthcare,5,tone_answers,2020Q2,55,55,0.10880230880230882,True,False
+0,Development,Healthcare,5,tone_answers,2020Q3,60,60,0.14406979814947105,True,False
+0,Development,Healthcare,5,tone_answers,2020Q4,59,59,-0.021274730422012958,True,False
+0,Development,Healthcare,5,tone_answers,2021Q1,55,55,0.013059398620425723,True,False
+0,Development,Healthcare,5,tone_answers,2021Q2,59,59,-0.32843846348426337,True,False
+0,Development,Healthcare,5,tone_answers,2021Q3,57,57,0.22384988092582678,True,False
+0,Development,Healthcare,5,tone_answers,2021Q4,59,59,-0.019696371953767545,True,False
+0,Development,Healthcare,5,tone_answers,2022Q1,53,53,-0.041203031769069497,True,False
+0,Development,Healthcare,5,tone_answers,2022Q2,50,50,-0.12126014559125729,True,False
+0,Development,Healthcare,5,tone_answers,2022Q3,53,53,-0.0012901925232747093,True,False
+0,Development,Healthcare,5,tone_answers,2022Q4,50,50,-0.12754514036988357,True,False
+0,Development,Healthcare,5,tone_answers,2023Q1,55,55,0.088390215974378405,True,False
+0,Development,Healthcare,5,tone_answers,2023Q2,47,47,0.23288621646623497,True,False
+0,Development,Healthcare,5,tone_answers,2023Q3,53,53,-0.12212232401168591,True,False
+0,Development,Healthcare,5,tone_answers,2023Q4,53,53,-0.067573833406512893,True,False
+0,Development,Healthcare,5,hedging_prepared,2010Q1,46,46,0.10884983040394695,True,False
+0,Development,Healthcare,5,hedging_prepared,2010Q2,51,51,0.14153846153846153,True,False
+0,Development,Healthcare,5,hedging_prepared,2010Q3,51,51,0.20660633484162896,True,False
+0,Development,Healthcare,5,hedging_prepared,2010Q4,50,50,0.059161084316795946,True,False
+0,Development,Healthcare,5,hedging_prepared,2011Q1,48,48,-0.11170212765957445,True,False
+0,Development,Healthcare,5,hedging_prepared,2011Q2,50,50,0.036350540216086434,True,False
+0,Development,Healthcare,5,hedging_prepared,2011Q3,51,51,-0.072307692307692309,True,False
+0,Development,Healthcare,5,hedging_prepared,2011Q4,48,48,-0.01715154146765089,True,False
+0,Development,Healthcare,5,hedging_prepared,2012Q1,49,49,-0.042551020408163269,True,False
+0,Development,Healthcare,5,hedging_prepared,2012Q2,50,50,-0.10175270108043216,True,False
+0,Development,Healthcare,5,hedging_prepared,2012Q3,49,49,-0.045306122448979587,True,False
+0,Development,Healthcare,5,hedging_prepared,2012Q4,52,52,0.0020490053786391188,True,False
+0,Development,Healthcare,5,hedging_prepared,2013Q1,51,51,-0.18859728506787329,True,False
+0,Development,Healthcare,5,hedging_prepared,2013Q2,50,50,-0.14064825930372149,True,False
+0,Development,Healthcare,5,hedging_prepared,2013Q3,48,48,-0.27659574468085102,True,False
+0,Development,Healthcare,5,hedging_prepared,2013Q4,51,51,0.045429864253393661,True,False
+0,Development,Healthcare,5,hedging_prepared,2014Q1,49,49,-0.35316326530612235,True,False
+0,Development,Healthcare,5,hedging_prepared,2014Q2,48,47,-0.0014112027789839339,True,False
+0,Development,Healthcare,5,hedging_prepared,2014Q3,47,47,0.25219703977798336,True,False
+0,Development,Healthcare,5,hedging_prepared,2014Q4,53,52,-0.16706982744718593,True,False
+0,Development,Healthcare,5,hedging_prepared,2015Q1,48,48,0.21287451150673034,True,False
+0,Development,Healthcare,5,hedging_prepared,2015Q2,50,50,-0.039807923169267699,True,False
+0,Development,Healthcare,5,hedging_prepared,2015Q3,52,52,0.43635277042602238,True,False
+0,Development,Healthcare,5,hedging_prepared,2015Q4,51,51,-0.037466063348416283,True,False
+0,Development,Healthcare,5,hedging_prepared,2016Q1,52,52,0.11764705882352941,True,False
+0,Development,Healthcare,5,hedging_prepared,2016Q2,55,55,-0.2691197691197692,True,False
+0,Development,Healthcare,5,hedging_prepared,2016Q3,55,55,-0.14422799422799426,True,False
+0,Development,Healthcare,5,hedging_prepared,2016Q4,54,54,0.0094911377930245854,True,False
+0,Development,Healthcare,5,hedging_prepared,2017Q1,54,54,-0.30893844101391266,True,False
+0,Development,Healthcare,5,hedging_prepared,2017Q2,55,55,0.17532467532467538,True,False
+0,Development,Healthcare,5,hedging_prepared,2017Q3,54,54,-0.28850771869639791,True,False
+0,Development,Healthcare,5,hedging_prepared,2017Q4,55,55,0.062842712842712853,True,False
+0,Development,Healthcare,5,hedging_prepared,2018Q1,55,55,0.022222222222222227,True,False
+0,Development,Healthcare,5,hedging_prepared,2018Q2,53,53,-0.044992743105950653,True,False
+0,Development,Healthcare,5,hedging_prepared,2018Q3,53,53,-0.30640219319464601,True,False
+0,Development,Healthcare,5,hedging_prepared,2018Q4,55,55,-0.25800865800865802,True,False
+0,Development,Healthcare,5,hedging_prepared,2019Q1,58,58,-0.043034236672921347,True,False
+0,Development,Healthcare,5,hedging_prepared,2019Q2,54,54,-0.20625119115685148,True,False
+0,Development,Healthcare,5,hedging_prepared,2019Q3,57,57,-0.21298936997666582,True,False
+0,Development,Healthcare,5,hedging_prepared,2019Q4,54,54,-0.012007089902884002,True,False
+0,Development,Healthcare,5,hedging_prepared,2020Q1,55,55,-0.21919191919191924,True,False
+0,Development,Healthcare,5,hedging_prepared,2020Q2,55,55,-0.16522366522366524,True,False
+0,Development,Healthcare,5,hedging_prepared,2020Q3,60,60,-0.20355654348430122,True,False
+0,Development,Healthcare,5,hedging_prepared,2020Q4,59,59,-0.046464056107539453,True,False
+0,Development,Healthcare,5,hedging_prepared,2021Q1,55,55,0.15873015873015875,True,False
+0,Development,Healthcare,5,hedging_prepared,2021Q2,59,59,0.12028053769725307,True,False
+0,Development,Healthcare,5,hedging_prepared,2021Q3,57,57,0.12697692507129893,True,False
+0,Development,Healthcare,5,hedging_prepared,2021Q4,59,59,0.1471740022386504,True,False
+0,Development,Healthcare,5,hedging_prepared,2022Q1,53,53,-0.022818900177390744,True,False
+0,Development,Healthcare,5,hedging_prepared,2022Q2,50,50,0.07361344537815126,True,False
+0,Development,Healthcare,5,hedging_prepared,2022Q3,53,53,0.30124173520399933,True,False
+0,Development,Healthcare,5,hedging_prepared,2022Q4,50,50,-0.11308523409363744,True,False
+0,Development,Healthcare,5,hedging_prepared,2023Q1,55,55,0.083766233766233794,True,False
+0,Development,Healthcare,5,hedging_prepared,2023Q2,47,47,0.10314821778760282,True,False
+0,Development,Healthcare,5,hedging_prepared,2023Q3,53,53,0.19085631349782295,True,False
+0,Development,Healthcare,5,hedging_prepared,2023Q4,53,53,-0.27100467666505401,True,False
+0,Development,Healthcare,5,uncertainty_answers,2010Q1,46,46,0.051988899167437555,True,False
+0,Development,Healthcare,5,uncertainty_answers,2010Q2,50,50,0.14516206482593036,True,False
+0,Development,Healthcare,5,uncertainty_answers,2010Q3,51,51,0.16823529411764704,True,False
+0,Development,Healthcare,5,uncertainty_answers,2010Q4,50,50,-0.039519807923169274,True,False
+0,Development,Healthcare,5,uncertainty_answers,2011Q1,48,48,0.1514329135909683,True,False
+0,Development,Healthcare,5,uncertainty_answers,2011Q2,50,50,-0.051140456182472989,True,False
+0,Development,Healthcare,5,uncertainty_answers,2011Q3,51,51,-0.14457340667516194,True,False
+0,Development,Healthcare,5,uncertainty_answers,2011Q4,48,48,-0.04461571862787668,True,False
+0,Development,Healthcare,5,uncertainty_answers,2012Q1,49,49,0.027142857142857139,True,False
+0,Development,Healthcare,5,uncertainty_answers,2012Q2,50,50,0.11865546218487394,True,False
+0,Development,Healthcare,5,uncertainty_answers,2012Q3,49,49,0.068979591836734674,True,False
+0,Development,Healthcare,5,uncertainty_answers,2012Q4,52,52,0.070178434218389818,True,False
+0,Development,Healthcare,5,uncertainty_answers,2013Q1,51,51,-0.24995475113122173,True,False
+0,Development,Healthcare,5,uncertainty_answers,2013Q2,50,50,-0.17387755102040817,True,False
+0,Development,Healthcare,5,uncertainty_answers,2013Q3,48,48,-0.11973512809379071,True,False
+0,Development,Healthcare,5,uncertainty_answers,2013Q4,51,51,-0.2411764705882353,True,False
+0,Development,Healthcare,5,uncertainty_answers,2014Q1,49,49,-0.26591836734693874,True,False
+0,Development,Healthcare,5,uncertainty_answers,2014Q2,48,47,0.16435084672166739,True,False
+0,Development,Healthcare,5,uncertainty_answers,2014Q3,46,46,0.11600370027752083,True,False
+0,Development,Healthcare,5,uncertainty_answers,2014Q4,53,52,0.010562812449604901,True,False
+0,Development,Healthcare,5,uncertainty_answers,2015Q1,48,48,0.00086843247937472864,True,False
+0,Development,Healthcare,5,uncertainty_answers,2015Q2,50,50,0.16369747899159662,True,False
+0,Development,Healthcare,5,uncertainty_answers,2015Q3,52,52,0.19636301545291554,True,False
+0,Development,Healthcare,5,uncertainty_answers,2015Q4,51,51,0.22235294117647056,True,False
+0,Development,Healthcare,5,uncertainty_answers,2016Q1,52,52,0.031418082472466489,True,False
+0,Development,Healthcare,5,uncertainty_answers,2016Q2,55,55,-0.036363636363636369,True,False
+0,Development,Healthcare,5,uncertainty_answers,2016Q3,54,54,-0.10295406899180483,True,False
+0,Development,Healthcare,5,uncertainty_answers,2016Q4,53,53,0.15707144009030802,True,False
+0,Development,Healthcare,5,uncertainty_answers,2017Q1,54,54,0.063007432818753567,True,False
+0,Development,Healthcare,5,uncertainty_answers,2017Q2,55,55,0.24834054834054842,True,False
+0,Development,Healthcare,5,uncertainty_answers,2017Q3,54,54,-0.044330093386697154,True,False
+0,Development,Healthcare,5,uncertainty_answers,2017Q4,55,55,-0.1065656565656566,True,False
+0,Development,Healthcare,5,uncertainty_answers,2018Q1,55,55,0.064430014430014435,True,False
+0,Development,Healthcare,5,uncertainty_answers,2018Q2,53,53,-0.12909208192227059,True,False
+0,Development,Healthcare,5,uncertainty_answers,2018Q3,53,53,-0.16860183841315918,True,False
+0,Development,Healthcare,5,uncertainty_answers,2018Q4,55,55,0.010245310245310247,True,False
+0,Development,Healthcare,5,uncertainty_answers,2019Q1,58,58,-0.042049893875542164,True,False
+0,Development,Healthcare,5,uncertainty_answers,2019Q2,53,53,-0.43033381712626995,True,False
+0,Development,Healthcare,5,uncertainty_answers,2019Q3,56,56,-0.31155160628844841,True,False
+0,Development,Healthcare,5,uncertainty_answers,2019Q4,53,53,0.28261570714400908,True,False
+0,Development,Healthcare,5,uncertainty_answers,2020Q1,55,55,-0.061255411255411271,True,False
+0,Development,Healthcare,5,uncertainty_answers,2020Q2,55,55,0.12056277056277059,True,False
+0,Development,Healthcare,5,uncertainty_answers,2020Q3,60,60,-0.22000555709919428,True,False
+0,Development,Healthcare,5,uncertainty_answers,2020Q4,59,59,-0.10374050263004092,True,False
+0,Development,Healthcare,5,uncertainty_answers,2021Q1,55,55,0.22063492063492068,True,False
+0,Development,Healthcare,5,uncertainty_answers,2021Q2,59,59,0.36580946814728238,True,False
+0,Development,Healthcare,5,uncertainty_answers,2021Q3,57,57,-0.0032408607726212083,True,False
+0,Development,Healthcare,5,uncertainty_answers,2021Q4,59,59,0.069725306838106391,True,False
+0,Development,Healthcare,5,uncertainty_answers,2022Q1,53,53,0.028705047572972101,True,False
+0,Development,Healthcare,5,uncertainty_answers,2022Q2,50,50,-0.078895558223289322,True,False
+0,Development,Healthcare,5,uncertainty_answers,2022Q3,53,53,0.026286082889856472,True,False
+0,Development,Healthcare,5,uncertainty_answers,2022Q4,50,50,0.1440096038415366,True,False
+0,Development,Healthcare,5,uncertainty_answers,2023Q1,55,55,-0.015512265512265517,True,False
+0,Development,Healthcare,5,uncertainty_answers,2023Q2,47,47,-0.08163737280296024,True,False
+0,Development,Healthcare,5,uncertainty_answers,2023Q3,53,53,0.12425415255603935,True,False
+0,Development,Healthcare,5,uncertainty_answers,2023Q4,53,53,0.055716819867763258,True,False
+0,Development,Healthcare,5,tone_gap,2010Q1,46,46,0.17126117792167747,True,False
+0,Development,Healthcare,5,tone_gap,2010Q2,50,50,-0.0011044417767106843,True,False
+0,Development,Healthcare,5,tone_gap,2010Q3,51,51,-0.01411764705882353,True,False
+0,Development,Healthcare,5,tone_gap,2010Q4,50,50,-0.04345738295318128,True,False
+0,Development,Healthcare,5,tone_gap,2011Q1,48,48,-0.1712983065566652,True,False
+0,Development,Healthcare,5,tone_gap,2011Q2,50,50,-0.083985594237695069,True,False
+0,Development,Healthcare,5,tone_gap,2011Q3,51,51,0.04126696832579186,True,False
+0,Development,Healthcare,5,tone_gap,2011Q4,48,48,-0.21884498480243161,True,False
+0,Development,Healthcare,5,tone_gap,2012Q1,49,49,0.051530612244897953,True,False
+0,Development,Healthcare,5,tone_gap,2012Q2,50,50,0.10396158463385353,True,False
+0,Development,Healthcare,5,tone_gap,2012Q3,49,49,0.096632653061224483,True,False
+0,Development,Healthcare,5,tone_gap,2012Q4,52,52,0.089046358746691701,True,False
+0,Development,Healthcare,5,tone_gap,2013Q1,51,51,-0.14307692307692307,True,False
+0,Development,Healthcare,5,tone_gap,2013Q2,50,50,-0.046434573829531818,True,False
+0,Development,Healthcare,5,tone_gap,2013Q3,48,48,0.14003473729917498,True,False
+0,Development,Healthcare,5,tone_gap,2013Q4,51,51,-0.11529411764705881,True,False
+0,Development,Healthcare,5,tone_gap,2014Q1,49,49,0.017040816326530612,True,False
+0,Development,Healthcare,5,tone_gap,2014Q2,48,47,-0.20668693009118541,True,False
+0,Development,Healthcare,5,tone_gap,2014Q3,46,46,-0.44310823311748382,True,False
+0,Development,Healthcare,5,tone_gap,2014Q4,53,52,-0.20109659732301244,True,False
+0,Development,Healthcare,5,tone_gap,2015Q1,48,48,-0.075445071645679554,True,False
+0,Development,Healthcare,5,tone_gap,2015Q2,50,50,0.03577430972388955,True,False
+0,Development,Healthcare,5,tone_gap,2015Q3,52,52,0.023648937078459834,True,False
+0,Development,Healthcare,5,tone_gap,2015Q4,51,51,-0.14334841628959274,True,False
+0,Development,Healthcare,5,tone_gap,2016Q1,52,52,0.061384786135063596,True,False
+0,Development,Healthcare,5,tone_gap,2016Q2,55,55,0.25995670995671,True,False
+0,Development,Healthcare,5,tone_gap,2016Q3,54,54,-0.020392605298265674,True,False
+0,Development,Healthcare,5,tone_gap,2016Q4,53,53,-0.18996935978068052,True,False
+0,Development,Healthcare,5,tone_gap,2017Q1,54,54,0.021612349914236707,True,False
+0,Development,Healthcare,5,tone_gap,2017Q2,55,55,-0.030952380952380957,True,False
+0,Development,Healthcare,5,tone_gap,2017Q3,54,54,-0.16035829998094148,True,False
+0,Development,Healthcare,5,tone_gap,2017Q4,55,55,0.077994227994228019,True,False
+0,Development,Healthcare,5,tone_gap,2018Q1,55,55,-0.12186147186147188,True,False
+0,Development,Healthcare,5,tone_gap,2018Q2,53,53,-0.2382680212868892,True,False
+0,Development,Healthcare,5,tone_gap,2018Q3,53,53,0.033381712626995644,True,False
+0,Development,Healthcare,5,tone_gap,2018Q4,55,55,-0.084920634920634924,True,False
+0,Development,Healthcare,5,tone_gap,2019Q1,58,58,0.14755913746962382,True,False
+0,Development,Healthcare,5,tone_gap,2019Q2,53,53,0.15166908563134979,True,False
+0,Development,Healthcare,5,tone_gap,2019Q3,56,56,-0.24641148325358853,True,False
+0,Development,Healthcare,5,tone_gap,2019Q4,53,53,-0.16110304789550073,True,False
+0,Development,Healthcare,5,tone_gap,2020Q1,55,55,-0.0722943722943723,True,False
+0,Development,Healthcare,5,tone_gap,2020Q2,55,55,-0.18398268398268403,True,False
+0,Development,Healthcare,5,tone_gap,2020Q3,60,60,0.033898305084745763,True,False
+0,Development,Healthcare,5,tone_gap,2020Q4,59,59,-0.13424897720631213,True,False
+0,Development,Healthcare,5,tone_gap,2021Q1,55,55,0.27936507936507937,True,False
+0,Development,Healthcare,5,tone_gap,2021Q2,59,59,-0.14091174751607249,True,False
+0,Development,Healthcare,5,tone_gap,2021Q3,57,57,0.028908478091781178,True,False
+0,Development,Healthcare,5,tone_gap,2021Q4,59,59,-0.1349503214494448,True,False
+0,Development,Healthcare,5,tone_gap,2022Q1,53,53,-0.049669408159974199,True,False
+0,Development,Healthcare,5,tone_gap,2022Q2,50,50,-0.037310924369747894,True,False
+0,Development,Healthcare,5,tone_gap,2022Q3,53,53,0.10651507821319142,True,False
+0,Development,Healthcare,5,tone_gap,2022Q4,50,50,-0.26194477791116449,True,False
+0,Development,Healthcare,5,tone_gap,2023Q1,55,55,0.10901875901875904,True,False
+0,Development,Healthcare,5,tone_gap,2023Q2,47,47,0.20074005550416285,True,False
+0,Development,Healthcare,5,tone_gap,2023Q3,53,53,0.061038542170617639,True,False
+0,Development,Healthcare,5,tone_gap,2023Q4,53,53,-0.1325592646347363,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2010Q2,44,44,-0.19661733615221985,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2010Q3,49,49,0.14081632653061224,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2010Q4,50,50,0.15399759903961585,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2011Q1,48,48,0.33184976118106813,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2011Q2,49,49,0.2396938775510204,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2011Q3,50,50,-0.012436974789915966,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2011Q4,48,48,0.079027355623100301,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2012Q1,48,48,-0.10301780286582718,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2012Q2,50,50,0.014645858343337334,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2012Q3,48,48,0.10334346504559271,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2012Q4,52,52,0.087168103816272505,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2013Q1,50,50,0.063913565426170466,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2013Q2,49,49,0.25479591836734694,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2013Q3,47,47,-0.015841813135985199,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2013Q4,50,50,0.059879951980792309,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2014Q1,49,49,-0.10081632653061223,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2014Q2,48,47,0.028006947459835001,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2014Q3,47,47,0.037696577243293249,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2014Q4,51,50,-0.086787330316742073,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2015Q1,46,46,-0.023003391921060747,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2015Q2,49,49,-0.03826530612244898,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2015Q3,52,52,-0.13122171945701355,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2015Q4,51,51,-0.055113122171945701,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2016Q1,51,51,-0.075022624434389146,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2016Q2,53,53,0.23407514916948879,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2016Q3,55,55,-0.055411255411255418,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2016Q4,52,52,-0.0081106462904465115,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2017Q1,52,52,-0.092632118159310162,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2017Q2,54,54,0.091823899371069176,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2017Q3,52,52,0.15691966191411252,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2017Q4,55,55,0.061255411255411271,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2018Q1,55,55,0.2133477633477634,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2018Q2,51,51,0.14886877828054298,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2018Q3,52,52,-0.16656706223853837,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2018Q4,54,54,0.011701924909472076,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2019Q1,57,57,0.13041223749027742,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2019Q2,54,54,-0.098837430912902591,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2019Q3,57,57,0.29154783510500393,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2019Q4,54,54,-0.0098723079855155306,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2020Q1,54,54,0.22195540308747852,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2020Q2,55,55,0.1495670995670996,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2020Q3,57,57,-0.13164376458387347,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2020Q4,58,58,0.10307914731305177,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2021Q1,55,55,-0.11385281385281389,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2021Q2,58,58,0.048325079208834484,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2021Q3,55,55,-0.18470418470418476,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2021Q4,57,57,0.019380347420274828,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2022Q1,53,53,-0.089501693275278169,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2022Q2,49,49,-0.038571428571428569,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2022Q3,53,53,-0.059990324141267537,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2022Q4,50,50,0.11875150060024009,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2023Q1,54,54,-0.039756051076805791,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2023Q2,46,46,-0.22738205365402403,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2023Q3,53,53,0.009433962264150943,True,False
+0,Development,Healthcare,5,tone_prepared_chg,2023Q4,53,53,0.18448637316561844,True,False
+0,Development,Healthcare,5,tone_answers_chg,2010Q2,44,44,-0.14038054968287525,True,False
+0,Development,Healthcare,5,tone_answers_chg,2010Q3,49,49,-0.027755102040816323,True,False
+0,Development,Healthcare,5,tone_answers_chg,2010Q4,50,50,0.13613445378151259,True,False
+0,Development,Healthcare,5,tone_answers_chg,2011Q1,48,48,0.01020408163265306,True,False
+0,Development,Healthcare,5,tone_answers_chg,2011Q2,49,49,-0.054081632653061221,True,False
+0,Development,Healthcare,5,tone_answers_chg,2011Q3,50,50,-0.2099879951980792,True,False
+0,Development,Healthcare,5,tone_answers_chg,2011Q4,48,48,-0.31469821971341727,True,False
+0,Development,Healthcare,5,tone_answers_chg,2012Q1,48,48,-0.065892314372557534,True,False
+0,Development,Healthcare,5,tone_answers_chg,2012Q2,50,50,0.1431452581032413,True,False
+0,Development,Healthcare,5,tone_answers_chg,2012Q3,48,48,-0.061115935735996531,True,False
+0,Development,Healthcare,5,tone_answers_chg,2012Q4,52,52,0.085289848885853337,True,False
+0,Development,Healthcare,5,tone_answers_chg,2013Q1,50,50,0.074093637454982,True,False
+0,Development,Healthcare,5,tone_answers_chg,2013Q2,49,49,-0.015714285714285712,True,False
+0,Development,Healthcare,5,tone_answers_chg,2013Q3,47,47,0.1954209065679926,True,False
+0,Development,Healthcare,5,tone_answers_chg,2013Q4,50,50,-0.30381752701080433,True,False
+0,Development,Healthcare,5,tone_answers_chg,2014Q1,49,49,-0.12632653061224489,True,False
+0,Development,Healthcare,5,tone_answers_chg,2014Q2,48,47,-0.16131133304385584,True,False
+0,Development,Healthcare,5,tone_answers_chg,2014Q3,46,46,-0.29238359543632436,True,False
+0,Development,Healthcare,5,tone_answers_chg,2014Q4,51,50,-0.25339366515837103,True,False
+0,Development,Healthcare,5,tone_answers_chg,2015Q1,46,46,-0.11181005242059822,True,False
+0,Development,Healthcare,5,tone_answers_chg,2015Q2,49,49,-0.055816326530612241,True,False
+0,Development,Healthcare,5,tone_answers_chg,2015Q3,52,52,-0.0064031418082472454,True,False
+0,Development,Healthcare,5,tone_answers_chg,2015Q4,51,51,-0.14461538461538462,True,False
+0,Development,Healthcare,5,tone_answers_chg,2016Q1,51,51,0.16461538461538461,True,False
+0,Development,Healthcare,5,tone_answers_chg,2016Q2,53,53,0.3955813578455088,True,False
+0,Development,Healthcare,5,tone_answers_chg,2016Q3,54,54,0.15037164093767863,True,False
+0,Development,Healthcare,5,tone_answers_chg,2016Q4,51,51,-0.27167420814479637,True,False
+0,Development,Healthcare,5,tone_answers_chg,2017Q1,52,52,-0.10398702296593529,True,False
+0,Development,Healthcare,5,tone_answers_chg,2017Q2,54,54,-0.07451877263198016,True,False
+0,Development,Healthcare,5,tone_answers_chg,2017Q3,52,52,0.22778109792538204,True,False
+0,Development,Healthcare,5,tone_answers_chg,2017Q4,55,55,0.14790764790764793,True,False
+0,Development,Healthcare,5,tone_answers_chg,2018Q1,55,55,0.22611832611832616,True,False
+0,Development,Healthcare,5,tone_answers_chg,2018Q2,51,51,-0.24832579185520362,True,False
+0,Development,Healthcare,5,tone_answers_chg,2018Q3,52,52,-0.062921540169042944,True,False
+0,Development,Healthcare,5,tone_answers_chg,2018Q4,54,54,-0.089460644177625295,True,False
+0,Development,Healthcare,5,tone_answers_chg,2019Q1,57,57,0.37529167746953596,True,False
+0,Development,Healthcare,5,tone_answers_chg,2019Q2,53,53,0.16086115142718915,True,False
+0,Development,Healthcare,5,tone_answers_chg,2019Q3,56,56,-0.033082706766917297,True,False
+0,Development,Healthcare,5,tone_answers_chg,2019Q4,53,53,-0.028140622480245119,True,False
+0,Development,Healthcare,5,tone_answers_chg,2020Q1,54,54,0.29437773966075848,True,False
+0,Development,Healthcare,5,tone_answers_chg,2020Q2,55,55,-0.014790764790764795,True,False
+0,Development,Healthcare,5,tone_answers_chg,2020Q3,57,57,0.021648949961109668,True,False
+0,Development,Healthcare,5,tone_answers_chg,2020Q4,58,58,0.23756498200498322,True,False
+0,Development,Healthcare,5,tone_answers_chg,2021Q1,55,55,-0.14480519480519485,True,False
+0,Development,Healthcare,5,tone_answers_chg,2021Q2,58,58,-0.022363037927958417,True,False
+0,Development,Healthcare,5,tone_answers_chg,2021Q3,55,55,0.22135642135642142,True,False
+0,Development,Healthcare,5,tone_answers_chg,2021Q4,57,57,0.059826289862587513,True,False
+0,Development,Healthcare,5,tone_answers_chg,2022Q1,53,53,0.20561199806482824,True,False
+0,Development,Healthcare,5,tone_answers_chg,2022Q2,49,49,-0.17795918367346936,True,False
+0,Development,Healthcare,5,tone_answers_chg,2022Q3,53,53,0.19900016126431219,True,False
+0,Development,Healthcare,5,tone_answers_chg,2022Q4,50,50,-0.13334933973589436,True,False
+0,Development,Healthcare,5,tone_answers_chg,2023Q1,54,54,0.023594434915189626,True,False
+0,Development,Healthcare,5,tone_answers_chg,2023Q2,46,46,-0.16349059512796793,True,False
+0,Development,Healthcare,5,tone_answers_chg,2023Q3,53,53,-0.049104983067247213,True,False
+0,Development,Healthcare,5,tone_answers_chg,2023Q4,53,53,-0.18392194807289147,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2010Q2,44,44,0.14982381959126145,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2010Q3,49,49,0.21153061224489794,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2010Q4,50,50,0.11500600240096039,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2011Q1,48,48,0.16120277898393401,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2011Q2,49,49,-0.11132653061224489,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2011Q3,50,50,-0.051332533013205277,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2011Q4,48,48,0.015631784628745114,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2012Q1,48,48,0.047221016066000869,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2012Q2,50,50,-0.027515006002400956,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2012Q3,48,48,0.22948328267477205,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2012Q4,52,52,0.071117561683599409,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2013Q1,50,50,-0.36019207683073229,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2013Q2,49,49,0.11285714285714284,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2013Q3,47,47,-0.10661424606845515,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2013Q4,50,50,0.21478991596638655,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2014Q1,49,49,-0.13265306122448978,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2014Q2,48,47,0.20419018671298308,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2014Q3,46,46,0.014739438791242674,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2014Q4,51,50,-0.043529411764705886,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2015Q1,46,46,0.060006167129201357,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2015Q2,49,49,0.12285714285714285,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2015Q3,52,52,0.24246563647229574,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2015Q4,51,51,0.21846153846153846,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2016Q1,51,51,-0.041176470588235294,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2016Q2,53,53,0.014352523786486051,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2016Q3,54,54,0.078482942633886013,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2016Q4,51,51,0.082624434389140272,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2017Q1,52,52,-0.018099547511312215,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2017Q2,54,54,-0.046388412426148266,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2017Q3,52,52,0.023307436182019976,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2017Q4,55,55,-0.15101010101010107,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2018Q1,55,55,0.033116883116883128,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2018Q2,51,51,-0.00063348416289592767,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2018Q3,52,52,0.017501920942542475,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2018Q4,54,54,0.08702115494568323,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2019Q1,57,57,-0.081799325900959313,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2019Q2,53,53,-0.05539429124334784,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2019Q3,56,56,0.15536568694463435,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2019Q4,53,53,0.12022254475084664,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2020Q1,54,54,-0.025042881646655229,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2020Q2,55,55,0.094949494949494978,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2020Q3,57,57,-0.20579465906144673,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2020Q4,58,58,-0.066412378110677045,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2021Q1,55,55,0.1345598845598846,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2021Q2,58,58,0.12073579624104094,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2021Q3,55,55,-0.089321789321789344,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2021Q4,57,57,0.14596836919885922,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2022Q1,53,53,-0.18843734881470728,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2022Q2,49,49,-0.16265306122448978,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2022Q3,53,53,0.070956297371391711,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2022Q4,50,50,0.090612244897959174,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2023Q1,54,54,-0.10028587764436819,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2023Q2,46,46,-0.13462843046561826,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2023Q3,53,53,-0.15674891146589259,True,False
+0,Development,Healthcare,5,hedging_answers_chg,2023Q4,53,53,0.096919851636832755,True,False
+2024,Outer test,Healthcare,5,tone_prepared,2024Q1,52,52,0.12353794928711687,True,False
+2024,Outer test,Healthcare,5,tone_prepared,2024Q2,52,52,-0.15811491505165201,True,False
+2024,Outer test,Healthcare,5,tone_prepared,2024Q3,47,47,-0.12431338557929524,True,False
+2024,Outer test,Healthcare,5,tone_prepared,2024Q4,54,54,0.050925308286517548,True,False
+2024,Outer test,Healthcare,5,tone_answers,2024Q1,52,52,0.014344568570612943,True,False
+2024,Outer test,Healthcare,5,tone_answers,2024Q2,52,52,-0.24425851617860495,True,False
+2024,Outer test,Healthcare,5,tone_answers,2024Q3,47,47,0.12650689490990749,True,False
+2024,Outer test,Healthcare,5,tone_answers,2024Q4,54,54,-0.039300893959455789,True,False
+2024,Outer test,Healthcare,5,hedging_prepared,2024Q1,52,52,0.26013830786305814,True,False
+2024,Outer test,Healthcare,5,hedging_prepared,2024Q2,52,52,0.040040980107572774,True,False
+2024,Outer test,Healthcare,5,hedging_prepared,2024Q3,47,47,0.00023126734505087883,True,False
+2024,Outer test,Healthcare,5,hedging_prepared,2024Q4,54,54,-0.1594434915189632,True,False
+2024,Outer test,Healthcare,5,uncertainty_answers,2024Q1,52,52,-0.069068556304960296,True,False
+2024,Outer test,Healthcare,5,uncertainty_answers,2024Q2,52,52,0.13736873559293092,True,False
+2024,Outer test,Healthcare,5,uncertainty_answers,2024Q3,47,47,0.21276595744680851,True,False
+2024,Outer test,Healthcare,5,uncertainty_answers,2024Q4,54,54,-0.1695063846007242,True,False
+2024,Outer test,Healthcare,5,tone_gap,2024Q1,52,52,-0.07291044138990864,True,False
+2024,Outer test,Healthcare,5,tone_gap,2024Q2,52,52,-0.11645180568598992,True,False
+2024,Outer test,Healthcare,5,tone_gap,2024Q3,47,47,0.1598103553615102,True,False
+2024,Outer test,Healthcare,5,tone_gap,2024Q4,54,54,-0.15471698113207547,True,False
+2024,Outer test,Healthcare,5,tone_prepared_chg,2024Q1,52,52,0.23759924869802784,True,False
+2024,Outer test,Healthcare,5,tone_prepared_chg,2024Q2,52,52,-0.096730128916588401,True,False
+2024,Outer test,Healthcare,5,tone_prepared_chg,2024Q3,46,46,-0.27252543940795559,True,False
+2024,Outer test,Healthcare,5,tone_prepared_chg,2024Q4,54,54,-0.10371640937678671,True,False
+2024,Outer test,Healthcare,5,tone_answers_chg,2024Q1,52,52,0.052505762827627422,True,False
+2024,Outer test,Healthcare,5,tone_answers_chg,2024Q2,52,52,-0.30419192350379914,True,False
+2024,Outer test,Healthcare,5,tone_answers_chg,2024Q3,46,46,-0.051865556583410417,True,False
+2024,Outer test,Healthcare,5,tone_answers_chg,2024Q4,54,54,-0.12132647226986848,True,False
+2024,Outer test,Healthcare,5,hedging_answers_chg,2024Q1,52,52,-0.059506531204644407,True,False
+2024,Outer test,Healthcare,5,hedging_answers_chg,2024Q2,52,52,0.1780927174933834,True,False
+2024,Outer test,Healthcare,5,hedging_answers_chg,2024Q3,46,46,0.23749614554424917,True,False
+2024,Outer test,Healthcare,5,hedging_answers_chg,2024Q4,54,54,-0.17522393748808843,True,False
+2025,Outer test,Healthcare,5,tone_prepared,2025Q1,52,52,0.029754535779513432,True,False
+2025,Outer test,Healthcare,5,tone_prepared,2025Q2,51,51,0.21933119168118323,True,False
+2025,Outer test,Healthcare,5,tone_prepared,2025Q3,53,53,0.040638606676342524,True,False
+2025,Outer test,Healthcare,5,tone_prepared,2025Q4,55,55,0.01443105566928627,True,False
+2025,Outer test,Healthcare,5,tone_answers,2025Q1,52,52,-0.002305180252814266,True,False
+2025,Outer test,Healthcare,5,tone_answers,2025Q2,51,51,0.18995475113122173,True,False
+2025,Outer test,Healthcare,5,tone_answers,2025Q3,53,53,-0.020843832527870858,True,False
+2025,Outer test,Healthcare,5,tone_answers,2025Q4,55,55,-0.15015242549539765,True,False
+2025,Outer test,Healthcare,5,hedging_prepared,2025Q1,52,52,-0.30205754290105014,True,False
+2025,Outer test,Healthcare,5,hedging_prepared,2025Q2,51,51,0.22298642533936652,True,False
+2025,Outer test,Healthcare,5,hedging_prepared,2025Q3,53,53,0.10377358490566037,True,False
+2025,Outer test,Healthcare,5,hedging_prepared,2025Q4,55,55,-0.017316017316017319,True,False
+2025,Outer test,Healthcare,5,uncertainty_answers,2025Q1,52,52,-0.092375992486980266,True,False
+2025,Outer test,Healthcare,5,uncertainty_answers,2025Q2,51,51,-0.31085972850678734,True,False
+2025,Outer test,Healthcare,5,uncertainty_answers,2025Q3,53,53,0.13771972262538298,True,False
+2025,Outer test,Healthcare,5,uncertainty_answers,2025Q4,55,55,0.084920634920634924,True,False
+2025,Outer test,Healthcare,5,tone_gap,2025Q1,52,52,-0.025185691112439169,True,False
+2025,Outer test,Healthcare,5,tone_gap,2025Q2,51,51,0.017556561085972849,True,False
+2025,Outer test,Healthcare,5,tone_gap,2025Q3,53,53,-0.13425253991291727,True,False
+2025,Outer test,Healthcare,5,tone_gap,2025Q4,55,55,-0.15187590187590191,True,False
+2025,Outer test,Healthcare,5,tone_prepared_chg,2025Q1,52,52,0.009476649876205924,True,False
+2025,Outer test,Healthcare,5,tone_prepared_chg,2025Q2,51,51,-0.045791855203619905,True,False
+2025,Outer test,Healthcare,5,tone_prepared_chg,2025Q3,53,53,0.1540880503144654,True,False
+2025,Outer test,Healthcare,5,tone_prepared_chg,2025Q4,55,55,-0.34588744588744597,True,False
+2025,Outer test,Healthcare,5,tone_answers_chg,2025Q1,52,52,-0.066251173909331509,True,False
+2025,Outer test,Healthcare,5,tone_answers_chg,2025Q2,51,51,-0.00036199095022624428,True,False
+2025,Outer test,Healthcare,5,tone_answers_chg,2025Q3,53,53,-0.20569263022093212,True,False
+2025,Outer test,Healthcare,5,tone_answers_chg,2025Q4,55,55,-0.18217893217893222,True,False
+2025,Outer test,Healthcare,5,hedging_answers_chg,2025Q1,52,52,0.20601041577734139,True,False
+2025,Outer test,Healthcare,5,hedging_answers_chg,2025Q2,51,51,-0.21819004524886876,True,False
+2025,Outer test,Healthcare,5,hedging_answers_chg,2025Q3,53,53,0.30519271085308824,True,False
+2025,Outer test,Healthcare,5,hedging_answers_chg,2025Q4,55,55,0.069985569985569998,True,False
+2026,Outer test,Healthcare,5,tone_prepared,2026Q1,55,55,-0.2817460317460318,True,False
+2026,Outer test,Healthcare,5,tone_prepared,2026Q2,51,51,-0.07982442265600545,True,True
+2026,Outer test,Healthcare,5,tone_answers,2026Q1,55,55,-0.32570305078626849,True,False
+2026,Outer test,Healthcare,5,tone_answers,2026Q2,51,51,-0.093992533693508448,True,True
+2026,Outer test,Healthcare,5,hedging_prepared,2026Q1,55,55,0.013708513708513712,True,False
+2026,Outer test,Healthcare,5,hedging_prepared,2026Q2,51,51,0.12552036199095024,True,True
+2026,Outer test,Healthcare,5,uncertainty_answers,2026Q1,55,55,0.017388167388167394,True,False
+2026,Outer test,Healthcare,5,uncertainty_answers,2026Q2,51,51,-0.00081447963800904968,True,True
+2026,Outer test,Healthcare,5,tone_gap,2026Q1,55,55,-0.10014430014430016,True,False
+2026,Outer test,Healthcare,5,tone_gap,2026Q2,51,51,0.0055203619909502261,True,True
+2026,Outer test,Healthcare,5,tone_prepared_chg,2026Q1,55,55,-0.15057720057720062,True,False
+2026,Outer test,Healthcare,5,tone_prepared_chg,2026Q2,51,51,0.0097737556561085966,True,True
+2026,Outer test,Healthcare,5,tone_answers_chg,2026Q1,55,55,-0.25317460317460322,True,False
+2026,Outer test,Healthcare,5,tone_answers_chg,2026Q2,51,51,0.12425339366515838,True,True
+2026,Outer test,Healthcare,5,hedging_answers_chg,2026Q1,55,55,-0.0064213564213564233,True,False
+2026,Outer test,Healthcare,5,hedging_answers_chg,2026Q2,51,51,-0.12117647058823529,True,True
+0,Development,Healthcare,20,tone_prepared,2010Q1,46,46,-0.10268586763647479,True,False
+0,Development,Healthcare,20,tone_prepared,2010Q2,51,51,0.31085972850678734,True,False
+0,Development,Healthcare,20,tone_prepared,2010Q3,51,51,-0.051131221719457012,True,False
+0,Development,Healthcare,20,tone_prepared,2010Q4,50,50,0.2084613909433978,True,False
+0,Development,Healthcare,20,tone_prepared,2011Q1,48,48,-0.11186799472190428,True,False
+0,Development,Healthcare,20,tone_prepared,2011Q2,50,50,0.3360464838059562,True,False
+0,Development,Healthcare,20,tone_prepared,2011Q3,51,51,0.059824418744432277,True,False
+0,Development,Healthcare,20,tone_prepared,2011Q4,48,48,-0.058184976118106815,True,False
+0,Development,Healthcare,20,tone_prepared,2012Q1,49,49,0.23164447195824273,True,False
+0,Development,Healthcare,20,tone_prepared,2012Q2,50,50,-0.18781664994582509,True,False
+0,Development,Healthcare,20,tone_prepared,2012Q3,49,49,0.14653808886873856,True,False
+0,Development,Healthcare,20,tone_prepared,2012Q4,52,52,0.031974386368515864,True,False
+0,Development,Healthcare,20,tone_prepared,2013Q1,51,51,0.04660633484162896,True,False
+0,Development,Healthcare,20,tone_prepared,2013Q2,50,50,0.25121863550017531,True,False
+0,Development,Healthcare,20,tone_prepared,2013Q3,48,48,0.042878853669127227,True,False
+0,Development,Healthcare,20,tone_prepared,2013Q4,51,51,0.41927601809954745,True,False
+0,Development,Healthcare,20,tone_prepared,2014Q1,49,49,-0.3799076508289978,True,False
+0,Development,Healthcare,20,tone_prepared,2014Q2,48,47,0.14715301546945292,True,False
+0,Development,Healthcare,20,tone_prepared,2014Q3,47,47,0.010697351754198977,True,False
+0,Development,Healthcare,20,tone_prepared,2014Q4,53,52,0.0060072167246668423,True,False
+0,Development,Healthcare,20,tone_prepared,2015Q1,48,48,-0.11745868053284855,True,False
+0,Development,Healthcare,20,tone_prepared,2015Q2,50,50,0.16533410170676008,True,False
+0,Development,Healthcare,20,tone_prepared,2015Q3,52,52,-0.014173497319423191,True,False
+0,Development,Healthcare,20,tone_prepared,2015Q4,51,51,-0.0081451649479292315,True,False
+0,Development,Healthcare,20,tone_prepared,2016Q1,52,52,0.16708644625683727,True,False
+0,Development,Healthcare,20,tone_prepared,2016Q2,55,55,-0.13135394503298767,True,False
+0,Development,Healthcare,20,tone_prepared,2016Q3,55,55,-0.05461760461760462,True,False
+0,Development,Healthcare,20,tone_prepared,2016Q4,54,54,0.037316561844863733,True,False
+0,Development,Healthcare,20,tone_prepared,2017Q1,54,54,-0.1042520345536119,True,False
+0,Development,Healthcare,20,tone_prepared,2017Q2,55,55,0.17316017316017318,True,False
+0,Development,Healthcare,20,tone_prepared,2017Q3,54,54,0.3135124833238041,True,False
+0,Development,Healthcare,20,tone_prepared,2017Q4,55,55,-0.026334776334776339,True,False
+0,Development,Healthcare,20,tone_prepared,2018Q1,55,55,0.31800717911340542,True,False
+0,Development,Healthcare,20,tone_prepared,2018Q2,53,53,-0.0019352107569396539,True,False
+0,Development,Healthcare,20,tone_prepared,2018Q3,53,53,-0.17811643283341397,True,False
+0,Development,Healthcare,20,tone_prepared,2018Q4,55,55,-0.042536303952222999,True,False
+0,Development,Healthcare,20,tone_prepared,2019Q1,58,58,0.12421366720942585,True,False
+0,Development,Healthcare,20,tone_prepared,2019Q2,54,54,0.31115515834045115,True,False
+0,Development,Healthcare,20,tone_prepared,2019Q3,57,57,0.20608967609777507,True,False
+0,Development,Healthcare,20,tone_prepared,2019Q4,54,54,-0.002477700695556266,True,False
+0,Development,Healthcare,20,tone_prepared,2020Q1,55,55,0.18735456015597457,True,False
+0,Development,Healthcare,20,tone_prepared,2020Q2,55,55,0.0066378066378066395,True,False
+0,Development,Healthcare,20,tone_prepared,2020Q3,60,60,0.081191475204312538,True,False
+0,Development,Healthcare,20,tone_prepared,2020Q4,59,59,-0.012653603940625147,True,False
+0,Development,Healthcare,20,tone_prepared,2021Q1,55,55,-0.30859142485945207,True,False
+0,Development,Healthcare,20,tone_prepared,2021Q2,59,59,0.11730153860893612,True,False
+0,Development,Healthcare,20,tone_prepared,2021Q3,57,57,-0.053605574489342715,True,False
+0,Development,Healthcare,20,tone_prepared,2021Q4,59,59,0.069902685672328296,True,False
+0,Development,Healthcare,20,tone_prepared,2022Q1,53,53,0.088453475245928073,True,False
+0,Development,Healthcare,20,tone_prepared,2022Q2,50,50,-0.11222088835534214,True,False
+0,Development,Healthcare,20,tone_prepared,2022Q3,53,53,-0.048259318251182626,True,False
+0,Development,Healthcare,20,tone_prepared,2022Q4,50,50,-0.27759903961584631,True,False
+0,Development,Healthcare,20,tone_prepared,2023Q1,55,55,0.049567099567099572,True,False
+0,Development,Healthcare,20,tone_prepared,2023Q2,47,47,-0.042437557816836266,True,False
+0,Development,Healthcare,20,tone_prepared,2023Q3,53,53,-0.2071885016648517,True,False
+0,Development,Healthcare,20,tone_prepared,2023Q4,53,53,-0.14715961790777601,True,False
+0,Development,Healthcare,20,tone_answers,2010Q1,46,46,0.02935734555972052,True,False
+0,Development,Healthcare,20,tone_answers,2010Q2,50,50,-0.037791116446578635,True,False
+0,Development,Healthcare,20,tone_answers,2010Q3,51,51,-0.20271493212669683,True,False
+0,Development,Healthcare,20,tone_answers,2010Q4,50,50,0.28681872749099641,True,False
+0,Development,Healthcare,20,tone_answers,2011Q1,48,48,-0.11691589550265978,True,False
+0,Development,Healthcare,20,tone_answers,2011Q2,50,50,0.055751638710876697,True,False
+0,Development,Healthcare,20,tone_answers,2011Q3,51,51,0.058191361810409466,True,False
+0,Development,Healthcare,20,tone_answers,2011Q4,48,48,-0.11561634929912752,True,False
+0,Development,Healthcare,20,tone_answers,2012Q1,49,49,0.18847419583163011,True,False
+0,Development,Healthcare,20,tone_answers,2012Q2,50,50,0.065930372148859537,True,False
+0,Development,Healthcare,20,tone_answers,2012Q3,49,49,0.078932598704713974,True,False
+0,Development,Healthcare,20,tone_answers,2012Q4,52,52,0.029283701869717408,True,False
+0,Development,Healthcare,20,tone_answers,2013Q1,51,51,-0.055204868902565755,True,False
+0,Development,Healthcare,20,tone_answers,2013Q2,50,50,0.30679471788715484,True,False
+0,Development,Healthcare,20,tone_answers,2013Q3,48,48,0.303951367781155,True,False
+0,Development,Healthcare,20,tone_answers,2013Q4,51,51,0.15072739206102176,True,False
+0,Development,Healthcare,20,tone_answers,2014Q1,49,49,-0.22905983092362178,True,False
+0,Development,Healthcare,20,tone_answers,2014Q2,48,47,-0.1486145412656836,True,False
+0,Development,Healthcare,20,tone_answers,2014Q3,46,46,-0.3302599526686622,True,False
+0,Development,Healthcare,20,tone_answers,2014Q4,53,52,-0.17005664526607209,True,False
+0,Development,Healthcare,20,tone_answers,2015Q1,48,48,-0.20484151107251411,True,False
+0,Development,Healthcare,20,tone_answers,2015Q2,50,50,0.031310026928149132,True,False
+0,Development,Healthcare,20,tone_answers,2015Q3,52,52,-0.058957884511953801,True,False
+0,Development,Healthcare,20,tone_answers,2015Q4,51,51,-0.21493212669683256,True,False
+0,Development,Healthcare,20,tone_answers,2016Q1,52,52,0.11854602892713365,True,False
+0,Development,Healthcare,20,tone_answers,2016Q2,55,55,0.23961903403161333,True,False
+0,Development,Healthcare,20,tone_answers,2016Q3,54,54,0.1140842386125405,True,False
+0,Development,Healthcare,20,tone_answers,2016Q4,53,53,-0.28472936248018738,True,False
+0,Development,Healthcare,20,tone_answers,2017Q1,54,54,0.024282392477081763,True,False
+0,Development,Healthcare,20,tone_answers,2017Q2,55,55,0.11382084498189401,True,False
+0,Development,Healthcare,20,tone_answers,2017Q3,54,54,0.24117097719221298,True,False
+0,Development,Healthcare,20,tone_answers,2017Q4,55,55,0.070600119061251784,True,False
+0,Development,Healthcare,20,tone_answers,2018Q1,55,55,0.067893217893217908,True,False
+0,Development,Healthcare,20,tone_answers,2018Q2,53,53,-0.13199483954200936,True,False
+0,Development,Healthcare,20,tone_answers,2018Q3,53,53,0.026044711437146175,True,False
+0,Development,Healthcare,20,tone_answers,2018Q4,55,55,-0.0023450042424797801,True,False
+0,Development,Healthcare,20,tone_answers,2019Q1,58,58,0.33699397087434618,True,False
+0,Development,Healthcare,20,tone_answers,2019Q2,53,53,0.27585372759589144,True,False
+0,Development,Healthcare,20,tone_answers,2019Q3,56,56,0.076490592577920652,True,False
+0,Development,Healthcare,20,tone_answers,2019Q4,53,53,0.040358021239913368,True,False
+0,Development,Healthcare,20,tone_answers,2020Q1,55,55,0.062700674668314346,True,False
+0,Development,Healthcare,20,tone_answers,2020Q2,55,55,-0.14278499278499282,True,False
+0,Development,Healthcare,20,tone_answers,2020Q3,60,60,0.24401561568922947,True,False
+0,Development,Healthcare,20,tone_answers,2020Q4,59,59,-0.090797510193948175,True,False
+0,Development,Healthcare,20,tone_answers,2021Q1,55,55,-0.15887732465291407,True,False
+0,Development,Healthcare,20,tone_answers,2021Q2,59,59,0.017153961924126927,True,False
+0,Development,Healthcare,20,tone_answers,2021Q3,57,57,0.16749039881637076,True,False
+0,Development,Healthcare,20,tone_answers,2021Q4,59,59,0.1073949064244744,True,False
+0,Development,Healthcare,20,tone_answers,2022Q1,53,53,-0.19295274955652314,True,False
+0,Development,Healthcare,20,tone_answers,2022Q2,50,50,-0.02780579180092593,True,False
+0,Development,Healthcare,20,tone_answers,2022Q3,53,53,-0.098014313252525562,True,False
+0,Development,Healthcare,20,tone_answers,2022Q4,50,50,-0.04610065314574105,True,False
+0,Development,Healthcare,20,tone_answers,2023Q1,55,55,-0.0030305216905501167,True,False
+0,Development,Healthcare,20,tone_answers,2023Q2,47,47,0.0074005550416281225,True,False
+0,Development,Healthcare,20,tone_answers,2023Q3,53,53,-0.046042817438542528,True,False
+0,Development,Healthcare,20,tone_answers,2023Q4,53,53,-0.17437758322384742,True,False
+0,Development,Healthcare,20,hedging_prepared,2010Q1,46,46,0.28646315140302192,True,False
+0,Development,Healthcare,20,hedging_prepared,2010Q2,51,51,-0.17619909502262443,True,False
+0,Development,Healthcare,20,hedging_prepared,2010Q3,51,51,-0.0057013574660633474,True,False
+0,Development,Healthcare,20,hedging_prepared,2010Q4,50,50,-0.048068381007396702,True,False
+0,Development,Healthcare,20,hedging_prepared,2011Q1,48,48,-0.16359096830221451,True,False
+0,Development,Healthcare,20,hedging_prepared,2011Q2,50,50,0.070348139255702283,True,False
+0,Development,Healthcare,20,hedging_prepared,2011Q3,51,51,-0.050407239819004523,True,False
+0,Development,Healthcare,20,hedging_prepared,2011Q4,48,48,0.1252713851498046,True,False
+0,Development,Healthcare,20,hedging_prepared,2012Q1,49,49,-0.12591836734693876,True,False
+0,Development,Healthcare,20,hedging_prepared,2012Q2,50,50,0.0082112845138055217,True,False
+0,Development,Healthcare,20,hedging_prepared,2012Q3,49,49,0.055918367346938766,True,False
+0,Development,Healthcare,20,hedging_prepared,2012Q4,52,52,0.00085375224109963282,True,False
+0,Development,Healthcare,20,hedging_prepared,2013Q1,51,51,-0.46588235294117647,True,False
+0,Development,Healthcare,20,hedging_prepared,2013Q2,50,50,0.10876350540216086,True,False
+0,Development,Healthcare,20,hedging_prepared,2013Q3,48,48,-0.11528441163699521,True,False
+0,Development,Healthcare,20,hedging_prepared,2013Q4,51,51,0.04932126696832579,True,False
+0,Development,Healthcare,20,hedging_prepared,2014Q1,49,49,-0.16734693877551016,True,False
+0,Development,Healthcare,20,hedging_prepared,2014Q2,48,47,0.14611376465479808,True,False
+0,Development,Healthcare,20,hedging_prepared,2014Q3,47,47,0.10302960222016652,True,False
+0,Development,Healthcare,20,hedging_prepared,2014Q4,53,52,-0.25262054507337522,True,False
+0,Development,Healthcare,20,hedging_prepared,2015Q1,48,48,0.051454624402952676,True,False
+0,Development,Healthcare,20,hedging_prepared,2015Q2,50,50,0.24571428571428569,True,False
+0,Development,Healthcare,20,hedging_prepared,2015Q3,52,52,0.11773243404763938,True,False
+0,Development,Healthcare,20,hedging_prepared,2015Q4,51,51,-0.0057918552036199085,True,False
+0,Development,Healthcare,20,hedging_prepared,2016Q1,52,52,0.054554768206266542,True,False
+0,Development,Healthcare,20,hedging_prepared,2016Q2,55,55,-0.22229437229437235,True,False
+0,Development,Healthcare,20,hedging_prepared,2016Q3,55,55,0.1275613275613276,True,False
+0,Development,Healthcare,20,hedging_prepared,2016Q4,54,54,0.057594816085382111,True,False
+0,Development,Healthcare,20,hedging_prepared,2017Q1,54,54,-0.011244520678482941,True,False
+0,Development,Healthcare,20,hedging_prepared,2017Q2,55,55,0.24805194805194811,True,False
+0,Development,Healthcare,20,hedging_prepared,2017Q3,54,54,-0.00064798932723461014,True,False
+0,Development,Healthcare,20,hedging_prepared,2017Q4,55,55,-0.053463203463203469,True,False
+0,Development,Healthcare,20,hedging_prepared,2018Q1,55,55,-0.0074314574314574321,True,False
+0,Development,Healthcare,20,hedging_prepared,2018Q2,53,53,0.029108208353491372,True,False
+0,Development,Healthcare,20,hedging_prepared,2018Q3,53,53,-0.18617964844379939,True,False
+0,Development,Healthcare,20,hedging_prepared,2018Q4,55,55,-0.14271284271284276,True,False
+0,Development,Healthcare,20,hedging_prepared,2019Q1,58,58,-0.09292811221507892,True,False
+0,Development,Healthcare,20,hedging_prepared,2019Q2,54,54,-0.12224128073184674,True,False
+0,Development,Healthcare,20,hedging_prepared,2019Q3,57,57,-0.2861680062224527,True,False
+0,Development,Healthcare,20,hedging_prepared,2019Q4,54,54,-0.14675332103524893,True,False
+0,Development,Healthcare,20,hedging_prepared,2020Q1,55,55,-0.21399711399711405,True,False
+0,Development,Healthcare,20,hedging_prepared,2020Q2,55,55,-0.30894660894660902,True,False
+0,Development,Healthcare,20,hedging_prepared,2020Q3,60,60,-0.014337315921089194,True,False
+0,Development,Healthcare,20,hedging_prepared,2020Q4,59,59,0.083226183518410296,True,False
+0,Development,Healthcare,20,hedging_prepared,2021Q1,55,55,0.23903318903318907,True,False
+0,Development,Healthcare,20,hedging_prepared,2021Q2,59,59,-0.089947399181765059,True,False
+0,Development,Healthcare,20,hedging_prepared,2021Q3,57,57,-0.026575058335493909,True,False
+0,Development,Healthcare,20,hedging_prepared,2021Q4,59,59,-0.019346542788321403,True,False
+0,Development,Healthcare,20,hedging_prepared,2022Q1,53,53,-0.13038219641993226,True,False
+0,Development,Healthcare,20,hedging_prepared,2022Q2,50,50,-0.096182472989195689,True,False
+0,Development,Healthcare,20,hedging_prepared,2022Q3,53,53,0.18456700532172229,True,False
+0,Development,Healthcare,20,hedging_prepared,2022Q4,50,50,-0.10530612244897959,True,False
+0,Development,Healthcare,20,hedging_prepared,2023Q1,55,55,0.038383838383838395,True,False
+0,Development,Healthcare,20,hedging_prepared,2023Q2,47,47,0.13026509791225852,True,False
+0,Development,Healthcare,20,hedging_prepared,2023Q3,53,53,0.16432833413965489,True,False
+0,Development,Healthcare,20,hedging_prepared,2023Q4,53,53,0.055958716336074826,True,False
+0,Development,Healthcare,20,uncertainty_answers,2010Q1,46,46,0.25797101449275361,True,False
+0,Development,Healthcare,20,uncertainty_answers,2010Q2,50,50,0.023673469387755098,True,False
+0,Development,Healthcare,20,uncertainty_answers,2010Q3,51,51,0.12389140271493213,True,False
+0,Development,Healthcare,20,uncertainty_answers,2010Q4,50,50,-0.23515006002400959,True,False
+0,Development,Healthcare,20,uncertainty_answers,2011Q1,48,48,0.19572297003907946,True,False
+0,Development,Healthcare,20,uncertainty_answers,2011Q2,50,50,-0.17128451380552218,True,False
+0,Development,Healthcare,20,uncertainty_answers,2011Q3,51,51,-0.13805742214895747,True,False
+0,Development,Healthcare,20,uncertainty_answers,2011Q4,48,48,-0.0039079461571862786,True,False
+0,Development,Healthcare,20,uncertainty_answers,2012Q1,49,49,-0.088469387755102033,True,False
+0,Development,Healthcare,20,uncertainty_answers,2012Q2,50,50,0.12201680672268907,True,False
+0,Development,Healthcare,20,uncertainty_answers,2012Q3,49,49,-0.15867346938775506,True,False
+0,Development,Healthcare,20,uncertainty_answers,2012Q4,52,52,-0.022539059165030306,True,False
+0,Development,Healthcare,20,uncertainty_answers,2013Q1,51,51,-0.19239819004524888,True,False
+0,Development,Healthcare,20,uncertainty_answers,2013Q2,50,50,-0.24600240096038412,True,False
+0,Development,Healthcare,20,uncertainty_answers,2013Q3,48,48,0.12787668258792878,True,False
+0,Development,Healthcare,20,uncertainty_answers,2013Q4,51,51,-0.31239819004524882,True,False
+0,Development,Healthcare,20,uncertainty_answers,2014Q1,49,49,-0.0001020408163265306,True,False
+0,Development,Healthcare,20,uncertainty_answers,2014Q2,48,47,0.21211463308727746,True,False
+0,Development,Healthcare,20,uncertainty_answers,2014Q3,46,46,0.10083256244218317,True,False
+0,Development,Healthcare,20,uncertainty_answers,2014Q4,53,52,-0.012014191259474278,True,False
+0,Development,Healthcare,20,uncertainty_answers,2015Q1,48,48,0.14329135909683019,True,False
+0,Development,Healthcare,20,uncertainty_answers,2015Q2,50,50,0.20969987995198078,True,False
+0,Development,Healthcare,20,uncertainty_answers,2015Q3,52,52,-0.17228720225390592,True,False
+0,Development,Healthcare,20,uncertainty_answers,2015Q4,51,51,0.10108597285067873,True,False
+0,Development,Healthcare,20,uncertainty_answers,2016Q1,52,52,-0.072654315717578757,True,False
+0,Development,Healthcare,20,uncertainty_answers,2016Q2,55,55,-0.19307359307359312,True,False
+0,Development,Healthcare,20,uncertainty_answers,2016Q3,54,54,-0.028397179340575562,True,False
+0,Development,Healthcare,20,uncertainty_answers,2016Q4,53,53,0.27108530882115789,True,False
+0,Development,Healthcare,20,uncertainty_answers,2017Q1,54,54,-0.022527158376214974,True,False
+0,Development,Healthcare,20,uncertainty_answers,2017Q2,55,55,0.1075757575757576,True,False
+0,Development,Healthcare,20,uncertainty_answers,2017Q3,54,54,-0.13459119496855343,True,False
+0,Development,Healthcare,20,uncertainty_answers,2017Q4,55,55,0.018686868686868689,True,False
+0,Development,Healthcare,20,uncertainty_answers,2018Q1,55,55,-0.061183261183261194,True,False
+0,Development,Healthcare,20,uncertainty_answers,2018Q2,53,53,0.14263828414771812,True,False
+0,Development,Healthcare,20,uncertainty_answers,2018Q3,53,53,0.0030640219319464602,True,False
+0,Development,Healthcare,20,uncertainty_answers,2018Q4,55,55,0.068326118326118332,True,False
+0,Development,Healthcare,20,uncertainty_answers,2019Q1,58,58,-0.099756990371897017,True,False
+0,Development,Healthcare,20,uncertainty_answers,2019Q2,53,53,-0.20730527334300916,True,False
+0,Development,Healthcare,20,uncertainty_answers,2019Q3,56,56,-0.28591934381408063,True,False
+0,Development,Healthcare,20,uncertainty_answers,2019Q4,53,53,0.31486856958555076,True,False
+0,Development,Healthcare,20,uncertainty_answers,2020Q1,55,55,-0.13253968253968257,True,False
+0,Development,Healthcare,20,uncertainty_answers,2020Q2,55,55,-0.1526695526695527,True,False
+0,Development,Healthcare,20,uncertainty_answers,2020Q3,60,60,-0.20105584884690195,True,False
+0,Development,Healthcare,20,uncertainty_answers,2020Q4,59,59,-0.10432495616598482,True,False
+0,Development,Healthcare,20,uncertainty_answers,2021Q1,55,55,0.26724386724386728,True,False
+0,Development,Healthcare,20,uncertainty_answers,2021Q2,59,59,-0.029807130333138518,True,False
+0,Development,Healthcare,20,uncertainty_answers,2021Q3,57,57,-0.095540575576873232,True,False
+0,Development,Healthcare,20,uncertainty_answers,2021Q4,59,59,0.092518994739918189,True,False
+0,Development,Healthcare,20,uncertainty_answers,2022Q1,53,53,-0.1204644412191582,True,False
+0,Development,Healthcare,20,uncertainty_answers,2022Q2,50,50,-0.05728691476590636,True,False
+0,Development,Healthcare,20,uncertainty_answers,2022Q3,53,53,0.0013707466537655217,True,False
+0,Development,Healthcare,20,uncertainty_answers,2022Q4,50,50,0.23879951980792313,True,False
+0,Development,Healthcare,20,uncertainty_answers,2023Q1,55,55,-0.11031746031746034,True,False
+0,Development,Healthcare,20,uncertainty_answers,2023Q2,47,47,0.13193802035152638,True,False
+0,Development,Healthcare,20,uncertainty_answers,2023Q3,53,53,0.15271730366069991,True,False
+0,Development,Healthcare,20,uncertainty_answers,2023Q4,53,53,-0.1271569101757781,True,False
+0,Development,Healthcare,20,tone_gap,2010Q1,46,46,0.10983657107616406,True,False
+0,Development,Healthcare,20,tone_gap,2010Q2,50,50,-0.20316926770708282,True,False
+0,Development,Healthcare,20,tone_gap,2010Q3,51,51,-0.097737556561085973,True,False
+0,Development,Healthcare,20,tone_gap,2010Q4,50,50,0.05315726290516206,True,False
+0,Development,Healthcare,20,tone_gap,2011Q1,48,48,0.080112896222318722,True,False
+0,Development,Healthcare,20,tone_gap,2011Q2,50,50,-0.19270108043217285,True,False
+0,Development,Healthcare,20,tone_gap,2011Q3,51,51,0.021900452488687782,True,False
+0,Development,Healthcare,20,tone_gap,2011Q4,48,48,0.048089448545375599,True,False
+0,Development,Healthcare,20,tone_gap,2012Q1,49,49,0.065510204081632648,True,False
+0,Development,Healthcare,20,tone_gap,2012Q2,50,50,0.19500600240096039,True,False
+0,Development,Healthcare,20,tone_gap,2012Q3,49,49,-0.033571428571428565,True,False
+0,Development,Healthcare,20,tone_gap,2012Q4,52,52,-0.0095620251003158876,True,False
+0,Development,Healthcare,20,tone_gap,2013Q1,51,51,-0.11891402714932126,True,False
+0,Development,Healthcare,20,tone_gap,2013Q2,50,50,-0.0062905162064825926,True,False
+0,Development,Healthcare,20,tone_gap,2013Q3,48,48,0.26280937907077723,True,False
+0,Development,Healthcare,20,tone_gap,2013Q4,51,51,-0.21447963800904973,True,False
+0,Development,Healthcare,20,tone_gap,2014Q1,49,49,0.055918367346938766,True,False
+0,Development,Healthcare,20,tone_gap,2014Q2,48,47,-0.2566217976552323,True,False
+0,Development,Healthcare,20,tone_gap,2014Q3,46,46,-0.32235584335491829,True,False
+0,Development,Healthcare,20,tone_gap,2014Q4,53,52,-0.18021286889211416,True,False
+0,Development,Healthcare,20,tone_gap,2015Q1,48,48,-0.22633521493703865,True,False
+0,Development,Healthcare,20,tone_gap,2015Q2,50,50,-0.11807923169267706,True,False
+0,Development,Healthcare,20,tone_gap,2015Q3,52,52,-0.043968240416631089,True,False
+0,Development,Healthcare,20,tone_gap,2015Q4,51,51,-0.20235294117647057,True,False
+0,Development,Healthcare,20,tone_gap,2016Q1,52,52,0.010757278237855375,True,False
+0,Development,Healthcare,20,tone_gap,2016Q2,55,55,0.29617604617604626,True,False
+0,Development,Healthcare,20,tone_gap,2016Q3,54,54,0.16897274633123688,True,False
+0,Development,Healthcare,20,tone_gap,2016Q4,53,53,-0.28987260119335589,True,False
+0,Development,Healthcare,20,tone_gap,2017Q1,54,54,0.26129216695254426,True,False
+0,Development,Healthcare,20,tone_gap,2017Q2,55,55,-0.11580086580086582,True,False
+0,Development,Healthcare,20,tone_gap,2017Q3,54,54,0.026338860301124447,True,False
+0,Development,Healthcare,20,tone_gap,2017Q4,55,55,0.078571428571428584,True,False
+0,Development,Healthcare,20,tone_gap,2018Q1,55,55,-0.1654401154401155,True,False
+0,Development,Healthcare,20,tone_gap,2018Q2,53,53,-0.041525560393484921,True,False
+0,Development,Healthcare,20,tone_gap,2018Q3,53,53,0.19085631349782295,True,False
+0,Development,Healthcare,20,tone_gap,2018Q4,55,55,0.048989898989899,True,False
+0,Development,Healthcare,20,tone_gap,2019Q1,58,58,0.18114983543018856,True,False
+0,Development,Healthcare,20,tone_gap,2019Q2,53,53,-0.012497984196097402,True,False
+0,Development,Healthcare,20,tone_gap,2019Q3,56,56,-0.13561175666438827,True,False
+0,Development,Healthcare,20,tone_gap,2019Q4,53,53,0.021931946460248347,True,False
+0,Development,Healthcare,20,tone_gap,2020Q1,55,55,-0.091125541125541151,True,False
+0,Development,Healthcare,20,tone_gap,2020Q2,55,55,-0.075974025974025999,True,False
+0,Development,Healthcare,20,tone_gap,2020Q3,60,60,0.18477354820783554,True,False
+0,Development,Healthcare,20,tone_gap,2020Q4,59,59,-0.07790765634132088,True,False
+0,Development,Healthcare,20,tone_gap,2021Q1,55,55,0.13997113997114,True,False
+0,Development,Healthcare,20,tone_gap,2021Q2,59,59,-0.069374634716540054,True,False
+0,Development,Healthcare,20,tone_gap,2021Q3,57,57,0.22977702877884368,True,False
+0,Development,Healthcare,20,tone_gap,2021Q4,59,59,0.045879602571595561,True,False
+0,Development,Healthcare,20,tone_gap,2022Q1,53,53,-0.21004676665054023,True,False
+0,Development,Healthcare,20,tone_gap,2022Q2,50,50,0.098679471788715487,True,False
+0,Development,Healthcare,20,tone_gap,2022Q3,53,53,-0.021367521367521368,True,False
+0,Development,Healthcare,20,tone_gap,2022Q4,50,50,0.22698679471788716,True,False
+0,Development,Healthcare,20,tone_gap,2023Q1,55,55,-0.060028860028860043,True,False
+0,Development,Healthcare,20,tone_gap,2023Q2,47,47,0.12210915818686401,True,False
+0,Development,Healthcare,20,tone_gap,2023Q3,53,53,0.12756007095629737,True,False
+0,Development,Healthcare,20,tone_gap,2023Q4,53,53,0.036526366715045958,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2010Q2,44,44,0.11261451726568006,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2010Q3,49,49,0.052755102040816314,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2010Q4,50,50,0.29680672268907565,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2011Q1,48,48,-0.14361702127659573,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2011Q2,49,49,0.1986734693877551,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2011Q3,50,50,0.14948379351740695,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2011Q4,48,48,-0.11745549283543204,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2012Q1,48,48,-0.12983065566652194,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2012Q2,50,50,-0.16725090036014406,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2012Q3,48,48,0.10138949196699955,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2012Q4,52,52,0.10099889012208657,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2013Q1,50,50,0.087731092436974786,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2013Q2,49,49,0.41051020408163263,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2013Q3,47,47,0.02798334875115634,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2013Q4,50,50,-0.049123649459783911,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2014Q1,49,49,-0.31295918367346937,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2014Q2,48,47,0.031046461137646548,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2014Q3,47,47,0.043478260869565216,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2014Q4,51,50,-0.01782805429864253,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2015Q1,46,46,0.022880049337033612,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2015Q2,49,49,0.20051020408163264,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2015Q3,52,52,0.060360283445744047,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2015Q4,51,51,0.0043438914027149316,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2016Q1,51,51,0.087239819004524891,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2016Q2,53,53,-0.013223673601032092,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2016Q3,55,55,-0.082106782106782128,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2016Q4,52,52,-0.16673781268675833,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2017Q1,52,52,0.043029112951421498,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2017Q2,54,54,0.20114351057747282,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2017Q3,52,52,0.21668231879108682,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2017Q4,55,55,0.13073593073593076,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2018Q1,55,55,0.042135642135642144,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2018Q2,51,51,0.088054298642533932,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2018Q3,52,52,-0.18031247332024244,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2018Q4,54,54,0.044330093386697154,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2019Q1,57,57,-0.072660098522167496,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2019Q2,54,54,-0.024051839146178765,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2019Q3,57,57,0.23528649209229974,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2019Q4,54,54,0.028092243186582804,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2020Q1,54,54,0.043110348770726122,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2020Q2,55,55,-0.074963924963924983,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2020Q3,57,57,-0.10947627689914444,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2020Q4,58,58,-0.092497462241225528,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2021Q1,55,55,-0.19018759018759021,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2021Q2,58,58,-0.02488541634624258,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2021Q3,55,55,-0.1334776334776335,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2021Q4,57,57,0.092170080373347174,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2022Q1,53,53,0.012578616352201257,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2022Q2,49,49,0.058877551020408155,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2022Q3,53,53,-0.056119980648282532,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2022Q4,50,50,0.025306122448979586,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2023Q1,54,54,0.00049552125023823136,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2023Q2,46,46,-0.12340425531914893,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2023Q3,53,53,-0.11062731817448798,True,False
+0,Development,Healthcare,20,tone_prepared_chg,2023Q4,53,53,-0.15078213191420739,True,False
+0,Development,Healthcare,20,tone_answers_chg,2010Q2,44,44,-0.0084566596194503175,True,False
+0,Development,Healthcare,20,tone_answers_chg,2010Q3,49,49,-0.15948979591836734,True,False
+0,Development,Healthcare,20,tone_answers_chg,2010Q4,50,50,0.11865546218487394,True,False
+0,Development,Healthcare,20,tone_answers_chg,2011Q1,48,48,0.082066869300911852,True,False
+0,Development,Healthcare,20,tone_answers_chg,2011Q2,49,49,-0.085510204081632651,True,False
+0,Development,Healthcare,20,tone_answers_chg,2011Q3,50,50,-0.067082833133253306,True,False
+0,Development,Healthcare,20,tone_answers_chg,2011Q4,48,48,0.020842379504993486,True,False
+0,Development,Healthcare,20,tone_answers_chg,2012Q1,48,48,-0.092488059053408594,True,False
+0,Development,Healthcare,20,tone_answers_chg,2012Q2,50,50,0.18156062424969985,True,False
+0,Development,Healthcare,20,tone_answers_chg,2012Q3,48,48,-0.095961788970907499,True,False
+0,Development,Healthcare,20,tone_answers_chg,2012Q4,52,52,-0.085289848885853337,True,False
+0,Development,Healthcare,20,tone_answers_chg,2013Q1,50,50,-0.11596638655462185,True,False
+0,Development,Healthcare,20,tone_answers_chg,2013Q2,49,49,0.19785714285714284,True,False
+0,Development,Healthcare,20,tone_answers_chg,2013Q3,47,47,0.29902867715078635,True,False
+0,Development,Healthcare,20,tone_answers_chg,2013Q4,50,50,-0.066026410564225688,True,False
+0,Development,Healthcare,20,tone_answers_chg,2014Q1,49,49,-0.30948979591836734,True,False
+0,Development,Healthcare,20,tone_answers_chg,2014Q2,48,47,-0.004993486756404689,True,False
+0,Development,Healthcare,20,tone_answers_chg,2014Q3,46,46,-0.36429232192414429,True,False
+0,Development,Healthcare,20,tone_answers_chg,2014Q4,51,50,-0.20904977375565609,True,False
+0,Development,Healthcare,20,tone_answers_chg,2015Q1,46,46,-0.27301880974406412,True,False
+0,Development,Healthcare,20,tone_answers_chg,2015Q2,49,49,0.11897959183673468,True,False
+0,Development,Healthcare,20,tone_answers_chg,2015Q3,52,52,-0.24553914454025438,True,False
+0,Development,Healthcare,20,tone_answers_chg,2015Q4,51,51,-0.17701357466063344,True,False
+0,Development,Healthcare,20,tone_answers_chg,2016Q1,51,51,0.050588235294117642,True,False
+0,Development,Healthcare,20,tone_answers_chg,2016Q2,53,53,0.24229962909208191,True,False
+0,Development,Healthcare,20,tone_answers_chg,2016Q3,54,54,0.39035639412997897,True,False
+0,Development,Healthcare,20,tone_answers_chg,2016Q4,51,51,-0.30280542986425341,True,False
+0,Development,Healthcare,20,tone_answers_chg,2017Q1,52,52,0.099120635191667375,True,False
+0,Development,Healthcare,20,tone_answers_chg,2017Q2,54,54,0.079626453211358861,True,False
+0,Development,Healthcare,20,tone_answers_chg,2017Q3,52,52,0.28745837957824638,True,False
+0,Development,Healthcare,20,tone_answers_chg,2017Q4,55,55,0.16479076479076482,True,False
+0,Development,Healthcare,20,tone_answers_chg,2018Q1,55,55,0.13997113997114,True,False
+0,Development,Healthcare,20,tone_answers_chg,2018Q2,51,51,-0.12180995475113121,True,False
+0,Development,Healthcare,20,tone_answers_chg,2018Q3,52,52,0.26269956458635707,True,False
+0,Development,Healthcare,20,tone_answers_chg,2018Q4,54,54,0.076653325709929485,True,False
+0,Development,Healthcare,20,tone_answers_chg,2019Q1,57,57,0.18531241897848069,True,False
+0,Development,Healthcare,20,tone_answers_chg,2019Q2,53,53,0.053378487340751492,True,False
+0,Development,Healthcare,20,tone_answers_chg,2019Q3,56,56,0.11825017088174983,True,False
+0,Development,Healthcare,20,tone_answers_chg,2019Q4,53,53,0.034026769875826472,True,False
+0,Development,Healthcare,20,tone_answers_chg,2020Q1,54,54,0.22767295597484274,True,False
+0,Development,Healthcare,20,tone_answers_chg,2020Q2,55,55,-0.22287157287157291,True,False
+0,Development,Healthcare,20,tone_answers_chg,2020Q3,57,57,0.10007778065854291,True,False
+0,Development,Healthcare,20,tone_answers_chg,2020Q4,58,58,0.10037220462025902,True,False
+0,Development,Healthcare,20,tone_answers_chg,2021Q1,55,55,-0.17417027417027423,True,False
+0,Development,Healthcare,20,tone_answers_chg,2021Q2,58,58,0.20440493401827187,True,False
+0,Development,Healthcare,20,tone_answers_chg,2021Q3,55,55,0.24891774891774895,True,False
+0,Development,Healthcare,20,tone_answers_chg,2021Q4,57,57,0.2229064039408867,True,False
+0,Development,Healthcare,20,tone_answers_chg,2022Q1,53,53,-0.086921464279954841,True,False
+0,Development,Healthcare,20,tone_answers_chg,2022Q2,49,49,0.081224489795918356,True,False
+0,Development,Healthcare,20,tone_answers_chg,2022Q3,53,53,0.29995162070633768,True,False
+0,Development,Healthcare,20,tone_answers_chg,2022Q4,50,50,0.11394957983193275,True,False
+0,Development,Healthcare,20,tone_answers_chg,2023Q1,54,54,-0.12292738707833047,True,False
+0,Development,Healthcare,20,tone_answers_chg,2023Q2,46,46,-0.1564600678384212,True,False
+0,Development,Healthcare,20,tone_answers_chg,2023Q3,53,53,0.17513304305757135,True,False
+0,Development,Healthcare,20,tone_answers_chg,2023Q4,53,53,-0.34558942106111917,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2010Q2,44,44,0.12205778717406623,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2010Q3,49,49,0.21316326530612242,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2010Q4,50,50,0.018103241296518604,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2011Q1,48,48,0.11854103343465046,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2011Q2,49,49,-0.16714285714285712,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2011Q3,50,50,-0.076686674669867949,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2011Q4,48,48,-0.011832392531480676,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2012Q1,48,48,-0.042878853669127227,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2012Q2,50,50,0.013301320528211284,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2012Q3,48,48,0.2232957012592271,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2012Q4,52,52,0.011184154358405189,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2013Q1,50,50,-0.36768307322929172,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2013Q2,49,49,0.10397959183673468,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2013Q3,47,47,0.16917206290471787,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2013Q4,50,50,0.040768307322929173,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2014Q1,49,49,0.0523469387755102,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2014Q2,48,47,0.100412505427703,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2014Q3,46,46,0.03398088189947579,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2014Q4,51,50,0.088054298642533932,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2015Q1,46,46,0.099722479185938948,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2015Q2,49,49,-0.028673469387755099,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2015Q3,52,52,-0.21813369760095616,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2015Q4,51,51,0.18841628959276019,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2016Q1,51,51,-0.15954751131221717,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2016Q2,53,53,-0.0036284470246734394,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2016Q3,54,54,-0.1111111111111111,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2016Q4,51,51,0.14054298642533936,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2017Q1,52,52,-0.28728762913002648,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2017Q2,54,54,0.012845435486944919,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2017Q3,52,52,-0.22735422180483222,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2017Q4,55,55,-0.018975468975468982,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2018Q1,55,55,-0.065800865800865832,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2018Q2,51,51,0.20398190045248865,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2018Q3,52,52,0.31196106889780584,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2018Q4,54,54,0.02458547741566609,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2019Q1,57,57,-0.044334975369458129,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2019Q2,53,53,0.046927914852443152,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2019Q3,56,56,-0.10861244019138756,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2019Q4,53,53,0.1629575874858894,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2020Q1,54,54,-0.046617114541642843,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2020Q2,55,55,-0.094949494949494978,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2020Q3,57,57,-0.20650764843142341,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2020Q4,58,58,-0.15789473684210531,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2021Q1,55,55,0.17041847041847047,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2021Q2,58,58,0.0020609677320126735,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2021Q3,55,55,-0.12691197691197692,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2021Q4,57,57,-0.08834586466165413,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2022Q1,53,53,-0.12457668118045476,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2022Q2,49,49,-0.23051020408163264,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2022Q3,53,53,-0.15312046444121916,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2022Q4,50,50,0.19193277310924367,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2023Q1,54,54,-0.096169239565465969,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2023Q2,46,46,-0.00067838421214924454,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2023Q3,53,53,-0.13820351556200611,True,False
+0,Development,Healthcare,20,hedging_answers_chg,2023Q4,53,53,0.086518303499435567,True,False
+2024,Outer test,Healthcare,20,tone_prepared,2024Q1,52,52,0.01246478272005464,True,False
+2024,Outer test,Healthcare,20,tone_prepared,2024Q2,52,52,-0.02450268931955946,True,False
+2024,Outer test,Healthcare,20,tone_prepared,2024Q3,47,47,-0.10291991922378861,True,False
+2024,Outer test,Healthcare,20,tone_prepared,2024Q4,53,53,-0.13796440021348949,True,False
+2024,Outer test,Healthcare,20,tone_answers,2024Q1,52,52,0.060452110404725985,True,False
+2024,Outer test,Healthcare,20,tone_answers,2024Q2,52,52,-0.26346794160334669,True,False
+2024,Outer test,Healthcare,20,tone_answers,2024Q3,47,47,-0.0062443988346755066,True,False
+2024,Outer test,Healthcare,20,tone_answers,2024Q4,53,53,0.041325646124786418,True,False
+2024,Outer test,Healthcare,20,hedging_prepared,2024Q1,52,52,0.12567232988986596,True,False
+2024,Outer test,Healthcare,20,hedging_prepared,2024Q2,52,52,0.23640399556048836,True,False
+2024,Outer test,Healthcare,20,hedging_prepared,2024Q3,47,47,0.067183163737280296,True,False
+2024,Outer test,Healthcare,20,hedging_prepared,2024Q4,53,53,-0.13360748266408642,True,False
+2024,Outer test,Healthcare,20,uncertainty_answers,2024Q1,52,52,0.022624434389140274,True,False
+2024,Outer test,Healthcare,20,uncertainty_answers,2024Q2,52,52,0.25074703321096214,True,False
+2024,Outer test,Healthcare,20,uncertainty_answers,2024Q3,47,47,0.067876965772432934,True,False
+2024,Outer test,Healthcare,20,uncertainty_answers,2024Q4,53,53,-0.28334139654894375,True,False
+2024,Outer test,Healthcare,20,tone_gap,2024Q1,52,52,0.02834457440450781,True,False
+2024,Outer test,Healthcare,20,tone_gap,2024Q2,52,52,-0.18850849483479892,True,False
+2024,Outer test,Healthcare,20,tone_gap,2024Q3,47,47,0.11910612592066244,True,False
+2024,Outer test,Healthcare,20,tone_gap,2024Q4,53,53,0.14215449121109497,True,False
+2024,Outer test,Healthcare,20,tone_prepared_chg,2024Q1,52,52,-0.0083667719627764023,True,False
+2024,Outer test,Healthcare,20,tone_prepared_chg,2024Q2,52,52,-0.083582344403654044,True,False
+2024,Outer test,Healthcare,20,tone_prepared_chg,2024Q3,46,46,-0.30521122417514646,True,False
+2024,Outer test,Healthcare,20,tone_prepared_chg,2024Q4,53,53,-0.26326398967908404,True,False
+2024,Outer test,Healthcare,20,tone_answers_chg,2024Q1,52,52,0.083070093058994265,True,False
+2024,Outer test,Healthcare,20,tone_answers_chg,2024Q2,52,52,-0.25732092546742935,True,False
+2024,Outer test,Healthcare,20,tone_answers_chg,2024Q3,46,46,-0.065679925994449578,True,False
+2024,Outer test,Healthcare,20,tone_answers_chg,2024Q4,53,53,-0.089662957587485895,True,False
+2024,Outer test,Healthcare,20,hedging_answers_chg,2024Q1,52,52,-0.017928797063092288,True,False
+2024,Outer test,Healthcare,20,hedging_answers_chg,2024Q2,52,52,0.10390164774182532,True,False
+2024,Outer test,Healthcare,20,hedging_answers_chg,2024Q3,46,46,0.1414122725871107,True,False
+2024,Outer test,Healthcare,20,hedging_answers_chg,2024Q4,53,53,-0.24367037574584746,True,False
+2025,Outer test,Healthcare,20,tone_prepared,2025Q1,52,52,-0.2774386341909007,True,False
+2025,Outer test,Healthcare,20,tone_prepared,2025Q2,51,51,-0.025928775084241386,True,False
+2025,Outer test,Healthcare,20,tone_prepared,2025Q3,53,53,-0.19545234639574263,True,False
+2025,Outer test,Healthcare,20,tone_prepared,2025Q4,55,55,-0.091673281139141027,True,False
+2025,Outer test,Healthcare,20,tone_answers,2025Q1,52,52,-0.27388956485289501,True,False
+2025,Outer test,Healthcare,20,tone_answers,2025Q2,51,51,-0.02434389140271493,True,False
+2025,Outer test,Healthcare,20,tone_answers,2025Q3,53,53,-0.23069324898351459,True,False
+2025,Outer test,Healthcare,20,tone_answers,2025Q4,55,55,-0.23551057992166163,True,False
+2025,Outer test,Healthcare,20,hedging_prepared,2025Q1,52,52,0.068214804063860671,True,False
+2025,Outer test,Healthcare,20,hedging_prepared,2025Q2,51,51,-0.10941176470588235,True,False
+2025,Outer test,Healthcare,20,hedging_prepared,2025Q3,53,53,0.33930011288501855,True,False
+2025,Outer test,Healthcare,20,hedging_prepared,2025Q4,55,55,-0.11847041847041849,True,False
+2025,Outer test,Healthcare,20,uncertainty_answers,2025Q1,52,52,0.12234269614957739,True,False
+2025,Outer test,Healthcare,20,uncertainty_answers,2025Q2,51,51,-0.11457013574660634,True,False
+2025,Outer test,Healthcare,20,uncertainty_answers,2025Q3,53,53,0.08256732785034672,True,False
+2025,Outer test,Healthcare,20,uncertainty_answers,2025Q4,55,55,0.1643578643578644,True,False
+2025,Outer test,Healthcare,20,tone_gap,2025Q1,52,52,-0.078374455732946297,True,False
+2025,Outer test,Healthcare,20,tone_gap,2025Q2,51,51,-0.045067873303167416,True,False
+2025,Outer test,Healthcare,20,tone_gap,2025Q3,53,53,-0.019916142557651988,True,False
+2025,Outer test,Healthcare,20,tone_gap,2025Q4,55,55,-0.11746031746031747,True,False
+2025,Outer test,Healthcare,20,tone_prepared_chg,2025Q1,52,52,-0.061555536583283527,True,False
+2025,Outer test,Healthcare,20,tone_prepared_chg,2025Q2,51,51,-0.1371945701357466,True,False
+2025,Outer test,Healthcare,20,tone_prepared_chg,2025Q3,53,53,-0.058458313175294305,True,False
+2025,Outer test,Healthcare,20,tone_prepared_chg,2025Q4,55,55,-0.17770562770562776,True,False
+2025,Outer test,Healthcare,20,tone_answers_chg,2025Q1,52,52,-0.087594979936822331,True,False
+2025,Outer test,Healthcare,20,tone_answers_chg,2025Q2,51,51,-0.25710407239819,True,False
+2025,Outer test,Healthcare,20,tone_answers_chg,2025Q3,53,53,-0.38824383164005805,True,False
+2025,Outer test,Healthcare,20,tone_answers_chg,2025Q4,55,55,0.022799422799422802,True,False
+2025,Outer test,Healthcare,20,hedging_answers_chg,2025Q1,52,52,0.18125160078545205,True,False
+2025,Outer test,Healthcare,20,hedging_answers_chg,2025Q2,51,51,-0.040271493212669686,True,False
+2025,Outer test,Healthcare,20,hedging_answers_chg,2025Q3,53,53,0.10151588453475247,True,False
+2025,Outer test,Healthcare,20,hedging_answers_chg,2025Q4,55,55,-0.087373737373737381,True,False
+2026,Outer test,Healthcare,20,tone_prepared,2026Q1,55,55,-0.19401154401154402,True,False
+2026,Outer test,Healthcare,20,tone_prepared,2026Q2,49,49,0.12317269214839922,True,True
+2026,Outer test,Healthcare,20,tone_answers,2026Q1,55,55,-0.32707397634341057,True,False
+2026,Outer test,Healthcare,20,tone_answers,2026Q2,49,49,0.11297071188533524,True,True
+2026,Outer test,Healthcare,20,hedging_prepared,2026Q1,55,55,-0.026046176046176053,True,False
+2026,Outer test,Healthcare,20,hedging_prepared,2026Q2,49,49,-0.056632653061224489,True,True
+2026,Outer test,Healthcare,20,uncertainty_answers,2026Q1,55,55,0.065151515151515155,True,False
+2026,Outer test,Healthcare,20,uncertainty_answers,2026Q2,49,49,-0.0052040816326530603,True,True
+2026,Outer test,Healthcare,20,tone_gap,2026Q1,55,55,-0.20158730158730162,True,False
+2026,Outer test,Healthcare,20,tone_gap,2026Q2,49,49,0.023469387755102038,True,True
+2026,Outer test,Healthcare,20,tone_prepared_chg,2026Q1,55,55,-0.16421356421356426,True,False
+2026,Outer test,Healthcare,20,tone_prepared_chg,2026Q2,49,49,0.18061224489795918,True,True
+2026,Outer test,Healthcare,20,tone_answers_chg,2026Q1,55,55,-0.22806637806637811,True,False
+2026,Outer test,Healthcare,20,tone_answers_chg,2026Q2,49,49,0.012959183673469385,True,True
+2026,Outer test,Healthcare,20,hedging_answers_chg,2026Q1,55,55,0.027777777777777783,True,False
+2026,Outer test,Healthcare,20,hedging_answers_chg,2026Q2,49,49,-0.059285714285714282,True,True

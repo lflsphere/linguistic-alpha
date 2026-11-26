@@ -1,0 +1,101 @@
+:root {
+  --navy: #112d43;
+  --ink: #17344c;
+  --muted: #4a6478;
+  --teal: #08766c;
+  --accent: #76d3c5;
+  --line: #d6e3e8;
+  --paper: #f2f7f9;
+  --soft: #e8f4f0;
+  --negative: #a62935;
+  --positive: #126a4f;
+  color: var(--ink);
+  font-family: "Segoe UI", Arial, sans-serif;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); font-size: 15px; }
+.frame { width: min(94%, 1180px); margin-inline: auto; }
+.hero { background: var(--navy); border-top: 5px solid var(--accent); color: #dceaf0; }
+.hero .frame { padding: 2.9rem 0 2.6rem; }
+.hero h1 { color: white; font: normal clamp(2.5rem, 6vw, 4.6rem)/1.05 Georgia, serif; margin: .4rem 0 .75rem; }
+.hero p { margin: 0; }
+.eyebrow { color: var(--accent); text-transform: uppercase; font-weight: 700; font-size: .77rem; letter-spacing: .12em; }
+nav { position: sticky; top: 0; z-index: 3; background: white; border-bottom: 1px solid var(--line); }
+nav div { display: flex; gap: 1.1rem; overflow: auto; }
+nav a { color: var(--ink); font-size: .82rem; padding: .8rem 0; white-space: nowrap; text-decoration: none; }
+nav a:hover, a:focus-visible { color: var(--teal); text-decoration: underline; }
+main { padding: 1.3rem 0 3rem; }
+section { scroll-margin-top: 4.3rem; background: white; border: 1px solid var(--line); border-radius: 10px;
+          padding: clamp(1rem, 3vw, 2rem); margin: 0 0 1.1rem; }
+.controls { display: flex; flex-wrap: wrap; gap: 1rem; }
+.controls label { display: grid; gap: .25rem; font-weight: 650; color: var(--muted); font-size: .85rem; }
+select, input { background: white; color: var(--navy); border: 1px solid #96aebb; border-radius: 4px; font: inherit; padding: .42rem; }
+h2, h3 { color: var(--navy); margin: 0 0 .55rem; line-height: 1.15; }
+h2 { font: normal clamp(1.65rem, 4vw, 2.4rem)/1.15 Georgia, serif; }
+h3 { font-size: 1rem; margin-top: 1.25rem; }
+p { margin: .52rem 0; }
+.caption, small { color: var(--muted); font-size: .86em; }
+.statement { border-left: 3px solid var(--teal); background: var(--soft); padding: .45rem .9rem; }
+.summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem; margin: .9rem 0; }
+.summary-grid div { background: var(--paper); border: 1px solid var(--line); border-radius: 5px; padding: .65rem; }
+.summary-grid strong { display: block; color: var(--navy); font: 1.38em Georgia, serif; }
+.table-scroll { overflow-x: auto; margin: .5rem 0 1rem; }
+table { width: 100%; border-collapse: collapse; font-size: .88em; }
+th, td { text-align: right; padding: .37em .52em; border-bottom: 1px solid var(--line); }
+th:first-child, td:first-child, .text { text-align: left; }
+thead { color: var(--navy); background: var(--soft); }
+tbody tr:nth-child(even) { background: #f6f9fa; }
+.positive { color: var(--positive); font-weight: 650; }
+.negative { color: var(--negative); font-weight: 650; }
+.best { font-weight: 750; outline: 1px solid var(--teal); outline-offset: -2px; }
+td.long { text-align: left; white-space: normal; overflow-wrap: anywhere; }
+svg { max-width: 100%; display: block; margin: .3rem auto .65rem; }
+.chart-scroll { overflow-x: auto; }
+.chart-scroll svg { min-width: 440px; }
+.heat { margin-bottom: 1rem; }
+.heat table { table-layout: auto; min-width: 690px; font-size: .78em; white-space: nowrap; }
+.heat td { text-align: center; border: 1px solid white; font-weight: 600; }
+.heat th { padding: .2em .32em; }
+.heat .key { display: flex; align-items: center; gap: .4em; font-size: .8em; }
+.heat .gradient { display: inline-block; width: 110px; height: .62em; background: linear-gradient(90deg,#704694,#f1f5f6,#09796e); }
+details { margin-block: .75rem; }
+summary { cursor: pointer; color: var(--teal); font-weight: 650; }
+ul { margin: .65rem 0; padding-left: 1.2rem; }
+.inline-links a { color: var(--teal); margin-right: .8em; }
+
+@media (max-width: 640px) {
+  .hero .frame { padding: 1.65rem 0; }
+  .summary-grid { grid-template-columns: 1fr; }
+}
+
+@page { size: letter; margin: 0; }
+.print-report { background: white; font-size: 10pt; }
+.print-report .hero, .print-report nav { display: none; }
+.print-report main { width: 100%; padding: 0; }
+.print-report section { width: 8.5in; min-height: 10.98in; margin: 0; padding: .43in .60in .48in; border: none;
+  border-top: 5px solid var(--teal); border-radius: 0; break-after: page; position: relative; }
+.print-report section:last-child { break-after: auto; }
+.print-report h2 { font-size: 24pt; margin-bottom: .12in; }
+.print-report h3 { font-size: 12pt; margin-top: .15in; }
+.print-report .print-head { color: var(--teal); font-weight: 750; text-transform: uppercase; font-size: 8pt;
+  letter-spacing: .1em; margin-bottom: .16in; }
+.print-report .cover { background: linear-gradient(var(--navy) 0 2.7in, white 2.7in); }
+.print-report .cover h2 { font-size: 42pt; color: white; margin-top: .25in; max-width: 6.3in; }
+.print-report .cover .print-head { color: var(--accent); }
+.print-report .cover .subtitle { color: white; font-size: 12pt; margin-bottom: .56in; }
+.print-report .page-foot { position: absolute; bottom: .40in; left: .60in; right: .60in; border-top: 1px solid var(--line);
+  color: var(--muted); padding-top: .09in; display: flex; justify-content: space-between; font-size: 8pt; }
+.print-report .table-scroll, .print-report .chart-scroll { overflow: visible; }
+.print-report .table-scroll { margin: .045in 0 .1in; }
+.print-report table { font-size: 8.7pt; line-height: 1.26; }
+.print-report th, .print-report td { padding: .17em .36em; }
+.print-report .heat table { table-layout: fixed; min-width: 0; font-size: 7.8pt; }
+.print-report .heat thead th { writing-mode: vertical-rl; transform: rotate(180deg); height: .82in; text-align: left; }
+.print-report .heat thead th:first-child { width: 1.12in; writing-mode: horizontal-tb; transform: none; }
+.print-report .heat tbody th { text-align: left; font-size: 8.3pt; }
+.print-report .appendix table { font-size: 8.5pt; }
+.print-report .appendix h3 { margin-top: .13in; }
+.print-report .caption { font-size: 8.5pt; }
+.print-report * { print-color-adjust: exact; -webkit-print-color-adjust: exact; }

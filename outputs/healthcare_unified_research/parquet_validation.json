@@ -1,0 +1,10 @@
+{
+  "call_rows": 3551,
+  "feature_columns": 13,
+  "sentence_rows": 1388987,
+  "sentence_groups": 7055,
+  "token_truncations": 0,
+  "all_aggregates_reconciled": true,
+  "complete_requested": true,
+  "model_inference_invoked": false
+}

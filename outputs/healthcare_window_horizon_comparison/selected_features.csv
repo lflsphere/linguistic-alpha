@@ -1,0 +1,73 @@
+year,horizon,benchmark,window,model,route,features,feature_count,estimator,inner_rank_ic
+2024,5,S&P 500,Expanding,A,Controls,,0,Ridge 10,0.028152087092995468
+2024,5,S&P 500,Expanding,B,Controls,,0,Ridge 10,0.028152087092995468
+2024,5,S&P 500,Expanding,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Ridge 1,-0.02149158239604293
+2024,5,S&P 500,Rolling 5Y,A,Controls,,0,Ridge 50,-0.0037516572284471347
+2024,5,S&P 500,Rolling 5Y,B,Forward,tone_prepared|tone_prepared_chg|hedging_answers_chg,3,Ridge 50,0.016877863748928596
+2024,5,S&P 500,Rolling 5Y,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Ridge 10,-0.011406634332237023
+2024,20,S&P 500,Expanding,A,Controls,,0,Ridge 50,-0.039296327619893913
+2024,20,S&P 500,Expanding,B,Forward,hedging_answers_chg,1,Ridge 50,-0.027590126474689614
+2024,20,S&P 500,Expanding,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Ridge 1,-0.066968350158776016
+2024,20,S&P 500,Rolling 5Y,A,Controls,,0,Ridge 1,-0.075482040871091963
+2024,20,S&P 500,Rolling 5Y,B,Screened combination,tone_answers|uncertainty_answers|tone_gap|tone_prepared_chg|hedging_answers_chg,5,Ridge 1,-0.036213585524434683
+2024,20,S&P 500,Rolling 5Y,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Ridge 1,-0.045615055977109242
+2025,5,S&P 500,Expanding,A,Controls,,0,Ridge 10,0.026326536010266438
+2025,5,S&P 500,Expanding,B,Forward,tone_answers_chg,1,Ridge 50,0.031781905576835086
+2025,5,S&P 500,Expanding,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Elastic Net .05,-0.020076096396507728
+2025,5,S&P 500,Rolling 5Y,A,Controls,,0,Ridge 50,0.0012467896104614018
+2025,5,S&P 500,Rolling 5Y,B,Forward,tone_prepared_chg,1,Ridge 50,0.011908974280737256
+2025,5,S&P 500,Rolling 5Y,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Ridge 50,-0.012982262622925947
+2025,20,S&P 500,Expanding,A,Controls,,0,Ridge 1,-0.022816710498615153
+2025,20,S&P 500,Expanding,B,Forward,hedging_answers_chg,1,Ridge 1,-0.0084666827018884481
+2025,20,S&P 500,Expanding,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Ridge 50,-0.05108856829293993
+2025,20,S&P 500,Rolling 5Y,A,Controls,,0,Ridge 10,0.060504454130922203
+2025,20,S&P 500,Rolling 5Y,B,Forward,hedging_answers_chg|tone_gap|uncertainty_answers,3,Elastic Net .05,0.067479048573544753
+2025,20,S&P 500,Rolling 5Y,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Ridge 50,0.044415559589200813
+2026,5,S&P 500,Expanding,A,Controls,,0,Ridge 1,0.020867986737394401
+2026,5,S&P 500,Expanding,B,Forward,tone_answers_chg,1,Ridge 1,0.02922013968170796
+2026,5,S&P 500,Expanding,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Elastic Net .05,0.0081103378527911524
+2026,5,S&P 500,Rolling 5Y,A,Controls,,0,Ridge 50,0.025793275585928407
+2026,5,S&P 500,Rolling 5Y,B,Forward,tone_prepared_chg,1,Ridge 50,0.042687106289637379
+2026,5,S&P 500,Rolling 5Y,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Ridge 50,0.0032983768370752134
+2026,20,S&P 500,Expanding,A,Controls,,0,Ridge 1,-0.050027484828874695
+2026,20,S&P 500,Expanding,B,Forward,hedging_answers_chg,1,Ridge 1,-0.038043402689586434
+2026,20,S&P 500,Expanding,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Ridge 50,-0.068281532151519733
+2026,20,S&P 500,Rolling 5Y,A,Controls,,0,Ridge 50,0.0035023636911505154
+2026,20,S&P 500,Rolling 5Y,B,Forward,tone_prepared_chg|hedging_prepared|hedging_answers_chg,3,Ridge 50,0.028220054058190894
+2026,20,S&P 500,Rolling 5Y,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Ridge 50,0.0055534362958385985
+2024,5,Healthcare,Expanding,A,Controls,,0,Ridge 1,0.037999549991037024
+2024,5,Healthcare,Expanding,B,Controls,,0,Ridge 1,0.037999549991037024
+2024,5,Healthcare,Expanding,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Ridge 50,-0.013023990140332434
+2024,5,Healthcare,Rolling 5Y,A,Controls,,0,Ridge 50,0.010645605880393864
+2024,5,Healthcare,Rolling 5Y,B,Forward,tone_prepared|tone_prepared_chg,2,Ridge 50,0.026161603383652431
+2024,5,Healthcare,Rolling 5Y,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Elastic Net .05,8.2970176646454327e-05
+2024,20,Healthcare,Expanding,A,Controls,,0,Ridge 10,-0.06241609922265904
+2024,20,Healthcare,Expanding,B,Forward,tone_prepared_chg|hedging_answers_chg|tone_answers,3,Ridge 50,-0.047597408052692462
+2024,20,Healthcare,Expanding,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Ridge 1,-0.057051478142972185
+2024,20,Healthcare,Rolling 5Y,A,Controls,,0,Ridge 50,0.010766591272556705
+2024,20,Healthcare,Rolling 5Y,B,Forward,tone_prepared_chg|hedging_answers_chg,2,Ridge 50,0.040090692437135936
+2024,20,Healthcare,Rolling 5Y,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Elastic Net .05,0.019784227956496397
+2025,5,Healthcare,Expanding,A,Controls,,0,Ridge 1,0.024544820157819839
+2025,5,Healthcare,Expanding,B,Forward,tone_answers_chg,1,Elastic Net .05,0.038904403350285492
+2025,5,Healthcare,Expanding,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Ridge 50,-0.009363041405079783
+2025,5,Healthcare,Rolling 5Y,A,Controls,,0,Ridge 50,0.013073299692865701
+2025,5,Healthcare,Rolling 5Y,B,Forward,tone_prepared_chg|tone_prepared|hedging_answers_chg|uncertainty_answers,4,Ridge 1,0.031482010514505582
+2025,5,Healthcare,Rolling 5Y,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Ridge 50,-0.0055656085608735166
+2025,20,Healthcare,Expanding,A,Controls,,0,Ridge 1,-0.026824567412108202
+2025,20,Healthcare,Expanding,B,Forward,tone_prepared_chg|hedging_answers_chg,2,Ridge 1,-0.0022136507464616587
+2025,20,Healthcare,Expanding,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Elastic Net .05,-0.022415627759337541
+2025,20,Healthcare,Rolling 5Y,A,Controls,,0,Ridge 1,0.071924395018111639
+2025,20,Healthcare,Rolling 5Y,B,Forward,tone_prepared_chg|hedging_answers_chg|hedging_prepared|uncertainty_answers,4,Ridge 1,0.090755521645989254
+2025,20,Healthcare,Rolling 5Y,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Ridge 50,0.065233577668382184
+2026,5,Healthcare,Expanding,A,Controls,,0,Ridge 50,0.041513894762008494
+2026,5,Healthcare,Expanding,B,Forward,tone_answers_chg|tone_prepared_chg,2,Ridge 50,0.068088142556196843
+2026,5,Healthcare,Expanding,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Ridge 50,0.035905027881501343
+2026,5,Healthcare,Rolling 5Y,A,Controls,,0,Ridge 50,0.057073388538537002
+2026,5,Healthcare,Rolling 5Y,B,Forward,tone_prepared_chg|tone_answers_chg,2,Ridge 50,0.077937893863477423
+2026,5,Healthcare,Rolling 5Y,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Ridge 50,0.035329539758175384
+2026,20,Healthcare,Expanding,A,Controls,,0,Ridge 1,0.013124223252228791
+2026,20,Healthcare,Expanding,B,Forward,tone_prepared_chg|tone_gap,2,Ridge 1,0.044581091320063555
+2026,20,Healthcare,Expanding,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Ridge 50,0.026197149373699335
+2026,20,Healthcare,Rolling 5Y,A,Controls,,0,Ridge 50,0.070882571655797491
+2026,20,Healthcare,Rolling 5Y,B,Forward,tone_prepared_chg|uncertainty_answers,2,Ridge 50,0.083116934989415261
+2026,20,Healthcare,Rolling 5Y,B*,All LM8,tone_prepared|tone_answers|hedging_prepared|uncertainty_answers|tone_gap|tone_prepared_chg|tone_answers_chg|hedging_answers_chg,8,Ridge 50,0.034137109342656631
