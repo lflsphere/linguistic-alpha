@@ -1,0 +1,173 @@
+{
+  "option": "Option 2 (CD sector bench)",
+  "train_end": "2023-12-31",
+  "method": "time-series CV, ranked target",
+  "model_a": {
+    "features": [
+      "sue",
+      "surprise_pct",
+      "vol_pre",
+      "car_-1_1",
+      "mom",
+      "bm",
+      "size",
+      "dispersion",
+      "avg_answer_words",
+      "words_prepared",
+      "words_questions",
+      "words_answers",
+      "n_questions",
+      "n_answers",
+      "n_analysts",
+      "prior_calls_with_target"
+    ],
+    "algo": "Ridge",
+    "metrics": {
+      "ic": 0.079102,
+      "rank_ic": 0.021065,
+      "r2": -559374380.783182,
+      "rmse": 1610.838216,
+      "direction_accuracy": 0.421687,
+      "quintile_spread": 0.012392
+    },
+    "selection_log": []
+  },
+  "model_b": {
+    "strategy": "All Ling + RidgeCV",
+    "algo": "RidgeCV",
+    "features": [
+      "sue",
+      "surprise_pct",
+      "vol_pre",
+      "car_-1_1",
+      "mom",
+      "bm",
+      "size",
+      "dispersion",
+      "avg_answer_words",
+      "words_prepared",
+      "words_questions",
+      "words_answers",
+      "n_questions",
+      "n_answers",
+      "n_analysts",
+      "prior_calls_with_target",
+      "tone_prepared",
+      "tone_answers",
+      "hedging_prepared",
+      "hedging_answers",
+      "uncertainty_answers",
+      "tone_gap",
+      "tone_prepared_chg",
+      "tone_answers_chg",
+      "hedging_answers_chg"
+    ],
+    "added_ling": [
+      "tone_prepared",
+      "tone_answers",
+      "hedging_prepared",
+      "hedging_answers",
+      "uncertainty_answers",
+      "tone_gap",
+      "tone_prepared_chg",
+      "tone_answers_chg",
+      "hedging_answers_chg"
+    ],
+    "metrics": {
+      "ic": 0.129761,
+      "rank_ic": 0.075848,
+      "r2": -560787098.810689,
+      "rmse": 1612.871045,
+      "direction_accuracy": 0.421687,
+      "quintile_spread": 0.018643
+    }
+  },
+  "model_b_star": {
+    "name": "Model B* (all LM)",
+    "algo": "RidgeCV",
+    "features": [
+      "sue",
+      "surprise_pct",
+      "vol_pre",
+      "car_-1_1",
+      "mom",
+      "bm",
+      "size",
+      "dispersion",
+      "avg_answer_words",
+      "words_prepared",
+      "words_questions",
+      "words_answers",
+      "n_questions",
+      "n_answers",
+      "n_analysts",
+      "prior_calls_with_target",
+      "tone_prepared",
+      "tone_answers",
+      "hedging_prepared",
+      "hedging_answers",
+      "uncertainty_answers",
+      "tone_gap",
+      "tone_prepared_chg",
+      "tone_answers_chg",
+      "hedging_answers_chg"
+    ],
+    "added_ling": [
+      "tone_prepared",
+      "tone_answers",
+      "hedging_prepared",
+      "hedging_answers",
+      "uncertainty_answers",
+      "tone_gap",
+      "tone_prepared_chg",
+      "tone_answers_chg",
+      "hedging_answers_chg"
+    ],
+    "metrics": {
+      "ic": 0.113743,
+      "rank_ic": 0.067941,
+      "r2": -561125835.996029,
+      "rmse": 1613.35809,
+      "direction_accuracy": 0.421687,
+      "quintile_spread": 0.032196
+    }
+  },
+  "all_strategies": [
+    {
+      "name": "Forward Selection",
+      "algo": "ElasticNet",
+      "rank_ic": 0.044364,
+      "quintile_spread": 0.027112
+    },
+    {
+      "name": "Interactions (no raw ling)",
+      "algo": "RidgeCV",
+      "rank_ic": 0.048147,
+      "quintile_spread": 0.013812
+    },
+    {
+      "name": "Residualized Tone",
+      "algo": "ElasticNet",
+      "rank_ic": 0.046683,
+      "quintile_spread": 0.024387
+    },
+    {
+      "name": "All Ling + RidgeCV",
+      "algo": "RidgeCV",
+      "rank_ic": 0.075848,
+      "quintile_spread": 0.018643
+    },
+    {
+      "name": "PCA(4) Linguistic",
+      "algo": "RidgeCV",
+      "rank_ic": 0.064606,
+      "quintile_spread": 0.028633
+    },
+    {
+      "name": "Combined Good Features",
+      "algo": "RidgeCV",
+      "rank_ic": 0.072479,
+      "quintile_spread": 0.032196
+    }
+  ]
+}

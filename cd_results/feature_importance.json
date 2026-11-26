@@ -1,0 +1,502 @@
+{
+  "A (16 controls) - Option 1 (S&P 500 bench) (RidgeCV)": [
+    {
+      "feature": "vol_pre",
+      "std_coef": 66.65106996322555,
+      "abs_std_coef": 66.65106996322555,
+      "rel_importance_pct": 15.726908741336462
+    },
+    {
+      "feature": "prior_calls_with_target",
+      "std_coef": -59.80701427803106,
+      "abs_std_coef": 59.80701427803106,
+      "rel_importance_pct": 14.111993343263087
+    },
+    {
+      "feature": "words_questions",
+      "std_coef": 52.64228803374584,
+      "abs_std_coef": 52.64228803374584,
+      "rel_importance_pct": 12.421412894026457
+    },
+    {
+      "feature": "mom",
+      "std_coef": -48.41903608708987,
+      "abs_std_coef": 48.41903608708987,
+      "rel_importance_pct": 11.424899289768096
+    },
+    {
+      "feature": "avg_answer_words",
+      "std_coef": -40.833484056504716,
+      "abs_std_coef": 40.833484056504716,
+      "rel_importance_pct": 9.63502127875501
+    },
+    {
+      "feature": "size",
+      "std_coef": 39.93174214038058,
+      "abs_std_coef": 39.93174214038058,
+      "rel_importance_pct": 9.422247307820307
+    },
+    {
+      "feature": "n_answers",
+      "std_coef": -34.91209562203467,
+      "abs_std_coef": 34.91209562203467,
+      "rel_importance_pct": 8.237817369165906
+    },
+    {
+      "feature": "dispersion",
+      "std_coef": -24.83583309972107,
+      "abs_std_coef": 24.83583309972107,
+      "rel_importance_pct": 5.860234215142888
+    },
+    {
+      "feature": "car_-1_1",
+      "std_coef": 20.983950992163614,
+      "abs_std_coef": 20.983950992163614,
+      "rel_importance_pct": 4.951348605033902
+    },
+    {
+      "feature": "words_prepared",
+      "std_coef": 7.32741025243925,
+      "abs_std_coef": 7.32741025243925,
+      "rel_importance_pct": 1.7289671780817184
+    },
+    {
+      "feature": "n_analysts",
+      "std_coef": 6.988390913489674,
+      "abs_std_coef": 6.988390913489674,
+      "rel_importance_pct": 1.6489725702209599
+    },
+    {
+      "feature": "n_questions",
+      "std_coef": -6.805660623435216,
+      "abs_std_coef": 6.805660623435216,
+      "rel_importance_pct": 1.6058557440762333
+    },
+    {
+      "feature": "words_answers",
+      "std_coef": 4.999195859391364,
+      "abs_std_coef": 4.999195859391364,
+      "rel_importance_pct": 1.1796044250166484
+    },
+    {
+      "feature": "sue",
+      "std_coef": 4.652281375522307,
+      "abs_std_coef": 4.652281375522307,
+      "rel_importance_pct": 1.0977468879678547
+    },
+    {
+      "feature": "bm",
+      "std_coef": 2.5689334785230784,
+      "abs_std_coef": 2.5689334785230784,
+      "rel_importance_pct": 0.6061625477518633
+    },
+    {
+      "feature": "surprise_pct",
+      "std_coef": 1.4443519535000178,
+      "abs_std_coef": 1.4443519535000178,
+      "rel_importance_pct": 0.34080760257260445
+    }
+  ],
+  "B* (controls + 9 LM) - Option 1 (S&P 500 bench) (RidgeCV)": [
+    {
+      "feature": "vol_pre",
+      "std_coef": 67.08150528445383,
+      "abs_std_coef": 67.08150528445383,
+      "rel_importance_pct": 12.950541326528024
+    },
+    {
+      "feature": "prior_calls_with_target",
+      "std_coef": -58.45372175719304,
+      "abs_std_coef": 58.45372175719304,
+      "rel_importance_pct": 11.284888973434166
+    },
+    {
+      "feature": "words_questions",
+      "std_coef": 53.61671451626319,
+      "abs_std_coef": 53.61671451626319,
+      "rel_importance_pct": 10.351071792308765
+    },
+    {
+      "feature": "mom",
+      "std_coef": -45.42090410346105,
+      "abs_std_coef": 45.42090410346105,
+      "rel_importance_pct": 8.76881479009476
+    },
+    {
+      "feature": "avg_answer_words",
+      "std_coef": -40.893085739347526,
+      "abs_std_coef": 40.893085739347526,
+      "rel_importance_pct": 7.8946886267831875
+    },
+    {
+      "feature": "size",
+      "std_coef": 40.10706379729794,
+      "abs_std_coef": 40.10706379729794,
+      "rel_importance_pct": 7.742941739158857
+    },
+    {
+      "feature": "n_answers",
+      "std_coef": -32.20023186676819,
+      "abs_std_coef": 32.20023186676819,
+      "rel_importance_pct": 6.216474000487411
+    },
+    {
+      "feature": "tone_prepared_chg",
+      "std_coef": -28.35086055131802,
+      "abs_std_coef": 28.35086055131802,
+      "rel_importance_pct": 5.473326659197172
+    },
+    {
+      "feature": "dispersion",
+      "std_coef": -26.16549181995572,
+      "abs_std_coef": 26.16549181995572,
+      "rel_importance_pct": 5.051426346298729
+    },
+    {
+      "feature": "hedging_answers_chg",
+      "std_coef": -23.21262833352425,
+      "abs_std_coef": 23.21262833352425,
+      "rel_importance_pct": 4.4813559453667935
+    },
+    {
+      "feature": "car_-1_1",
+      "std_coef": 22.2761960121976,
+      "abs_std_coef": 22.2761960121976,
+      "rel_importance_pct": 4.300571309938407
+    },
+    {
+      "feature": "tone_answers_chg",
+      "std_coef": 12.964032410283835,
+      "abs_std_coef": 12.964032410283835,
+      "rel_importance_pct": 2.5027947237602968
+    },
+    {
+      "feature": "words_prepared",
+      "std_coef": 9.619177325943923,
+      "abs_std_coef": 9.619177325943923,
+      "rel_importance_pct": 1.857047675936814
+    },
+    {
+      "feature": "n_questions",
+      "std_coef": -8.799997470698145,
+      "abs_std_coef": 8.799997470698145,
+      "rel_importance_pct": 1.6988994274108782
+    },
+    {
+      "feature": "tone_gap",
+      "std_coef": 8.799289517127946,
+      "abs_std_coef": 8.799289517127946,
+      "rel_importance_pct": 1.698762752153976
+    },
+    {
+      "feature": "sue",
+      "std_coef": 6.929516134405844,
+      "abs_std_coef": 6.929516134405844,
+      "rel_importance_pct": 1.3377902700740842
+    },
+    {
+      "feature": "n_analysts",
+      "std_coef": 5.999231355111078,
+      "abs_std_coef": 5.999231355111078,
+      "rel_importance_pct": 1.1581924594911288
+    },
+    {
+      "feature": "words_answers",
+      "std_coef": 4.611366036415632,
+      "abs_std_coef": 4.611366036415632,
+      "rel_importance_pct": 0.8902556102924607
+    },
+    {
+      "feature": "hedging_answers",
+      "std_coef": 4.111629828193145,
+      "abs_std_coef": 4.111629828193145,
+      "rel_importance_pct": 0.7937781327894686
+    },
+    {
+      "feature": "uncertainty_answers",
+      "std_coef": 4.111629828193145,
+      "abs_std_coef": 4.111629828193145,
+      "rel_importance_pct": 0.7937781327894686
+    },
+    {
+      "feature": "tone_answers",
+      "std_coef": 3.508464649787186,
+      "abs_std_coef": 3.508464649787186,
+      "rel_importance_pct": 0.6773329883857206
+    },
+    {
+      "feature": "hedging_prepared",
+      "std_coef": 3.3030713846638093,
+      "abs_std_coef": 3.3030713846638093,
+      "rel_importance_pct": 0.6376804201123718
+    },
+    {
+      "feature": "bm",
+      "std_coef": 3.015341352106944,
+      "abs_std_coef": 3.015341352106944,
+      "rel_importance_pct": 0.5821321782875941
+    },
+    {
+      "feature": "tone_prepared",
+      "std_coef": 2.9342342295458934,
+      "abs_std_coef": 2.9342342295458934,
+      "rel_importance_pct": 0.5664738960509538
+    },
+    {
+      "feature": "surprise_pct",
+      "std_coef": 1.4968641870704005,
+      "abs_std_coef": 1.4968641870704005,
+      "rel_importance_pct": 0.2889798228685176
+    }
+  ],
+  "A (16 controls) - Option 2 (CD sector bench) (RidgeCV)": [
+    {
+      "feature": "vol_pre",
+      "std_coef": 68.37306866635059,
+      "abs_std_coef": 68.37306866635059,
+      "rel_importance_pct": 16.01742492919564
+    },
+    {
+      "feature": "mom",
+      "std_coef": -51.985501275620656,
+      "abs_std_coef": 51.985501275620656,
+      "rel_importance_pct": 12.178389537438647
+    },
+    {
+      "feature": "size",
+      "std_coef": 51.801732320293155,
+      "abs_std_coef": 51.801732320293155,
+      "rel_importance_pct": 12.135338881622118
+    },
+    {
+      "feature": "words_questions",
+      "std_coef": 49.8868879803004,
+      "abs_std_coef": 49.8868879803004,
+      "rel_importance_pct": 11.686757648321064
+    },
+    {
+      "feature": "avg_answer_words",
+      "std_coef": -39.25405486645417,
+      "abs_std_coef": 39.25405486645417,
+      "rel_importance_pct": 9.195855755109491
+    },
+    {
+      "feature": "n_answers",
+      "std_coef": -38.704910168863016,
+      "abs_std_coef": 38.704910168863016,
+      "rel_importance_pct": 9.06721030829103
+    },
+    {
+      "feature": "dispersion",
+      "std_coef": -35.17386432580406,
+      "abs_std_coef": 35.17386432580406,
+      "rel_importance_pct": 8.24000944081585
+    },
+    {
+      "feature": "prior_calls_with_target",
+      "std_coef": -24.50286384959614,
+      "abs_std_coef": 24.50286384959614,
+      "rel_importance_pct": 5.7401662659959145
+    },
+    {
+      "feature": "car_-1_1",
+      "std_coef": 23.392570689368213,
+      "abs_std_coef": 23.392570689368213,
+      "rel_importance_pct": 5.480063308936412
+    },
+    {
+      "feature": "n_analysts",
+      "std_coef": 9.37219043141431,
+      "abs_std_coef": 9.37219043141431,
+      "rel_importance_pct": 2.195577287745523
+    },
+    {
+      "feature": "bm",
+      "std_coef": 9.3307720763855,
+      "abs_std_coef": 9.3307720763855,
+      "rel_importance_pct": 2.185874411959706
+    },
+    {
+      "feature": "sue",
+      "std_coef": 9.221167929576495,
+      "abs_std_coef": 9.221167929576495,
+      "rel_importance_pct": 2.1601979836863356
+    },
+    {
+      "feature": "words_prepared",
+      "std_coef": -8.044348507679985,
+      "abs_std_coef": 8.044348507679985,
+      "rel_importance_pct": 1.8845102441550032
+    },
+    {
+      "feature": "surprise_pct",
+      "std_coef": 4.952572365507649,
+      "abs_std_coef": 4.952572365507649,
+      "rel_importance_pct": 1.1602149445424585
+    },
+    {
+      "feature": "n_questions",
+      "std_coef": -2.841192280101126,
+      "abs_std_coef": 2.841192280101126,
+      "rel_importance_pct": 0.665592241851897
+    },
+    {
+      "feature": "words_answers",
+      "std_coef": -0.029098699886958457,
+      "abs_std_coef": 0.029098699886958457,
+      "rel_importance_pct": 0.00681681033289548
+    }
+  ],
+  "B* (controls + 9 LM) - Option 2 (CD sector bench) (RidgeCV)": [
+    {
+      "feature": "vol_pre",
+      "std_coef": 71.3834738153442,
+      "abs_std_coef": 71.3834738153442,
+      "rel_importance_pct": 13.90819299256481
+    },
+    {
+      "feature": "size",
+      "std_coef": 52.977767127774726,
+      "abs_std_coef": 52.977767127774726,
+      "rel_importance_pct": 10.322067141678708
+    },
+    {
+      "feature": "mom",
+      "std_coef": -52.842028803700615,
+      "abs_std_coef": 52.842028803700615,
+      "rel_importance_pct": 10.295620196653397
+    },
+    {
+      "feature": "words_questions",
+      "std_coef": 51.514896637448146,
+      "abs_std_coef": 51.514896637448146,
+      "rel_importance_pct": 10.03704479665777
+    },
+    {
+      "feature": "avg_answer_words",
+      "std_coef": -39.383386071402754,
+      "abs_std_coef": 39.383386071402754,
+      "rel_importance_pct": 7.673368987318975
+    },
+    {
+      "feature": "n_answers",
+      "std_coef": -36.97955357161468,
+      "abs_std_coef": 36.97955357161468,
+      "rel_importance_pct": 7.205011753607754
+    },
+    {
+      "feature": "dispersion",
+      "std_coef": -35.295673124940265,
+      "abs_std_coef": 35.295673124940265,
+      "rel_importance_pct": 6.876928333496587
+    },
+    {
+      "feature": "hedging_answers_chg",
+      "std_coef": -29.171810211991456,
+      "abs_std_coef": 29.171810211991456,
+      "rel_importance_pct": 5.683768870934903
+    },
+    {
+      "feature": "prior_calls_with_target",
+      "std_coef": -25.256882617543226,
+      "abs_std_coef": 25.256882617543226,
+      "rel_importance_pct": 4.920993320443281
+    },
+    {
+      "feature": "car_-1_1",
+      "std_coef": 21.987636869521978,
+      "abs_std_coef": 21.987636869521978,
+      "rel_importance_pct": 4.284020946120029
+    },
+    {
+      "feature": "tone_gap",
+      "std_coef": 18.502153883705518,
+      "abs_std_coef": 18.502153883705518,
+      "rel_importance_pct": 3.604917402288067
+    },
+    {
+      "feature": "tone_prepared",
+      "std_coef": 14.302538406863334,
+      "abs_std_coef": 14.302538406863334,
+      "rel_importance_pct": 2.7866739150409123
+    },
+    {
+      "feature": "bm",
+      "std_coef": 10.614691679186365,
+      "abs_std_coef": 10.614691679186365,
+      "rel_importance_pct": 2.068142281959971
+    },
+    {
+      "feature": "words_prepared",
+      "std_coef": -8.869445816054167,
+      "abs_std_coef": 8.869445816054167,
+      "rel_importance_pct": 1.7281025642697356
+    },
+    {
+      "feature": "sue",
+      "std_coef": 8.481691519482297,
+      "abs_std_coef": 8.481691519482297,
+      "rel_importance_pct": 1.6525534027877886
+    },
+    {
+      "feature": "n_analysts",
+      "std_coef": 7.7963468138005965,
+      "abs_std_coef": 7.7963468138005965,
+      "rel_importance_pct": 1.5190224057154005
+    },
+    {
+      "feature": "hedging_answers",
+      "std_coef": 4.758336965726983,
+      "abs_std_coef": 4.758336965726983,
+      "rel_importance_pct": 0.9271035059764836
+    },
+    {
+      "feature": "uncertainty_answers",
+      "std_coef": 4.758336965726983,
+      "abs_std_coef": 4.758336965726983,
+      "rel_importance_pct": 0.9271035059764836
+    },
+    {
+      "feature": "n_questions",
+      "std_coef": -4.7449685937306185,
+      "abs_std_coef": 4.7449685937306185,
+      "rel_importance_pct": 0.9244988429111528
+    },
+    {
+      "feature": "surprise_pct",
+      "std_coef": 4.169396035204045,
+      "abs_std_coef": 4.169396035204045,
+      "rel_importance_pct": 0.8123556002620238
+    },
+    {
+      "feature": "tone_prepared_chg",
+      "std_coef": -3.124561918380806,
+      "abs_std_coef": 3.124561918380806,
+      "rel_importance_pct": 0.6087825074256543
+    },
+    {
+      "feature": "words_answers",
+      "std_coef": -2.237656196600028,
+      "abs_std_coef": 2.237656196600028,
+      "rel_importance_pct": 0.43597982235815447
+    },
+    {
+      "feature": "hedging_prepared",
+      "std_coef": -2.0435996904418516,
+      "abs_std_coef": 2.0435996904418516,
+      "rel_importance_pct": 0.39817029593902126
+    },
+    {
+      "feature": "tone_answers",
+      "std_coef": 1.8425924659704265,
+      "abs_std_coef": 1.8425924659704265,
+      "rel_importance_pct": 0.3590065074397364
+    },
+    {
+      "feature": "tone_answers_chg",
+      "std_coef": -0.2082250861020043,
+      "abs_std_coef": 0.2082250861020043,
+      "rel_importance_pct": 0.04057010017320822
+    }
+  ]
+}

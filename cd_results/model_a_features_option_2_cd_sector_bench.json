@@ -1,0 +1,22 @@
+{
+  "features": [
+    "sue",
+    "surprise_pct",
+    "vol_pre",
+    "car_-1_1",
+    "mom",
+    "bm",
+    "size",
+    "dispersion",
+    "avg_answer_words",
+    "words_prepared",
+    "words_questions",
+    "words_answers",
+    "n_questions",
+    "n_answers",
+    "n_analysts",
+    "prior_calls_with_target"
+  ],
+  "algo": "Ridge",
+  "rank_ic": 0.021065
+}

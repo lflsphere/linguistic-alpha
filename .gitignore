@@ -235,3 +235,7 @@ earnings_*/
 !it_results/*.parquet
 !it_results/*.json
 !it_results/*.txt
+
+# --- Consumer Discretionary results: same policy as it_results ---
+!cd_results/**
+cd_results/sector_daily.parquet

@@ -38,6 +38,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 PRIMARY_TARGET = "car_2_20"
 TRAIN_END = "2023-12-31"
 RANDOM_STATE = 42
+PREFIX, SECTOR_LABEL = "it", "IT"   # overridden by --prefix / --sector-label
 WINSOR_LOW, WINSOR_HIGH = 0.01, 0.99
 MIN_IMPROVEMENT = 0.0  # add any feature that improves CV Rank IC
 
@@ -415,7 +416,7 @@ def run_option(opt_name, opt_file, base_features, out_dir, fb_df):
     tag = opt_name.lower().replace(" ", "_").replace("(", "").replace(")", "")
     report_lines = [
         "=" * 70,
-        f"IT Sector — Model C (FinBERT) — {opt_name}",
+        f"{SECTOR_LABEL} Sector — Model C (FinBERT) — {opt_name}",
         f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}",
         f"Train: {len(train):,} (≤{TRAIN_END}) | Test: {len(test):,} (>{TRAIN_END})",
         f"FinBERT coverage: {fb_coverage}/{pre_len} ({fb_coverage/pre_len:.1%})",
@@ -454,7 +455,7 @@ def run_option(opt_name, opt_file, base_features, out_dir, fb_df):
     report_lines.append(f"  IC: {best_model['metrics']['ic']:+.4f}")
     report_lines.append(f"  Dir Acc: {best_model['metrics']['direction_accuracy']:.3f}")
 
-    Path(out_dir, f"it_model_c_{tag}_report.txt").write_text("\n".join(report_lines))
+    Path(out_dir, f"{PREFIX}_model_c_{tag}_report.txt").write_text("\n".join(report_lines))
 
     result_json = {
         "option": opt_name,
@@ -475,21 +476,25 @@ def run_option(opt_name, opt_file, base_features, out_dir, fb_df):
             "metrics": {k: round(v, 6) for k, v in best_model["metrics"].items()},
         },
     }
-    Path(out_dir, f"it_model_c_{tag}_results.json").write_text(json.dumps(result_json, indent=2))
+    Path(out_dir, f"{PREFIX}_model_c_{tag}_results.json").write_text(json.dumps(result_json, indent=2))
 
-    log_msg(f"saved reports to {out_dir}/it_model_c_{tag}_*")
+    log_msg(f"saved reports to {out_dir}/{PREFIX}_model_c_{tag}_*")
     return best_model, a_best
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--folder", default=os.path.expanduser("~/earnings_it"))
+    ap.add_argument("--prefix", default="it", help="output filename prefix, e.g. cd")
+    ap.add_argument("--sector-label", default="IT", help="label used in option names and reports")
     args = ap.parse_args()
+    global PREFIX, SECTOR_LABEL
+    PREFIX, SECTOR_LABEL = args.prefix, args.sector_label
     OUT = args.folder
 
     fb_path = f"{OUT}/finbert_features.parquet"
     if not os.path.exists(fb_path):
-        log_msg(f"ERROR: {fb_path} not found. Run it_finbert_features.py first.")
+        log_msg(f"ERROR: {fb_path} not found. Run the FinBERT step first.")
         return
 
     fb_df = pd.read_parquet(fb_path)
@@ -498,7 +503,7 @@ def main():
     results = {}
     for opt_name, opt_file in [
         ("Option 1 (S&P 500 bench)", "model_table_opt1.parquet"),
-        ("Option 2 (IT sector bench)", "model_table_opt2.parquet"),
+        (f"Option 2 ({SECTOR_LABEL} sector bench)", "model_table_opt2.parquet"),
     ]:
         tag = opt_name.lower().replace(" ", "_").replace("(", "").replace(")", "")
         fpath = f"{OUT}/{opt_file}"

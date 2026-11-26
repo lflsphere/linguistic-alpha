@@ -1,0 +1,18 @@
+======================================================================
+CD Sector — Model A — Option 2 (CD sector bench)
+Target: car_2_20; trained on ranks (R² not meaningful)
+Train: 3,201 (≤2023-12-31) | Test: 166 (>2023-12-31)
+Companies: 98
+Features (16): sue, surprise_pct, vol_pre, car_-1_1, mom, bm, size, dispersion, avg_answer_words, words_prepared, words_questions, words_answers, n_questions, n_answers, n_analysts, prior_calls_with_target
+======================================================================
+
+Algo                       IC   Rank IC    Q5-Q1
+Ridge                 +0.0791   +0.0211  +0.0124
+Ridge_a5              +0.0794   +0.0209  +0.0124
+EN_strong             +0.0823   +0.0208  +0.0124
+Ridge_a10             +0.0797   +0.0206  +0.0124
+ElasticNet            +0.0801   +0.0199  +0.0124
+RidgeCV               +0.0850   +0.0172  +0.0149
+
+Best (by holdout, IT protocol): Ridge
+Picked by train CV: RidgeCV

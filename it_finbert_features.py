@@ -78,6 +78,7 @@ def main():
     ap.add_argument("--sp500-folder", default=SP500_FOLDER)
     ap.add_argument("--it-folder", default=IT_FOLDER)
     ap.add_argument("--batch-size", type=int, default=128)
+    ap.add_argument("--checkpoint-dir", help="save/reuse per-year scores here (survives disconnects)")
     args = ap.parse_args()
 
     text_dir = os.path.join(args.sp500_folder, "text")
@@ -112,6 +113,11 @@ def main():
 
     for tf in text_files:
         year = re.search(r"text_(\d{4})", tf).group(1)
+        ckpt = os.path.join(args.checkpoint_dir, f"fb_{year}.parquet") if args.checkpoint_dir else None
+        if ckpt and os.path.exists(ckpt):
+            all_features.append(pd.read_parquet(ckpt))
+            log(f"finbert {year}: reused {ckpt}")
+            continue
         df = pd.read_parquet(tf)
         df_it = df[df["transcriptid"].isin(it_tids)].copy()
         if len(df_it) == 0:
@@ -168,6 +174,9 @@ def main():
         year_df = pd.DataFrame(rows)
         year_df["fb_sent_gap"] = year_df["fb_sent_prepared"] - year_df["fb_sent_answers"]
         all_features.append(year_df)
+        if ckpt:
+            os.makedirs(args.checkpoint_dir, exist_ok=True)
+            year_df.to_parquet(ckpt, index=False)
         elapsed = time.time() - t0
         n_sents = len(prep_sentences) + len(ans_sentences)
         total_scored += n_sents
