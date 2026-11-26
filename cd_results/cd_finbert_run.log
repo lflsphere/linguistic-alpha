@@ -1,0 +1,260 @@
+03:21:54 IT transcript IDs: 3,711
+03:22:08 loading ProsusAI/finbert on GPU...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]Loading weights: 100%|██████████| 201/201 [00:00<00:00, 4217.51it/s]
+03:22:15 model loaded
+03:22:15 finbert 2010: 244 IT calls (of 244 total)
+03:22:15   2010: 42,202 prepared sentences, 39,904 answer sentences
+[transformers] You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
+03:22:41   scored 6,400/42,202 sentences
+03:23:08   scored 12,800/42,202 sentences
+03:23:36   scored 19,200/42,202 sentences
+03:24:06   scored 25,600/42,202 sentences
+03:24:35   scored 32,000/42,202 sentences
+03:25:02   scored 38,400/42,202 sentences
+03:25:50   scored 6,400/39,904 sentences
+03:26:19   scored 12,800/39,904 sentences
+03:26:50   scored 19,200/39,904 sentences
+03:27:19   scored 25,600/39,904 sentences
+03:27:50   scored 32,000/39,904 sentences
+03:28:22   scored 38,400/39,904 sentences
+03:28:28 finbert 2010: done in 374s (220 sent/s)
+03:28:29 finbert 2011: 246 IT calls (of 246 total)
+03:28:29   2011: 43,322 prepared sentences, 47,331 answer sentences
+03:28:59   scored 6,400/43,322 sentences
+03:29:27   scored 12,800/43,322 sentences
+03:29:56   scored 19,200/43,322 sentences
+03:30:24   scored 25,600/43,322 sentences
+03:30:53   scored 32,000/43,322 sentences
+03:31:22   scored 38,400/43,322 sentences
+03:32:16   scored 6,400/47,331 sentences
+03:32:46   scored 12,800/47,331 sentences
+03:33:16   scored 19,200/47,331 sentences
+03:33:46   scored 25,600/47,331 sentences
+03:34:18   scored 32,000/47,331 sentences
+03:34:50   scored 38,400/47,331 sentences
+03:35:23   scored 44,800/47,331 sentences
+03:35:35 finbert 2011: done in 427s (213 sent/s)
+03:35:36 finbert 2012: 244 IT calls (of 244 total)
+03:35:36   2012: 45,303 prepared sentences, 48,989 answer sentences
+03:36:04   scored 6,400/45,303 sentences
+03:36:34   scored 12,800/45,303 sentences
+03:37:03   scored 19,200/45,303 sentences
+03:37:31   scored 25,600/45,303 sentences
+03:38:00   scored 32,000/45,303 sentences
+03:38:28   scored 38,400/45,303 sentences
+03:38:57   scored 44,800/45,303 sentences
+03:39:32   scored 6,400/48,989 sentences
+03:40:03   scored 12,800/48,989 sentences
+03:40:35   scored 19,200/48,989 sentences
+03:41:05   scored 25,600/48,989 sentences
+03:41:38   scored 32,000/48,989 sentences
+03:42:11   scored 38,400/48,989 sentences
+03:42:42   scored 44,800/48,989 sentences
+03:43:04 finbert 2012: done in 449s (210 sent/s)
+03:43:04 finbert 2013: 249 IT calls (of 249 total)
+03:43:05   2013: 41,991 prepared sentences, 50,581 answer sentences
+03:43:32   scored 6,400/41,991 sentences
+03:44:01   scored 12,800/41,991 sentences
+03:44:30   scored 19,200/41,991 sentences
+03:44:59   scored 25,600/41,991 sentences
+03:45:28   scored 32,000/41,991 sentences
+03:45:56   scored 38,400/41,991 sentences
+03:46:44   scored 6,400/50,581 sentences
+03:47:16   scored 12,800/50,581 sentences
+03:47:46   scored 19,200/50,581 sentences
+03:48:17   scored 25,600/50,581 sentences
+03:48:49   scored 32,000/50,581 sentences
+03:49:20   scored 38,400/50,581 sentences
+03:49:51   scored 44,800/50,581 sentences
+03:50:18 finbert 2013: done in 434s (213 sent/s)
+03:50:18 finbert 2014: 253 IT calls (of 253 total)
+03:50:19   2014: 44,345 prepared sentences, 51,902 answer sentences
+03:50:47   scored 6,400/44,345 sentences
+03:51:17   scored 12,800/44,345 sentences
+03:51:44   scored 19,200/44,345 sentences
+03:52:13   scored 25,600/44,345 sentences
+03:52:44   scored 32,000/44,345 sentences
+03:53:12   scored 38,400/44,345 sentences
+03:54:11   scored 6,400/51,902 sentences
+03:54:42   scored 12,800/51,902 sentences
+03:55:13   scored 19,200/51,902 sentences
+03:55:44   scored 25,600/51,902 sentences
+03:56:15   scored 32,000/51,902 sentences
+03:56:47   scored 38,400/51,902 sentences
+03:57:19   scored 44,800/51,902 sentences
+03:57:51   scored 51,200/51,902 sentences
+03:57:55 finbert 2014: done in 457s (211 sent/s)
+03:57:55 finbert 2015: 254 IT calls (of 254 total)
+03:57:56   2015: 44,613 prepared sentences, 52,404 answer sentences
+03:58:26   scored 6,400/44,613 sentences
+03:58:53   scored 12,800/44,613 sentences
+03:59:21   scored 19,200/44,613 sentences
+03:59:49   scored 25,600/44,613 sentences
+04:00:18   scored 32,000/44,613 sentences
+04:00:46   scored 38,400/44,613 sentences
+04:01:46   scored 6,400/52,404 sentences
+04:02:17   scored 12,800/52,404 sentences
+04:02:47   scored 19,200/52,404 sentences
+04:03:18   scored 25,600/52,404 sentences
+04:03:50   scored 32,000/52,404 sentences
+04:04:22   scored 38,400/52,404 sentences
+04:04:54   scored 44,800/52,404 sentences
+04:05:28   scored 51,200/52,404 sentences
+04:05:34 finbert 2015: done in 459s (211 sent/s)
+04:05:34 finbert 2016: 258 IT calls (of 258 total)
+04:05:35   2016: 44,217 prepared sentences, 54,672 answer sentences
+04:06:03   scored 6,400/44,217 sentences
+04:06:32   scored 12,800/44,217 sentences
+04:07:00   scored 19,200/44,217 sentences
+04:07:30   scored 25,600/44,217 sentences
+04:07:59   scored 32,000/44,217 sentences
+04:08:28   scored 38,400/44,217 sentences
+04:09:28   scored 6,400/54,672 sentences
+04:10:00   scored 12,800/54,672 sentences
+04:10:29   scored 19,200/54,672 sentences
+04:11:02   scored 25,600/54,672 sentences
+04:11:34   scored 32,000/54,672 sentences
+04:12:07   scored 38,400/54,672 sentences
+04:12:37   scored 44,800/54,672 sentences
+04:13:11   scored 51,200/54,672 sentences
+04:13:29 finbert 2016: done in 474s (209 sent/s)
+04:13:29 finbert 2017: 234 IT calls (of 234 total)
+04:13:29   2017: 38,872 prepared sentences, 50,234 answer sentences
+04:13:58   scored 6,400/38,872 sentences
+04:14:27   scored 12,800/38,872 sentences
+04:14:56   scored 19,200/38,872 sentences
+04:15:24   scored 25,600/38,872 sentences
+04:15:53   scored 32,000/38,872 sentences
+04:16:23   scored 38,400/38,872 sentences
+04:16:59   scored 6,400/50,234 sentences
+04:17:31   scored 12,800/50,234 sentences
+04:18:02   scored 19,200/50,234 sentences
+04:18:34   scored 25,600/50,234 sentences
+04:19:06   scored 32,000/50,234 sentences
+04:19:38   scored 38,400/50,234 sentences
+04:20:10   scored 44,800/50,234 sentences
+04:20:37 finbert 2017: done in 428s (208 sent/s)
+04:20:37 finbert 2018: 223 IT calls (of 223 total)
+04:20:37   2018: 36,904 prepared sentences, 48,794 answer sentences
+04:21:06   scored 6,400/36,904 sentences
+04:21:35   scored 12,800/36,904 sentences
+04:22:05   scored 19,200/36,904 sentences
+04:22:35   scored 25,600/36,904 sentences
+04:23:04   scored 32,000/36,904 sentences
+04:23:59   scored 6,400/48,794 sentences
+04:24:30   scored 12,800/48,794 sentences
+04:25:01   scored 19,200/48,794 sentences
+04:25:33   scored 25,600/48,794 sentences
+04:26:05   scored 32,000/48,794 sentences
+04:26:36   scored 38,400/48,794 sentences
+04:27:09   scored 44,800/48,794 sentences
+04:27:28 finbert 2018: done in 411s (209 sent/s)
+04:27:28 finbert 2019: 217 IT calls (of 217 total)
+04:27:28   2019: 34,396 prepared sentences, 45,320 answer sentences
+04:27:58   scored 6,400/34,396 sentences
+04:28:27   scored 12,800/34,396 sentences
+04:28:56   scored 19,200/34,396 sentences
+04:29:26   scored 25,600/34,396 sentences
+04:29:54   scored 32,000/34,396 sentences
+04:30:37   scored 6,400/45,320 sentences
+04:31:09   scored 12,800/45,320 sentences
+04:31:39   scored 19,200/45,320 sentences
+04:32:10   scored 25,600/45,320 sentences
+04:32:43   scored 32,000/45,320 sentences
+04:33:13   scored 38,400/45,320 sentences
+04:33:46   scored 44,800/45,320 sentences
+04:33:49 finbert 2019: done in 380s (210 sent/s)
+04:33:49 finbert 2020: 205 IT calls (of 205 total)
+04:33:49   2020: 35,074 prepared sentences, 44,309 answer sentences
+04:34:16   scored 6,400/35,074 sentences
+04:34:48   scored 12,800/35,074 sentences
+04:35:19   scored 19,200/35,074 sentences
+04:35:50   scored 25,600/35,074 sentences
+04:36:19   scored 32,000/35,074 sentences
+04:37:04   scored 6,400/44,309 sentences
+04:37:36   scored 12,800/44,309 sentences
+04:38:08   scored 19,200/44,309 sentences
+04:38:40   scored 25,600/44,309 sentences
+04:39:11   scored 32,000/44,309 sentences
+04:39:41   scored 38,400/44,309 sentences
+04:40:10 finbert 2020: done in 381s (208 sent/s)
+04:40:10 finbert 2021: 205 IT calls (of 205 total)
+04:40:10   2021: 34,486 prepared sentences, 43,286 answer sentences
+04:40:41   scored 6,400/34,486 sentences
+04:41:11   scored 12,800/34,486 sentences
+04:41:40   scored 19,200/34,486 sentences
+04:42:11   scored 25,600/34,486 sentences
+04:42:39   scored 32,000/34,486 sentences
+04:43:21   scored 6,400/43,286 sentences
+04:43:52   scored 12,800/43,286 sentences
+04:44:23   scored 19,200/43,286 sentences
+04:44:54   scored 25,600/43,286 sentences
+04:45:25   scored 32,000/43,286 sentences
+04:45:57   scored 38,400/43,286 sentences
+04:46:21 finbert 2021: done in 371s (210 sent/s)
+04:46:21 finbert 2022: 188 IT calls (of 188 total)
+04:46:21   2022: 32,559 prepared sentences, 40,488 answer sentences
+04:46:50   scored 6,400/32,559 sentences
+04:47:19   scored 12,800/32,559 sentences
+04:47:47   scored 19,200/32,559 sentences
+04:48:16   scored 25,600/32,559 sentences
+04:48:44   scored 32,000/32,559 sentences
+04:49:18   scored 6,400/40,488 sentences
+04:49:48   scored 12,800/40,488 sentences
+04:50:20   scored 19,200/40,488 sentences
+04:50:49   scored 25,600/40,488 sentences
+04:51:20   scored 32,000/40,488 sentences
+04:51:50   scored 38,400/40,488 sentences
+04:52:00 finbert 2022: done in 339s (216 sent/s)
+04:52:00 finbert 2023: 180 IT calls (of 180 total)
+04:52:00   2023: 29,793 prepared sentences, 37,482 answer sentences
+04:52:28   scored 6,400/29,793 sentences
+04:52:57   scored 12,800/29,793 sentences
+04:53:26   scored 19,200/29,793 sentences
+04:53:54   scored 25,600/29,793 sentences
+04:54:45   scored 6,400/37,482 sentences
+04:55:17   scored 12,800/37,482 sentences
+04:55:48   scored 19,200/37,482 sentences
+04:56:18   scored 25,600/37,482 sentences
+04:56:50   scored 32,000/37,482 sentences
+04:57:17 finbert 2023: done in 316s (213 sent/s)
+04:57:17 finbert 2024: 174 IT calls (of 174 total)
+04:57:17   2024: 28,758 prepared sentences, 36,379 answer sentences
+04:57:45   scored 6,400/28,758 sentences
+04:58:13   scored 12,800/28,758 sentences
+04:58:42   scored 19,200/28,758 sentences
+04:59:10   scored 25,600/28,758 sentences
+04:59:55   scored 6,400/36,379 sentences
+05:00:26   scored 12,800/36,379 sentences
+05:00:57   scored 19,200/36,379 sentences
+05:01:28   scored 25,600/36,379 sentences
+05:01:59   scored 32,000/36,379 sentences
+05:02:20 finbert 2024: done in 303s (215 sent/s)
+05:02:20 finbert 2025: 174 IT calls (of 174 total)
+05:02:21   2025: 27,469 prepared sentences, 36,835 answer sentences
+05:02:49   scored 6,400/27,469 sentences
+05:03:18   scored 12,800/27,469 sentences
+05:03:47   scored 19,200/27,469 sentences
+05:04:15   scored 25,600/27,469 sentences
+05:04:56   scored 6,400/36,835 sentences
+05:05:27   scored 12,800/36,835 sentences
+05:05:59   scored 19,200/36,835 sentences
+05:06:30   scored 25,600/36,835 sentences
+05:07:04   scored 32,000/36,835 sentences
+05:07:26 finbert 2025: done in 306s (210 sent/s)
+05:07:27 finbert 2026: 162 IT calls (of 162 total)
+05:07:27   2026: 26,031 prepared sentences, 33,136 answer sentences
+05:07:55   scored 6,400/26,031 sentences
+05:08:23   scored 12,800/26,031 sentences
+05:08:51   scored 19,200/26,031 sentences
+05:09:17   scored 25,600/26,031 sentences
+05:09:51   scored 6,400/33,136 sentences
+05:10:21   scored 12,800/33,136 sentences
+05:10:52   scored 19,200/33,136 sentences
+05:11:24   scored 25,600/33,136 sentences
+05:11:55   scored 32,000/33,136 sentences
+05:12:00 finbert 2026: done in 273s (217 sent/s)
+05:12:00 saved earnings_cd/finbert_features.parquet: 3,710 calls, 14 columns
+05:12:00 columns: transcriptid, fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_n_sent_prepared, fb_n_sent_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg
+05:12:00 total sentences scored: 1,392,381

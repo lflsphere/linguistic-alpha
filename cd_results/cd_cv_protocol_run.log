@@ -1,0 +1,160 @@
+01:54:11 XGBoost available: True
+01:54:11 ### Option 1 (S&P 500 bench): train 3,728 (purged 8), test 166
+01:54:11   Model A
+01:54:14     A (16 controls)                          CV=+0.0105 [0.0367, 0.008, -0.0133] (RandomForest)
+01:54:14   Model B candidates
+01:54:46     B forward: + tone_prepared -> CV +0.0158 (GradientBoosting)
+01:55:14     B forward: + tone_prepared_chg -> CV +0.0295 (RandomForest)
+01:55:38     B forward: + tone_answers -> CV +0.0348 (GradientBoosting)
+01:56:01     B forward: + hedging_answers_chg -> CV +0.0411 (GradientBoosting)
+01:56:20     B forward: + hedging_answers -> CV +0.0422 (XGBoost)
+01:56:36     B forward: + hedging_prepared -> CV +0.0425 (GradientBoosting)
+01:56:53     B forward selection                      CV=+0.0425 [0.0947, -0.0131, 0.0459] (GradientBoosting)
+01:56:57     B interactions only                      CV=+0.0160 [0.0197, 0.0076, 0.0207] (XGBoost)
+01:57:03     B interactions + raw LM                  CV=+0.0354 [0.0645, -0.0127, 0.0544] (GradientBoosting)
+01:57:07     B residualised tone                      CV=+0.0276 [0.0592, -0.0117, 0.0353] (XGBoost)
+01:57:11     B* all 9 LM                              CV=+0.0264 [0.0476, -0.0294, 0.0611] (RandomForest)
+01:57:14     B PCA(2) LM                              CV=+0.0200 [0.0449, -0.0322, 0.0474] (RandomForest)
+01:57:18     B PCA(3) LM                              CV=+0.0182 [0.0404, -0.0196, 0.0338] (RandomForest)
+01:57:22     B PCA(4) LM                              CV=+0.0124 [0.019, -0.0063, 0.0246] (RandomForest)
+01:57:25     B single +tone_prepared                  CV=+0.0158 [0.0823, -0.0124, -0.0225] (GradientBoosting)
+01:57:28     B single +tone_answers                   CV=+0.0104 [0.034, -0.0158, 0.0131] (RandomForest)
+01:57:31     B single +hedging_prepared               CV=+0.0059 [0.0355, -0.0136, -0.0042] (RandomForest)
+01:57:35     B single +hedging_answers                CV=+0.0106 [0.0348, -0.0114, 0.0084] (RandomForest)
+01:57:38     B single +uncertainty_answers            CV=+0.0106 [0.0348, -0.0114, 0.0084] (RandomForest)
+01:57:41     B single +tone_gap                       CV=-0.0014 [0.0292, -0.0288, -0.0045] (RandomForest)
+01:57:44     B single +tone_prepared_chg              CV=+0.0063 [0.0375, 0.0002, -0.0188] (XGBoost)
+01:57:47     B single +tone_answers_chg               CV=+0.0115 [0.0396, -0.0195, 0.0142] (RandomForest)
+01:57:50     B single +hedging_answers_chg            CV=+0.0105 [0.0428, -0.0183, 0.007] (RandomForest)
+01:57:50     B ensemble (5)                           CV=+0.0116 [0.0555, -0.0147, -0.0061]
+01:57:54     B combined good LM                       CV=+0.0276 [0.0517, -0.0194, 0.0504] (GradientBoosting)
+01:57:54   Model C candidates
+01:58:40     C forward: + fb_pos_pct_answers -> CV +0.0141 (GradientBoosting)
+01:59:22     C forward: + fb_sent_prepared_chg -> CV +0.0319 (GradientBoosting)
+02:00:02     C forward selection                      CV=+0.0319 [0.0761, 0.0137, 0.0057] (GradientBoosting)
+02:00:06     C* all 13 FinBERT                        CV=+0.0088 [0.0426, -0.0053, -0.0108] (GradientBoosting)
+02:00:13     C FinBERT + LM                           CV=+0.0291 [-0.0027, -0.0084, 0.0985] (RandomForest)
+02:00:16     C single +fb_sent_prepared               CV=+0.0090 [0.0285, -0.0098, 0.0083] (RandomForest)
+02:00:19     C single +fb_sent_answers                CV=+0.0045 [0.0375, -0.029, 0.0052] (RandomForest)
+02:00:22     C single +fb_pos_pct_prepared            CV=-0.0014 [0.0152, -0.0109, -0.0085] (RandomForest)
+02:00:25     C single +fb_neg_pct_prepared            CV=+0.0123 [0.0415, -0.0128, 0.0082] (RandomForest)
+02:00:28     C single +fb_pos_pct_answers             CV=+0.0141 [0.0469, -0.0129, 0.0084] (GradientBoosting)
+02:00:31     C single +fb_neg_pct_answers             CV=-0.0034 [0.033, -0.0245, -0.0188] (RandomForest)
+02:00:34     C single +fb_sent_std_prepared           CV=+0.0062 [0.0351, -0.0194, 0.0029] (RandomForest)
+02:00:37     C single +fb_sent_std_answers            CV=+0.0017 [0.0403, -0.0017, -0.0334] (RandomForest)
+02:00:40     C single +fb_sent_gap                    CV=-0.0003 [0.0268, -0.0266, -0.0012] (RandomForest)
+02:00:43     C single +fb_sent_prepared_chg           CV=+0.0101 [0.0523, -0.0132, -0.0087] (RandomForest)
+02:00:46     C single +fb_sent_answers_chg            CV=+0.0007 [0.0326, -0.0361, 0.0055] (RandomForest)
+02:00:49     C single +fb_n_sent_prepared             CV=+0.0026 [0.0353, -0.0146, -0.0131] (RandomForest)
+02:00:52     C single +fb_n_sent_answers              CV=-0.0021 [0.0339, -0.0239, -0.0161] (RandomForest)
+02:00:52     C ensemble (2)                           CV=+0.0134 [0.0457, -0.0121, 0.0068]
+02:01:09 ### Option 2 (CD sector bench): train 3,728 (purged 8), test 166
+02:01:09   Model A
+02:01:12     A (16 controls)                          CV=+0.0167 [0.1054, -0.0515, -0.0037] (Ridge_a10)
+02:01:12   Model B candidates
+02:01:42     B forward: + tone_answers_chg -> CV +0.0243 (Ridge)
+02:02:08     B forward: + hedging_answers_chg -> CV +0.0263 (EN_strong)
+02:02:32     B forward: + tone_gap -> CV +0.0269 (Ridge)
+02:02:56     B forward selection                      CV=+0.0269 [0.0848, -0.0453, 0.0413] (Ridge)
+02:03:00     B interactions only                      CV=+0.0172 [0.0703, -0.0612, 0.0423] (RidgeCV)
+02:03:06     B interactions + raw LM                  CV=+0.0189 [0.0577, -0.0541, 0.0531] (RidgeCV)
+02:03:10     B residualised tone                      CV=+0.0186 [0.1101, -0.0554, 0.0012] (Ridge_a5)
+02:03:14     B* all 9 LM                              CV=+0.0163 [0.0701, -0.0528, 0.0317] (RidgeCV)
+02:03:17     B PCA(2) LM                              CV=+0.0133 [0.0774, -0.0566, 0.019] (Ridge)
+02:03:21     B PCA(3) LM                              CV=+0.0144 [0.0778, -0.0577, 0.023] (Ridge_a5)
+02:03:24     B PCA(4) LM                              CV=+0.0110 [0.0764, -0.0523, 0.0088] (Ridge_a10)
+02:03:27     B single +tone_prepared                  CV=+0.0152 [0.1, -0.0456, -0.0087] (Ridge_a5)
+02:03:31     B single +tone_answers                   CV=+0.0230 [0.0975, -0.0541, 0.0257] (Ridge_a5)
+02:03:34     B single +hedging_prepared               CV=+0.0135 [0.0937, -0.0505, -0.0027] (Ridge_a5)
+02:03:37     B single +hedging_answers                CV=+0.0074 [0.0771, -0.0644, 0.0094] (Ridge_a50)
+02:03:40     B single +uncertainty_answers            CV=+0.0074 [0.0771, -0.0644, 0.0094] (Ridge_a50)
+02:03:43     B single +tone_gap                       CV=+0.0155 [0.1033, -0.0538, -0.0028] (Ridge_a10)
+02:03:46     B single +tone_prepared_chg              CV=+0.0054 [0.1013, -0.0469, -0.0381] (ElasticNet)
+02:03:49     B single +tone_answers_chg               CV=+0.0243 [0.1116, -0.0648, 0.026] (Ridge)
+02:03:52     B single +hedging_answers_chg            CV=+0.0196 [0.0702, -0.0431, 0.0316] (RidgeCV)
+02:03:52     B ensemble (3)                           CV=+0.0192 [0.0952, -0.063, 0.0254]
+02:03:56     B combined good LM                       CV=+0.0257 [0.0745, -0.0508, 0.0533] (Ridge_a10)
+02:03:56   Model C candidates
+02:04:39     C forward: + fb_neg_pct_prepared -> CV +0.0302 (Ridge_a50)
+02:05:18     C forward: + fb_n_sent_prepared -> CV +0.0379 (RidgeCV)
+02:05:55     C forward: + fb_sent_gap -> CV +0.0407 (Ridge_a50)
+02:06:30     C forward: + fb_n_sent_answers -> CV +0.0453 (Ridge_a10)
+02:07:05     C forward selection                      CV=+0.0453 [0.1198, -0.0231, 0.0393] (Ridge_a10)
+02:07:10     C* all 13 FinBERT                        CV=+0.0153 [0.0933, -0.0158, -0.0315] (Ridge_a50)
+02:07:16     C FinBERT + LM                           CV=+0.0194 [0.0123, 0.048, -0.002] (GradientBoosting)
+02:07:19     C single +fb_sent_prepared               CV=+0.0093 [0.0882, -0.0307, -0.0295] (EN_strong)
+02:07:22     C single +fb_sent_answers                CV=+0.0176 [0.1038, -0.0579, 0.007] (Ridge)
+02:07:25     C single +fb_pos_pct_prepared            CV=-0.0005 [0.0737, -0.0303, -0.0449] (RidgeCV)
+02:07:28     C single +fb_neg_pct_prepared            CV=+0.0302 [0.1233, -0.0315, -0.0014] (Ridge_a50)
+02:07:31     C single +fb_pos_pct_answers             CV=+0.0116 [0.1076, -0.0458, -0.027] (Ridge)
+02:07:34     C single +fb_neg_pct_answers             CV=+0.0129 [0.0975, -0.0596, 0.0008] (Ridge)
+02:07:37     C single +fb_sent_std_prepared           CV=+0.0218 [0.1147, -0.0398, -0.0095] (Ridge)
+02:07:40     C single +fb_sent_std_answers            CV=+0.0108 [0.1156, -0.0402, -0.043] (EN_strong)
+02:07:43     C single +fb_sent_gap                    CV=+0.0122 [0.0989, -0.0391, -0.0233] (RidgeCV)
+02:07:46     C single +fb_sent_prepared_chg           CV=+0.0061 [0.1027, -0.0453, -0.0391] (Ridge_a50)
+02:07:49     C single +fb_sent_answers_chg            CV=+0.0122 [0.1196, -0.0668, -0.0161] (Ridge)
+02:07:53     C single +fb_n_sent_prepared             CV=+0.0184 [0.0836, -0.0374, 0.009] (ElasticNet)
+02:07:56     C single +fb_n_sent_answers              CV=+0.0250 [0.1078, -0.0447, 0.012] (Ridge)
+02:07:56     C ensemble (5)                           CV=+0.0214 [0.1112, -0.0427, -0.0043]
+CD — every choice made by train-only time-series CV (purge 35d); holdout scored once
+
+============================================================================================
+Option 1 (S&P 500 bench): train 3,728 (purged 8), test 166 (52 firms)
+============================================================================================
+Model  selected on CV                     algo                    CV  Holdout      p   Q5-Q1  95% CI            Δ vs A 95% CI    
+A      A (16 controls)                    RandomForest       +0.0105  -0.0882  0.259 -0.0106  [-0.259,+0.087]  
+B      B forward selection                GradientBoosting   +0.0425  -0.0200  0.798 +0.0008  [-0.170,+0.133]  [-0.064,+0.186]
+B*     B* all 9 LM                        RandomForest       +0.0264  -0.0743  0.342 -0.0195  [-0.247,+0.100]  [-0.087,+0.107]
+C      C forward selection                GradientBoosting   +0.0319  -0.0514  0.510 -0.0140  [-0.213,+0.110]  [-0.082,+0.152]
+C*     C* all 13 FinBERT                  GradientBoosting   +0.0088  -0.0219  0.779 -0.0160  [-0.181,+0.142]  [-0.053,+0.185]
+
+B candidates (sorted by CV; holdout shown for information only, never used to choose):
+  B forward selection                    GradientBoosting  CV=+0.0425 [0.0947, -0.0131, 0.0459]  holdout=-0.0200
+  B interactions + raw LM                GradientBoosting  CV=+0.0354 [0.0645, -0.0127, 0.0544]  holdout=-0.0466
+  B residualised tone                    XGBoost           CV=+0.0276 [0.0592, -0.0117, 0.0353]  holdout=-0.0364
+  B combined good LM                     GradientBoosting  CV=+0.0276 [0.0517, -0.0194, 0.0504]  holdout=-0.0627
+  B* all 9 LM                            RandomForest      CV=+0.0264 [0.0476, -0.0294, 0.0611]  holdout=-0.0743
+  B PCA(2) LM                            RandomForest      CV=+0.0200 [0.0449, -0.0322, 0.0474]  holdout=-0.0622
+  B PCA(3) LM                            RandomForest      CV=+0.0182 [0.0404, -0.0196, 0.0338]  holdout=-0.0505
+  B interactions only                    XGBoost           CV=+0.0160 [0.0197, 0.0076, 0.0207]  holdout=-0.0192
+  B PCA(4) LM                            RandomForest      CV=+0.0124 [0.019, -0.0063, 0.0246]  holdout=-0.0607
+  B ensemble (5)                         Ensemble          CV=+0.0116 [0.0555, -0.0147, -0.0061]  holdout=-0.0968
+  forward selection: base +0.0105 -> tone_prepared +0.0158 -> tone_prepared_chg +0.0295 -> tone_answers +0.0348 -> hedging_answers_chg +0.0411 -> hedging_answers +0.0422 -> hedging_prepared +0.0425
+
+C candidates (sorted by CV; holdout shown for information only, never used to choose):
+  C forward selection                    GradientBoosting  CV=+0.0319 [0.0761, 0.0137, 0.0057]  holdout=-0.0514
+  C FinBERT + LM                         RandomForest      CV=+0.0291 [-0.0027, -0.0084, 0.0985]  holdout=-0.0238
+  C ensemble (2)                         Ensemble          CV=+0.0134 [0.0457, -0.0121, 0.0068]  holdout=-0.0860
+  C* all 13 FinBERT                      GradientBoosting  CV=+0.0088 [0.0426, -0.0053, -0.0108]  holdout=-0.0219
+  forward selection: base +0.0105 -> fb_pos_pct_answers +0.0141 -> fb_sent_prepared_chg +0.0319
+
+============================================================================================
+Option 2 (CD sector bench): train 3,728 (purged 8), test 166 (52 firms)
+============================================================================================
+Model  selected on CV                     algo                    CV  Holdout      p   Q5-Q1  95% CI            Δ vs A 95% CI    
+A      A (16 controls)                    Ridge_a10          +0.0167  -0.0022  0.978 +0.0075  [-0.159,+0.157]  
+B      B forward selection                Ridge              +0.0269  +0.0572  0.464 +0.0174  [-0.099,+0.218]  [-0.018,+0.138]
+B*     B* all 9 LM                        RidgeCV            +0.0163  +0.0900  0.249 +0.0066  [-0.060,+0.246]  [+0.003,+0.182]
+C      C forward selection                Ridge_a10          +0.0453  -0.0399  0.610 +0.0065  [-0.185,+0.109]  [-0.134,+0.056]
+C*     C* all 13 FinBERT                  Ridge_a50          +0.0153  -0.0084  0.914 +0.0125  [-0.156,+0.135]  [-0.101,+0.087]
+
+B candidates (sorted by CV; holdout shown for information only, never used to choose):
+  B forward selection                    Ridge             CV=+0.0269 [0.0848, -0.0453, 0.0413]  holdout=+0.0572
+  B combined good LM                     Ridge_a10         CV=+0.0257 [0.0745, -0.0508, 0.0533]  holdout=+0.0717
+  B ensemble (3)                         Ensemble          CV=+0.0192 [0.0952, -0.063, 0.0254]  holdout=+0.0395
+  B interactions + raw LM                RidgeCV           CV=+0.0189 [0.0577, -0.0541, 0.0531]  holdout=+0.0708
+  B residualised tone                    Ridge_a5          CV=+0.0186 [0.1101, -0.0554, 0.0012]  holdout=+0.0371
+  B interactions only                    RidgeCV           CV=+0.0172 [0.0703, -0.0612, 0.0423]  holdout=+0.0394
+  B* all 9 LM                            RidgeCV           CV=+0.0163 [0.0701, -0.0528, 0.0317]  holdout=+0.0900
+  B PCA(3) LM                            Ridge_a5          CV=+0.0144 [0.0778, -0.0577, 0.023]  holdout=+0.0548
+  B PCA(2) LM                            Ridge             CV=+0.0133 [0.0774, -0.0566, 0.019]  holdout=+0.0545
+  B PCA(4) LM                            Ridge_a10         CV=+0.0110 [0.0764, -0.0523, 0.0088]  holdout=+0.0728
+  forward selection: base +0.0167 -> tone_answers_chg +0.0243 -> hedging_answers_chg +0.0263 -> tone_gap +0.0269
+
+C candidates (sorted by CV; holdout shown for information only, never used to choose):
+  C forward selection                    Ridge_a10         CV=+0.0453 [0.1198, -0.0231, 0.0393]  holdout=-0.0399
+  C ensemble (5)                         Ensemble          CV=+0.0214 [0.1112, -0.0427, -0.0043]  holdout=-0.0055
+  C FinBERT + LM                         GradientBoosting  CV=+0.0194 [0.0123, 0.048, -0.002]  holdout=+0.1386
+  C* all 13 FinBERT                      Ridge_a50         CV=+0.0153 [0.0933, -0.0158, -0.0315]  holdout=-0.0084
+  forward selection: base +0.0167 -> fb_neg_pct_prepared +0.0302 -> fb_n_sent_prepared +0.0379 -> fb_sent_gap +0.0407 -> fb_n_sent_answers +0.0453
+

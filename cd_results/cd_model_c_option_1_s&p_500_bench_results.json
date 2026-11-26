@@ -1,0 +1,179 @@
+{
+  "option": "Option 1 (S&P 500 bench)",
+  "train_end": "2023-12-31",
+  "method": "time-series CV, ranked target",
+  "model_a_baseline": {
+    "algo": "GradientBoosting",
+    "rank_ic": -0.081084,
+    "features": [
+      "sue",
+      "surprise_pct",
+      "vol_pre",
+      "car_-1_1",
+      "mom",
+      "bm",
+      "size",
+      "dispersion",
+      "avg_answer_words",
+      "words_prepared",
+      "words_questions",
+      "words_answers",
+      "n_questions",
+      "n_answers",
+      "n_analysts",
+      "prior_calls_with_target"
+    ]
+  },
+  "strategies": [
+    {
+      "name": "Model C (FinBERT forward sel)",
+      "algo": "GradientBoosting",
+      "added_finbert": [],
+      "metrics": {
+        "ic": -0.054789,
+        "rank_ic": -0.081084,
+        "r2": -965150923.800094,
+        "rmse": 1808.635909,
+        "direction_accuracy": 0.518072,
+        "quintile_spread": -0.015683
+      },
+      "selection_log": [
+        {
+          "step": 0,
+          "added": null,
+          "cv_rank_ic": 0.011406235856789662,
+          "improvement": 0.0
+        }
+      ]
+    },
+    {
+      "name": "Model C* (All FinBERT forced)",
+      "algo": "GradientBoosting",
+      "added_finbert": [
+        "fb_sent_prepared",
+        "fb_sent_answers",
+        "fb_pos_pct_prepared",
+        "fb_neg_pct_prepared",
+        "fb_pos_pct_answers",
+        "fb_neg_pct_answers",
+        "fb_sent_std_prepared",
+        "fb_sent_std_answers",
+        "fb_sent_gap",
+        "fb_sent_prepared_chg",
+        "fb_sent_answers_chg",
+        "fb_n_sent_prepared",
+        "fb_n_sent_answers"
+      ],
+      "metrics": {
+        "ic": -0.021665,
+        "rank_ic": -0.020034,
+        "r2": -973267660.218226,
+        "rmse": 1816.225129,
+        "direction_accuracy": 0.518072,
+        "quintile_spread": -0.008262
+      },
+      "selection_log": null
+    },
+    {
+      "name": "FinBERT Ensemble (13)",
+      "algo": "Ensemble",
+      "added_finbert": [
+        "fb_sent_prepared_chg",
+        "fb_sent_answers",
+        "fb_sent_std_answers",
+        "fb_neg_pct_answers",
+        "fb_sent_answers_chg",
+        "fb_sent_gap",
+        "fb_n_sent_answers",
+        "fb_n_sent_prepared",
+        "fb_pos_pct_answers",
+        "fb_pos_pct_prepared",
+        "fb_sent_std_prepared",
+        "fb_neg_pct_prepared",
+        "fb_sent_prepared"
+      ],
+      "metrics": {
+        "ic": -0.060117,
+        "rank_ic": -0.072338,
+        "r2": -966788029.481937,
+        "rmse": 1810.169179,
+        "direction_accuracy": 0.518072,
+        "quintile_spread": -0.0085
+      },
+      "selection_log": null
+    },
+    {
+      "name": "FinBERT + LM Combined",
+      "algo": "GradientBoosting",
+      "added_finbert": [
+        "fb_sent_prepared",
+        "fb_sent_answers",
+        "fb_pos_pct_prepared",
+        "fb_neg_pct_prepared",
+        "fb_pos_pct_answers",
+        "fb_neg_pct_answers",
+        "fb_sent_std_prepared",
+        "fb_sent_std_answers",
+        "fb_sent_gap",
+        "fb_sent_prepared_chg",
+        "fb_sent_answers_chg",
+        "fb_n_sent_prepared",
+        "fb_n_sent_answers",
+        "tone_prepared",
+        "tone_answers",
+        "hedging_prepared",
+        "hedging_answers",
+        "uncertainty_answers",
+        "tone_gap",
+        "tone_prepared_chg",
+        "tone_answers_chg",
+        "hedging_answers_chg"
+      ],
+      "metrics": {
+        "ic": -0.015922,
+        "rank_ic": -0.010201,
+        "r2": -975354645.221393,
+        "rmse": 1818.171359,
+        "direction_accuracy": 0.518072,
+        "quintile_spread": -0.006521
+      },
+      "selection_log": null
+    }
+  ],
+  "best": {
+    "name": "FinBERT + LM Combined",
+    "algo": "GradientBoosting",
+    "added_finbert": [
+      "fb_sent_prepared",
+      "fb_sent_answers",
+      "fb_pos_pct_prepared",
+      "fb_neg_pct_prepared",
+      "fb_pos_pct_answers",
+      "fb_neg_pct_answers",
+      "fb_sent_std_prepared",
+      "fb_sent_std_answers",
+      "fb_sent_gap",
+      "fb_sent_prepared_chg",
+      "fb_sent_answers_chg",
+      "fb_n_sent_prepared",
+      "fb_n_sent_answers",
+      "tone_prepared",
+      "tone_answers",
+      "hedging_prepared",
+      "hedging_answers",
+      "uncertainty_answers",
+      "tone_gap",
+      "tone_prepared_chg",
+      "tone_answers_chg",
+      "hedging_answers_chg"
+    ],
+    "metrics": {
+      "ic": -0.015922,
+      "rank_ic": -0.010201,
+      "r2": -975354645.221393,
+      "rmse": 1818.171359,
+      "direction_accuracy": 0.518072,
+      "quintile_spread": -0.006521
+    }
+  }
+}

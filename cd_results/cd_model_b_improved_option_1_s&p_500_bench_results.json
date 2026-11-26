@@ -21,14 +21,14 @@
       "n_analysts",
       "prior_calls_with_target"
     ],
-    "algo": "Ridge_a5",
+    "algo": "RidgeCV",
     "metrics": {
-      "ic": -0.061903,
-      "rank_ic": -0.137761,
-      "r2": -711984751.689323,
-      "rmse": 1553.419957,
+      "ic": -0.119016,
+      "rank_ic": -0.181011,
+      "r2": -960105547.056846,
+      "rmse": 1803.902346,
       "direction_accuracy": 0.518072,
-      "quintile_spread": -0.013208
+      "quintile_spread": -0.01927
     },
     "selection_log": []
   },
@@ -53,25 +53,27 @@
       "n_analysts",
       "prior_calls_with_target",
       "tone_answers",
-      "tone_gap",
       "hedging_prepared",
+      "tone_answers_chg",
+      "tone_gap",
       "hedging_answers",
       "uncertainty_answers"
     ],
     "added_ling": [
       "tone_answers",
-      "tone_gap",
       "hedging_prepared",
+      "tone_answers_chg",
+      "tone_gap",
       "hedging_answers",
       "uncertainty_answers"
     ],
     "metrics": {
-      "ic": -0.047443,
-      "rank_ic": -0.117458,
-      "r2": -708896841.678243,
-      "rmse": 1550.04767,
+      "ic": -0.107822,
+      "rank_ic": -0.136804,
+      "r2": -959986598.418146,
+      "rmse": 1803.790598,
       "direction_accuracy": 0.518072,
-      "quintile_spread": -0.011731
+      "quintile_spread": -0.019724
     }
   },
   "model_b_star": {
@@ -116,50 +118,50 @@
       "hedging_answers_chg"
     ],
     "metrics": {
-      "ic": -0.035827,
-      "rank_ic": -0.127695,
-      "r2": -715153978.601056,
-      "rmse": 1556.873454,
+      "ic": -0.093904,
+      "rank_ic": -0.141033,
+      "r2": -968909646.747058,
+      "rmse": 1812.1543,
       "direction_accuracy": 0.518072,
-      "quintile_spread": -0.013662
+      "quintile_spread": -0.019522
     }
   },
   "all_strategies": [
     {
       "name": "Forward Selection",
-      "algo": "EN_strong",
-      "rank_ic": -0.132905,
-      "quintile_spread": -0.013508
+      "algo": "Ridge",
+      "rank_ic": -0.169437,
+      "quintile_spread": -0.017057
     },
     {
       "name": "Interactions + raw ling",
-      "algo": "RidgeCV",
-      "rank_ic": -0.127044,
-      "quintile_spread": -0.006333
+      "algo": "ElasticNet",
+      "rank_ic": -0.142072,
+      "quintile_spread": -0.016114
     },
     {
       "name": "Residualized Tone",
       "algo": "RidgeCV",
-      "rank_ic": -0.127755,
-      "quintile_spread": -0.016527
+      "rank_ic": -0.152308,
+      "quintile_spread": -0.027951
     },
     {
       "name": "All Ling + RidgeCV",
       "algo": "Ridge_a100",
-      "rank_ic": -0.127695,
-      "quintile_spread": -0.013662
+      "rank_ic": -0.141033,
+      "quintile_spread": -0.019522
     },
     {
       "name": "PCA(4) Linguistic",
       "algo": "Ridge",
-      "rank_ic": -0.121861,
-      "quintile_spread": -0.01192
+      "rank_ic": -0.154307,
+      "quintile_spread": -0.019109
     },
     {
       "name": "Combined Good Features",
       "algo": "RidgeCV",
-      "rank_ic": -0.117458,
-      "quintile_spread": -0.011731
+      "rank_ic": -0.136804,
+      "quintile_spread": -0.019724
     }
   ]
 }

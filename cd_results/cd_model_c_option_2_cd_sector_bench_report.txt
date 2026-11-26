@@ -1,0 +1,57 @@
+======================================================================
+CD Sector — Model C (FinBERT) — Option 2 (CD sector bench)
+Generated: 2026-11-26 01:59
+Train: 3,736 (≤2023-12-31) | Test: 166 (>2023-12-31)
+FinBERT coverage: 4245/4246 (100.0%)
+Model A baseline (16 feats): Rank IC=+0.0317 (GradientBoosting)
+Method: Time-series CV, ranked target, min Δ=0.0
+======================================================================
+
+Model C (FinBERT forward sel)                 GradientBoosting     Rank IC=+0.0652 Q5-Q1=+0.0142 Δ=+0.0336
+  FinBERT features: fb_neg_pct_prepared, fb_n_sent_prepared, fb_n_sent_answers, fb_sent_gap
+  All algorithms:
+    GradientBoosting          Rank IC=+0.0652  Q5-Q1=+0.0142  Dir Acc=0.422
+    XGBoost                   Rank IC=+0.0375  Q5-Q1=+0.0180  Dir Acc=0.422
+    RandomForest              Rank IC=+0.0225  Q5-Q1=+0.0045  Dir Acc=0.422
+    RidgeCV                   Rank IC=-0.0374  Q5-Q1=+0.0038  Dir Acc=0.422
+    EN_strong                 Rank IC=-0.0388  Q5-Q1=+0.0053  Dir Acc=0.422
+    ElasticNet                Rank IC=-0.0419  Q5-Q1=+0.0076  Dir Acc=0.422
+
+Model C* (All FinBERT forced)                 RandomForest         Rank IC=+0.0700 Q5-Q1=-0.0024 Δ=+0.0384
+  FinBERT features: fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg, fb_n_sent_prepared, fb_n_sent_answers
+  All algorithms:
+    RandomForest              Rank IC=+0.0700  Q5-Q1=-0.0024  Dir Acc=0.422
+    GradientBoosting          Rank IC=+0.0644  Q5-Q1=+0.0118  Dir Acc=0.422
+    XGBoost                   Rank IC=+0.0054  Q5-Q1=+0.0033  Dir Acc=0.422
+    RidgeCV                   Rank IC=-0.0125  Q5-Q1=+0.0154  Dir Acc=0.422
+    Ridge_a100                Rank IC=-0.0125  Q5-Q1=+0.0154  Dir Acc=0.422
+    EN_strong                 Rank IC=-0.0164  Q5-Q1=+0.0134  Dir Acc=0.422
+
+FinBERT Ensemble (13)                         Ensemble             Rank IC=+0.0343 Q5-Q1=+0.0019 Δ=+0.0026
+  FinBERT features: fb_sent_prepared_chg, fb_neg_pct_prepared, fb_sent_answers, fb_sent_prepared, fb_pos_pct_answers, fb_sent_answers_chg, fb_pos_pct_prepared, fb_sent_std_answers, fb_n_sent_prepared, fb_sent_std_prepared, fb_n_sent_answers, fb_neg_pct_answers, fb_sent_gap
+
+FinBERT + LM Combined                         GradientBoosting     Rank IC=+0.0970 Q5-Q1=+0.0039 Δ=+0.0653
+  FinBERT features: fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg, fb_n_sent_prepared, fb_n_sent_answers, tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
+  All algorithms:
+    GradientBoosting          Rank IC=+0.0970  Q5-Q1=+0.0039  Dir Acc=0.422
+    RandomForest              Rank IC=+0.0662  Q5-Q1=+0.0069  Dir Acc=0.422
+    XGBoost                   Rank IC=+0.0568  Q5-Q1=+0.0191  Dir Acc=0.422
+    Ridge                     Rank IC=+0.0435  Q5-Q1=+0.0017  Dir Acc=0.422
+    Ridge_a5                  Rank IC=+0.0424  Q5-Q1=+0.0017  Dir Acc=0.422
+    Ridge_a10                 Rank IC=+0.0395  Q5-Q1=+0.0007  Dir Acc=0.422
+
+--- FORWARD SELECTION LOG ---
+ Step Added                           TS-CV Rank IC      Delta
+    0 (baseline)                            +0.0070    +0.0000
+    1 fb_neg_pct_prepared                   +0.0234    +0.0164
+    2 fb_n_sent_prepared                    +0.0299    +0.0065
+    3 fb_n_sent_answers                     +0.0331    +0.0033
+    4 fb_sent_gap                           +0.0364    +0.0032
+
+Best Model C: FinBERT + LM Combined
+  Algo: GradientBoosting
+  Features: fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg, fb_n_sent_prepared, fb_n_sent_answers, tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
+  Rank IC: +0.0970
+  Q5-Q1: +0.0039
+  IC: +0.0723
+  Dir Acc: 0.422

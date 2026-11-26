@@ -1,0 +1,219 @@
+01:54:18 loaded FinBERT features: 4,245 rows, 14 columns
+01:54:18 loaded Model A features from cd_results/model_a_features_option_1_s&p_500_bench.json: ['sue', 'surprise_pct', 'vol_pre', 'car_-1_1', 'mom', 'bm', 'size', 'dispersion', 'avg_answer_words', 'words_prepared', 'words_questions', 'words_answers', 'n_questions', 'n_answers', 'n_analysts', 'prior_calls_with_target']
+01:54:18 
+######################################################################
+01:54:18 # Option 1 (S&P 500 bench)
+01:54:18 ######################################################################
+01:54:18 merged FinBERT: 4246 rows, 4245 with scores (100.0%)
+01:54:18 train: 3,736 (to 2023-12-31), test: 166
+01:54:20 
+Model A baseline (16 feats): Rank IC=-0.0811 (GradientBoosting)
+01:54:20 
+--- Model C Strategy 1: Forward Selection (FinBERT, TS-CV) ---
+01:54:20   Base features (16): sue, surprise_pct, vol_pre, car_-1_1, mom, bm, size, dispersion, avg_answer_words, words_prepared, words_questions, words_answers, n_questions, n_answers, n_analysts, prior_calls_with_target
+01:54:20   FinBERT candidates (13): fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg, fb_n_sent_prepared, fb_n_sent_answers
+01:54:23   Baseline: TS-CV Rank IC=+0.0114 (RandomForest)
+01:54:26     + fb_sent_prepared              : TS-CV Rank IC=+0.0042 (RandomForest)
+01:54:29     + fb_sent_answers               : TS-CV Rank IC=-0.0024 (RandomForest)
+01:54:33     + fb_pos_pct_prepared           : TS-CV Rank IC=-0.0073 (RandomForest)
+01:54:36     + fb_neg_pct_prepared           : TS-CV Rank IC=+0.0026 (RandomForest)
+01:54:39     + fb_pos_pct_answers            : TS-CV Rank IC=+0.0063 (RandomForest)
+01:54:42     + fb_neg_pct_answers            : TS-CV Rank IC=-0.0045 (RandomForest)
+01:54:45     + fb_sent_std_prepared          : TS-CV Rank IC=+0.0036 (RandomForest)
+01:54:49     + fb_sent_std_answers           : TS-CV Rank IC=+0.0013 (GradientBoosting)
+01:54:52     + fb_sent_gap                   : TS-CV Rank IC=-0.0040 (RandomForest)
+01:54:55     + fb_sent_prepared_chg          : TS-CV Rank IC=+0.0109 (RandomForest)
+01:54:59     + fb_sent_answers_chg           : TS-CV Rank IC=+0.0017 (RandomForest)
+01:55:02     + fb_n_sent_prepared            : TS-CV Rank IC=-0.0043 (RandomForest)
+01:55:05     + fb_n_sent_answers             : TS-CV Rank IC=-0.0059 (RandomForest)
+01:55:05   Step 1: no improvement, stopping
+01:55:07   Final: 16 features, Holdout Rank IC=-0.0811 (GradientBoosting)
+01:55:07 
+--- Model C Strategy 2: All FinBERT Forced ---
+01:55:07   Features: 16 controls + 13 FinBERT = 29
+01:55:09   Results (29 features):
+01:55:09     GradientBoosting         : Rank IC=-0.0200  Q5-Q1=-0.0083
+01:55:09     XGBoost                  : Rank IC=-0.0346  Q5-Q1=-0.0120
+01:55:09     RandomForest             : Rank IC=-0.0495  Q5-Q1=-0.0143
+01:55:09     RidgeCV                  : Rank IC=-0.1446  Q5-Q1=-0.0038
+01:55:09     Ridge_a100               : Rank IC=-0.1446  Q5-Q1=-0.0038
+01:55:09     EN_a0.1                  : Rank IC=-0.1498  Q5-Q1=-0.0100
+01:55:09     EN_strong                : Rank IC=-0.1505  Q5-Q1=-0.0069
+01:55:09     Ridge_a50                : Rank IC=-0.1509  Q5-Q1=-0.0100
+01:55:09 
+--- Model C Strategy 3: Single-Feature Ensemble ---
+01:55:09   Base Rank IC: -0.1810
+01:55:10     + fb_sent_prepared              : Rank IC=-0.0930 (GradientBoosting)
+01:55:11     + fb_sent_answers               : Rank IC=-0.0541 (GradientBoosting)
+01:55:12     + fb_pos_pct_prepared           : Rank IC=-0.0898 (GradientBoosting)
+01:55:13     + fb_neg_pct_prepared           : Rank IC=-0.0920 (RandomForest)
+01:55:15     + fb_pos_pct_answers            : Rank IC=-0.0822 (GradientBoosting)
+01:55:16     + fb_neg_pct_answers            : Rank IC=-0.0667 (GradientBoosting)
+01:55:17     + fb_sent_std_prepared          : Rank IC=-0.0915 (GradientBoosting)
+01:55:18     + fb_sent_std_answers           : Rank IC=-0.0606 (GradientBoosting)
+01:55:19     + fb_sent_gap                   : Rank IC=-0.0758 (GradientBoosting)
+01:55:20     + fb_sent_prepared_chg          : Rank IC=-0.0260 (GradientBoosting)
+01:55:22     + fb_sent_answers_chg           : Rank IC=-0.0757 (GradientBoosting)
+01:55:23     + fb_n_sent_prepared            : Rank IC=-0.0818 (GradientBoosting)
+01:55:24     + fb_n_sent_answers             : Rank IC=-0.0811 (RandomForest)
+01:55:24   Features improving over base: [('fb_sent_prepared_chg', np.float64(-0.026)), ('fb_sent_answers', np.float64(-0.0541)), ('fb_sent_std_answers', np.float64(-0.0606)), ('fb_neg_pct_answers', np.float64(-0.0667)), ('fb_sent_answers_chg', np.float64(-0.0757)), ('fb_sent_gap', np.float64(-0.0758)), ('fb_n_sent_answers', np.float64(-0.0811)), ('fb_n_sent_prepared', np.float64(-0.0818)), ('fb_pos_pct_answers', np.float64(-0.0822)), ('fb_pos_pct_prepared', np.float64(-0.0898)), ('fb_sent_std_prepared', np.float64(-0.0915)), ('fb_neg_pct_prepared', np.float64(-0.092)), ('fb_sent_prepared', np.float64(-0.093))]
+01:55:24   Ensemble of 13 models: Rank IC=-0.0723
+01:55:24 
+--- Model C Strategy 4: FinBERT + LM Dictionary Combined ---
+01:55:24   Features: 16 controls + 13 FinBERT + 9 LM = 38
+01:55:26   Top results (38 features):
+01:55:26     GradientBoosting         : Rank IC=-0.0102  Q5-Q1=-0.0065
+01:55:26     RandomForest             : Rank IC=-0.0157  Q5-Q1=-0.0012
+01:55:26     XGBoost                  : Rank IC=-0.0246  Q5-Q1=-0.0192
+01:55:26     RidgeCV                  : Rank IC=-0.1201  Q5-Q1=-0.0030
+01:55:26     Ridge_a100               : Rank IC=-0.1201  Q5-Q1=-0.0030
+01:55:26 
+======================================================================
+01:55:26 SUMMARY — Option 1 (S&P 500 bench)
+01:55:26 ======================================================================
+01:55:26 Model                                         Algo                   Rank IC     Q5-Q1      vs A
+01:55:26 Model A (baseline)                            GradientBoosting       -0.0811   -0.0157       ---
+01:55:26 Model C (FinBERT forward sel)                 GradientBoosting       -0.0811   -0.0157   +0.0000
+01:55:26 Model C* (All FinBERT forced)                 GradientBoosting       -0.0200   -0.0083   +0.0611 ***
+01:55:26 FinBERT Ensemble (13)                         Ensemble               -0.0723   -0.0085   +0.0087 ***
+01:55:26 FinBERT + LM Combined                         GradientBoosting       -0.0102   -0.0065   +0.0709 ***
+01:55:26 
+>>> Winner: FinBERT + LM Combined (Rank IC=-0.0102, Δ=+0.0709 vs Model A)
+01:55:26 saved reports to cd_results/cd_model_c_option_1_s&p_500_bench_*
+01:55:26 loaded Model A features from cd_results/model_a_features_option_2_cd_sector_bench.json: ['sue', 'surprise_pct', 'vol_pre', 'car_-1_1', 'mom', 'bm', 'size', 'dispersion', 'avg_answer_words', 'words_prepared', 'words_questions', 'words_answers', 'n_questions', 'n_answers', 'n_analysts', 'prior_calls_with_target']
+01:55:26 
+######################################################################
+01:55:26 # Option 2 (CD sector bench)
+01:55:26 ######################################################################
+01:55:26 merged FinBERT: 4246 rows, 4245 with scores (100.0%)
+01:55:26 train: 3,736 (to 2023-12-31), test: 166
+01:55:28 
+Model A baseline (16 feats): Rank IC=+0.0317 (GradientBoosting)
+01:55:28 
+--- Model C Strategy 1: Forward Selection (FinBERT, TS-CV) ---
+01:55:28   Base features (16): sue, surprise_pct, vol_pre, car_-1_1, mom, bm, size, dispersion, avg_answer_words, words_prepared, words_questions, words_answers, n_questions, n_answers, n_analysts, prior_calls_with_target
+01:55:28   FinBERT candidates (13): fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg, fb_n_sent_prepared, fb_n_sent_answers
+01:55:31   Baseline: TS-CV Rank IC=+0.0070 (Ridge)
+01:55:34     + fb_sent_prepared              : TS-CV Rank IC=+0.0011 (RidgeCV)
+01:55:37     + fb_sent_answers               : TS-CV Rank IC=+0.0056 (ElasticNet)
+01:55:41     + fb_pos_pct_prepared           : TS-CV Rank IC=-0.0102 (RidgeCV)
+01:55:44     + fb_neg_pct_prepared           : TS-CV Rank IC=+0.0234 (Ridge_a5)
+01:55:47     + fb_pos_pct_answers            : TS-CV Rank IC=+0.0042 (RandomForest)
+01:55:50     + fb_neg_pct_answers            : TS-CV Rank IC=+0.0043 (Ridge_a5)
+01:55:54     + fb_sent_std_prepared          : TS-CV Rank IC=+0.0127 (Ridge)
+01:55:57     + fb_sent_std_answers           : TS-CV Rank IC=+0.0019 (Ridge_a10)
+01:56:00     + fb_sent_gap                   : TS-CV Rank IC=+0.0062 (Ridge_a10)
+01:56:04     + fb_sent_prepared_chg          : TS-CV Rank IC=-0.0015 (ElasticNet)
+01:56:07     + fb_sent_answers_chg           : TS-CV Rank IC=+0.0049 (Ridge_a5)
+01:56:10     + fb_n_sent_prepared            : TS-CV Rank IC=+0.0095 (ElasticNet)
+01:56:13     + fb_n_sent_answers             : TS-CV Rank IC=+0.0162 (Ridge_a10)
+01:56:13   Step 1: added fb_neg_pct_prepared → TS-CV Rank IC=+0.0234 (Δ=+0.0164)
+01:56:17     + fb_sent_prepared              : TS-CV Rank IC=+0.0045 (RidgeCV)
+01:56:20     + fb_sent_answers               : TS-CV Rank IC=+0.0140 (RidgeCV)
+01:56:24     + fb_pos_pct_prepared           : TS-CV Rank IC=+0.0043 (RandomForest)
+01:56:27     + fb_pos_pct_answers            : TS-CV Rank IC=+0.0241 (RandomForest)
+01:56:30     + fb_neg_pct_answers            : TS-CV Rank IC=+0.0158 (ElasticNet)
+01:56:34     + fb_sent_std_prepared          : TS-CV Rank IC=+0.0139 (RidgeCV)
+01:56:37     + fb_sent_std_answers           : TS-CV Rank IC=+0.0208 (RidgeCV)
+01:56:41     + fb_sent_gap                   : TS-CV Rank IC=+0.0240 (RidgeCV)
+01:56:44     + fb_sent_prepared_chg          : TS-CV Rank IC=+0.0173 (Ridge_a5)
+01:56:48     + fb_sent_answers_chg           : TS-CV Rank IC=+0.0185 (RidgeCV)
+01:56:51     + fb_n_sent_prepared            : TS-CV Rank IC=+0.0299 (RidgeCV)
+01:56:54     + fb_n_sent_answers             : TS-CV Rank IC=+0.0287 (Ridge_a10)
+01:56:54   Step 2: added fb_n_sent_prepared → TS-CV Rank IC=+0.0299 (Δ=+0.0065)
+01:56:58     + fb_sent_prepared              : TS-CV Rank IC=+0.0147 (RidgeCV)
+01:57:01     + fb_sent_answers               : TS-CV Rank IC=+0.0182 (RidgeCV)
+01:57:05     + fb_pos_pct_prepared           : TS-CV Rank IC=+0.0130 (EN_strong)
+01:57:08     + fb_pos_pct_answers            : TS-CV Rank IC=+0.0149 (Ridge_a5)
+01:57:12     + fb_neg_pct_answers            : TS-CV Rank IC=+0.0208 (RidgeCV)
+01:57:15     + fb_sent_std_prepared          : TS-CV Rank IC=+0.0229 (RidgeCV)
+01:57:18     + fb_sent_std_answers           : TS-CV Rank IC=+0.0206 (RidgeCV)
+01:57:22     + fb_sent_gap                   : TS-CV Rank IC=+0.0308 (EN_strong)
+01:57:25     + fb_sent_prepared_chg          : TS-CV Rank IC=+0.0221 (RidgeCV)
+01:57:29     + fb_sent_answers_chg           : TS-CV Rank IC=+0.0260 (EN_strong)
+01:57:32     + fb_n_sent_answers             : TS-CV Rank IC=+0.0331 (RidgeCV)
+01:57:32   Step 3: added fb_n_sent_answers → TS-CV Rank IC=+0.0331 (Δ=+0.0033)
+01:57:36     + fb_sent_prepared              : TS-CV Rank IC=+0.0193 (ElasticNet)
+01:57:39     + fb_sent_answers               : TS-CV Rank IC=+0.0238 (Ridge_a5)
+01:57:43     + fb_pos_pct_prepared           : TS-CV Rank IC=+0.0189 (ElasticNet)
+01:57:46     + fb_pos_pct_answers            : TS-CV Rank IC=+0.0213 (Ridge)
+01:57:50     + fb_neg_pct_answers            : TS-CV Rank IC=+0.0261 (EN_strong)
+01:57:53     + fb_sent_std_prepared          : TS-CV Rank IC=+0.0265 (EN_strong)
+01:57:57     + fb_sent_std_answers           : TS-CV Rank IC=+0.0278 (Ridge)
+01:58:00     + fb_sent_gap                   : TS-CV Rank IC=+0.0364 (Ridge)
+01:58:04     + fb_sent_prepared_chg          : TS-CV Rank IC=+0.0259 (EN_strong)
+01:58:07     + fb_sent_answers_chg           : TS-CV Rank IC=+0.0300 (ElasticNet)
+01:58:07   Step 4: added fb_sent_gap → TS-CV Rank IC=+0.0364 (Δ=+0.0032)
+01:58:11     + fb_sent_prepared              : TS-CV Rank IC=+0.0169 (EN_strong)
+01:58:15     + fb_sent_answers               : TS-CV Rank IC=+0.0204 (EN_strong)
+01:58:19     + fb_pos_pct_prepared           : TS-CV Rank IC=+0.0162 (Ridge_a10)
+01:58:22     + fb_pos_pct_answers            : TS-CV Rank IC=+0.0157 (Ridge_a5)
+01:58:26     + fb_neg_pct_answers            : TS-CV Rank IC=+0.0342 (Ridge)
+01:58:30     + fb_sent_std_prepared          : TS-CV Rank IC=+0.0290 (ElasticNet)
+01:58:34     + fb_sent_std_answers           : TS-CV Rank IC=+0.0316 (Ridge_a5)
+01:58:37     + fb_sent_prepared_chg          : TS-CV Rank IC=+0.0305 (Ridge)
+01:58:41     + fb_sent_answers_chg           : TS-CV Rank IC=+0.0300 (Ridge_a10)
+01:58:41   Step 5: no improvement, stopping
+01:58:43   Final: 20 features, Holdout Rank IC=+0.0652 (GradientBoosting)
+01:58:43 
+--- Model C Strategy 2: All FinBERT Forced ---
+01:58:43   Features: 16 controls + 13 FinBERT = 29
+01:58:45   Results (29 features):
+01:58:45     RandomForest             : Rank IC=+0.0700  Q5-Q1=-0.0024
+01:58:45     GradientBoosting         : Rank IC=+0.0644  Q5-Q1=+0.0118
+01:58:45     XGBoost                  : Rank IC=+0.0054  Q5-Q1=+0.0033
+01:58:45     RidgeCV                  : Rank IC=-0.0125  Q5-Q1=+0.0154
+01:58:45     Ridge_a100               : Rank IC=-0.0125  Q5-Q1=+0.0154
+01:58:45     EN_strong                : Rank IC=-0.0164  Q5-Q1=+0.0134
+01:58:45     Ridge_a50                : Rank IC=-0.0174  Q5-Q1=+0.0144
+01:58:45     EN_a0.1                  : Rank IC=-0.0193  Q5-Q1=+0.0084
+01:58:45 
+--- Model C Strategy 3: Single-Feature Ensemble ---
+01:58:45   Base Rank IC: -0.0054
+01:58:46     + fb_sent_prepared              : Rank IC=+0.0423 (GradientBoosting)
+01:58:47     + fb_sent_answers               : Rank IC=+0.0482 (RandomForest)
+01:58:48     + fb_pos_pct_prepared           : Rank IC=+0.0290 (RandomForest)
+01:58:49     + fb_neg_pct_prepared           : Rank IC=+0.0554 (GradientBoosting)
+01:58:53     + fb_pos_pct_answers            : Rank IC=+0.0335 (RidgeCV)
+01:58:54     + fb_neg_pct_answers            : Rank IC=+0.0164 (RandomForest)
+01:58:55     + fb_sent_std_prepared          : Rank IC=+0.0184 (GradientBoosting)
+01:58:56     + fb_sent_std_answers           : Rank IC=+0.0287 (GradientBoosting)
+01:58:57     + fb_sent_gap                   : Rank IC=+0.0110 (RandomForest)
+01:58:58     + fb_sent_prepared_chg          : Rank IC=+0.0676 (GradientBoosting)
+01:59:00     + fb_sent_answers_chg           : Rank IC=+0.0303 (RandomForest)
+01:59:01     + fb_n_sent_prepared            : Rank IC=+0.0242 (GradientBoosting)
+01:59:02     + fb_n_sent_answers             : Rank IC=+0.0167 (RandomForest)
+01:59:02   Features improving over base: [('fb_sent_prepared_chg', np.float64(0.0676)), ('fb_neg_pct_prepared', np.float64(0.0554)), ('fb_sent_answers', np.float64(0.0482)), ('fb_sent_prepared', np.float64(0.0423)), ('fb_pos_pct_answers', np.float64(0.0335)), ('fb_sent_answers_chg', np.float64(0.0303)), ('fb_pos_pct_prepared', np.float64(0.029)), ('fb_sent_std_answers', np.float64(0.0287)), ('fb_n_sent_prepared', np.float64(0.0242)), ('fb_sent_std_prepared', np.float64(0.0184)), ('fb_n_sent_answers', np.float64(0.0167)), ('fb_neg_pct_answers', np.float64(0.0164)), ('fb_sent_gap', np.float64(0.011))]
+01:59:02   Ensemble of 13 models: Rank IC=+0.0343
+01:59:02 
+--- Model C Strategy 4: FinBERT + LM Dictionary Combined ---
+01:59:02   Features: 16 controls + 13 FinBERT + 9 LM = 38
+01:59:04   Top results (38 features):
+01:59:04     GradientBoosting         : Rank IC=+0.0970  Q5-Q1=+0.0039
+01:59:04     RandomForest             : Rank IC=+0.0662  Q5-Q1=+0.0069
+01:59:04     XGBoost                  : Rank IC=+0.0568  Q5-Q1=+0.0191
+01:59:04     Ridge                    : Rank IC=+0.0435  Q5-Q1=+0.0017
+01:59:04     Ridge_a5                 : Rank IC=+0.0424  Q5-Q1=+0.0017
+01:59:04 
+======================================================================
+01:59:04 SUMMARY — Option 2 (CD sector bench)
+01:59:04 ======================================================================
+01:59:04 Model                                         Algo                   Rank IC     Q5-Q1      vs A
+01:59:04 Model A (baseline)                            GradientBoosting       +0.0317   -0.0013       ---
+01:59:04 Model C (FinBERT forward sel)                 GradientBoosting       +0.0652   +0.0142   +0.0336 ***
+01:59:04 Model C* (All FinBERT forced)                 RandomForest           +0.0700   -0.0024   +0.0384 ***
+01:59:04 FinBERT Ensemble (13)                         Ensemble               +0.0343   +0.0019   +0.0026 ***
+01:59:04 FinBERT + LM Combined                         GradientBoosting       +0.0970   +0.0039   +0.0653 ***
+01:59:04 
+>>> Winner: FinBERT + LM Combined (Rank IC=+0.0970, Δ=+0.0653 vs Model A)
+01:59:04 saved reports to cd_results/cd_model_c_option_2_cd_sector_bench_*
+01:59:04 
+======================================================================
+01:59:04 FINAL SUMMARY
+01:59:04 ======================================================================
+01:59:04 Option 1 (S&P 500 bench):
+01:59:04   Model A:  Rank IC=-0.0811
+01:59:04   Best C:   Rank IC=-0.0102 (FinBERT + LM Combined, GradientBoosting) Δ=+0.0709
+01:59:04 Option 2 (CD sector bench):
+01:59:04   Model A:  Rank IC=+0.0317
+01:59:04   Best C:   Rank IC=+0.0970 (FinBERT + LM Combined, GradientBoosting) Δ=+0.0653

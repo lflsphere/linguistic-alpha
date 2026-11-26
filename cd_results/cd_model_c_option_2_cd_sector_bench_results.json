@@ -1,0 +1,208 @@
+{
+  "option": "Option 2 (CD sector bench)",
+  "train_end": "2023-12-31",
+  "method": "time-series CV, ranked target",
+  "model_a_baseline": {
+    "algo": "GradientBoosting",
+    "rank_ic": 0.031672,
+    "features": [
+      "sue",
+      "surprise_pct",
+      "vol_pre",
+      "car_-1_1",
+      "mom",
+      "bm",
+      "size",
+      "dispersion",
+      "avg_answer_words",
+      "words_prepared",
+      "words_questions",
+      "words_answers",
+      "n_questions",
+      "n_answers",
+      "n_analysts",
+      "prior_calls_with_target"
+    ]
+  },
+  "strategies": [
+    {
+      "name": "Model C (FinBERT forward sel)",
+      "algo": "GradientBoosting",
+      "added_finbert": [
+        "fb_neg_pct_prepared",
+        "fb_n_sent_prepared",
+        "fb_n_sent_answers",
+        "fb_sent_gap"
+      ],
+      "metrics": {
+        "ic": 0.066279,
+        "rank_ic": 0.065236,
+        "r2": -745838450.865958,
+        "rmse": 1860.043165,
+        "direction_accuracy": 0.421687,
+        "quintile_spread": 0.014239
+      },
+      "selection_log": [
+        {
+          "step": 0,
+          "added": null,
+          "cv_rank_ic": 0.007003010598239943,
+          "improvement": 0.0
+        },
+        {
+          "step": 1,
+          "added": "fb_neg_pct_prepared",
+          "cv_rank_ic": 0.023396035012678007,
+          "improvement": 0.016393024414438063
+        },
+        {
+          "step": 2,
+          "added": "fb_n_sent_prepared",
+          "cv_rank_ic": 0.02989570222373164,
+          "improvement": 0.0064996672110536335
+        },
+        {
+          "step": 3,
+          "added": "fb_n_sent_answers",
+          "cv_rank_ic": 0.033146438300495636,
+          "improvement": 0.003250736076763995
+        },
+        {
+          "step": 4,
+          "added": "fb_sent_gap",
+          "cv_rank_ic": 0.03636331726335489,
+          "improvement": 0.003216878962859257
+        }
+      ]
+    },
+    {
+      "name": "Model C* (All FinBERT forced)",
+      "algo": "RandomForest",
+      "added_finbert": [
+        "fb_sent_prepared",
+        "fb_sent_answers",
+        "fb_pos_pct_prepared",
+        "fb_neg_pct_prepared",
+        "fb_pos_pct_answers",
+        "fb_neg_pct_answers",
+        "fb_sent_std_prepared",
+        "fb_sent_std_answers",
+        "fb_sent_gap",
+        "fb_sent_prepared_chg",
+        "fb_sent_answers_chg",
+        "fb_n_sent_prepared",
+        "fb_n_sent_answers"
+      ],
+      "metrics": {
+        "ic": 0.017228,
+        "rank_ic": 0.070024,
+        "r2": -748011871.875159,
+        "rmse": 1862.751336,
+        "direction_accuracy": 0.421687,
+        "quintile_spread": -0.002419
+      },
+      "selection_log": null
+    },
+    {
+      "name": "FinBERT Ensemble (13)",
+      "algo": "Ensemble",
+      "added_finbert": [
+        "fb_sent_prepared_chg",
+        "fb_neg_pct_prepared",
+        "fb_sent_answers",
+        "fb_sent_prepared",
+        "fb_pos_pct_answers",
+        "fb_sent_answers_chg",
+        "fb_pos_pct_prepared",
+        "fb_sent_std_answers",
+        "fb_n_sent_prepared",
+        "fb_sent_std_prepared",
+        "fb_n_sent_answers",
+        "fb_neg_pct_answers",
+        "fb_sent_gap"
+      ],
+      "metrics": {
+        "ic": 0.00928,
+        "rank_ic": 0.034308,
+        "r2": -743625532.193337,
+        "rmse": 1857.281721,
+        "direction_accuracy": 0.421687,
+        "quintile_spread": 0.001854
+      },
+      "selection_log": null
+    },
+    {
+      "name": "FinBERT + LM Combined",
+      "algo": "GradientBoosting",
+      "added_finbert": [
+        "fb_sent_prepared",
+        "fb_sent_answers",
+        "fb_pos_pct_prepared",
+        "fb_neg_pct_prepared",
+        "fb_pos_pct_answers",
+        "fb_neg_pct_answers",
+        "fb_sent_std_prepared",
+        "fb_sent_std_answers",
+        "fb_sent_gap",
+        "fb_sent_prepared_chg",
+        "fb_sent_answers_chg",
+        "fb_n_sent_prepared",
+        "fb_n_sent_answers",
+        "tone_prepared",
+        "tone_answers",
+        "hedging_prepared",
+        "hedging_answers",
+        "uncertainty_answers",
+        "tone_gap",
+        "tone_prepared_chg",
+        "tone_answers_chg",
+        "hedging_answers_chg"
+      ],
+      "metrics": {
+        "ic": 0.072319,
+        "rank_ic": 0.097009,
+        "r2": -751104854.574953,
+        "rmse": 1866.598544,
+        "direction_accuracy": 0.421687,
+        "quintile_spread": 0.003944
+      },
+      "selection_log": null
+    }
+  ],
+  "best": {
+    "name": "FinBERT + LM Combined",
+    "algo": "GradientBoosting",
+    "added_finbert": [
+      "fb_sent_prepared",
+      "fb_sent_answers",
+      "fb_pos_pct_prepared",
+      "fb_neg_pct_prepared",
+      "fb_pos_pct_answers",
+      "fb_neg_pct_answers",
+      "fb_sent_std_prepared",
+      "fb_sent_std_answers",
+      "fb_sent_gap",
+      "fb_sent_prepared_chg",
+      "fb_sent_answers_chg",
+      "fb_n_sent_prepared",
+      "fb_n_sent_answers",
+      "tone_prepared",
+      "tone_answers",
+      "hedging_prepared",
+      "hedging_answers",
+      "uncertainty_answers",
+      "tone_gap",
+      "tone_prepared_chg",
+      "tone_answers_chg",
+      "hedging_answers_chg"
+    ],
+    "metrics": {
+      "ic": 0.072319,
+      "rank_ic": 0.097009,
+      "r2": -751104854.574953,
+      "rmse": 1866.598544,
+      "direction_accuracy": 0.421687,
+      "quintile_spread": 0.003944
+    }
+  }
+}

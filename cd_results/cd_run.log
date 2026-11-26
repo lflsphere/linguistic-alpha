@@ -1,267 +1,278 @@
-22:06:29 
+01:54:10 
 ######################################################################
-22:06:29 # Option 1 (S&P 500 bench)
-22:06:29 ######################################################################
-22:06:29 train: 3,201 (to 2023-12-31), test: 166
-22:06:29 
+01:54:10 # Option 1 (S&P 500 bench)
+01:54:10 ######################################################################
+01:54:11 train: 3,736 (to 2023-12-31), test: 166
+01:54:11 
 ======================================================================
-22:06:29 MODEL A: All Controls (no feature selection)
-22:06:29 ======================================================================
-22:06:29   Model A features (16): sue, surprise_pct, vol_pre, car_-1_1, mom, bm, size, dispersion, avg_answer_words, words_prepared, words_questions, words_answers, n_questions, n_answers, n_analysts, prior_calls_with_target
-22:06:29   Model A holdout: Rank IC=-0.1378 (Ridge_a5)
-22:06:29 
+01:54:11 MODEL A: All Controls (no feature selection)
+01:54:11 ======================================================================
+01:54:11   Model A features (16): sue, surprise_pct, vol_pre, car_-1_1, mom, bm, size, dispersion, avg_answer_words, words_prepared, words_questions, words_answers, n_questions, n_answers, n_analysts, prior_calls_with_target
+01:54:11   Model A holdout: Rank IC=-0.1810 (RidgeCV)
+01:54:11 
 ======================================================================
-22:06:29 MODEL B: 6 Strategies
-22:06:29 ======================================================================
-22:06:29 
+01:54:11 MODEL B: 6 Strategies
+01:54:11 ======================================================================
+01:54:11 
 --- Model B Strategy 1: Forward Selection (time-series CV) ---
-22:06:29   Baseline (16 features): TS-CV Rank IC=-0.0072 (RidgeCV)
-22:06:29     + tone_prepared            : TS-CV Rank IC=-0.0047 (EN_strong)
-22:06:30     + tone_answers             : TS-CV Rank IC=-0.0062 (Ridge_a5)
-22:06:30     + hedging_prepared         : TS-CV Rank IC=-0.0081 (RidgeCV)
-22:06:30     + hedging_answers          : TS-CV Rank IC=-0.0060 (Ridge)
-22:06:30     + uncertainty_answers      : TS-CV Rank IC=-0.0060 (Ridge)
-22:06:31     + tone_gap                 : TS-CV Rank IC=-0.0009 (Ridge_a10)
-22:06:31     + tone_prepared_chg        : TS-CV Rank IC=+0.0019 (RidgeCV)
-22:06:31     + tone_answers_chg         : TS-CV Rank IC=-0.0074 (EN_strong)
-22:06:31     + hedging_answers_chg      : TS-CV Rank IC=-0.0009 (RidgeCV)
-22:06:31   Step 1: added tone_prepared_chg → TS-CV Rank IC=+0.0019 (Δ=+0.0091)
-22:06:31     + tone_prepared            : TS-CV Rank IC=+0.0015 (RidgeCV)
-22:06:32     + tone_answers             : TS-CV Rank IC=+0.0036 (RidgeCV)
-22:06:32     + hedging_prepared         : TS-CV Rank IC=+0.0014 (EN_strong)
-22:06:32     + hedging_answers          : TS-CV Rank IC=+0.0035 (EN_strong)
-22:06:32     + uncertainty_answers      : TS-CV Rank IC=+0.0035 (EN_strong)
-22:06:33     + tone_gap                 : TS-CV Rank IC=+0.0037 (EN_strong)
-22:06:33     + tone_answers_chg         : TS-CV Rank IC=+0.0065 (EN_strong)
-22:06:33     + hedging_answers_chg      : TS-CV Rank IC=+0.0072 (EN_strong)
-22:06:33   Step 2: added hedging_answers_chg → TS-CV Rank IC=+0.0072 (Δ=+0.0053)
-22:06:33     + tone_prepared            : TS-CV Rank IC=+0.0080 (RidgeCV)
-22:06:33     + tone_answers             : TS-CV Rank IC=+0.0072 (RidgeCV)
-22:06:34     + hedging_prepared         : TS-CV Rank IC=+0.0077 (RidgeCV)
-22:06:34     + hedging_answers          : TS-CV Rank IC=+0.0083 (RidgeCV)
-22:06:34     + uncertainty_answers      : TS-CV Rank IC=+0.0083 (RidgeCV)
-22:06:34     + tone_gap                 : TS-CV Rank IC=+0.0064 (RidgeCV)
-22:06:35     + tone_answers_chg         : TS-CV Rank IC=+0.0094 (EN_strong)
-22:06:35   Step 3: added tone_answers_chg → TS-CV Rank IC=+0.0094 (Δ=+0.0022)
-22:06:35     + tone_prepared            : TS-CV Rank IC=+0.0088 (EN_strong)
-22:06:35     + tone_answers             : TS-CV Rank IC=+0.0096 (EN_strong)
-22:06:35     + hedging_prepared         : TS-CV Rank IC=+0.0100 (RidgeCV)
-22:06:36     + hedging_answers          : TS-CV Rank IC=+0.0119 (EN_strong)
-22:06:36     + uncertainty_answers      : TS-CV Rank IC=+0.0119 (EN_strong)
-22:06:36     + tone_gap                 : TS-CV Rank IC=+0.0093 (EN_strong)
-22:06:36   Step 4: added hedging_answers → TS-CV Rank IC=+0.0119 (Δ=+0.0025)
-22:06:36     + tone_prepared            : TS-CV Rank IC=+0.0107 (RidgeCV)
-22:06:37     + tone_answers             : TS-CV Rank IC=+0.0121 (EN_strong)
-22:06:37     + hedging_prepared         : TS-CV Rank IC=+0.0106 (RidgeCV)
-22:06:37     + uncertainty_answers      : TS-CV Rank IC=+0.0115 (EN_strong)
-22:06:37     + tone_gap                 : TS-CV Rank IC=+0.0110 (EN_strong)
-22:06:37   Step 5: added tone_answers → TS-CV Rank IC=+0.0121 (Δ=+0.0002)
-22:06:38     + tone_prepared            : TS-CV Rank IC=+0.0112 (Ridge_a10)
-22:06:38     + hedging_prepared         : TS-CV Rank IC=+0.0111 (RidgeCV)
-22:06:38     + uncertainty_answers      : TS-CV Rank IC=+0.0122 (EN_strong)
-22:06:39     + tone_gap                 : TS-CV Rank IC=+0.0115 (RidgeCV)
-22:06:39   Step 6: added uncertainty_answers → TS-CV Rank IC=+0.0122 (Δ=+0.0001)
-22:06:39     + tone_prepared            : TS-CV Rank IC=+0.0111 (Ridge_a10)
-22:06:39     + hedging_prepared         : TS-CV Rank IC=+0.0112 (RidgeCV)
-22:06:39     + tone_gap                 : TS-CV Rank IC=+0.0116 (RidgeCV)
-22:06:39   Step 7: no improvement, stopping
-22:06:40   Final: 22 features, Holdout Rank IC=-0.1329 (EN_strong)
-22:06:40 
+01:54:11   Baseline (16 features): TS-CV Rank IC=-0.0338 (RidgeCV)
+01:54:11     + tone_prepared            : TS-CV Rank IC=-0.0350 (EN_strong)
+01:54:11     + tone_answers             : TS-CV Rank IC=-0.0270 (RidgeCV)
+01:54:11     + hedging_prepared         : TS-CV Rank IC=-0.0296 (RidgeCV)
+01:54:11     + hedging_answers          : TS-CV Rank IC=-0.0309 (RidgeCV)
+01:54:11     + uncertainty_answers      : TS-CV Rank IC=-0.0309 (RidgeCV)
+01:54:11     + tone_gap                 : TS-CV Rank IC=-0.0266 (RidgeCV)
+01:54:11     + tone_prepared_chg        : TS-CV Rank IC=-0.0292 (RidgeCV)
+01:54:11     + tone_answers_chg         : TS-CV Rank IC=-0.0250 (RidgeCV)
+01:54:11     + hedging_answers_chg      : TS-CV Rank IC=-0.0183 (EN_strong)
+01:54:11   Step 1: added hedging_answers_chg → TS-CV Rank IC=-0.0183 (Δ=+0.0155)
+01:54:11     + tone_prepared            : TS-CV Rank IC=-0.0189 (RidgeCV)
+01:54:11     + tone_answers             : TS-CV Rank IC=-0.0123 (RidgeCV)
+01:54:11     + hedging_prepared         : TS-CV Rank IC=-0.0158 (RidgeCV)
+01:54:12     + hedging_answers          : TS-CV Rank IC=-0.0188 (RidgeCV)
+01:54:12     + uncertainty_answers      : TS-CV Rank IC=-0.0188 (RidgeCV)
+01:54:12     + tone_gap                 : TS-CV Rank IC=-0.0120 (RidgeCV)
+01:54:12     + tone_prepared_chg        : TS-CV Rank IC=-0.0103 (RidgeCV)
+01:54:12     + tone_answers_chg         : TS-CV Rank IC=-0.0110 (EN_strong)
+01:54:12   Step 2: added tone_prepared_chg → TS-CV Rank IC=-0.0103 (Δ=+0.0080)
+01:54:12     + tone_prepared            : TS-CV Rank IC=-0.0110 (RidgeCV)
+01:54:12     + tone_answers             : TS-CV Rank IC=-0.0047 (RidgeCV)
+01:54:12     + hedging_prepared         : TS-CV Rank IC=-0.0095 (RidgeCV)
+01:54:12     + hedging_answers          : TS-CV Rank IC=-0.0136 (RidgeCV)
+01:54:12     + uncertainty_answers      : TS-CV Rank IC=-0.0136 (RidgeCV)
+01:54:12     + tone_gap                 : TS-CV Rank IC=-0.0070 (RidgeCV)
+01:54:12     + tone_answers_chg         : TS-CV Rank IC=-0.0007 (RidgeCV)
+01:54:12   Step 3: added tone_answers_chg → TS-CV Rank IC=-0.0007 (Δ=+0.0096)
+01:54:13     + tone_prepared            : TS-CV Rank IC=-0.0011 (RidgeCV)
+01:54:13     + tone_answers             : TS-CV Rank IC=-0.0014 (RidgeCV)
+01:54:13     + hedging_prepared         : TS-CV Rank IC=-0.0002 (RidgeCV)
+01:54:13     + hedging_answers          : TS-CV Rank IC=-0.0037 (RidgeCV)
+01:54:13     + uncertainty_answers      : TS-CV Rank IC=-0.0037 (RidgeCV)
+01:54:13     + tone_gap                 : TS-CV Rank IC=-0.0023 (RidgeCV)
+01:54:13   Step 4: added hedging_prepared → TS-CV Rank IC=-0.0002 (Δ=+0.0006)
+01:54:13     + tone_prepared            : TS-CV Rank IC=+0.0014 (RidgeCV)
+01:54:13     + tone_answers             : TS-CV Rank IC=+0.0005 (RidgeCV)
+01:54:13     + hedging_answers          : TS-CV Rank IC=-0.0025 (RidgeCV)
+01:54:13     + uncertainty_answers      : TS-CV Rank IC=-0.0025 (RidgeCV)
+01:54:13     + tone_gap                 : TS-CV Rank IC=+0.0020 (RidgeCV)
+01:54:13   Step 5: added tone_gap → TS-CV Rank IC=+0.0020 (Δ=+0.0022)
+01:54:14     + tone_prepared            : TS-CV Rank IC=+0.0016 (RidgeCV)
+01:54:14     + tone_answers             : TS-CV Rank IC=+0.0011 (RidgeCV)
+01:54:14     + hedging_answers          : TS-CV Rank IC=-0.0029 (RidgeCV)
+01:54:14     + uncertainty_answers      : TS-CV Rank IC=-0.0029 (RidgeCV)
+01:54:14   Step 6: no improvement, stopping
+01:54:14   Final: 21 features, Holdout Rank IC=-0.1694 (Ridge)
+01:54:14 
 --- Model B Strategy 2: Interaction Features ---
-22:06:40   Base + interactions only (24): Rank IC=-0.1391 (RidgeCV)
-22:06:40   All + interactions (33): Rank IC=-0.1270 (RidgeCV)
-22:06:40 
+01:54:14   Base + interactions only (24): Rank IC=-0.1509 (RidgeCV)
+01:54:14   All + interactions (33): Rank IC=-0.1421 (ElasticNet)
+01:54:14 
 --- Model B Strategy 3: Residualized Tone ---
-22:06:40   tone_answers → tone_answers_resid (R²=0.0522)
-22:06:40   tone_prepared → tone_prepared_resid (R²=0.0206)
-22:06:40   tone_answers_chg → tone_answers_chg_resid (R²=0.0290)
-22:06:40   tone_prepared_chg → tone_prepared_chg_resid (R²=0.0493)
-22:06:40   Base + residualized (20): Rank IC=-0.1278 (RidgeCV)
-22:06:40 
+01:54:14   tone_answers → tone_answers_resid (R²=0.0608)
+01:54:14   tone_prepared → tone_prepared_resid (R²=0.0147)
+01:54:14   tone_answers_chg → tone_answers_chg_resid (R²=0.0283)
+01:54:14   tone_prepared_chg → tone_prepared_chg_resid (R²=0.0385)
+01:54:14   Base + residualized (20): Rank IC=-0.1523 (RidgeCV)
+01:54:14 
 --- Model B Strategy 4: All Linguistic + RidgeCV ---
-22:06:40   Results (25 features):
-22:06:40     Ridge_a100          : Rank IC=-0.1277  Q5-Q1=-0.0137
-22:06:40     Ridge_a50           : Rank IC=-0.1280  Q5-Q1=-0.0135
-22:06:40     EN_a0.05            : Rank IC=-0.1281  Q5-Q1=-0.0135
-22:06:40     EN_a0.1             : Rank IC=-0.1286  Q5-Q1=-0.0135
-22:06:40     Ridge_a10           : Rank IC=-0.1295  Q5-Q1=-0.0135
-22:06:40     EN_a0.01            : Rank IC=-0.1298  Q5-Q1=-0.0135
-22:06:40     RidgeCV             : Rank IC=-0.1307  Q5-Q1=-0.0177
-22:06:40 
+01:54:14   Results (25 features):
+01:54:14     Ridge_a100          : Rank IC=-0.1410  Q5-Q1=-0.0195
+01:54:14     EN_a0.05            : Rank IC=-0.1416  Q5-Q1=-0.0195
+01:54:14     EN_a0.1             : Rank IC=-0.1424  Q5-Q1=-0.0195
+01:54:14     Ridge_a50           : Rank IC=-0.1426  Q5-Q1=-0.0172
+01:54:14     RidgeCV             : Rank IC=-0.1427  Q5-Q1=-0.0234
+01:54:14     Ridge_a10           : Rank IC=-0.1429  Q5-Q1=-0.0172
+01:54:14     EN_a0.01            : Rank IC=-0.1431  Q5-Q1=-0.0172
+01:54:14 
 --- Model B Strategy 5: PCA on Linguistic Features ---
-22:06:40   PCA(2): 57.0% variance explained
-22:06:40     Base + PCA(2): Rank IC=-0.1299 (Ridge_a5)
-22:06:40   PCA(3): 75.5% variance explained
-22:06:40     Base + PCA(3): Rank IC=-0.1220 (ElasticNet)
-22:06:40   PCA(4): 86.2% variance explained
-22:06:40     Base + PCA(4): Rank IC=-0.1219 (Ridge)
-22:06:40 
+01:54:14   PCA(2): 57.2% variance explained
+01:54:14     Base + PCA(2): Rank IC=-0.1580 (Ridge)
+01:54:14   PCA(3): 75.5% variance explained
+01:54:14     Base + PCA(3): Rank IC=-0.1556 (Ridge)
+01:54:14   PCA(4): 86.1% variance explained
+01:54:14     Base + PCA(4): Rank IC=-0.1543 (Ridge)
+01:54:14 
 --- Model B Strategy 6: Single-Feature Ensemble ---
-22:06:40   Base Rank IC: -0.1410
-22:06:40     + tone_prepared            : Rank IC=-0.1472
-22:06:40     + tone_answers             : Rank IC=-0.1282
-22:06:41     + hedging_prepared         : Rank IC=-0.1287
-22:06:41     + hedging_answers          : Rank IC=-0.1385
-22:06:41     + uncertainty_answers      : Rank IC=-0.1385
-22:06:41     + tone_gap                 : Rank IC=-0.1286
-22:06:41     + tone_prepared_chg        : Rank IC=-0.1433
-22:06:41     + tone_answers_chg         : Rank IC=-0.1434
-22:06:41     + hedging_answers_chg      : Rank IC=-0.1515
-22:06:41   Features improving over base: ['tone_answers', 'tone_gap', 'hedging_prepared', 'hedging_answers', 'uncertainty_answers']
-22:06:41   Ensemble of 5 models: Rank IC=-0.1331
-22:06:41   Combined (21 feats): Rank IC=-0.1175 (RidgeCV)
-22:06:41 
+01:54:14   Base Rank IC: -0.1810
+01:54:14     + tone_prepared            : Rank IC=-0.1840
+01:54:14     + tone_answers             : Rank IC=-0.1487
+01:54:14     + hedging_prepared         : Rank IC=-0.1678
+01:54:14     + hedging_answers          : Rank IC=-0.1757
+01:54:14     + uncertainty_answers      : Rank IC=-0.1757
+01:54:14     + tone_gap                 : Rank IC=-0.1710
+01:54:14     + tone_prepared_chg        : Rank IC=-0.1816
+01:54:14     + tone_answers_chg         : Rank IC=-0.1694
+01:54:14     + hedging_answers_chg      : Rank IC=-0.1933
+01:54:14   Features improving over base: ['tone_answers', 'hedging_prepared', 'tone_answers_chg', 'tone_gap', 'hedging_answers', 'uncertainty_answers']
+01:54:14   Ensemble of 6 models: Rank IC=-0.1719
+01:54:14   Combined (22 feats): Rank IC=-0.1368 (RidgeCV)
+01:54:14 
 ======================================================================
-22:06:41 MODEL B*: Controls + All LM Features
-22:06:41 ======================================================================
-22:06:41   Model B* features (25): 16 controls + 9 LM
-22:06:41   LM features: tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
-22:06:41   Model B* holdout: Rank IC=-0.1277 (RidgeCV)
-22:06:41   All algorithms:
-22:06:41     RidgeCV             : Rank IC=-0.1277  Q5-Q1=-0.0137
-22:06:41     Ridge_a100          : Rank IC=-0.1277  Q5-Q1=-0.0137
-22:06:41     Ridge_a50           : Rank IC=-0.1280  Q5-Q1=-0.0135
-22:06:41     EN_strong           : Rank IC=-0.1281  Q5-Q1=-0.0135
-22:06:41     Ridge_a10           : Rank IC=-0.1295  Q5-Q1=-0.0135
-22:06:41     Ridge               : Rank IC=-0.1296  Q5-Q1=-0.0135
-22:06:41     Ridge_a5            : Rank IC=-0.1296  Q5-Q1=-0.0135
-22:06:41     ElasticNet          : Rank IC=-0.1298  Q5-Q1=-0.0135
-22:06:41 
+01:54:14 MODEL B*: Controls + All LM Features
+01:54:14 ======================================================================
+01:54:14   Model B* features (25): 16 controls + 9 LM
+01:54:14   LM features: tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
+01:54:14   Model B* holdout: Rank IC=-0.1410 (RidgeCV)
+01:54:14   All algorithms:
+01:54:14     RidgeCV             : Rank IC=-0.1410  Q5-Q1=-0.0195
+01:54:14     Ridge_a100          : Rank IC=-0.1410  Q5-Q1=-0.0195
+01:54:14     EN_strong           : Rank IC=-0.1416  Q5-Q1=-0.0195
+01:54:14     Ridge_a50           : Rank IC=-0.1426  Q5-Q1=-0.0172
+01:54:14     Ridge_a5            : Rank IC=-0.1428  Q5-Q1=-0.0176
+01:54:14     Ridge_a10           : Rank IC=-0.1429  Q5-Q1=-0.0172
+01:54:14     Ridge               : Rank IC=-0.1430  Q5-Q1=-0.0176
+01:54:14     ElasticNet          : Rank IC=-0.1431  Q5-Q1=-0.0172
+01:54:14 
 ======================================================================
-22:06:41 SUMMARY — Option 1 (S&P 500 bench)
-22:06:41 ======================================================================
-22:06:41 Model                               Algo                   Rank IC     Q5-Q1      vs A
-22:06:41 Model A (baseline)                  Ridge_a5               -0.1378   -0.0132       ---
-22:06:41   Forward Selection                 EN_strong              -0.1329   -0.0135   +0.0049 ***
-22:06:41   Interactions + raw ling           RidgeCV                -0.1270   -0.0063   +0.0107 ***
-22:06:41   Residualized Tone                 RidgeCV                -0.1278   -0.0165   +0.0100 ***
-22:06:41   All Ling + RidgeCV                Ridge_a100             -0.1277   -0.0137   +0.0101 ***
-22:06:41   PCA(4) Linguistic                 Ridge                  -0.1219   -0.0119   +0.0159 ***
-22:06:41   Combined Good Features            RidgeCV                -0.1175   -0.0117   +0.0203 ***
-22:06:41 Model B (best strategy)             RidgeCV                -0.1175   -0.0117   +0.0203
-22:06:41 Model B* (all LM)                   RidgeCV                -0.1277   -0.0137   +0.0101
-22:06:41 
+01:54:14 SUMMARY — Option 1 (S&P 500 bench)
+01:54:14 ======================================================================
+01:54:14 Model                               Algo                   Rank IC     Q5-Q1      vs A
+01:54:14 Model A (baseline)                  RidgeCV                -0.1810   -0.0193       ---
+01:54:14   Forward Selection                 Ridge                  -0.1694   -0.0171   +0.0116 ***
+01:54:14   Interactions + raw ling           ElasticNet             -0.1421   -0.0161   +0.0389 ***
+01:54:14   Residualized Tone                 RidgeCV                -0.1523   -0.0280   +0.0287 ***
+01:54:14   All Ling + RidgeCV                Ridge_a100             -0.1410   -0.0195   +0.0400 ***
+01:54:14   PCA(4) Linguistic                 Ridge                  -0.1543   -0.0191   +0.0267 ***
+01:54:14   Combined Good Features            RidgeCV                -0.1368   -0.0197   +0.0442 ***
+01:54:14 Model B (best strategy)             RidgeCV                -0.1368   -0.0197   +0.0442
+01:54:14 Model B* (all LM)                   RidgeCV                -0.1410   -0.0195   +0.0400
+01:54:14 
 ######################################################################
-22:06:41 # Option 2 (CD sector bench)
-22:06:41 ######################################################################
-22:06:41 train: 3,201 (to 2023-12-31), test: 166
-22:06:41 
+01:54:14 # Option 2 (CD sector bench)
+01:54:14 ######################################################################
+01:54:14 train: 3,736 (to 2023-12-31), test: 166
+01:54:14 
 ======================================================================
-22:06:41 MODEL A: All Controls (no feature selection)
-22:06:41 ======================================================================
-22:06:41   Model A features (16): sue, surprise_pct, vol_pre, car_-1_1, mom, bm, size, dispersion, avg_answer_words, words_prepared, words_questions, words_answers, n_questions, n_answers, n_analysts, prior_calls_with_target
-22:06:41   Model A holdout: Rank IC=+0.0211 (Ridge)
-22:06:41 
+01:54:14 MODEL A: All Controls (no feature selection)
+01:54:14 ======================================================================
+01:54:14   Model A features (16): sue, surprise_pct, vol_pre, car_-1_1, mom, bm, size, dispersion, avg_answer_words, words_prepared, words_questions, words_answers, n_questions, n_answers, n_analysts, prior_calls_with_target
+01:54:14   Model A holdout: Rank IC=-0.0054 (RidgeCV)
+01:54:14 
 ======================================================================
-22:06:41 MODEL B: 6 Strategies
-22:06:41 ======================================================================
-22:06:41 
+01:54:14 MODEL B: 6 Strategies
+01:54:14 ======================================================================
+01:54:14 
 --- Model B Strategy 1: Forward Selection (time-series CV) ---
-22:06:41   Baseline (16 features): TS-CV Rank IC=+0.0267 (RidgeCV)
-22:06:42     + tone_prepared            : TS-CV Rank IC=+0.0294 (RidgeCV)
-22:06:42     + tone_answers             : TS-CV Rank IC=+0.0317 (EN_strong)
-22:06:42     + hedging_prepared         : TS-CV Rank IC=+0.0247 (RidgeCV)
-22:06:42     + hedging_answers          : TS-CV Rank IC=+0.0242 (EN_strong)
-22:06:42     + uncertainty_answers      : TS-CV Rank IC=+0.0242 (EN_strong)
-22:06:43     + tone_gap                 : TS-CV Rank IC=+0.0254 (RidgeCV)
-22:06:43     + tone_prepared_chg        : TS-CV Rank IC=+0.0236 (RidgeCV)
-22:06:43     + tone_answers_chg         : TS-CV Rank IC=+0.0264 (RidgeCV)
-22:06:43     + hedging_answers_chg      : TS-CV Rank IC=+0.0276 (RidgeCV)
-22:06:43   Step 1: added tone_answers → TS-CV Rank IC=+0.0317 (Δ=+0.0050)
-22:06:44     + tone_prepared            : TS-CV Rank IC=+0.0311 (ElasticNet)
-22:06:44     + hedging_prepared         : TS-CV Rank IC=+0.0265 (EN_strong)
-22:06:44     + hedging_answers          : TS-CV Rank IC=+0.0253 (RidgeCV)
-22:06:44     + uncertainty_answers      : TS-CV Rank IC=+0.0253 (RidgeCV)
-22:06:44     + tone_gap                 : TS-CV Rank IC=+0.0301 (Ridge_a10)
-22:06:45     + tone_prepared_chg        : TS-CV Rank IC=+0.0243 (RidgeCV)
-22:06:45     + tone_answers_chg         : TS-CV Rank IC=+0.0279 (RidgeCV)
-22:06:45     + hedging_answers_chg      : TS-CV Rank IC=+0.0272 (RidgeCV)
-22:06:45   Step 2: no improvement, stopping
-22:06:45   Final: 17 features, Holdout Rank IC=+0.0444 (ElasticNet)
-22:06:45 
+01:54:14   Baseline (16 features): TS-CV Rank IC=+0.0070 (Ridge)
+01:54:15     + tone_prepared            : TS-CV Rank IC=+0.0073 (Ridge)
+01:54:15     + tone_answers             : TS-CV Rank IC=+0.0135 (Ridge)
+01:54:15     + hedging_prepared         : TS-CV Rank IC=+0.0062 (Ridge)
+01:54:15     + hedging_answers          : TS-CV Rank IC=-0.0039 (Ridge_a5)
+01:54:15     + uncertainty_answers      : TS-CV Rank IC=-0.0039 (Ridge_a5)
+01:54:15     + tone_gap                 : TS-CV Rank IC=+0.0068 (Ridge)
+01:54:15     + tone_prepared_chg        : TS-CV Rank IC=-0.0008 (RidgeCV)
+01:54:15     + tone_answers_chg         : TS-CV Rank IC=+0.0168 (Ridge_a5)
+01:54:15     + hedging_answers_chg      : TS-CV Rank IC=+0.0100 (RidgeCV)
+01:54:15   Step 1: added tone_answers_chg → TS-CV Rank IC=+0.0168 (Δ=+0.0098)
+01:54:15     + tone_prepared            : TS-CV Rank IC=+0.0147 (Ridge)
+01:54:15     + tone_answers             : TS-CV Rank IC=+0.0152 (Ridge)
+01:54:15     + hedging_prepared         : TS-CV Rank IC=+0.0153 (Ridge)
+01:54:15     + hedging_answers          : TS-CV Rank IC=+0.0113 (ElasticNet)
+01:54:15     + uncertainty_answers      : TS-CV Rank IC=+0.0113 (ElasticNet)
+01:54:16     + tone_gap                 : TS-CV Rank IC=+0.0149 (RidgeCV)
+01:54:16     + tone_prepared_chg        : TS-CV Rank IC=+0.0109 (ElasticNet)
+01:54:16     + hedging_answers_chg      : TS-CV Rank IC=+0.0172 (Ridge)
+01:54:16   Step 2: added hedging_answers_chg → TS-CV Rank IC=+0.0172 (Δ=+0.0004)
+01:54:16     + tone_prepared            : TS-CV Rank IC=+0.0182 (Ridge_a10)
+01:54:16     + tone_answers             : TS-CV Rank IC=+0.0159 (Ridge)
+01:54:16     + hedging_prepared         : TS-CV Rank IC=+0.0163 (Ridge)
+01:54:16     + hedging_answers          : TS-CV Rank IC=+0.0143 (Ridge)
+01:54:16     + uncertainty_answers      : TS-CV Rank IC=+0.0143 (Ridge)
+01:54:16     + tone_gap                 : TS-CV Rank IC=+0.0181 (Ridge)
+01:54:16     + tone_prepared_chg        : TS-CV Rank IC=+0.0128 (ElasticNet)
+01:54:16   Step 3: added tone_prepared → TS-CV Rank IC=+0.0182 (Δ=+0.0009)
+01:54:16     + tone_answers             : TS-CV Rank IC=+0.0165 (Ridge)
+01:54:16     + hedging_prepared         : TS-CV Rank IC=+0.0178 (Ridge)
+01:54:16     + hedging_answers          : TS-CV Rank IC=+0.0149 (EN_strong)
+01:54:17     + uncertainty_answers      : TS-CV Rank IC=+0.0149 (EN_strong)
+01:54:17     + tone_gap                 : TS-CV Rank IC=+0.0176 (Ridge)
+01:54:17     + tone_prepared_chg        : TS-CV Rank IC=+0.0147 (EN_strong)
+01:54:17   Step 4: no improvement, stopping
+01:54:17   Final: 19 features, Holdout Rank IC=+0.0488 (RidgeCV)
+01:54:17 
 --- Model B Strategy 2: Interaction Features ---
-22:06:45   Base + interactions only (24): Rank IC=+0.0481 (RidgeCV)
-22:06:45   All + interactions (33): Rank IC=+0.0481 (RidgeCV)
-22:06:45 
+01:54:17   Base + interactions only (24): Rank IC=+0.0332 (RidgeCV)
+01:54:17   All + interactions (33): Rank IC=+0.0583 (RidgeCV)
+01:54:17 
 --- Model B Strategy 3: Residualized Tone ---
-22:06:45   tone_answers → tone_answers_resid (R²=0.0523)
-22:06:45   tone_prepared → tone_prepared_resid (R²=0.0206)
-22:06:46   tone_answers_chg → tone_answers_chg_resid (R²=0.0294)
-22:06:46   tone_prepared_chg → tone_prepared_chg_resid (R²=0.0507)
-22:06:46   Base + residualized (20): Rank IC=+0.0467 (ElasticNet)
-22:06:46 
+01:54:17   tone_answers → tone_answers_resid (R²=0.0610)
+01:54:17   tone_prepared → tone_prepared_resid (R²=0.0148)
+01:54:17   tone_answers_chg → tone_answers_chg_resid (R²=0.0286)
+01:54:17   tone_prepared_chg → tone_prepared_chg_resid (R²=0.0394)
+01:54:17   Base + residualized (20): Rank IC=+0.0301 (RidgeCV)
+01:54:17 
 --- Model B Strategy 4: All Linguistic + RidgeCV ---
-22:06:46   Results (25 features):
-22:06:46     RidgeCV             : Rank IC=+0.0758  Q5-Q1=+0.0186
-22:06:46     Ridge_a100          : Rank IC=+0.0679  Q5-Q1=+0.0322
-22:06:46     EN_a0.05            : Rank IC=+0.0661  Q5-Q1=+0.0289
-22:06:46     Ridge_a50           : Rank IC=+0.0658  Q5-Q1=+0.0289
-22:06:46     EN_a0.1             : Rank IC=+0.0648  Q5-Q1=+0.0289
-22:06:46     Ridge_a10           : Rank IC=+0.0626  Q5-Q1=+0.0254
-22:06:46     EN_a0.01            : Rank IC=+0.0625  Q5-Q1=+0.0254
-22:06:46 
+01:54:17   Results (25 features):
+01:54:17     RidgeCV             : Rank IC=+0.0853  Q5-Q1=+0.0114
+01:54:17     EN_a0.05            : Rank IC=+0.0781  Q5-Q1=+0.0067
+01:54:17     Ridge_a100          : Rank IC=+0.0780  Q5-Q1=+0.0064
+01:54:17     Ridge_a50           : Rank IC=+0.0776  Q5-Q1=+0.0067
+01:54:17     EN_a0.1             : Rank IC=+0.0769  Q5-Q1=+0.0067
+01:54:17     Ridge_a10           : Rank IC=+0.0761  Q5-Q1=+0.0067
+01:54:17     EN_a0.01            : Rank IC=+0.0756  Q5-Q1=+0.0067
+01:54:17 
 --- Model B Strategy 5: PCA on Linguistic Features ---
-22:06:46   PCA(2): 57.0% variance explained
-22:06:46     Base + PCA(2): Rank IC=+0.0554 (RidgeCV)
-22:06:46   PCA(3): 75.5% variance explained
-22:06:46     Base + PCA(3): Rank IC=+0.0576 (RidgeCV)
-22:06:46   PCA(4): 86.2% variance explained
-22:06:46     Base + PCA(4): Rank IC=+0.0646 (RidgeCV)
-22:06:46 
+01:54:17   PCA(2): 57.2% variance explained
+01:54:17     Base + PCA(2): Rank IC=+0.0480 (ElasticNet)
+01:54:17   PCA(3): 75.5% variance explained
+01:54:17     Base + PCA(3): Rank IC=+0.0471 (Ridge_a10)
+01:54:17   PCA(4): 86.1% variance explained
+01:54:17     Base + PCA(4): Rank IC=+0.0704 (RidgeCV)
+01:54:17 
 --- Model B Strategy 6: Single-Feature Ensemble ---
-22:06:46   Base Rank IC: +0.0172
-22:06:46     + tone_prepared            : Rank IC=+0.0179
-22:06:46     + tone_answers             : Rank IC=+0.0421
-22:06:46     + hedging_prepared         : Rank IC=+0.0144
-22:06:46     + hedging_answers          : Rank IC=+0.0382
-22:06:46     + uncertainty_answers      : Rank IC=+0.0382
-22:06:46     + tone_gap                 : Rank IC=+0.0286
-22:06:46     + tone_prepared_chg        : Rank IC=+0.0186
-22:06:46     + tone_answers_chg         : Rank IC=+0.0360
-22:06:46     + hedging_answers_chg      : Rank IC=+0.0498
-22:06:46   Features improving over base: ['hedging_answers_chg', 'tone_answers', 'hedging_answers', 'uncertainty_answers', 'tone_answers_chg', 'tone_gap', 'tone_prepared_chg', 'tone_prepared']
-22:06:46   Ensemble of 8 models: Rank IC=+0.0346
-22:06:47   Combined (24 feats): Rank IC=+0.0725 (RidgeCV)
-22:06:47 
+01:54:17   Base Rank IC: -0.0054
+01:54:17     + tone_prepared            : Rank IC=-0.0061
+01:54:17     + tone_answers             : Rank IC=+0.0269
+01:54:17     + hedging_prepared         : Rank IC=-0.0043
+01:54:17     + hedging_answers          : Rank IC=+0.0170
+01:54:17     + uncertainty_answers      : Rank IC=+0.0170
+01:54:17     + tone_gap                 : Rank IC=-0.0005
+01:54:17     + tone_prepared_chg        : Rank IC=-0.0006
+01:54:17     + tone_answers_chg         : Rank IC=+0.0233
+01:54:17     + hedging_answers_chg      : Rank IC=+0.0305
+01:54:17   Features improving over base: ['hedging_answers_chg', 'tone_answers', 'tone_answers_chg', 'hedging_answers', 'uncertainty_answers', 'tone_gap', 'tone_prepared_chg', 'hedging_prepared']
+01:54:17   Ensemble of 8 models: Rank IC=+0.0149
+01:54:17   Combined (24 feats): Rank IC=+0.0788 (EN_strong)
+01:54:17 
 ======================================================================
-22:06:47 MODEL B*: Controls + All LM Features
-22:06:47 ======================================================================
-22:06:47   Model B* features (25): 16 controls + 9 LM
-22:06:47   LM features: tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
-22:06:47   Model B* holdout: Rank IC=+0.0679 (RidgeCV)
-22:06:47   All algorithms:
-22:06:47     RidgeCV             : Rank IC=+0.0679  Q5-Q1=+0.0322
-22:06:47     Ridge_a100          : Rank IC=+0.0679  Q5-Q1=+0.0322
-22:06:47     EN_strong           : Rank IC=+0.0661  Q5-Q1=+0.0289
-22:06:47     Ridge_a50           : Rank IC=+0.0658  Q5-Q1=+0.0289
-22:06:47     Ridge_a10           : Rank IC=+0.0626  Q5-Q1=+0.0254
-22:06:47     ElasticNet          : Rank IC=+0.0625  Q5-Q1=+0.0254
-22:06:47     Ridge_a5            : Rank IC=+0.0609  Q5-Q1=+0.0242
-22:06:47     Ridge               : Rank IC=+0.0608  Q5-Q1=+0.0242
-22:06:47 
+01:54:17 MODEL B*: Controls + All LM Features
+01:54:17 ======================================================================
+01:54:17   Model B* features (25): 16 controls + 9 LM
+01:54:17   LM features: tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
+01:54:17   Model B* holdout: Rank IC=+0.0781 (EN_strong)
+01:54:17   All algorithms:
+01:54:17     EN_strong           : Rank IC=+0.0781  Q5-Q1=+0.0067
+01:54:17     RidgeCV             : Rank IC=+0.0780  Q5-Q1=+0.0064
+01:54:17     Ridge_a100          : Rank IC=+0.0780  Q5-Q1=+0.0064
+01:54:17     Ridge_a50           : Rank IC=+0.0776  Q5-Q1=+0.0067
+01:54:17     Ridge               : Rank IC=+0.0765  Q5-Q1=+0.0067
+01:54:17     Ridge_a10           : Rank IC=+0.0761  Q5-Q1=+0.0067
+01:54:17     Ridge_a5            : Rank IC=+0.0760  Q5-Q1=+0.0067
+01:54:17     ElasticNet          : Rank IC=+0.0756  Q5-Q1=+0.0067
+01:54:17 
 ======================================================================
-22:06:47 SUMMARY — Option 2 (CD sector bench)
-22:06:47 ======================================================================
-22:06:47 Model                               Algo                   Rank IC     Q5-Q1      vs A
-22:06:47 Model A (baseline)                  Ridge                  +0.0211   +0.0124       ---
-22:06:47   Forward Selection                 ElasticNet             +0.0444   +0.0271   +0.0233 ***
-22:06:47   Interactions (no raw ling)        RidgeCV                +0.0481   +0.0138   +0.0271 ***
-22:06:47   Residualized Tone                 ElasticNet             +0.0467   +0.0244   +0.0256 ***
-22:06:47   All Ling + RidgeCV                RidgeCV                +0.0758   +0.0186   +0.0548 ***
-22:06:47   PCA(4) Linguistic                 RidgeCV                +0.0646   +0.0286   +0.0435 ***
-22:06:47   Combined Good Features            RidgeCV                +0.0725   +0.0322   +0.0514 ***
-22:06:47 Model B (best strategy)             RidgeCV                +0.0758   +0.0186   +0.0548
-22:06:47 Model B* (all LM)                   RidgeCV                +0.0679   +0.0322   +0.0469
-22:06:47 
+01:54:17 SUMMARY — Option 2 (CD sector bench)
+01:54:17 ======================================================================
+01:54:17 Model                               Algo                   Rank IC     Q5-Q1      vs A
+01:54:17 Model A (baseline)                  RidgeCV                -0.0054   +0.0097       ---
+01:54:17   Forward Selection                 RidgeCV                +0.0488   +0.0147   +0.0542 ***
+01:54:17   Interactions + raw ling           RidgeCV                +0.0583   +0.0122   +0.0637 ***
+01:54:17   Residualized Tone                 RidgeCV                +0.0301   +0.0242   +0.0355 ***
+01:54:17   All Ling + RidgeCV                RidgeCV                +0.0853   +0.0114   +0.0908 ***
+01:54:17   PCA(4) Linguistic                 RidgeCV                +0.0704   +0.0157   +0.0758 ***
+01:54:17   Combined Good Features            EN_strong              +0.0788   +0.0067   +0.0843 ***
+01:54:17 Model B (best strategy)             RidgeCV                +0.0853   +0.0114   +0.0908
+01:54:17 Model B* (all LM)                   EN_strong              +0.0781   +0.0067   +0.0835
+01:54:17 
 ======================================================================
-22:06:47 FINAL SUMMARY
-22:06:47 ======================================================================
-22:06:47 Option 1 (S&P 500 bench):
-22:06:47   Model A  (16 feats): Rank IC=-0.1378
-22:06:47   Model B  (Combined Good Features): Rank IC=-0.1175 Δ=+0.0203
-22:06:47   Model B* (9 LM):   Rank IC=-0.1277 Δ=+0.0101
-22:06:47 Option 2 (CD sector bench):
-22:06:47   Model A  (16 feats): Rank IC=+0.0211
-22:06:47   Model B  (All Ling + RidgeCV): Rank IC=+0.0758 Δ=+0.0548
-22:06:47   Model B* (9 LM):   Rank IC=+0.0679 Δ=+0.0469
-22:06:47 MODEL_B_DONE
+01:54:17 FINAL SUMMARY
+01:54:17 ======================================================================
+01:54:17 Option 1 (S&P 500 bench):
+01:54:17   Model A  (16 feats): Rank IC=-0.1810
+01:54:17   Model B  (Combined Good Features): Rank IC=-0.1368 Δ=+0.0442
+01:54:17   Model B* (9 LM):   Rank IC=-0.1410 Δ=+0.0400
+01:54:17 Option 2 (CD sector bench):
+01:54:17   Model A  (16 feats): Rank IC=-0.0054
+01:54:17   Model B  (All Ling + RidgeCV): Rank IC=+0.0853 Δ=+0.0908
+01:54:17   Model B* (9 LM):   Rank IC=+0.0781 Δ=+0.0835
+01:54:17 MODEL_B_DONE

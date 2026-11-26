@@ -1,8 +1,9 @@
-22:06:09 Consumer Discretionary: 3,711 calls, 98 companies
-22:06:10 CRSP daily: 2,818,786 rows, 4,026 days to 2024-12-31
-22:06:10 sector gvkeys: 119, sector permnos (ever in S&P 500): 120
-22:06:10 sector VW: 4,026 days, annualized 0.2582, avg members/day 62.5
-22:06:10 Option 1: 3,367 with target (train 3,201 / test 166), CAR[+2,+20] mean=0.0019 std=0.0735 median=0.0017
-22:06:11 Option 2: 3,367 with target (train 3,201 / test 166), CAR[+2,+20] mean=-0.0062 std=0.0747 median=-0.0060
-22:06:26 text written to /private/tmp/claude-501/-Users-emmanuelfarcot-columbia-capstone-project-orchid-linguistic-alpha--claude-worktrees-consumer-discretionary-analysis-986c27/a3aa0bf8-c085-482b-8c7a-c019b080fd86/scratchpad/cdtext; calls without text: 1
-22:06:26 done
+00:55:14 point-in-time GICS sample: 4,246 calls (594 added, 59 dropped vs. the current-GICS `sector` column)
+00:55:14 Consumer Discretionary: 4,246 calls, 123 companies
+00:55:15 CRSP daily: 2,818,786 rows, 4,026 days to 2024-12-31
+00:55:16 sector index (point-in-time GICS): 148 permnos
+00:55:16 sector VW: 4,026 days, annualized 0.2546, avg members/day 72.3
+00:55:16 Option 1: 3,902 with target (train 3,736 / test 166), CAR[+2,+20] mean=0.0021 std=0.0716 median=0.0016
+00:55:16 Option 2: 3,902 with target (train 3,736 / test 166), CAR[+2,+20] mean=-0.0061 std=0.0725 median=-0.0060
+00:55:31 text written to /private/tmp/claude-501/-Users-emmanuelfarcot-columbia-capstone-project-orchid-linguistic-alpha--claude-worktrees-consumer-discretionary-analysis-986c27/a3aa0bf8-c085-482b-8c7a-c019b080fd86/scratchpad/text_pit; calls without text: 1
+00:55:31 done

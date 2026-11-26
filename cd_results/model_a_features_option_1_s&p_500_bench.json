@@ -17,6 +17,6 @@
     "n_analysts",
     "prior_calls_with_target"
   ],
-  "algo": "Ridge_a5",
-  "rank_ic": -0.137761
+  "algo": "RidgeCV",
+  "rank_ic": -0.181011
 }

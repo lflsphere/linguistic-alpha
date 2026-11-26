@@ -1,0 +1,53 @@
+======================================================================
+CD Sector — Model C (FinBERT) — Option 1 (S&P 500 bench)
+Generated: 2026-11-26 01:55
+Train: 3,736 (≤2023-12-31) | Test: 166 (>2023-12-31)
+FinBERT coverage: 4245/4246 (100.0%)
+Model A baseline (16 feats): Rank IC=-0.0811 (GradientBoosting)
+Method: Time-series CV, ranked target, min Δ=0.0
+======================================================================
+
+Model C (FinBERT forward sel)                 GradientBoosting     Rank IC=-0.0811 Q5-Q1=-0.0157 Δ=+0.0000
+  FinBERT features: 
+  All algorithms:
+    GradientBoosting          Rank IC=-0.0811  Q5-Q1=-0.0157  Dir Acc=0.518
+    RandomForest              Rank IC=-0.0904  Q5-Q1=-0.0102  Dir Acc=0.518
+    XGBoost                   Rank IC=-0.1050  Q5-Q1=-0.0138  Dir Acc=0.518
+    RidgeCV                   Rank IC=-0.1810  Q5-Q1=-0.0193  Dir Acc=0.518
+    EN_strong                 Rank IC=-0.1838  Q5-Q1=-0.0193  Dir Acc=0.518
+    ElasticNet                Rank IC=-0.1853  Q5-Q1=-0.0218  Dir Acc=0.518
+
+Model C* (All FinBERT forced)                 GradientBoosting     Rank IC=-0.0200 Q5-Q1=-0.0083 Δ=+0.0611
+  FinBERT features: fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg, fb_n_sent_prepared, fb_n_sent_answers
+  All algorithms:
+    GradientBoosting          Rank IC=-0.0200  Q5-Q1=-0.0083  Dir Acc=0.518
+    XGBoost                   Rank IC=-0.0346  Q5-Q1=-0.0120  Dir Acc=0.518
+    RandomForest              Rank IC=-0.0495  Q5-Q1=-0.0143  Dir Acc=0.518
+    RidgeCV                   Rank IC=-0.1446  Q5-Q1=-0.0038  Dir Acc=0.518
+    Ridge_a100                Rank IC=-0.1446  Q5-Q1=-0.0038  Dir Acc=0.518
+    EN_a0.1                   Rank IC=-0.1498  Q5-Q1=-0.0100  Dir Acc=0.518
+
+FinBERT Ensemble (13)                         Ensemble             Rank IC=-0.0723 Q5-Q1=-0.0085 Δ=+0.0087
+  FinBERT features: fb_sent_prepared_chg, fb_sent_answers, fb_sent_std_answers, fb_neg_pct_answers, fb_sent_answers_chg, fb_sent_gap, fb_n_sent_answers, fb_n_sent_prepared, fb_pos_pct_answers, fb_pos_pct_prepared, fb_sent_std_prepared, fb_neg_pct_prepared, fb_sent_prepared
+
+FinBERT + LM Combined                         GradientBoosting     Rank IC=-0.0102 Q5-Q1=-0.0065 Δ=+0.0709
+  FinBERT features: fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg, fb_n_sent_prepared, fb_n_sent_answers, tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
+  All algorithms:
+    GradientBoosting          Rank IC=-0.0102  Q5-Q1=-0.0065  Dir Acc=0.518
+    RandomForest              Rank IC=-0.0157  Q5-Q1=-0.0012  Dir Acc=0.518
+    XGBoost                   Rank IC=-0.0246  Q5-Q1=-0.0192  Dir Acc=0.518
+    RidgeCV                   Rank IC=-0.1201  Q5-Q1=-0.0030  Dir Acc=0.518
+    Ridge_a100                Rank IC=-0.1201  Q5-Q1=-0.0030  Dir Acc=0.518
+    EN_strong                 Rank IC=-0.1279  Q5-Q1=-0.0068  Dir Acc=0.518
+
+--- FORWARD SELECTION LOG ---
+ Step Added                           TS-CV Rank IC      Delta
+    0 (baseline)                            +0.0114    +0.0000
+
+Best Model C: FinBERT + LM Combined
+  Algo: GradientBoosting
+  Features: fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg, fb_n_sent_prepared, fb_n_sent_answers, tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
+  Rank IC: -0.0102
+  Q5-Q1: -0.0065
+  IC: -0.0159
+  Dir Acc: 0.518

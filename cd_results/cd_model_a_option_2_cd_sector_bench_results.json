@@ -18,55 +18,55 @@
     "n_analysts",
     "prior_calls_with_target"
   ],
-  "best_algo": "Ridge",
+  "best_algo": "RidgeCV",
   "results": {
     "Ridge": {
-      "ic": 0.079102,
-      "rank_ic": 0.021065,
-      "r2": -559374380.783182,
-      "rmse": 1610.838216,
+      "ic": 0.017912,
+      "rank_ic": -0.013446,
+      "r2": -753984756.361942,
+      "rmse": 1870.173596,
       "direction_accuracy": 0.421687,
-      "quintile_spread": 0.012392
+      "quintile_spread": 0.004381
     },
     "Ridge_a5": {
-      "ic": 0.079374,
-      "rank_ic": 0.020944,
-      "r2": -559383711.689013,
-      "rmse": 1610.851651,
+      "ic": 0.018213,
+      "rank_ic": -0.014053,
+      "r2": -754005463.518267,
+      "rmse": 1870.199276,
       "direction_accuracy": 0.421687,
-      "quintile_spread": 0.012392
+      "quintile_spread": 0.004381
     },
     "Ridge_a10": {
-      "ic": 0.079708,
-      "rank_ic": 0.020643,
-      "r2": -559395163.843794,
-      "rmse": 1610.86814,
+      "ic": 0.018584,
+      "rank_ic": -0.013326,
+      "r2": -754031113.439543,
+      "rmse": 1870.231087,
       "direction_accuracy": 0.421687,
-      "quintile_spread": 0.012392
+      "quintile_spread": 0.004381
     },
     "RidgeCV": {
-      "ic": 0.085002,
-      "rank_ic": 0.017206,
-      "r2": -559566278.812435,
-      "rmse": 1611.114498,
+      "ic": 0.024486,
+      "rank_ic": -0.005413,
+      "r2": -754452205.755658,
+      "rmse": 1870.753233,
       "direction_accuracy": 0.421687,
-      "quintile_spread": 0.014862
+      "quintile_spread": 0.009681
     },
     "ElasticNet": {
-      "ic": 0.080134,
-      "rank_ic": 0.019856,
-      "r2": -559412500.186158,
-      "rmse": 1610.893101,
+      "ic": 0.019254,
+      "rank_ic": -0.012728,
+      "r2": -754081588.182327,
+      "rmse": 1870.293682,
       "direction_accuracy": 0.421687,
-      "quintile_spread": 0.012392
+      "quintile_spread": 0.004381
     },
     "EN_strong": {
-      "ic": 0.082315,
-      "rank_ic": 0.020824,
-      "r2": -559501577.784481,
-      "rmse": 1611.021351,
+      "ic": 0.022031,
+      "rank_ic": -0.010012,
+      "r2": -754300780.555728,
+      "rmse": 1870.565486,
       "direction_accuracy": 0.421687,
-      "quintile_spread": 0.012392
+      "quintile_spread": 0.009681
     }
   }
 }

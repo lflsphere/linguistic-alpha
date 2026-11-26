@@ -21,14 +21,14 @@
       "n_analysts",
       "prior_calls_with_target"
     ],
-    "algo": "Ridge",
+    "algo": "RidgeCV",
     "metrics": {
-      "ic": 0.079102,
-      "rank_ic": 0.021065,
-      "r2": -559374380.783182,
-      "rmse": 1610.838216,
+      "ic": 0.024486,
+      "rank_ic": -0.005413,
+      "r2": -754452205.755658,
+      "rmse": 1870.753233,
       "direction_accuracy": 0.421687,
-      "quintile_spread": 0.012392
+      "quintile_spread": 0.009681
     },
     "selection_log": []
   },
@@ -74,17 +74,17 @@
       "hedging_answers_chg"
     ],
     "metrics": {
-      "ic": 0.129761,
-      "rank_ic": 0.075848,
-      "r2": -560787098.810689,
-      "rmse": 1612.871045,
+      "ic": 0.102656,
+      "rank_ic": 0.085345,
+      "r2": -759879150.646497,
+      "rmse": 1877.469552,
       "direction_accuracy": 0.421687,
-      "quintile_spread": 0.018643
+      "quintile_spread": 0.011401
     }
   },
   "model_b_star": {
     "name": "Model B* (all LM)",
-    "algo": "RidgeCV",
+    "algo": "EN_strong",
     "features": [
       "sue",
       "surprise_pct",
@@ -124,50 +124,50 @@
       "hedging_answers_chg"
     ],
     "metrics": {
-      "ic": 0.113743,
-      "rank_ic": 0.067941,
-      "r2": -561125835.996029,
-      "rmse": 1613.35809,
+      "ic": 0.086662,
+      "rank_ic": 0.078054,
+      "r2": -759677363.532947,
+      "rmse": 1877.220253,
       "direction_accuracy": 0.421687,
-      "quintile_spread": 0.032196
+      "quintile_spread": 0.006716
     }
   },
   "all_strategies": [
     {
       "name": "Forward Selection",
-      "algo": "ElasticNet",
-      "rank_ic": 0.044364,
-      "quintile_spread": 0.027112
+      "algo": "RidgeCV",
+      "rank_ic": 0.048774,
+      "quintile_spread": 0.014709
     },
     {
-      "name": "Interactions (no raw ling)",
+      "name": "Interactions + raw ling",
       "algo": "RidgeCV",
-      "rank_ic": 0.048147,
-      "quintile_spread": 0.013812
+      "rank_ic": 0.058273,
+      "quintile_spread": 0.012237
     },
     {
       "name": "Residualized Tone",
-      "algo": "ElasticNet",
-      "rank_ic": 0.046683,
-      "quintile_spread": 0.024387
+      "algo": "RidgeCV",
+      "rank_ic": 0.030116,
+      "quintile_spread": 0.024179
     },
     {
       "name": "All Ling + RidgeCV",
       "algo": "RidgeCV",
-      "rank_ic": 0.075848,
-      "quintile_spread": 0.018643
+      "rank_ic": 0.085345,
+      "quintile_spread": 0.011401
     },
     {
       "name": "PCA(4) Linguistic",
       "algo": "RidgeCV",
-      "rank_ic": 0.064606,
-      "quintile_spread": 0.028633
+      "rank_ic": 0.070357,
+      "quintile_spread": 0.015677
     },
     {
       "name": "Combined Good Features",
-      "algo": "RidgeCV",
-      "rank_ic": 0.072479,
-      "quintile_spread": 0.032196
+      "algo": "EN_strong",
+      "rank_ic": 0.078841,
+      "quintile_spread": 0.006716
     }
   ]
 }

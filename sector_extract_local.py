@@ -4,7 +4,8 @@ Sector extraction from the LOCAL raw pull (data/raw/sp500_pit_2008, CRSP CIZ for
 Same method as it_sector_extract.py, for any sector:
   Option 1: CAR vs. S&P 500 (sprtrn)
   Option 2: CAR vs. the sector's value-weighted S&P 500 members
-Calls are selected with the `sector` column of model_table_with_linguistic.csv; non-CAR
+Calls are selected by GICS sector on the call date (comp.co_hgic; --sample column uses the
+table's current-GICS `sector` column instead); non-CAR
 columns come from that table unchanged, CARs and day0 are recomputed (4pm ET cutoff).
 
 CRSP is truncated at --end-date (default 2024-12-31), the last CRSP day behind it_results/,
@@ -45,18 +46,38 @@ def load_crsp(raw, start, end):
     return c[c["date"].between(start, end)].drop_duplicates(["permno", "date"])
 
 
-def sector_vw_returns(raw, crsp, gics):
-    """Daily VW return (same-day mcap weights, as in it_sector_extract) of current S&P 500 members."""
+def sector_vw_returns(raw, crsp, gics, pit=True):
+    """Daily VW return (same-day mcap weights, as in it_sector_extract) of S&P 500 members in the sector.
+
+    pit=True: a firm counts on date d only if its GICS sector *on d* (comp.co_hgic indfrom..indthru)
+    is the sector and its CCM link is active on d. pit=False: current GICS applied to all history
+    (the it_sector_extract method; it leaks later reclassifications into the past).
+    """
     h = pd.read_parquet(f"{raw}/comp_co_hgic.parquet").sort_values(["gvkey", "indfrom"])
-    current = h.groupby("gvkey").tail(1)                 # current GICS, like comp.company
-    gv = set(current.loc[current["gsector"].astype(str) == gics, "gvkey"])
     ccm = pd.read_parquet(f"{raw}/crsp_ccmxpf_lnkhist.parquet")
+    ccm = ccm[ccm["linkprim"].isin(["P", "C"])].dropna(subset=["permno"]).copy()
+    ccm["permno"] = ccm["permno"].astype(int)
     sp = pd.read_parquet(f"{raw}/crsp_msp500list_v2.parquet")[["permno", "mbrstartdt", "mbrenddt"]]
     for c in ["mbrstartdt", "mbrenddt"]:
         sp[c] = pd.to_datetime(sp[c])
-    pn = set(ccm.loc[ccm["gvkey"].isin(gv) & ccm["linkprim"].isin(["P", "C"]), "permno"].astype(int)) & set(sp["permno"].astype(int))
-    log(f"sector gvkeys: {len(gv)}, sector permnos (ever in S&P 500): {len(pn)}")
-    x = crsp[crsp["permno"].isin(pn)].copy()
+    sp["permno"] = sp["permno"].astype(int)
+    if pit:
+        h["indfrom"] = pd.to_datetime(h["indfrom"])
+        h["indthru"] = pd.to_datetime(h["indthru"]).fillna(pd.Timestamp("2099-12-31"))
+        h = h[h["gsector"].astype(str) == gics][["gvkey", "indfrom", "indthru"]]
+        ccm["linkdt"] = pd.to_datetime(ccm["linkdt"])
+        ccm["linkenddt"] = pd.to_datetime(ccm["linkenddt"]).fillna(pd.Timestamp("2099-12-31"))
+        lk = ccm[ccm["gvkey"].isin(set(h["gvkey"]))][["gvkey", "permno", "linkdt", "linkenddt"]]
+        x = crsp[crsp["permno"].isin(set(lk["permno"]) & set(sp["permno"]))].merge(lk, on="permno").merge(h, on="gvkey")
+        x = x[x["date"].between(x["linkdt"], x["linkenddt"]) & x["date"].between(x["indfrom"], x["indthru"])]
+        x = x.drop_duplicates(["permno", "date"])[crsp.columns]
+    else:
+        current = h.groupby("gvkey").tail(1)                 # current GICS, like comp.company
+        gv = set(current.loc[current["gsector"].astype(str) == gics, "gvkey"])
+        pn = set(ccm.loc[ccm["gvkey"].isin(gv), "permno"]) & set(sp["permno"])
+        x = crsp[crsp["permno"].isin(pn)].copy()
+    log(f"sector index ({'point-in-time' if pit else 'current'} GICS): {x['permno'].nunique()} permnos")
+    x = x.copy()
     x["mcap"] = x["prc"].abs() * x["shrout"]
     x = x.dropna(subset=["ret", "mcap"])
     x = x[x["mcap"] > 0].merge(sp, on="permno")
@@ -131,16 +152,32 @@ def main():
     ap.add_argument("--out", default="cd_results")
     ap.add_argument("--end-date", default="2024-12-31")
     ap.add_argument("--text-out")
+    ap.add_argument("--sample", choices=["pit", "column"], default="pit",
+                    help="call selection: GICS sector on the call date (default) or the table's current-GICS `sector` column")
+    ap.add_argument("--gics", choices=["pit", "current"], default="pit",
+                    help="sector index membership: point-in-time GICS (default) or current GICS (IT method)")
     args = ap.parse_args()
     raw, end = args.raw, pd.Timestamp(args.end_date)
     start = pd.Timestamp("2009-01-01")
     os.makedirs(args.out, exist_ok=True)
 
     mt = pd.read_csv(args.table, dtype={"gvkey": str, "sic": str, "gind": str}, low_memory=False)
-    calls = mt[mt["sector"] == args.sector].copy().reset_index(drop=True)
-    calls["call_date"] = pd.to_datetime(calls["call_date"])
+    mt["call_date"] = pd.to_datetime(mt["call_date"])
+    mt["gvkey"] = mt["gvkey"].str.zfill(6)
+    if args.sample == "pit":
+        h = pd.read_parquet(f"{raw}/comp_co_hgic.parquet")
+        h["indfrom"] = pd.to_datetime(h["indfrom"])
+        h["indthru"] = pd.to_datetime(h["indthru"]).fillna(pd.Timestamp("2099-12-31"))
+        x = mt[["transcriptid", "gvkey", "call_date"]].merge(h[["gvkey", "gsector", "indfrom", "indthru"]], on="gvkey")
+        x = x[x["call_date"].between(x["indfrom"], x["indthru"])].drop_duplicates("transcriptid")
+        pit_ids = set(x.loc[x["gsector"].astype(str) == GICS[args.sector], "transcriptid"])
+        col_ids = set(mt.loc[mt["sector"] == args.sector, "transcriptid"])
+        log(f"point-in-time GICS sample: {len(pit_ids):,} calls ({len(pit_ids - col_ids)} added, "
+            f"{len(col_ids - pit_ids)} dropped vs. the current-GICS `sector` column)")
+        calls = mt[mt["transcriptid"].isin(pit_ids)].copy().reset_index(drop=True)
+    else:
+        calls = mt[mt["sector"] == args.sector].copy().reset_index(drop=True)
     calls["permno"] = calls["permno"].astype(int)
-    calls["gvkey"] = calls["gvkey"].str.zfill(6)
     log(f"{args.sector}: {len(calls):,} calls, {calls['permno'].nunique()} companies")
 
     crsp = load_crsp(raw, start, end)
@@ -151,7 +188,7 @@ def main():
     crsp = crsp[crsp["date"].isin(days)]
     log(f"CRSP daily: {len(crsp):,} rows, {len(days):,} days to {pd.Timestamp(days[-1]).date()}")
 
-    vw = sector_vw_returns(raw, crsp, GICS[args.sector])
+    vw = sector_vw_returns(raw, crsp, GICS[args.sector], pit=args.gics == "pit")
     vw.to_parquet(f"{args.out}/sector_daily.parquet", index=False)
     sec_bench = vw.set_index("date")["sector_ret"].reindex(pd.DatetimeIndex(days)).values
 
