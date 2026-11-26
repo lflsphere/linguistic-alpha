@@ -84,5 +84,6 @@ PYTHONPATH=src python sector_extract_local.py --raw <data/raw/sp500_pit_2008> --
 PYTHONPATH=src python cv_protocol.py --folder cd_results --prefix cd --sector-label CD     # main results
 python it_model_b.py --folder cd_results --prefix cd --sector-label CD                       # IT protocol, comparison
 python it_model_c_finbert.py --folder cd_results --prefix cd --sector-label CD
+python cd_plots.py . cd_results/plots                                                     # deck charts (plots/)
 ```
 `--sample column --gics current` reproduces the first (current-GICS) CD tables exactly.
