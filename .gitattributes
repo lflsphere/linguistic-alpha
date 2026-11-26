@@ -4,7 +4,7 @@
 /outputs/healthcare_final_research/build_final_report.py -text
 
 # Reproduce the byte-level digests in the frozen source and baseline manifests.
-/experiments/pierre_original/** -text
+/experiments/legacy_pipeline/** -text
 /outputs/healthcare_window_horizon_comparison/*.py -text
 /outputs/healthcare_window_horizon_comparison/*.csv -text
 /outputs/healthcare_window_horizon_comparison/*.json -text

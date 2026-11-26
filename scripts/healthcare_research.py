@@ -40,21 +40,37 @@ def read_json(path):
 def check_frozen_baseline():
     """Check the preservation commit by ancestry so descendants can replay the run."""
     protocol = read_json(PROTOCOL)
+    static_dir = "outputs/healthcare_extended_oos"
+    evaluator = f"{static_dir}/evaluate.py"
+    relocated = (evaluator, f"{static_dir}/methodology.md")
+    archived_model = Path(read_json(ROOT / static_dir / "frozen_experiment_spec.json")["source_model"])
+    legacy_dir = Path("experiments/legacy_pipeline")
     subprocess.run(
         [*GIT, "merge-base", "--is-ancestor", protocol["preservation_commit"], "HEAD"],
         cwd=ROOT, check=True,
     )
     subprocess.run(
         [*GIT, "diff", "--quiet", protocol["protected_baseline"], "--",
-         "outputs/healthcare_extended_oos", "outputs/sp500_car_extension",
-         "outputs/sp500_financial_extension"],
+         static_dir, "outputs/sp500_car_extension", "outputs/sp500_financial_extension",
+         *(f":(exclude){name}" for name in relocated)],
         cwd=ROOT, check=True,
     )
+    # The protected files may differ only by the historical source directory name.
+    for name in relocated:
+        archived = subprocess.check_output(
+            [*GIT, "show", f"{protocol['protected_baseline']}:{name}"], cwd=ROOT,
+        )
+        expected = archived.replace(archived_model.parent.as_posix().encode(), legacy_dir.as_posix().encode())
+        if (ROOT / name).read_bytes().replace(b"\r\n", b"\n") != expected:
+            raise ValueError(f"Frozen baseline code or documentation has changed: {name}")
     manifest = read_json(COMPARISON / "data_provenance.json")
     for filename, expected in manifest["analysis_source_sha256"].items():
         if sha256(COMPARISON / filename) != expected:
             raise ValueError(f"Frozen comparison code has changed: {filename}")
-    return manifest["source_sha256"]
+    sources = manifest["source_sha256"]
+    sources[(legacy_dir / archived_model.name).as_posix()] = sources.pop(archived_model.as_posix())
+    sources[evaluator] = sha256(ROOT / evaluator)
+    return sources
 
 
 def local_module(name):

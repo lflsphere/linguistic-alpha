@@ -76,7 +76,7 @@ The table shows Spearman Rank IC for **Healthcare-adjusted CAR[+2,+20] with Expa
 | [extract_finbert.py](outputs/healthcare_unified_research/extract_finbert.py) and [finbert_runtime.py](outputs/healthcare_unified_research/finbert_runtime.py) | Resumable local FinBERT feature extraction and inference |
 | [fit_finbert.py](outputs/healthcare_unified_research/fit_finbert.py), [evaluate_unified.py](outputs/healthcare_unified_research/evaluate_unified.py), and [verify_unified.py](outputs/healthcare_unified_research/verify_unified.py) | C/C* fitting, five-model evaluation, and release checks |
 | [render_comparison.py](outputs/healthcare_window_horizon_comparison/render_comparison.py) and [render_unified.py](outputs/healthcare_unified_research/render_unified.py) | Renderers for the comparison and unified reports |
-| [experiments/pierre_original/](experiments/pierre_original/) | Pinned upstream code for historical provenance and the preprocessing and timing helpers called by the current pipeline |
+| [experiments/legacy_pipeline/](experiments/legacy_pipeline/) | Pinned upstream code for historical provenance and the preprocessing and timing helpers called by the current pipeline |
 | [src/linguistic_alpha/](src/linguistic_alpha/) and [docs/pipeline.md](docs/pipeline.md) | Shared pipeline code and documentation for the broader project |
 
 The published reports and aggregate tables can be reviewed directly from GitHub. For the dashboard’s interactive controls, download and open the HTML locally. Keep its companion CSVs in the same directory to use its table links.

@@ -56,7 +56,7 @@ def stage(original, output, backup):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--original", type=Path, default=Path("experiments/pierre_original"))
+    parser.add_argument("--original", type=Path, default=Path("experiments/legacy_pipeline"))
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--backup", type=Path, required=True)
     args = parser.parse_args()

@@ -115,7 +115,7 @@ def verify(output, original, raw):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", type=Path, required=True)
-    parser.add_argument("--original", type=Path, default=Path("experiments/pierre_original"))
+    parser.add_argument("--original", type=Path, default=Path("experiments/legacy_pipeline"))
     parser.add_argument("--raw", type=Path, default=Path("data/raw"))
     args = parser.parse_args()
     verify(args.out, args.original, args.raw)

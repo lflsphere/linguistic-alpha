@@ -43,7 +43,11 @@ class ExtendedResearchTests(unittest.TestCase):
     def test_frozen_evaluation_and_saved_aggregates_agree(self):
         folder = OUTPUTS / "healthcare_extended_oos"
         spec = json.loads((folder / "frozen_experiment_spec.json").read_text(encoding="utf-8"))
-        self.assertEqual(hashlib.sha256((folder / "evaluate.py").read_bytes()).hexdigest(),
+        evaluator = (folder / "evaluate.py").read_bytes()
+        legacy_dir = b"experiments/legacy_pipeline"
+        self.assertIn(legacy_dir, evaluator)
+        archived_dir = Path(spec["source_model"]).parent.as_posix().encode()
+        self.assertEqual(hashlib.sha256(evaluator.replace(legacy_dir, archived_dir)).hexdigest(),
                          spec["evaluation_script_sha256"])
         self.assertIn("car_-1_1", spec["controls"])
         self.assertTrue({"car_0_1", "AR01"}.isdisjoint(spec["controls"]))

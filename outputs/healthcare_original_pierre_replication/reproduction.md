@@ -4,7 +4,7 @@ Run from the repository root. The commands recover the exact Pierre Git revision
 
 ## Local prerequisites
 
-- The local Git object for revision `06273f1766daeb29de4b9313dd20639439a09671`. The staging script reconstructs `experiments/pierre_original/` from that revision.
+- The local Git object for revision `06273f1766daeb29de4b9313dd20639439a09671`. The staging script reconstructs `experiments/legacy_pipeline/` from that revision.
 - Authorized local inputs `model_table_with_linguistic.csv` and the CRSP and Compustat Parquets listed in the adapter mapping, plus `data/raw/ciq_transcript_detail.parquet` for clock verification.
 - Local research helper modules at the repository root: `cross_sector.py`, `sector_model_b.py`, `sector_config.py`, `sector_pit_audit.py`, and `sector_extract.py`. The comparison uses these helpers and the repository’s `src/linguistic_alpha/` package. The original extraction and fit use the isolated Pierre sources.
 - The prior `outputs/healthcare_sector_model_corrected/` run. The comparison reads its extracted option tables and sector benchmark, the frozen predictions from the transcript runs, and the metrics and frozen specifications from the transcript and immediate runs.

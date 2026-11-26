@@ -53,15 +53,20 @@ def csv(path, **kwargs):
 def checked_inputs():
     baseline_files = [STATIC / name for name in COMMITTED]
     git = ['git', '--no-optional-locks', '-c', f'safe.directory={ROOT.as_posix()}']
+    spec = json.loads((STATIC / 'frozen_experiment_spec.json').read_text(encoding='utf-8'))
+    archived_dir = Path(spec['source_model']).parent.as_posix().encode()
+    legacy_dir = static.ORIGINAL.relative_to(ROOT).as_posix().encode()
     for path in baseline_files:
         ref = subprocess.check_output([*git, 'show', f'{BASE}:{path.relative_to(ROOT).as_posix()}'], cwd=ROOT)
+        if path.name in ('evaluate.py', 'methodology.md'):
+            ref = ref.replace(archived_dir, legacy_dir)
         require(ref == path.read_bytes().replace(b'\r\n', b'\n'), f'Static commit mismatch for {path.name}')
     native = static.module(static.ORIGINAL / 'sector_model_b.py', 'frozen_native_models')
     provenance = static.check_inputs()
-    spec = json.loads((STATIC / 'frozen_experiment_spec.json').read_text(encoding='utf-8'))
     require(provenance['revision'] == spec['source_revision'], 'Original revision changed')
     require(static.path_hash(static.EXTENDED) == spec['input_sha256'], 'Extended feature archive changed')
-    require(static.path_hash(STATIC / 'evaluate.py') == spec['evaluation_script_sha256'], 'Static evaluator hash mismatch')
+    archived_evaluator = (STATIC / 'evaluate.py').read_bytes().replace(legacy_dir, archived_dir)
+    require(static.sha256(archived_evaluator).hexdigest() == spec['evaluation_script_sha256'], 'Static evaluator hash mismatch')
     require(static.path_hash(static.ARCHIVE / 'original_test_predictions.parquet') == spec['native_predictions_sha256'],
             'Archived model predictions changed')
     require(csv(STATIC / 'sector_benchmark_validation.csv').passed.all(), 'Saved sector benchmark failed validation')

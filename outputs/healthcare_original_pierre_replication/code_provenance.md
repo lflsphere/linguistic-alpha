@@ -4,7 +4,7 @@ Pierre P’s local `origin/main` revision `06273f1766daeb29de4b9313dd20639439a09
 
 The original backup was created under the workstation’s temporary directory. Its local manifest records each file’s SHA-256. Backup contents were limited to source and tests. Reproduction requires a fresh source-only backup for the current branch and HEAD.
 
-| Exact Git blob copied to `experiments/pierre_original/` | SHA-256 |
+| Exact Git blob copied to `experiments/legacy_pipeline/` | SHA-256 |
 |---|---|
 | `sector_config.py` | `df0caffdc9cb039e58b6e7fca28a69b64db9c5fee0d83287b2074d27464b5e6d` |
 | `sector_extract.py` | `33313ebf346e6b3ac52224f8de8a64a6929f8b5aef4917082464376289dc5956` |

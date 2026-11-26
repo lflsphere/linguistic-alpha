@@ -1,6 +1,6 @@
 # Healthcare research checkpoint
 
-The unified report and dashboard cover the 24 annual test settings and all five models. The sibling `healthcare_window_horizon_comparison` directory preserves the A/B/B* comparison. Its `phase1_style.css` is the stylesheet from the original Phase 1 dashboard and lets the comparison renderer work from the archived aggregates. The pinned Pierre code under `experiments/pierre_original/` supplies the historical preprocessing and event-time implementation.
+The unified report and dashboard cover the 24 annual test settings and all five models. The sibling `healthcare_window_horizon_comparison` directory preserves the A/B/B* comparison. Its `phase1_style.css` is the stylesheet from the original Phase 1 dashboard and lets the comparison renderer work from the archived aggregates. The pinned Pierre code under `experiments/legacy_pipeline/` supplies the historical preprocessing and event-time implementation.
 
 ## Review from a fresh checkout
 

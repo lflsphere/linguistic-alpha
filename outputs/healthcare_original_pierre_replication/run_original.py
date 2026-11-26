@@ -303,7 +303,7 @@ def run_models(original, output):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("phase", choices=("extract", "model"))
-    parser.add_argument("--original", type=Path, default=Path("experiments/pierre_original"))
+    parser.add_argument("--original", type=Path, default=Path("experiments/legacy_pipeline"))
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--raw", type=Path, default=Path("data/raw"))
     parser.add_argument("--csv", type=Path, default=Path("model_table_with_linguistic.csv"))

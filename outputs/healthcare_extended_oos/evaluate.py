@@ -19,7 +19,7 @@ ROOT = HERE.parents[1]
 OUTPUTS = ROOT / "outputs"
 ARCHIVE = OUTPUTS / "healthcare_original_pierre_replication"
 NATIVE = ARCHIVE / "earnings_health"
-ORIGINAL = ROOT / "experiments/pierre_original"
+ORIGINAL = ROOT / "experiments/legacy_pipeline"
 RAW = ROOT / "data/raw"
 CIZ = ROOT / "data/team_pit/sp500_pit"
 EXTENDED = OUTPUTS / "sp500_financial_extension/sp500_model_extended.csv"
@@ -106,7 +106,7 @@ def freeze(out, native_module, provenance):
         }
     result = {
         "source_revision": provenance["revision"],
-        "source_model": "experiments/pierre_original/sector_model_b.py",
+        "source_model": "experiments/legacy_pipeline/sector_model_b.py",
         "model_sha256": provenance["sha256"]["sector_model_b.py"],
         "input_sha256": path_hash(EXTENDED),
         "evaluation_script_sha256": path_hash(__file__),
