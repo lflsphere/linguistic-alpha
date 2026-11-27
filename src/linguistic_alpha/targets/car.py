@@ -19,10 +19,11 @@ Definitions (project scope §1, §4):
   vol_post_2_20    = std(AR, +2..+20) * sqrt(252)
   vol_ratio_2_20   = vol_post_2_20 / (std(AR, -60..-5) * sqrt(252))   (scope definition)
 
-Edge rules (implementation choices, not in the scope doc):
-  * Delisting inside a window: the delisting date's dlyret holds the delisting return; on
-    later sessions the proceeds are held in the benchmark leg, so AR = 0 and the day counts as
-    valid. Dropping these events instead would remove mostly cash mergers from the targets.
+Edge rules (not in the scope doc):
+  * Delisting inside a window (approved by the user 2026-11-27): the delisting date's dlyret
+    holds the delisting return; on later sessions the proceeds are held in the benchmark leg,
+    so AR = 0 and the day counts as valid. Dropping these events instead would remove mostly
+    cash mergers from the targets (33 events on the 2026-11-27 run, 6 inside [+2, +20]).
     For volatility, post-delisting days are missing (there is no trading to measure).
   * A CAR window that runs past the last session in the data is missing, whatever its coverage
     (CRSP ends 2026-09-30, so CAR[+2,+60] is missing for Day 0 from July 2026).
