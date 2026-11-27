@@ -1,6 +1,6 @@
 ======================================================================
 IT Sector — Model A + B — Option 2 (IT sector bench)
-Generated: 2026-11-23 20:58
+Generated: 2026-11-27 19:44
 Train: 2,892 (≤2023-12-31) | Test: 204 (>2023-12-31)
 Method: Time-series CV, ranked target, min Δ=0.0
 ======================================================================
@@ -25,8 +25,8 @@ All Ling + RidgeCV                  Ridge_a100           Rank IC=+0.0401 Q5-Q1=+
 PCA(2) Linguistic                   RidgeCV              Rank IC=+0.0649 Q5-Q1=+0.0101 Δ=-0.0033
   features: ling_pc1, ling_pc2
 
-Single-Feature Ensemble             Ensemble             Rank IC=+0.0692 Q5-Q1=+0.0120 Δ=+0.0010
-  features: hedging_answers, uncertainty_answers, tone_prepared_chg, tone_prepared, tone_answers_chg
+Single-Feature Ensemble             Ensemble             Rank IC=+0.0598 Q5-Q1=+0.0078 Δ=-0.0084
+  features: tone_answers, tone_gap, hedging_prepared
 
 --- FORWARD SELECTION LOG ---
  Step Added                           TS-CV Rank IC      Delta
@@ -36,13 +36,15 @@ Single-Feature Ensemble             Ensemble             Rank IC=+0.0692 Q5-Q1=+
     3 tone_answers_chg                      +0.0101    +0.0034
     4 tone_prepared                         +0.0144    +0.0043
 
-Model B (best strategy): Single-Feature Ensemble
-  Algo: Ensemble
-  Features (1): ensemble(hedging_answers,uncertainty_answers,tone_prepared_chg,tone_prepared,tone_answers_chg)
-  Rank IC: +0.0692
-  Q5-Q1: +0.0120
-  IC: +0.1166
-  Dir Acc: 0.382
+Model B (best strategy): PCA(2) Linguistic
+  Algo: RidgeCV
+  Features (18): sue, surprise_pct, vol_pre, car_-1_1, mom, bm, size, dispersion, avg_answer_words, words_prepared, words_questions, words_answers, n_questions, n_answers, n_analysts, prior_calls_with_target, ling_pc1, ling_pc2
+  Rank IC: +0.0649
+  Q5-Q1: +0.0101
+  IC: +0.0982
+  OOS R²: +0.026849
+  MAE: 0.057755
+  Hit Rate: 0.529 (baseline: 0.533)
 
 --- MODEL B*: All LM Features (Ridge regularised) ---
 LM features (9): tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
@@ -57,3 +59,4 @@ All algorithms:
   ElasticNet          : Rank IC=+0.0356  Q5-Q1=+0.0029
   Ridge_a5            : Rank IC=+0.0355  Q5-Q1=+0.0002
   Ridge               : Rank IC=+0.0332  Q5-Q1=+0.0002
+  OLS                 : Rank IC=+0.0017  Q5-Q1=-0.0139

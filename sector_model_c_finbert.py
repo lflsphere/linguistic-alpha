@@ -1,7 +1,7 @@
 """
-Sector — Model C (sector chosen with --sector): FinBERT features on top of Model A controls.
+IT Sector — Model C: FinBERT features on top of Model A controls.
 
-Reads Model A features from JSON saved by sector_model_b.py (ensures consistency).
+Reads Model A features from JSON saved by it_model_b.py (ensures consistency).
 Uses same methodology: time-series expanding-window CV, ranked target,
 strict improvement threshold.
 
@@ -14,7 +14,7 @@ Strategies:
 Train: 2010-2023 | Test: 2024-2026.
 
 Usage:
-    python3 sector_model_c_finbert.py --sector {it,health,comm} [--folder ~/earnings_{sector}]
+    python3 it_model_c_finbert.py [--folder ~/earnings_it]
 """
 import argparse, copy, json, os, warnings
 from datetime import datetime
@@ -26,10 +26,6 @@ from scipy import stats
 from sklearn.linear_model import Ridge, RidgeCV, Lasso, ElasticNet, LinearRegression
 from sklearn.ensemble import (RandomForestRegressor, GradientBoostingRegressor)
 from sklearn.preprocessing import StandardScaler
-
-from sector_config import add_sector_arg, get_sector
-
-SEC = None  # set in main() from --sector
 try:
     from xgboost import XGBRegressor
     HAS_XGB = True
@@ -106,8 +102,6 @@ METRIC_KEYS = ["ic", "rank_ic", "oos_r2", "mae", "hit_rate", "hit_rate_baseline"
 
 
 def evaluate(y_true, y_pred, y_train=None, X_tr=None, X_te=None, is_ranked=True):
-    """Evaluate predictions. When is_ranked=True, predictions are on rank scale
-    and need calibration for M1 (OOS R²) and M2 (MAE)."""
     if len(y_true) < 10:
         return {k: np.nan for k in METRIC_KEYS}
 
@@ -118,7 +112,6 @@ def evaluate(y_true, y_pred, y_train=None, X_tr=None, X_te=None, is_ranked=True)
     qm = pd.Series(y_true).groupby(q).mean()
     spread = float(qm.iloc[-1] - qm.iloc[0]) if len(qm) >= 2 else np.nan
 
-    # Calibrate rank-scale predictions to return scale
     if is_ranked and X_tr is not None and X_te is not None and y_train is not None:
         from sklearn.linear_model import LinearRegression as _LR
         cal = _LR()
@@ -157,7 +150,6 @@ def evaluate(y_true, y_pred, y_train=None, X_tr=None, X_te=None, is_ranked=True)
 
 
 def evaluate_ols(X_tr, X_te, y_tr, y_te):
-    """OLS trained on raw targets (not ranked). Baseline for M7."""
     ols = LinearRegression()
     ols.fit(X_tr, y_tr)
     preds = ols.predict(X_te)
@@ -165,7 +157,6 @@ def evaluate_ols(X_tr, X_te, y_tr, y_te):
 
 
 def metrics_for_json(m):
-    """Strip predictions list before saving to JSON."""
     return {k: round(v, 6) if isinstance(v, float) else v
             for k, v in m.items() if k != "predictions"}
 
@@ -183,7 +174,6 @@ def fit_and_eval(X_tr, X_te, y_tr, y_te, algos, y_train_raw=None):
 
 
 def best_result(results):
-    # Exclude OLS from "best" selection — it's a baseline, not a competitor
     candidates = {k: v for k, v in results.items() if k != "OLS"}
     best_name = max(candidates, key=lambda k: candidates[k]["rank_ic"])
     return best_name, results[best_name]
@@ -290,8 +280,7 @@ def strategy_forward_selection(train, test, base_features, y_tr, y_te):
 
     X_tr_f, X_te_f, _, _ = preprocess(train, test, current)
     y_tr_ranks = stats.rankdata(y_tr)
-    final_results = fit_and_eval(X_tr_f, X_te_f, y_tr_ranks, y_te, get_all_algos(),
-                                 y_train_raw=y_tr)
+    final_results = fit_and_eval(X_tr_f, X_te_f, y_tr_ranks, y_te, get_all_algos(), y_train_raw=y_tr)
     best_name, best_metrics = best_result(final_results)
     log_msg(f"  Final: {len(current)} features, Holdout Rank IC={best_metrics['rank_ic']:+.4f} ({best_name})")
 
@@ -316,8 +305,7 @@ def strategy_all_forced(train, test, base_features, y_tr, y_te):
         "Ridge_a100": Ridge(alpha=100.0),
         "EN_a0.1": ElasticNet(alpha=0.1, l1_ratio=0.9, max_iter=5000),
     })
-    results = fit_and_eval(X_tr, X_te, y_tr_ranks, y_te, algos,
-                           y_train_raw=y_tr)
+    results = fit_and_eval(X_tr, X_te, y_tr_ranks, y_te, algos, y_train_raw=y_tr)
     best_name, best_metrics = best_result(results)
 
     log_msg(f"  Results ({len(all_features)} features):")
@@ -330,56 +318,76 @@ def strategy_all_forced(train, test, base_features, y_tr, y_te):
 
 
 def strategy_ensemble(train, test, base_features, y_tr, y_te):
-    """Average predictions from best single-FinBERT-feature models."""
+    """Average predictions from best single-FinBERT-feature models.
+    Feature filtering uses CV Rank IC (not test set) to avoid leakage."""
     log_msg("\n--- Model C Strategy 3: Single-Feature Ensemble ---")
     available_fb = [f for f in FINBERT_CANDIDATES if f in train.columns]
     y_tr_ranks = stats.rankdata(y_tr)
+    algos = get_all_algos()
 
-    # Baseline
-    X_tr_base, X_te_base, _, _ = preprocess(train, test, base_features)
-    base_model = RidgeCV(alphas=[0.1, 0.5, 1.0, 5.0, 10.0, 50.0, 100.0])
-    base_model.fit(X_tr_base, y_tr_ranks)
-    base_preds = base_model.predict(X_te_base)
-    base_ric = stats.spearmanr(base_preds, y_te)[0]
-    log_msg(f"  Base Rank IC: {base_ric:+.4f}")
+    # Baseline CV Rank IC (controls only)
+    base_cv_ric, base_cv_algo = ts_cv_rank_ic(train, base_features, PRIMARY_TARGET, algos)
+    log_msg(f"  Base CV Rank IC: {base_cv_ric:+.4f} ({base_cv_algo})")
 
-    single_results = {}
+    # Score each single-feature model by CV Rank IC
+    cv_results = {}
     for feat in available_fb:
         trial = list(base_features) + [feat]
-        X_tr_f, X_te_f, _, _ = preprocess(train, test, trial)
-        # Try multiple models per feature, pick best
-        best_preds, best_ric_feat = None, -1.0
-        for algo_name, model in get_all_algos().items():
-            m = copy.deepcopy(model)
-            m.fit(X_tr_f, y_tr_ranks)
-            preds = m.predict(X_te_f)
-            ric = stats.spearmanr(preds, y_te)[0]
-            if not np.isnan(ric) and ric > best_ric_feat:
-                best_ric_feat = ric
-                best_preds = preds
-                best_algo = algo_name
-        single_results[feat] = {"rank_ic": best_ric_feat, "preds": best_preds, "algo": best_algo}
-        log_msg(f"    + {feat:30s}: Rank IC={best_ric_feat:+.4f} ({best_algo})")
+        cv_ric, cv_algo = ts_cv_rank_ic(train, trial, PRIMARY_TARGET, algos)
+        cv_results[feat] = {"cv_rank_ic": cv_ric, "cv_algo": cv_algo}
+        log_msg(f"    + {feat:30s}: CV Rank IC={cv_ric:+.4f} ({cv_algo})")
 
-    good_feats = [(f, r) for f, r in sorted(single_results.items(),
-                  key=lambda x: x[1]["rank_ic"], reverse=True) if r["rank_ic"] > base_ric]
-    good_summary = [(f, round(r["rank_ic"], 4)) for f, r in good_feats]
-    log_msg(f"  Features improving over base: {good_summary}")
+    # Keep features that improve over baseline using CV (no test leakage)
+    good_feats = [(f, r) for f, r in sorted(cv_results.items(),
+                  key=lambda x: x[1]["cv_rank_ic"], reverse=True) if r["cv_rank_ic"] > base_cv_ric]
+    good_summary = [(f, round(r["cv_rank_ic"], 4)) for f, r in good_feats]
+    log_msg(f"  Features improving over base (CV): {good_summary}")
 
+    # Train final models on full training set and evaluate on test
     if len(good_feats) >= 2:
-        ensemble_preds = np.column_stack([r["preds"] for _, r in good_feats]).mean(axis=1)
+        all_preds = []
+        for feat, _ in good_feats:
+            trial = list(base_features) + [feat]
+            X_tr_f, X_te_f, _, _ = preprocess(train, test, trial)
+            best_preds, best_ric_feat = None, -1.0
+            for algo_name, model in algos.items():
+                m = copy.deepcopy(model)
+                m.fit(X_tr_f, y_tr_ranks)
+                preds = m.predict(X_te_f)
+                ric = stats.spearmanr(preds, y_te)[0]
+                if not np.isnan(ric) and ric > best_ric_feat:
+                    best_ric_feat = ric
+                    best_preds = preds
+            all_preds.append(best_preds)
+        ensemble_preds = np.column_stack(all_preds).mean(axis=1)
         ens_metrics = evaluate(y_te, ensemble_preds, y_train=y_tr, is_ranked=True)
         log_msg(f"  Ensemble of {len(good_feats)} models: Rank IC={ens_metrics['rank_ic']:+.4f}")
         return {"name": f"FinBERT Ensemble ({len(good_feats)})", "features": [f for f, _ in good_feats],
                 "added_finbert": [f for f, _ in good_feats], "algo": "Ensemble",
                 "metrics": ens_metrics, "all_results": {"Ensemble": ens_metrics}}
     elif len(good_feats) == 1:
-        feat, res = good_feats[0]
-        metrics = evaluate(y_te, res["preds"], y_train=y_tr, is_ranked=True)
-        return {"name": f"Single Best ({feat})", "features": list(base_features) + [feat],
-                "added_finbert": [feat], "algo": res["algo"],
-                "metrics": metrics, "all_results": {res["algo"]: metrics}}
+        feat, _ = good_feats[0]
+        trial = list(base_features) + [feat]
+        X_tr_f, X_te_f, _, _ = preprocess(train, test, trial)
+        best_preds, best_algo, best_ric = None, None, -1.0
+        for algo_name, model in algos.items():
+            m = copy.deepcopy(model)
+            m.fit(X_tr_f, y_tr_ranks)
+            preds = m.predict(X_te_f)
+            ric = stats.spearmanr(preds, y_te)[0]
+            if not np.isnan(ric) and ric > best_ric:
+                best_ric = ric
+                best_preds = preds
+                best_algo = algo_name
+        metrics = evaluate(y_te, best_preds, y_train=y_tr, is_ranked=True)
+        return {"name": f"Single Best ({feat})", "features": trial,
+                "added_finbert": [feat], "algo": best_algo,
+                "metrics": metrics, "all_results": {best_algo: metrics}}
     else:
+        X_tr_base, X_te_base, _, _ = preprocess(train, test, base_features)
+        base_model = RidgeCV(alphas=[0.1, 0.5, 1.0, 5.0, 10.0, 50.0, 100.0])
+        base_model.fit(X_tr_base, y_tr_ranks)
+        base_preds = base_model.predict(X_te_base)
         metrics = evaluate(y_te, base_preds, y_train=y_tr, is_ranked=True)
         return {"name": "No FinBERT Improvement", "features": list(base_features),
                 "added_finbert": [], "algo": "RidgeCV",
@@ -399,8 +407,7 @@ def strategy_finbert_plus_lm(train, test, base_features, y_tr, y_te):
     algos = get_all_algos()
     algos["Ridge_a50"] = Ridge(alpha=50.0)
     algos["Ridge_a100"] = Ridge(alpha=100.0)
-    results = fit_and_eval(X_tr, X_te, y_tr_ranks, y_te, algos,
-                           y_train_raw=y_tr)
+    results = fit_and_eval(X_tr, X_te, y_tr_ranks, y_te, algos, y_train_raw=y_tr)
     best_name, best_metrics = best_result(results)
 
     log_msg(f"  Top results ({len(all_features)} features):")
@@ -442,8 +449,7 @@ def run_option(opt_name, opt_file, base_features, out_dir, fb_df):
     # Model A baseline (using same features as Model B selected)
     X_tr_a, X_te_a, _, _ = preprocess(train, test, base_features)
     y_tr_ranks = stats.rankdata(y_tr)
-    res_a = fit_and_eval(X_tr_a, X_te_a, y_tr_ranks, y_te, get_all_algos(),
-                         y_train_raw=y_tr)
+    res_a = fit_and_eval(X_tr_a, X_te_a, y_tr_ranks, y_te, get_all_algos(), y_train_raw=y_tr)
     a_best_name, a_best = best_result(res_a)
     log_msg(f"\nModel A baseline ({len(base_features)} feats): Rank IC={a_best['rank_ic']:+.4f} ({a_best_name})")
 
@@ -480,7 +486,7 @@ def run_option(opt_name, opt_file, base_features, out_dir, fb_df):
     tag = opt_name.lower().replace(" ", "_").replace("(", "").replace(")", "")
     report_lines = [
         "=" * 70,
-        f"{SEC.short} Sector — Model C (FinBERT) — {opt_name}",
+        f"IT Sector — Model C (FinBERT) — {opt_name}",
         f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}",
         f"Train: {len(train):,} (≤{TRAIN_END}) | Test: {len(test):,} (>{TRAIN_END})",
         f"FinBERT coverage: {fb_coverage}/{pre_len} ({fb_coverage/pre_len:.1%})",
@@ -491,10 +497,10 @@ def run_option(opt_name, opt_file, base_features, out_dir, fb_df):
 
     for m in all_models:
         delta = m["metrics"]["rank_ic"] - a_best["rank_ic"]
-        mm = m["metrics"]
-        report_lines.append(f"{m['name']:45s} {m['algo']:20s} Rank IC={mm['rank_ic']:+.4f} "
-                            f"Q5-Q1={mm['quintile_spread']:+.4f} Δ={delta:+.4f}")
+        report_lines.append(f"{m['name']:45s} {m['algo']:20s} Rank IC={m['metrics']['rank_ic']:+.4f} "
+                            f"Q5-Q1={m['metrics']['quintile_spread']:+.4f} Δ={delta:+.4f}")
         report_lines.append(f"  FinBERT features: {', '.join(m['added_finbert'])}")
+        mm = m["metrics"]
         report_lines.append(f"  OOS R²={mm['oos_r2']:+.6f}  MAE={mm['mae']:.6f}  "
                             f"Hit Rate={mm['hit_rate']:.3f} (baseline {mm['hit_rate_baseline']:.3f})")
         if m.get("all_results") and len(m["all_results"]) > 1:
@@ -525,7 +531,7 @@ def run_option(opt_name, opt_file, base_features, out_dir, fb_df):
     report_lines.append(f"  MAE: {bm['mae']:.6f}")
     report_lines.append(f"  Hit Rate: {bm['hit_rate']:.3f} (baseline: {bm['hit_rate_baseline']:.3f})")
 
-    Path(out_dir, f"{SEC.key}_model_c_{tag}_report.txt").write_text("\n".join(report_lines))
+    Path(out_dir, f"it_model_c_{tag}_report.txt").write_text("\n".join(report_lines))
 
     ols_ic_a = res_a.get("OLS", {}).get("rank_ic", np.nan)
 
@@ -553,7 +559,7 @@ def run_option(opt_name, opt_file, base_features, out_dir, fb_df):
                            if not np.isnan(ols_ic_a) else None,
         },
     }
-    Path(out_dir, f"{SEC.key}_model_c_{tag}_results.json").write_text(json.dumps(result_json, indent=2))
+    Path(out_dir, f"it_model_c_{tag}_results.json").write_text(json.dumps(result_json, indent=2))
 
     # Save predictions CSV
     pred_rows = []
@@ -563,31 +569,23 @@ def run_option(opt_name, opt_file, base_features, out_dir, fb_df):
             for i, p in enumerate(preds):
                 pred_rows.append({"model": m["name"], "obs_idx": i,
                                   "y_pred_cal": p, "y_true": float(y_te[i])})
-    if "OLS" in res_a:
-        ols_preds = res_a["OLS"].get("predictions", [])
-        for i, p in enumerate(ols_preds):
-            pred_rows.append({"model": "OLS", "obs_idx": i,
-                              "y_pred_cal": p, "y_true": float(y_te[i])})
     if pred_rows:
         pd.DataFrame(pred_rows).to_csv(f"{out_dir}/predictions_c_{tag}.csv", index=False)
         log_msg(f"  saved predictions to {out_dir}/predictions_c_{tag}.csv")
 
-    log_msg(f"saved reports to {out_dir}/{SEC.key}_model_c_{tag}_*")
+    log_msg(f"saved reports to {out_dir}/it_model_c_{tag}_*")
     return best_model, a_best
 
 
 def main():
     ap = argparse.ArgumentParser()
-    add_sector_arg(ap)
-    ap.add_argument("--folder", default=None, help="default: ~/earnings_{sector}")
+    ap.add_argument("--folder", default=os.path.expanduser("~/earnings_it"))
     args = ap.parse_args()
-    global SEC
-    SEC = get_sector(args)
-    OUT = args.folder or SEC.folder
+    OUT = args.folder
 
     fb_path = f"{OUT}/finbert_features.parquet"
     if not os.path.exists(fb_path):
-        log_msg(f"ERROR: {fb_path} not found. Run sector_finbert_features.py first.")
+        log_msg(f"ERROR: {fb_path} not found. Run it_finbert_features.py first.")
         return
 
     fb_df = pd.read_parquet(fb_path)
@@ -596,7 +594,7 @@ def main():
     results = {}
     for opt_name, opt_file in [
         ("Option 1 (S&P 500 bench)", "model_table_opt1.parquet"),
-        (f"Option 2 ({SEC.short} sector bench)", "model_table_opt2.parquet"),
+        ("Option 2 (IT sector bench)", "model_table_opt2.parquet"),
     ]:
         tag = opt_name.lower().replace(" ", "_").replace("(", "").replace(")", "")
         fpath = f"{OUT}/{opt_file}"
@@ -611,7 +609,7 @@ def main():
             base_features = a_info["features"]
             log_msg(f"loaded Model A features from {a_feat_path}: {base_features}")
         else:
-            log_msg(f"WARNING: {a_feat_path} not found. Run sector_model_b.py first.")
+            log_msg(f"WARNING: {a_feat_path} not found. Run it_model_b.py first.")
             log_msg(f"Using fallback control candidates for Model A.")
             # Fallback: use all available controls
             df_tmp = pd.read_parquet(fpath)

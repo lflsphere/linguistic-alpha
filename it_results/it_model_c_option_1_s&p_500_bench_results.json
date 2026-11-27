@@ -4,7 +4,6 @@
   "method": "time-series CV, ranked target",
   "model_a_baseline": {
     "algo": "EN_strong",
-    "rank_ic": 0.037908,
     "features": [
       "sue",
       "surprise_pct",
@@ -22,7 +21,25 @@
       "n_answers",
       "n_analysts",
       "prior_calls_with_target"
-    ]
+    ],
+    "metrics": {
+      "ic": 0.084205,
+      "rank_ic": 0.037908,
+      "oos_r2": 0.010391,
+      "mae": 0.054205,
+      "hit_rate": 0.529412,
+      "hit_rate_baseline": 0.557746,
+      "quintile_spread": 0.009939
+    },
+    "ols_metrics": {
+      "ic": 0.04495,
+      "rank_ic": 0.005771,
+      "oos_r2": 0.006322,
+      "mae": 0.054283,
+      "hit_rate": 0.509804,
+      "hit_rate_baseline": 0.557746,
+      "quintile_spread": 0.014037
+    }
   },
   "strategies": [
     {
@@ -34,11 +51,13 @@
       "metrics": {
         "ic": 0.088651,
         "rank_ic": 0.040575,
-        "r2": -300805913.455695,
-        "rmse": 1456.663812,
-        "direction_accuracy": 0.519608,
+        "oos_r2": 0.01078,
+        "mae": 0.054217,
+        "hit_rate": 0.509804,
+        "hit_rate_baseline": 0.557746,
         "quintile_spread": 0.022083
       },
+      "relative_ic": 0.034804,
       "selection_log": [
         {
           "step": 0,
@@ -75,37 +94,43 @@
       "metrics": {
         "ic": 0.087579,
         "rank_ic": 0.042365,
-        "r2": -298302785.063327,
-        "rmse": 1450.590405,
-        "direction_accuracy": 0.519608,
+        "oos_r2": 0.011551,
+        "mae": 0.054323,
+        "hit_rate": 0.529412,
+        "hit_rate_baseline": 0.557746,
         "quintile_spread": -0.005075
       },
+      "relative_ic": 0.036593,
       "selection_log": null
     },
     {
-      "name": "FinBERT Ensemble (11)",
+      "name": "FinBERT Ensemble (13)",
       "algo": "Ensemble",
       "added_finbert": [
-        "fb_sent_std_answers",
-        "fb_pos_pct_answers",
-        "fb_sent_answers",
+        "fb_n_sent_prepared",
+        "fb_pos_pct_prepared",
+        "fb_sent_prepared",
         "fb_sent_prepared_chg",
         "fb_sent_gap",
-        "fb_n_sent_prepared",
         "fb_n_sent_answers",
-        "fb_neg_pct_prepared",
-        "fb_sent_std_prepared",
+        "fb_pos_pct_answers",
         "fb_sent_answers_chg",
-        "fb_neg_pct_answers"
+        "fb_neg_pct_prepared",
+        "fb_neg_pct_answers",
+        "fb_sent_std_prepared",
+        "fb_sent_std_answers",
+        "fb_sent_answers"
       ],
       "metrics": {
-        "ic": 0.077994,
-        "rank_ic": 0.048345,
-        "r2": -299147688.144493,
-        "rmse": 1452.643255,
-        "direction_accuracy": 0.519608,
-        "quintile_spread": 0.031993
+        "ic": 0.078164,
+        "rank_ic": 0.048171,
+        "oos_r2": -0.839693,
+        "mae": 0.086123,
+        "hit_rate": 0.529412,
+        "hit_rate_baseline": 0.557746,
+        "quintile_spread": 0.031136
       },
+      "relative_ic": 0.0424,
       "selection_log": null
     },
     {
@@ -138,37 +163,43 @@
       "metrics": {
         "ic": -0.024987,
         "rank_ic": 0.036045,
-        "r2": -299620959.148651,
-        "rmse": 1453.791888,
-        "direction_accuracy": 0.519608,
+        "oos_r2": -0.006563,
+        "mae": 0.054134,
+        "hit_rate": 0.509804,
+        "hit_rate_baseline": 0.557746,
         "quintile_spread": -0.000548
       },
+      "relative_ic": 0.030273,
       "selection_log": null
     }
   ],
   "best": {
-    "name": "FinBERT Ensemble (11)",
+    "name": "FinBERT Ensemble (13)",
     "algo": "Ensemble",
     "added_finbert": [
-      "fb_sent_std_answers",
-      "fb_pos_pct_answers",
-      "fb_sent_answers",
+      "fb_n_sent_prepared",
+      "fb_pos_pct_prepared",
+      "fb_sent_prepared",
       "fb_sent_prepared_chg",
       "fb_sent_gap",
-      "fb_n_sent_prepared",
       "fb_n_sent_answers",
-      "fb_neg_pct_prepared",
-      "fb_sent_std_prepared",
+      "fb_pos_pct_answers",
       "fb_sent_answers_chg",
-      "fb_neg_pct_answers"
+      "fb_neg_pct_prepared",
+      "fb_neg_pct_answers",
+      "fb_sent_std_prepared",
+      "fb_sent_std_answers",
+      "fb_sent_answers"
     ],
     "metrics": {
-      "ic": 0.077994,
-      "rank_ic": 0.048345,
-      "r2": -299147688.144493,
-      "rmse": 1452.643255,
-      "direction_accuracy": 0.519608,
-      "quintile_spread": 0.031993
-    }
+      "ic": 0.078164,
+      "rank_ic": 0.048171,
+      "oos_r2": -0.839693,
+      "mae": 0.086123,
+      "hit_rate": 0.529412,
+      "hit_rate_baseline": 0.557746,
+      "quintile_spread": 0.031136
+    },
+    "relative_ic": 0.0424
   }
 }
