@@ -129,6 +129,35 @@ def stage_events(cfg: Config, args: argparse.Namespace) -> None:
     print(f"wrote {out.relative_to(REPO_ROOT)}")
 
 
+def stage_targets(cfg: Config, args: argparse.Namespace) -> None:
+    """processed/events + CRSP daily (crsp_dsf_v2, crsp_dsp500_v2, crsp_stkdelists) ->
+    processed/targets (schemas.TARGETS plus coverage, market-model and delisting columns)."""
+    from linguistic_alpha import schemas
+    from linguistic_alpha.targets.car import build_targets
+
+    tcfg = cfg.raw["targets"]
+    events = read_table(cfg.paths.processed, "events", columns=["keydevid", "permno", "day0"])
+    s = cfg.raw["sample"]
+    events = events[(events["day0"] >= s["start"]) & (events["day0"] <= s["end"])]
+    events = events.reset_index(drop=True)
+    dsf = read_table_isin(cfg.paths.raw, "crsp_dsf_v2", "permno", events["permno"].unique(),
+                          columns=["permno", "dlycaldt", "dlyret"])
+    if tcfg.get("benchmark") == "vwmkt":
+        bench = read_table(cfg.paths.raw, "crsp_vwmkt_daily")
+    else:
+        bench = read_table(cfg.paths.raw, "crsp_dsp500_v2")
+    try:
+        delists = read_table(cfg.paths.raw, "crsp_stkdelists", columns=["permno", "delistingdt"])
+    except FileNotFoundError:
+        delists = None
+    out = build_targets(events, dsf, bench, delists, tcfg)
+    schemas.validate(out, schemas.TARGETS, "targets", key="keydevid")
+    path = write_table(out, cfg.paths.processed, "targets")
+    print(f"wrote {path.relative_to(cfg.paths.processed.parent.parent)}: {len(out):,} rows")
+    for c in tcfg["car_windows"]:
+        print(f"  {c}: missing {out[c].isna().mean():.2%}")
+
+
 def _not_yet(stage: str):
     def run(cfg: Config, args: argparse.Namespace) -> None:
         raise NotImplementedError(f"stage '{stage}' is specified but not implemented yet; "
@@ -140,7 +169,7 @@ STAGES = {
     "pull": stage_pull,
     "transcripts": stage_transcripts,
     "events": stage_events,              # linking + universe + Day 0
-    "targets": _not_yet("targets"),
+    "targets": stage_targets,             # CARs + post-call volatility
     "controls": _not_yet("controls"),
     "features": _not_yet("features"),
     "model": _not_yet("model"),
