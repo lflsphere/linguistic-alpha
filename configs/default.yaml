@@ -94,7 +94,7 @@ controls:
                                 # | price (robustness)
   ibes_unadjusted: true         # statsumu_epsus / actu_epsus, avoids split-rounding
   mom_window_months: [-12, -2]
-  include: [sue, size, bm, mom, vol_pre, n_analysts, dispersion, version_final]
+  include: [sue_ts, size, bm, mom, vol_pre, n_analysts, dispersion, version_final]
   # Release metrics (I/B/E/S, all dated before Day 0's close): Model A controls, so language must
   # add value beyond the numbers the release already gave (docs/pipeline.md, Release metrics).
   release_metrics: [rev_sue, guidance_given, guidance_vs_consensus, guidance_width, guidance_change,

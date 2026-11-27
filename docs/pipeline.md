@@ -335,7 +335,7 @@ ranks), so they use no future data and need no training-window fit, except where
 | Interactions | sue_x_tone_*, guidance_x_* | Rank each input to [-0.5, 0.5] first, then multiply | Products of ranks are comparable across years |
 | Tone residuals | tone_resid, finbert_tone_resid | z-score of the residual; built in the model stage, fitted inside each training window | Its regression must not see the test quarter |
 | Flags | beat_neg_tone, guidance_given, guidance_change, version_final | None (0/1 or −1/0/+1; 0 when no guidance) | Categorical |
-| Surprises | sue, rev_sue | Winsorise 1/99%, then rank | Heavy tails, a few huge surprises |
+| Surprises | sue_ts, rev_sue | Winsorise 1/99%, then rank | Heavy tails, a few huge surprises |
 | Firm controls | size (log), bm, mom, vol_pre, dispersion, n_analysts | Winsorise 1/99%, z-score (log for dispersion, n_analysts) | Standard in the PEAD literature |
 | Reaction windows | car_m1_1, car_0_1 | Winsorise 1/99% only | Kept in return units so coefficients read as drift per unit reaction |
 | Targets | car_2_20 etc. | Winsorise 1/99% for fitting; never for the backtest | Raw returns are what is traded |
@@ -418,7 +418,7 @@ which shows the panel used `sprtrn`. `LOGVOL_2_20` stays the panel's. `--freeze`
 | C | 16 | 16 | 3 | 35 | ≈ 53 | ≈ 70 |
 | C_alone | 16 | – | 3 + 7 interactions | 26 | ≈ 44 | ≈ 85 |
 
-Controls (`controls.include`): sue, size, bm, mom, vol_pre, n_analysts, dispersion, version_final;
+Controls (`controls.include`): sue_ts, size, bm, mom, vol_pre, n_analysts, dispersion, version_final;
 release metrics (`controls.release_metrics`); plus the leg's reaction window. Dictionary,
 interaction and FinBERT lists: `models.measures`. Counts are before feature selection.
 \* Per walk-forward window: intercept + 10 industry dummies (if industry = 11 GICS sectors) + 7 quarter
