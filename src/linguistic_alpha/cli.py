@@ -158,6 +158,38 @@ def stage_targets(cfg: Config, args: argparse.Namespace) -> None:
         print(f"  {c}: missing {out[c].isna().mean():.2%}")
 
 
+def stage_controls(cfg: Config, args: argparse.Namespace) -> None:
+    """processed/events + interim/transcript_calls + CRSP, Compustat, I/B/E/S -> processed/controls
+    (schemas.CONTROLS + sue_ts + release metrics with flags; raw, not standardised)."""
+    from linguistic_alpha.controls.build import build_controls
+
+    raw, s = cfg.paths.raw, cfg.raw["sample"]
+    events = read_table(cfg.paths.processed, "events")
+    events = events[(events["day0"] >= s["start"]) & (events["day0"] <= s["end"])]
+    events = events.reset_index(drop=True)
+    dsf = read_table_isin(raw, "crsp_dsf_v2", "permno", events["permno"].unique(),
+                          columns=["permno", "permco", "dlycaldt", "dlyret", "dlyprc", "dlycap"])
+    # other share classes of the same firms, for the firm market cap
+    permcos = dsf["permco"].dropna().unique()
+    extra = read_table_isin(raw, "crsp_dsf_v2", "permco", permcos,
+                            columns=["permno", "permco", "dlycaldt", "dlyret", "dlyprc", "dlycap"])
+    dsf = pd.concat([dsf, extra]).drop_duplicates(["permno", "dlycaldt"])
+    tables = {name: read_table(raw, name) for name in
+              ("crsp_dsp500_v2", "comp_fundq", "ibes_actu_epsus", "ibes_statsumu_epsus",
+               "ibes_act_xepsus", "ibes_det_guidance", "ibes_adj")}
+    tables["ibes_statsum_xepsus"] = read_table(
+        raw, "ibes_statsum_xepsus", columns=["ticker", "statpers", "measure", "fpi", "fpedats",
+                                              "medest"])
+    calls = read_table(cfg.paths.interim, "transcript_calls", columns=["keydevid", "version_final"])
+    out, report = build_controls(events, dsf, tables, calls, cfg.raw)
+    path = write_table(out, cfg.paths.processed, "controls")
+    print(f"wrote {path.relative_to(cfg.paths.processed.parent.parent)}: {len(out):,} rows")
+    log = REPO_ROOT / "outputs" / "validation" / "controls_log.md"
+    log.write_text(report)
+    print(f"wrote {log.relative_to(REPO_ROOT)}")
+    print(report)
+
+
 def _not_yet(stage: str):
     def run(cfg: Config, args: argparse.Namespace) -> None:
         raise NotImplementedError(f"stage '{stage}' is specified but not implemented yet; "
@@ -170,7 +202,7 @@ STAGES = {
     "transcripts": stage_transcripts,
     "events": stage_events,              # linking + universe + Day 0
     "targets": stage_targets,             # CARs + post-call volatility
-    "controls": _not_yet("controls"),
+    "controls": stage_controls,           # SUE, firm controls, release metrics
     "features": _not_yet("features"),
     "model": _not_yet("model"),
     "evaluate": _not_yet("evaluate"),
