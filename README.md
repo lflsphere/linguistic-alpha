@@ -103,10 +103,10 @@ All models use GradientBoosting (best by Rank IC). Train 2010–2021 (expanding-
 
 ```mermaid
 flowchart LR
-    A["🗄️ PULL\n14 WRDS tables"] --> B["🔗 PANEL\nIdentity joins\ncompanyid→gvkey→\npermno→ticker"]
-    B --> C["📈 TARGETS\nCAR[−1,+1], CAR[+2,+20]\nvolatility, momentum"]
-    B --> D["📝 TEXT\nLM tone/hedging\nFinBERT sentiment\nword counts"]
-    C --> E["📊 FINAL\nMerge features\nΔ vs prior 4 calls\ntrain/test split"]
+    A["PULL\n14 WRDS tables"] --> B["PANEL\nIdentity joins\ncompanyid→gvkey→\npermno→ticker"]
+    B --> C["TARGETS\nCAR[−1,+1], CAR[+2,+20]\nvolatility, momentum"]
+    B --> D["TEXT\nLM tone/hedging\nFinBERT sentiment\nword counts"]
+    C --> E["FINAL\nMerge features\nΔ vs prior 4 calls\ntrain/test split"]
     D --> E
 ```
 
@@ -648,9 +648,9 @@ Computed using [ProsusAI/finbert](https://huggingface.co/ProsusAI/finbert), a BE
 ```mermaid
 flowchart TD
     A["<b>Model A</b>\n16 financial controls\nRidgeCV\n<b>Rank IC = +0.068</b>"]
-    B["<b>Model B</b>\nA + LM dictionary\n(tone, hedging)\nPCA(2) · RidgeCV\n<b>Rank IC = +0.065</b>\n❌ worse than A"]
-    Bstar["<b>Model B*</b>\nA + all 9 LM forced\nRidgeCV\n<b>Rank IC = +0.040</b>\n❌ much worse"]
-    C["<b>Model C ✅</b>\nA + 4 FinBERT features\n(Q&A sentiment)\nRidge\n<b>Rank IC = +0.094</b>\n✅ +38% vs A"]
+    B["<b>Model B</b>\nA + LM dictionary\n(tone, hedging)\nPCA(2) · RidgeCV\n<b>Rank IC = +0.065</b>\nworse than A"]
+    Bstar["<b>Model B*</b>\nA + all 9 LM forced\nRidgeCV\n<b>Rank IC = +0.040</b>\nmuch worse"]
+    C["<b>Model C (Best)</b>\nA + 4 FinBERT features\n(Q&A sentiment)\nRidge\n<b>Rank IC = +0.094</b>\n+38% vs A"]
 
     A -->|"+9 LM features\n(bag-of-words)"| B
     A -->|"force all 9 LM"| Bstar
