@@ -53,6 +53,18 @@ events:
   duplicate_calls: keep_first  # several calls for one release: keep the first by call time
   max_call_lag_sessions: 1      # the call must fall in Day 0 or Day +1; otherwise flag the event
                                 # and leave it out of the main sample
+  # keep_first changes from agent C, PENDING TEAM APPROVAL (docs/pipeline.md, Universe):
+  placeholder_time_last: true   # CIQ's 00:00:00 UTC call time is a placeholder: sorts last within its
+                                # date for keep_first, and counts as an unknown time (call date,
+                                # missing_call_time) for the call's session; false = a real 00:00 UTC
+  duplicate_window_days: 3      # same gvkey + fiscal label = one release only within 3 calendar days
+                                # (Day 0 / Day +1 across a weekend); null = at any distance
+  release_match_days: [-3, 1]   # call -> I/B/E/S EPS release: anndats minus the call's New York date,
+                                # calendar days; latest release on or before the call date wins
+                                # (kept events: 84% same day, 16% the day before, 13 at -3/-2/+1;
+                                # 116 S&P 500 calls have no release in the window)
+  ibes_max_score: 2             # wrdsapps_ibcrsphist score <= 2
+  iclink_open_end: auto         # ibcrsphist edate on its last date (refresh date, 2025-12-31) = open link
 
 targets:
   # AR = R(stock) - R(S&P 500). The S&P 500 index is point-in-time by construction (its

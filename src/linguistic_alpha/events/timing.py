@@ -20,11 +20,14 @@ NY = "America/New_York"
 
 def call_timestamp_utc(date_utc: pd.Series, time_utc: pd.Series) -> pd.Series:
     """Combine CIQ ``mostimportantdateutc`` + ``mostimportanttimeutc`` into a UTC timestamp."""
-    date = pd.to_datetime(date_utc, errors="coerce").dt.strftime("%Y-%m-%d")
+    date = pd.to_datetime(date_utc, errors="coerce").dt.normalize()
     time = time_utc.astype("string").str.strip()
-    ts = pd.to_datetime(date + " " + time.fillna(""), errors="coerce", utc=True)
-    # a date with no time would parse as midnight UTC; treat it as unknown instead
-    return ts.where(time.fillna("").ne("") & ~time.str.lower().isin(["nan", "none", "nat"]))
+    # date + parsed time offset, row by row (parsing "date time" strings lets pandas infer one
+    # format from the first row, which can turn every other row into NaT). A date with no time
+    # would be midnight UTC; it is unknown instead.
+    known = time.notna() & time.ne("") & ~time.str.lower().isin(["nan", "none", "nat"])
+    offset = pd.to_timedelta(time.where(known), errors="coerce")
+    return (date + offset).dt.tz_localize("UTC")
 
 
 def release_timestamp_utc(anndats: pd.Series, anntims: pd.Series,
@@ -34,10 +37,10 @@ def release_timestamp_utc(anndats: pd.Series, anntims: pd.Series,
     ``anntims`` of 00:00:00 or missing is treated as unknown (NaT), so ``assign_day0`` falls
     back to the date with ``missing_call_time``.
     """
-    date = pd.to_datetime(anndats, errors="coerce").dt.strftime("%Y-%m-%d")
+    date = pd.to_datetime(anndats, errors="coerce").dt.normalize()
     time = anntims.astype("string").str.strip()
     known = time.notna() & ~time.isin(["", "00:00:00", "nan", "None", "NaT"])
-    local = pd.to_datetime(date + " " + time.fillna(""), errors="coerce")
+    local = date + pd.to_timedelta(time.where(known), errors="coerce")
     local = local.dt.tz_localize(tz, ambiguous="NaT", nonexistent="shift_forward")
     return local.dt.tz_convert("UTC").where(known)
 

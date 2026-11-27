@@ -7,6 +7,7 @@ Both ``.parquet`` and ``.csv`` exports are accepted so web-UI downloads work too
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import pandas as pd
@@ -61,9 +62,13 @@ def read_table_isin(folder: Path, name: str, column: str, values,
 
 
 def write_table(df: pd.DataFrame, folder: Path, name: str) -> Path:
+    """Write ``name.parquet`` atomically: to a temp name first, then rename over the old file,
+    so a reader never sees the table missing or half written."""
     folder.mkdir(parents=True, exist_ok=True)
     out = folder / f"{name}.parquet"
-    df.to_parquet(out, index=False)
+    tmp = folder / f".{name}.parquet.tmp"
+    df.to_parquet(tmp, index=False)
+    os.replace(tmp, out)
     return out
 
 

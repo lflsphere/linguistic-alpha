@@ -11,9 +11,9 @@ data/raw  (WRDS exports: CRSP, Compustat, I/B/E/S, CIQ transcripts, links)
 data/interim
    │  la transcripts  (1) parse   data/transcripts.py   every version: components, speakers  ✅
    │                  (2) clean   features/lexicons.py  operator lines, safe harbor, anonymise
-   │  la events       data/linking.py, data/universe.py, events/timing.py (Day 0 ✅)
+   │  la events       data/linking.py, data/universe.py, events/timing.py, events/build.py  ✅
    │  la transcripts  (3) select  data/transcripts.py   one version per keydevid, capped at
-   │                              the entry close; then qa_pairs, call_sections  ✅ (select)
+   │                              the entry close; then qa_pairs, call_sections  ✅
    ▼
 data/processed
    │  la targets           targets/car.py           CAR windows, post-call vol
@@ -32,8 +32,12 @@ and raise `NotImplementedError` until their data arrives.
 **Stage order.** Version selection needs the release's Day 0 and the entry close
 (`transcripts.entry_close_utc`), which only exist after `la events`. So transcripts run in two
 passes: parse and clean every version first, then select one version per call after events, and
-build `qa_pairs` / `call_sections` from the selected versions only. (`la transcripts` today
-selects before events, without the entry cap; it must be split.)
+build `qa_pairs` / `call_sections` from the selected versions only:
+`la transcripts --pass parse`, then `la events`, then `la transcripts --pass select`. The select
+pass covers every call, not only the events, so `pair_id`s do not depend on the sample filters;
+the entry cap applies wherever `la events` found a release Day 0 (it binds only for calls 2+
+sessions after the release). `la events` picks the same version with the same function
+(`transcripts.select_versions`), so `processed/events.transcriptid` matches `transcript_calls`.
 
 **Two tracks today.** `scripts/01–05` run on the legacy 179-event panel (`data/panel.csv`:
 AAPL, MSFT, NVDA, 2010–2024). The full pull has not been through stages 5–12. Connecting it means
@@ -45,9 +49,9 @@ mapping them in `scripts/common.py`), then pointing `common.load_events` there i
 
 | Stage | Reads | Writes | Key |
 |-------|-------|--------|-----|
-| transcripts (parse, clean) | `ciq_transcript_detail`, `ciq_transcript_component`, `ciq_transcript_person` | `interim/transcript_versions`, `components` (all versions) | transcriptid |
-| events | `interim/transcript_calls`, `ibes_actu_epsus` (release time), `ciq_wrds_gvkey`, `crsp_ccmxpf_lnkhist`, `wrdsapps_ibcrsphist`, `crsp_msp500list_v2`, `comp_co_hgic`, `crsp_dsf_v2` (trading calendar) | `processed/events` (`schemas.EVENTS`) | keydevid |
-| transcripts (select) | `interim/transcript_versions`, `components`, `processed/events` | `interim/transcript_calls`, `qa_pairs`, `call_sections` | keydevid → transcriptid |
+| transcripts (parse, clean) | `ciq_transcript_detail`, `ciq_transcript_component`, `ciq_transcript_person` | `interim/transcript_versions`, `components_<yyyy>` (all versions, one shard per raw component shard) | transcriptid |
+| events | `interim/transcript_versions` (deduplicated to keydevid; `transcript_calls` only exists after the select pass), `ibes_actu_epsus` (release time), `ciq_wrds_gvkey`, `crsp_ccmxpf_lnkhist`, `wrdsapps_ibcrsphist`, `crsp_msp500list_v2`, `comp_co_hgic`, `crsp_dsf_v2` (trading calendar, Day -1 market cap, return history) | `processed/events` (`schemas.EVENTS`), `processed/events_excluded` (with `exclusion_reason`), `outputs/validation/events_log.md` | keydevid |
+| transcripts (select) | `interim/transcript_versions`, `components_<yyyy>`, `processed/events` and `events_excluded` (Day 0 for the entry cap) | `interim/transcript_calls`, `qa_pairs`, `call_sections` (every call) | keydevid → transcriptid |
 | targets | `processed/events`, `crsp_dsf_v2`, `crsp_dsp500_v2` (main and market model), `crsp_vwmkt_daily` (index check) | `processed/targets` (`schemas.TARGETS`) | keydevid |
 | controls | `processed/events`, `crsp_dsf_v2`, `comp_fundq`, `ibes_actu_epsus`, `ibes_statsumu_epsus`, `ibes_act_xepsus`, `ibes_statsum_xepsus`, `ibes_det_guidance`, `ibes_surpsum` | `processed/controls` (`schemas.CONTROLS`) | keydevid |
 | features | `interim/*`, `processed/events`, `processed/controls` (interactions) | `processed/features_<family>` | transcriptid |
@@ -96,15 +100,56 @@ on the 2026-11-17 pull (`data/raw/sp500_pit_2008`).
 
 - **Membership:** S&P 500 on Day 0 (`crsp_msp500list_v2`), never today's list. Index changes
   fall mostly in late December, outside earnings season, so Day 0 vs. call date rarely matters.
+- **Links** (`data/linking.py`): CIQ companyid → gvkey (`ciq_wrds_gvkey`, date-valid on the
+  call's New York date) → permno (CCM `LU` / `LC`, date-valid; every `linkprim` is kept as a
+  candidate, including the 18 secondary-class `J` / `N` links) → I/B/E/S ticker
+  (`wrdsapps_ibcrsphist`, score ≤ 2, lowest score). `ibcrsphist` ends its open links on its
+  refresh date (`edate` 2025-12-31), so an `edate` on the table's last date counts as open
+  (`events.iclink_open_end: auto`); otherwise every 2026 event would lose its ticker.
+- **Release match** (`events.release_match_days: [-3, 1]`): the I/B/E/S quarterly EPS release
+  (`ibes_actu_epsus`) whose `anndats` falls from 3 calendar days before to 1 day after the call's
+  New York date; the latest one on or before the call date wins. When several periods are
+  announced on one day (catch-up filings), the latest `pends`. Every candidate permno is carried
+  through the links and the release match; membership on Day 0 and the share-class rule then pick
+  one permno among the members (membership needs Day 0, which needs the release, which needs the
+  ticker, which needs the permno). Joint calls (one keydevid under two CIQ companies, e.g. Lam
+  Research / KLA-Tencor 2015, HP / HPE 2015: 6 calls) carry both companies as candidates and go
+  through the same rule.
+- **Result (2026-11-27 run, `outputs/validation/events_log.md`): 29,799 events**, 2011-01 to
+  2026-08 by Day 0. Kept events: release on the call's New York date 84%, the day before 16%;
+  call lag 0 for 29,661, 1 for 138. Agent C's call-date table had 29,968 calls (−0.6%: 103 with
+  no I/B/E/S release within the window, 35 with the call outside Day 0 / Day +1, 20 with no
+  I/B/E/S ticker, 20 with under 60 days of returns, 8 duplicates resolved differently and 6 that
+  lose their only version to the entry cap, plus 23 placeholder-time calls that gain a
+  transcript; 3 joint calls keep a different firm). The 30,102 releases under "Release metrics" (−1.0%) count releases, with or
+  without a usable call transcript; 611 member calls have no version by the cutoff.
 - **One call per release** (`events.duplicate_calls: keep_first`): when several calls map to
-  one release, keep the first by call time and log the others.
+  one release, keep the first by call time and log the others. Two calls are one release when
+  they have the same gvkey and fiscal label (parsed from the CIQ headline; ported from agent C's
+  `scripts/full_source.py`), and calls still matched to the same I/B/E/S release after that are
+  dropped as `duplicate_release`. Two changes by agent C, **pending team approval**, each behind
+  a switch so it can be turned off:
+  - `events.placeholder_time_last: true`: CIQ's 00:00:00 UTC call time is a placeholder (mostly
+    pre-recorded remarks): it sorts last within its date for keep_first, and counts as an unknown
+    time for the call's session (the call date, `missing_call_time: next_session`), in
+    `la events` and in the transcript cutoff. `false` reads it as a real 00:00 UTC.
+  - `events.duplicate_window_days: 3`: same gvkey and fiscal label count as one release only
+    within 3 calendar days (Day 0 / Day +1 across a weekend); beyond that the label was reused
+    after a fiscal-year change. `null`: at any distance.
 - **Biotech is kept** (team decision 2026-11-17; `sample.exclude_gics_industries: []`). The 10/23
   concern (news comes from medical conferences) is checked in EDA by sector, not by exclusion.
 - **One permno per event** (`sample.share_class_rule`): firms with two share classes (GOOGL /
   GOOG, FOXA / FOX, NWSA / NWS, BRK.B) map one call to two permnos. Keep the CCM primary link
   (`linkprim = P`); when that is ambiguous, keep the class with the largest market cap on Day -1.
   Market cap is preferred to volume because it is what the size control and the index weight use.
-- Every exclusion keeps an `exclusion_reason` instead of dropping rows silently.
+- Every exclusion keeps an `exclusion_reason` instead of dropping rows silently
+  (`processed/events_excluded`). Reasons, in the order applied: `outside_sample_period` (Day 0,
+  or the call date without a release), `no_gvkey`, `no_permno`, `not_sp500_member`,
+  `no_ibes_ticker`, `no_ibes_release`, `no_transcript_version` (before keep_first, so the call
+  kept for a release has usable text), `duplicate_call`, `duplicate_release`, `call_lag`,
+  `gics_excluded`, `short_return_history` (fewer than
+  `sample.min_prior_return_days` valid returns before Day 0). A missing EPS consensus is dropped
+  in `la controls`. Attrition: `outputs/validation/events_log.md`.
 
 ## Text cleaning (before any feature)
 
@@ -126,7 +171,9 @@ The earnings release and the call count as one event. There is no call-timing co
   A release after 16:00, or on a non-trading day, gets the next session. When the time is
   unknown, assume the release came after the close.
 - **Call check:** the call must fall in Day 0 or Day +1 (`events.max_call_lag_sessions`). Otherwise the
-  event is flagged and left out of the main sample. In the S&P 500 sample, 98% of calls
+  event is flagged and left out of the main sample (`call_lag`: 35 events on the 2026-11-27 run).
+  Most are a call *before* Day 0 (lag −1): the I/B/E/S `anntims` is after the close (16:01–23:15)
+  although the call was that morning, so the recorded time is later than the real release. In the S&P 500 sample, 98% of calls
   come within a day of their release (median 2 hours).
 - **Reaction legs (two):** every model runs twice, differing only in the reaction control
   added to its controls (`controls.reaction_legs`): the main leg uses CAR[-1, +1]

@@ -50,7 +50,8 @@ def _created_utc(d: pd.DataFrame) -> pd.Series:
 
 
 def day0_close_utc(detail: pd.DataFrame, trading_days: pd.DatetimeIndex,
-                   market_close_et: str = "16:00") -> pd.Series:
+                   market_close_et: str = "16:00",
+                   placeholder_unknown: bool = False) -> pd.Series:
     """Close of the call's own session (UTC) per call, i.e. Day 0 taken from the CALL time.
 
     This is not the release's Day 0. With the release as anchor it equals:
@@ -60,10 +61,16 @@ def day0_close_utc(detail: pd.DataFrame, trading_days: pd.DatetimeIndex,
     So calls on Day +1 keep a transcript. The bound "never after entry" holds only after the
     call-lag filter (``events.max_call_lag_sessions`` = 1); ``select_latest_before`` enforces
     it when given ``entry_close_utc``. Indexed by ``keydevid``.
+
+    ``placeholder_unknown`` (``events.placeholder_time_last``): CIQ's 00:00:00 UTC placeholder
+    is an unknown time (the call date, ``next_session``), as in ``la events``.
     """
     from linguistic_alpha.events.timing import NY, assign_day0, call_timestamp_utc
     calls = detail.drop_duplicates("keydevid").set_index("keydevid")
-    ts = call_timestamp_utc(calls["mostimportantdateutc"], calls["mostimportanttimeutc"])
+    time = calls["mostimportanttimeutc"].astype("string")
+    if placeholder_unknown:
+        time = time.mask(time.str.strip().eq("00:00:00"))
+    ts = call_timestamp_utc(calls["mostimportantdateutc"], time)
     d0 = assign_day0(ts, trading_days, call_date_fallback=calls["mostimportantdateutc"],
                      market_close_et=market_close_et)["day0"]
     return (d0 + pd.Timedelta(market_close_et + ":00")).dt.tz_localize(NY).dt.tz_convert("UTC")
@@ -127,6 +134,48 @@ def select_latest_before(detail: pd.DataFrame, cutoff_utc: pd.Series,
     elif no_version != "drop":
         raise ValueError(no_version)
     return out.drop(columns="_cut").sort_values("keydevid").reset_index(drop=True)
+
+
+def annotate_versions(detail: pd.DataFrame) -> pd.DataFrame:
+    """All versions + ``version_created_utc``, ``version_type`` and ``version_final`` (parse pass:
+    ``interim/transcript_versions``)."""
+    d = detail.copy()
+    d["version_created_utc"] = _created_utc(d)
+    if {"transcriptpresentationtypename", "transcriptcollectiontypename"} <= set(d.columns):
+        d["version_type"] = (d["transcriptpresentationtypename"].astype(str) + " / "
+                             + d["transcriptcollectiontypename"].astype(str))
+        d["version_final"] = d["transcriptpresentationtypename"].eq("Final").astype(int)
+    return d
+
+
+def select_versions(versions: pd.DataFrame, trading_days: pd.DatetimeIndex, cfg: dict,
+                    release_day0: pd.Series | None = None) -> pd.DataFrame:
+    """One version per keydevid under ``transcripts.version_rule`` (shared by ``la events`` and
+    the select pass, so both pick the same transcript).
+
+    ``release_day0``: the release's Day 0 per keydevid where ``la events`` found one; its Day +1
+    close (``entry_close_utc``) caps the cutoff. Calls without one are not capped (the cap binds
+    only when the call falls 2+ sessions after the release, and such events are excluded).
+    """
+    tcfg, ecfg = cfg["transcripts"], cfg["events"]
+    close = ecfg["market_close_et"]
+    if tcfg["version_rule"] == "earliest":
+        return select_earliest_version(versions)
+    if tcfg["version_rule"] != "latest_before_day0_close":
+        raise ValueError(tcfg["version_rule"])
+    cutoff = day0_close_utc(versions, trading_days, close,
+                            placeholder_unknown=bool(ecfg.get("placeholder_time_last", False)))
+    entry = None
+    if release_day0 is not None:
+        r = pd.to_datetime(release_day0).dropna()
+        entry = entry_close_utc(r, trading_days, close)
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        out = select_latest_before(versions, cutoff, tcfg["no_version_before_cutoff"],
+                                   entry_close_utc=entry)
+    for w in caught:
+        print(f"select_versions: {w.message}")
+    return out
 
 
 def speaker_role(speakertypename: pd.Series) -> pd.Series:

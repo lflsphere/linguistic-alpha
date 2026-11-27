@@ -56,3 +56,15 @@ def test_call_lag_sessions():
     lag = call_lag_sessions(pd.Series(pd.to_datetime(["2024-01-12"])),
                             pd.Series(pd.to_datetime(["2024-01-11"])), DAYS)
     assert lag.iloc[0] == 1
+
+
+def test_missing_time_in_first_row_does_not_blank_the_others():
+    from linguistic_alpha.events.timing import release_timestamp_utc
+    d = pd.Series(["2024-01-11", "2024-01-11", "2024-01-12"])
+    t = pd.Series([None, "13:30:00", "21:30:00"])
+    ts = call_timestamp_utc(d, t)
+    assert ts.isna().tolist() == [True, False, False]
+    assert ts.iloc[1] == pd.Timestamp("2024-01-11 13:30", tz="UTC")
+    r = release_timestamp_utc(d, pd.Series(["", "07:00:00", "16:30:00"]))
+    assert r.isna().tolist() == [True, False, False]
+    assert r.iloc[1] == pd.Timestamp("2024-01-11 12:00", tz="UTC")   # 07:00 EST
