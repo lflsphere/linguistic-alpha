@@ -101,11 +101,22 @@ All models use GradientBoosting (best by Rank IC). Train 2010–2021 (expanding-
 
 ### Pipeline stages
 
-1. **PULL** — Download 14 WRDS tables (CRSP, Compustat, I/B/E/S, Capital IQ transcripts)
-2. **PANEL** — Chain date-validated identity joins: companyid → gvkey → permno → IBES ticker → GICS sector
-3. **TARGETS** — Compute CAR[0,1], CAR[2,5], CAR[2,20] (primary), CAR[2,60], post-call volatility
-4. **TEXT** — Extract NLP features: tone ([Loughran-McDonald dictionary](data/Loughran-McDonald_MasterDictionary_1993-2025.csv)), hedging, word counts, exec participation
-5. **FINAL** — Merge numeric + language features, compute deltas vs. prior 4 calls, assign sample split
+```mermaid
+flowchart LR
+    A["🗄️ PULL\n14 WRDS tables"] --> B["🔗 PANEL\nIdentity joins\ncompanyid→gvkey→\npermno→ticker"]
+    B --> C["📈 TARGETS\nCAR[−1,+1], CAR[+2,+20]\nvolatility, momentum"]
+    B --> D["📝 TEXT\nLM tone/hedging\nFinBERT sentiment\nword counts"]
+    C --> E["📊 FINAL\nMerge features\nΔ vs prior 4 calls\ntrain/test split"]
+    D --> E
+```
+
+| Stage | What it does |
+|-------|-------------|
+| **PULL** | Download 14 WRDS tables (CRSP, Compustat, I/B/E/S, Capital IQ transcripts) |
+| **PANEL** | Chain date-validated identity joins: companyid → gvkey → permno → IBES ticker → GICS sector |
+| **TARGETS** | Compute CAR[−1,+1], CAR[+2,+5], CAR[+2,+20] (primary), CAR[+2,+60], post-call volatility |
+| **TEXT** | Extract NLP features: tone ([Loughran-McDonald dictionary](data/Loughran-McDonald_MasterDictionary_1993-2025.csv)), hedging, FinBERT sentiment, word counts |
+| **FINAL** | Merge numeric + language features, compute deltas vs. prior 4 calls, assign sample split |
 
 ### Identity join chain (PANEL stage)
 
@@ -556,6 +567,25 @@ should be more informative.
 3,561 earnings calls from ~106 IT firms (GICS 45), 2010–2026.
 Train: 2010–2023 (2,892 calls) | Test: 2024–2026 (204 calls).
 
+```mermaid
+gantt
+    title Expanding Window CV + Final Test
+    dateFormat YYYY
+    axisFormat %Y
+    section Fold 1
+    Train           :2010, 2021
+    Val             :crit, 2021, 2022
+    section Fold 2
+    Train           :2010, 2022
+    Val             :crit, 2022, 2023
+    section Fold 3
+    Train           :2010, 2023
+    Val             :crit, 2023, 2024
+    section Final
+    Train (all)     :2010, 2024
+    Test (holdout)  :crit, done, 2024, 2027
+```
+
 Two CAR benchmarks:
 - **Option 1**: firm return − S&P 500 return (comparable to full pipeline)
 - **Option 2**: firm return − IT sector value-weighted index (isolates firm-specific drift)
@@ -613,6 +643,26 @@ Computed using [ProsusAI/finbert](https://huggingface.co/ProsusAI/finbert), a BE
 
 **IT finding:** Forward selection (Option 2) picked 4 FinBERT features: `fb_sent_answers`, `fb_pos_pct_answers`, `fb_sent_gap`, and `fb_sent_answers_chg`. All four relate to the Q&A section or the prepared-to-Q&A shift — confirming that the live, unscripted part of the call carries the linguistic alpha. The resulting Model C (Ridge, 16 controls + 4 FinBERT) achieves Rank IC +0.094, the strongest of any model.
 
+### Model Hierarchy & Results (Option 2 — IT Sector Bench)
+
+```mermaid
+flowchart TD
+    A["<b>Model A</b>\n16 financial controls\nRidgeCV\n<b>Rank IC = +0.068</b>"]
+    B["<b>Model B</b>\nA + LM dictionary\n(tone, hedging)\nPCA(2) · RidgeCV\n<b>Rank IC = +0.065</b>\n❌ worse than A"]
+    Bstar["<b>Model B*</b>\nA + all 9 LM forced\nRidgeCV\n<b>Rank IC = +0.040</b>\n❌ much worse"]
+    C["<b>Model C ✅</b>\nA + 4 FinBERT features\n(Q&A sentiment)\nRidge\n<b>Rank IC = +0.094</b>\n✅ +38% vs A"]
+
+    A -->|"+9 LM features\n(bag-of-words)"| B
+    A -->|"force all 9 LM"| Bstar
+    A -->|"+4 FinBERT features\n(contextual sentiment)"| C
+
+    style C fill:#d4edda,stroke:#28a745,stroke-width:2px
+    style B fill:#fff3cd,stroke:#ffc107
+    style Bstar fill:#f8d7da,stroke:#dc3545
+```
+
+**Key insight:** Bag-of-words features (Model B) add noise — they count words without understanding context. FinBERT reads each sentence in context and captures hedging, understatement, and tone shifts that word-counting misses.
+
 ### Baseline vs Best Model
 
 **Best model: Model C (FinBERT forward selection) — Option 2, Ridge, 16 controls + 4 FinBERT features.**
@@ -637,6 +687,22 @@ Model C is the **only model** in the entire pipeline that beats the baseline on 
 | `fb_sent_answers` | Mean FinBERT sentiment score (−1 to +1) of Q&A answers | The overall contextual sentiment of live responses — the most informative section of the call. |
 
 All 4 features relate to the **Q&A section** or the prepared-to-Q&A shift — none from the scripted prepared remarks. This confirms that the live, unscripted part of the earnings call carries the linguistic alpha. Executives reveal more under analyst questioning than in rehearsed scripts.
+
+**Forward selection path (CV Rank IC at each step):**
+
+```mermaid
+flowchart LR
+    S0["Baseline\n16 controls\nCV Rank IC\n+0.0062"] -->|"+fb_sent_answers_chg"| S1["Step 1\n17 features\nCV Rank IC\n+0.0112"]
+    S1 -->|"+fb_sent_gap"| S2["Step 2\n18 features\nCV Rank IC\n+0.0113"]
+    S2 -->|"+fb_pos_pct_answers"| S3["Step 3\n19 features\nCV Rank IC\n+0.0138"]
+    S3 -->|"+fb_sent_answers"| S4["Step 4\n20 features\nCV Rank IC\n<b>+0.0187</b>"]
+    S4 -.->|"no further\nimprovement"| STOP(("STOP\n4 features\nselected"))
+
+    style S4 fill:#d4edda,stroke:#28a745,stroke-width:2px
+    style STOP fill:#28a745,color:#fff,stroke:#28a745
+```
+
+Each step tests all remaining FinBERT candidates and greedily adds the one that most improves expanding-window CV Rank IC. Selection stops when no candidate improves over the current best. The 9 prepared-remarks features were all tested and rejected — none improved CV Rank IC.
 
 ### IT Results Summary
 
