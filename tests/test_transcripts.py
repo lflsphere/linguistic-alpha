@@ -142,3 +142,43 @@ def test_cutoff_after_entry_is_capped():
     with pytest.warns(UserWarning, match="capped"):
         out = transcripts.select_latest_before(detail, cut, entry_close_utc=entry)
     assert out.empty
+
+
+def per_component_persons(raw):
+    # WRDS ciq_transcript_person: one row per component, so speakers repeat
+    names = {1: "Operator", 10: "Executives", 11: "Executives", 12: "Executives",
+             20: "Analysts", 21: "Analysts", 22: "Analysts"}
+    return pd.DataFrame({
+        "transcriptid": raw["transcriptid"],
+        "transcriptcomponentid": range(len(raw)),
+        "transcriptpersonid": raw["transcriptpersonid"],
+        "speakertypename": raw["transcriptpersonid"].map(names),
+    })
+
+
+def test_build_components_per_component_person_table_keeps_one_row_per_component():
+    raw = raw_components()
+    c = transcripts.build_components(raw, per_component_persons(raw))
+    assert len(c) == len(raw)
+    assert c["componentorder"].tolist() == raw["componentorder"].tolist()
+    assert c.loc[c["speaker_id"] == 10, "speaker_role"].eq("executive").all()
+
+
+def test_pair_qa_same_with_and_without_persons():
+    raw = raw_components()
+    cols = ["transcriptid", "pair_id", "question", "answer", "n_answer_turns"]
+    with_p = transcripts.pair_qa(transcripts.build_components(raw, per_component_persons(raw)))
+    without = transcripts.pair_qa(transcripts.build_components(raw))
+    pd.testing.assert_frame_equal(with_p[cols], without[cols])
+
+
+def test_read_table_isin_filters_shards(tmp_path):
+    from linguistic_alpha.io import read_table_isin
+    pd.DataFrame({"transcriptid": [1, 2], "x": ["a", "b"]}).to_parquet(
+        tmp_path / "t_2015.parquet")
+    pd.DataFrame({"transcriptid": [3, 4], "x": ["c", "d"]}).to_parquet(
+        tmp_path / "t_2016.parquet")
+    pd.DataFrame({"transcriptid": [5], "x": ["e"]}).to_parquet(tmp_path / "t_2017.parquet")
+    out = read_table_isin(tmp_path, "t", "transcriptid", [2, 3, 99])
+    assert out["x"].tolist() == ["b", "c"]
+    assert read_table_isin(tmp_path, "t", "transcriptid", [99]).empty

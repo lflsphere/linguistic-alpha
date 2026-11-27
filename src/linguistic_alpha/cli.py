@@ -12,7 +12,7 @@ import pandas as pd
 
 from linguistic_alpha.config import Config, load_config
 from linguistic_alpha.data import transcripts
-from linguistic_alpha.io import read_table, write_table
+from linguistic_alpha.io import read_table, read_table_isin, write_table
 
 
 def stage_pull(cfg: Config, args: argparse.Namespace) -> None:
@@ -32,14 +32,19 @@ def stage_transcripts(cfg: Config, args: argparse.Namespace) -> None:
         if tcfg["version_rule"] == "earliest":
             detail = transcripts.select_earliest_version(all_versions)
         else:   # latest_before_day0_close
-            days = pd.DatetimeIndex(read_table(cfg.paths.raw, "crsp_dsf_v2")["dlycaldt"].unique())
+            days = pd.DatetimeIndex(read_table(cfg.paths.raw, "crsp_dsf_v2",
+                                               columns=["dlycaldt"])["dlycaldt"].unique())
             cutoff = transcripts.day0_close_utc(all_versions, days, cfg["events"]["market_close_et"])
             detail = transcripts.select_latest_before(all_versions, cutoff,
                                                       tcfg["no_version_before_cutoff"])
-        raw = read_table(cfg.paths.raw, "ciq_transcript_component")
-        raw = raw[raw["transcriptid"].isin(detail["transcriptid"])]
+        # text for the selected versions only, filtered shard by shard (all versions' text
+        # does not fit in memory)
+        keep = detail["transcriptid"].dropna().unique()
+        raw = read_table_isin(cfg.paths.raw, "ciq_transcript_component", "transcriptid", keep)
         try:
-            persons = read_table(cfg.paths.raw, "ciq_transcript_person")
+            persons = read_table_isin(cfg.paths.raw, "ciq_transcript_person", "transcriptid",
+                                      keep, columns=["transcriptid", "transcriptpersonid",
+                                                     "speakertypename"])
         except FileNotFoundError:
             persons = None
         components = transcripts.build_components(raw, persons)

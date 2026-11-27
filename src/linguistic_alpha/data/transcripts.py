@@ -138,7 +138,13 @@ def speaker_role(speakertypename: pd.Series) -> pd.Series:
 
 
 def build_components(raw: pd.DataFrame, persons: pd.DataFrame | None = None) -> pd.DataFrame:
-    """Raw CIQ components (+ optional speaker table) -> canonical ``COMPONENTS`` table."""
+    """Raw CIQ components (+ optional speaker table) -> canonical ``COMPONENTS`` table.
+
+    One output row per raw component. The WRDS speaker table (``ciq_transcript_person``) has
+    one row per component, not per speaker, so it is reduced to one row per
+    ``(transcriptid, transcriptpersonid)`` before the merge; otherwise every component is
+    repeated once per turn its speaker has.
+    """
     out = pd.DataFrame({
         "transcriptid": raw["transcriptid"].astype("int64"),
         "componentorder": raw["componentorder"].astype("int64"),
@@ -149,8 +155,17 @@ def build_components(raw: pd.DataFrame, persons: pd.DataFrame | None = None) -> 
     })
     if persons is not None:
         p = persons[["transcriptid", "transcriptpersonid", "speakertypename"]].copy()
-        p["speaker_id"] = p.pop("transcriptpersonid").astype("Int64")
-        out = out.merge(p, on=["transcriptid", "speaker_id"], how="left")
+        p["transcriptid"] = p["transcriptid"].astype("int64")
+        p["speaker_id"] = pd.to_numeric(p.pop("transcriptpersonid"),
+                                        errors="coerce").astype("Int64")
+        p = p.dropna(subset=["speaker_id"])
+        n_types = p.groupby(["transcriptid", "speaker_id"])["speakertypename"].nunique()
+        if (n_types > 1).any():
+            warnings.warn(f"{int((n_types > 1).sum())} speakers have more than one "
+                          "speakertypename; keeping the first", stacklevel=2)
+        p = p.drop_duplicates(["transcriptid", "speaker_id"])
+        out = out.merge(p, on=["transcriptid", "speaker_id"], how="left",
+                        validate="many_to_one")
         out["speaker_role"] = speaker_role(out.pop("speakertypename"))
     else:
         out["speaker_role"] = pd.Series("unknown", index=out.index, dtype="string")
