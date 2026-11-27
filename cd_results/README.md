@@ -20,6 +20,36 @@ one of eight comparisons.**
 Forward selection already used train-only CV, so it never saw 2024. Its CV score, and that of ensemble
 members, is still optimistic (chosen on the same validation folds); the holdout number is not.
 
+### Why point-in-time GICS
+
+A firm's GICS sector changes when its business changes and, more often, when S&P and MSCI restructure the
+classification (Compustat `comp.co_hgic`, S&P 500 members since 2010):
+
+- 114 of 855 firms (13%) changed GICS **sector** after 2010; 223 changed at least their sub-industry.
+- 1,967 of 29,672 calls (6.6%) in `model_table_with_linguistic.csv` carry today's sector, not the sector on the call date.
+
+| Year | Firms | Main restructuring |
+|---|---|---|
+| 2016 | 36 | Real Estate split from Financials (34) |
+| 2018 | 33 | Communication Services created: 19 from Consumer Discretionary, 8 from IT |
+| 2023 | 18 | Payments IT → Financials (10); general-merchandise retail CD → Staples (3) |
+| other years | 0–8 | individual firms |
+
+Effect on the CD sample:
+
+| Firms | Calls | Sector today |
+|---|---|---|
+| Target, Dollar Tree, Dollar General | 137 | Consumer Staples |
+| Disney, Comcast, Netflix, Viacom, Fox, Omnicom and 11 more media firms | 401 | Communication Services |
+| Johnson Controls, S&P Global, Stanley Black & Decker and 3 more | 56 | other sectors |
+| **Added: CD on the call date (26 firms)** | **594** | |
+| eBay, Yahoo: not CD on the call date | −59 | dropped |
+
+Today's GICS for 2010–2023 calls is look-ahead (it uses the 2018 and 2023 decisions), tilts the sample toward
+firms whose business did not change, and distorts the Option 2 benchmark (62 instead of 72 members a day).
+IT has the same problem: 652 calls missing (Visa, Mastercard, Fiserv, FIS, Western Union, ADP, Paychex) and
+57 wrongly included.
+
 ## Main results: train-only selection (`cd_cv_protocol_report.txt`)
 
 Train 3,728, test 166 calls (52 firms). Firm-clustered bootstrap 95% CIs (5,000 draws).
