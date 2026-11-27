@@ -1,0 +1,19 @@
+======================================================================
+Model B (Forward Selection) — Full S&P 500
+Generated: 2026-11-16 23:58
+Train: 21,458 | Test: 4,856
+Model A features (12): dispersion, vol_pre, size, prior_calls_with_target, mom, car_0_1, bm, sue_price, sue, words_answers, share_answers_by_execs, n_answers
+Added linguistic (CV-based): none
+Added linguistic (test-based): hedging_prepared
+======================================================================
+
+Model A baseline: GradientBoosting, CV Rank IC=+0.0376, test Rank IC=+0.0465
+
+Forward Selection (CV-based) — step by step:
+  No linguistic feature improved CV Rank IC
+
+Final test results (all algos on final feature set):
+  XGBoost              Rank IC=+0.0483 Q5-Q1=+0.0095 IC=+0.0225 Dir Acc=0.520
+  GradientBoosting     Rank IC=+0.0465 Q5-Q1=+0.0067 IC=+0.0027 Dir Acc=0.519
+  Ridge                Rank IC=+0.0432 Q5-Q1=+0.0056 IC=+0.0364 Dir Acc=0.500
+  ElasticNet           Rank IC=+0.0275 Q5-Q1=+0.0021 IC=+0.0268 Dir Acc=0.491

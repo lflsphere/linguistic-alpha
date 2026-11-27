@@ -613,6 +613,31 @@ Computed using [ProsusAI/finbert](https://huggingface.co/ProsusAI/finbert), a BE
 
 **IT finding:** Forward selection (Option 2) picked 4 FinBERT features: `fb_sent_answers`, `fb_pos_pct_answers`, `fb_sent_gap`, and `fb_sent_answers_chg`. All four relate to the Q&A section or the prepared-to-Q&A shift — confirming that the live, unscripted part of the call carries the linguistic alpha. The resulting Model C (Ridge, 16 controls + 4 FinBERT) achieves Rank IC +0.094, the strongest of any model.
 
+### Baseline vs Best Model
+
+**Best model: Model C (FinBERT forward selection) — Option 2, Ridge, 16 controls + 4 FinBERT features.**
+
+| Metric | Model A (Baseline) | Model C (Best) | Δ |
+|--------|-------------------|----------------|---|
+| **Rank IC** | +0.0682 | **+0.0943** | +0.0261 (+38%) |
+| OOS R² | +0.0293 | **+0.0318** | +0.0025 |
+| MAE | 0.0577 | **0.0575** | −0.0002 |
+| Hit Rate | 52.9% | **53.9%** | +1.0pp |
+| Relative IC | +0.022 | **+0.049** | +0.027 |
+
+Model C is the **only model** in the entire pipeline that beats the baseline on every metric.
+
+**The 4 selected FinBERT features (all Q&A-focused):**
+
+| Feature | What it measures | Why it was selected |
+|---------|-----------------|---------------------|
+| `fb_sent_answers_chg` | Change in Q&A FinBERT sentiment vs prior call | A sudden drop in live-answer sentiment flags a turning point the market hasn't priced. Added first — largest CV Rank IC lift. |
+| `fb_sent_gap` | `fb_sent_answers` − `fb_sent_prepared` (Q&A vs script sentiment gap) | A large negative gap means executives are less positive when unscripted — the FinBERT version captures hedged language that word-counting misses. |
+| `fb_pos_pct_answers` | % of Q&A answer sentences classified positive by FinBERT | A high share of positive answers under questioning signals confidence the market may underweight. |
+| `fb_sent_answers` | Mean FinBERT sentiment score (−1 to +1) of Q&A answers | The overall contextual sentiment of live responses — the most informative section of the call. |
+
+All 4 features relate to the **Q&A section** or the prepared-to-Q&A shift — none from the scripted prepared remarks. This confirms that the live, unscripted part of the earnings call carries the linguistic alpha. Executives reveal more under analyst questioning than in rehearsed scripts.
+
 ### IT Results Summary
 
 **Option 1 — CAR vs. S&P 500:**

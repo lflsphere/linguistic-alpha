@@ -1,23 +1,23 @@
 """
-IT Sector — FinBERT feature extraction for earnings-call transcripts.
+Sector — FinBERT feature extraction for earnings-call transcripts.
 
-Filters to IT-sector transcripts only (from ~/earnings_it/ model tables),
+Filters to the chosen sector's transcripts only (from ~/earnings_{sector}/ model tables),
 scores sentences with ProsusAI/finbert, aggregates to per-call features.
 
 Usage:
-    python3 it_finbert_features.py                    # all years
-    python3 it_finbert_features.py --batch-size 128   # adjust for GPU memory
+    python3 sector_finbert_features.py --sector {it,health,comm}                    # all years
+    python3 sector_finbert_features.py --sector it --batch-size 128   # adjust for GPU memory
 
-Output:  ~/earnings_it/finbert_features.parquet
+Output:  ~/earnings_{sector}/finbert_features.parquet
 """
 import os, sys, glob, re, argparse, time, gc
 import numpy as np
 import pandas as pd
 import torch
+from sector_config import add_sector_arg, get_sector
 from datetime import datetime
 
 SP500_FOLDER = os.path.expanduser("~/earnings_sp500")
-IT_FOLDER = os.path.expanduser("~/earnings_it")
 
 
 def log(msg):
@@ -76,23 +76,26 @@ def score_bulk(classifier, sentences, batch_size):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--sp500-folder", default=SP500_FOLDER)
-    ap.add_argument("--it-folder", default=IT_FOLDER)
+    add_sector_arg(ap)
+    ap.add_argument("--sector-folder", default=None, help="default: ~/earnings_{sector}")
     ap.add_argument("--batch-size", type=int, default=128)
     args = ap.parse_args()
+    sec = get_sector(args)
+    sector_folder = args.sector_folder or sec.folder
 
     text_dir = os.path.join(args.sp500_folder, "text")
 
-    # Get IT transcript IDs from both model tables
-    it_tids = set()
+    # Get sector transcript IDs from both model tables
+    sector_tids = set()
     for f in ["model_table_opt1.parquet", "model_table_opt2.parquet"]:
-        fp = os.path.join(args.it_folder, f)
+        fp = os.path.join(sector_folder, f)
         if os.path.exists(fp):
             df = pd.read_parquet(fp, columns=["transcriptid"])
-            it_tids.update(df["transcriptid"].values)
-    log(f"IT transcript IDs: {len(it_tids):,}")
+            sector_tids.update(df["transcriptid"].values)
+    log(f"{sec.short} transcript IDs: {len(sector_tids):,}")
 
-    if not it_tids:
-        log("ERROR: no IT transcripts found"); sys.exit(1)
+    if not sector_tids:
+        log(f"ERROR: no {sec.short} transcripts found in {sector_folder}"); sys.exit(1)
 
     device = 0 if torch.cuda.is_available() else -1
     device_name = "GPU" if device == 0 else "CPU"
@@ -113,18 +116,18 @@ def main():
     for tf in text_files:
         year = re.search(r"text_(\d{4})", tf).group(1)
         df = pd.read_parquet(tf)
-        df_it = df[df["transcriptid"].isin(it_tids)].copy()
-        if len(df_it) == 0:
-            log(f"finbert {year}: 0 IT calls, skipping")
+        df_sec = df[df["transcriptid"].isin(sector_tids)].copy()
+        if len(df_sec) == 0:
+            log(f"finbert {year}: 0 {sec.short} calls, skipping")
             continue
 
-        log(f"finbert {year}: {len(df_it):,} IT calls (of {len(df):,} total)")
+        log(f"finbert {year}: {len(df_sec):,} {sec.short} calls (of {len(df):,} total)")
         t0 = time.time()
 
         prep_sentences, ans_sentences = [], []
         prep_call_ids, ans_call_ids = [], []
 
-        for i, row in df_it.iterrows():
+        for i, row in df_sec.iterrows():
             prepared_text, answers_text = extract_sections(row)
             ps = split_sentences(prepared_text)
             ans = split_sentences(answers_text)
@@ -142,7 +145,7 @@ def main():
         ans_call_ids = np.array(ans_call_ids)
 
         rows = []
-        for i, row in df_it.iterrows():
+        for i, row in df_sec.iterrows():
             pmask = prep_call_ids == i
             amask = ans_call_ids == i
             ps = prep_scores[pmask] if pmask.any() else np.empty((0, 3))
@@ -172,7 +175,7 @@ def main():
         n_sents = len(prep_sentences) + len(ans_sentences)
         total_scored += n_sents
         log(f"finbert {year}: done in {elapsed:.0f}s ({n_sents/max(elapsed,1):.0f} sent/s)")
-        del df, df_it, rows, year_df, prep_sentences, ans_sentences, prep_scores, ans_scores
+        del df, df_sec, rows, year_df, prep_sentences, ans_sentences, prep_scores, ans_scores
         gc.collect()
 
     if not all_features:
@@ -191,7 +194,7 @@ def main():
         features[f"{col}_chg"] = features[col] - prev
     features = features.drop(columns=["permno", "call_date"])
 
-    out = os.path.join(args.it_folder, "finbert_features.parquet")
+    out = os.path.join(sector_folder, "finbert_features.parquet")
     features.to_parquet(out, index=False)
     log(f"saved {out}: {len(features):,} calls, {features.shape[1]} columns")
     log(f"columns: {', '.join(features.columns.tolist())}")
