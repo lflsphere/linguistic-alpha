@@ -4,7 +4,6 @@
   "method": "time-series CV, ranked target",
   "model_a_baseline": {
     "algo": "RidgeCV",
-    "rank_ic": 0.068199,
     "features": [
       "sue",
       "surprise_pct",
@@ -22,7 +21,25 @@
       "n_answers",
       "n_analysts",
       "prior_calls_with_target"
-    ]
+    ],
+    "metrics": {
+      "ic": 0.115157,
+      "rank_ic": 0.068199,
+      "oos_r2": 0.029317,
+      "mae": 0.057691,
+      "hit_rate": 0.529412,
+      "hit_rate_baseline": 0.532849,
+      "quintile_spread": 0.014034
+    },
+    "ols_metrics": {
+      "ic": 0.096813,
+      "rank_ic": 0.045778,
+      "oos_r2": 0.027633,
+      "mae": 0.057745,
+      "hit_rate": 0.529412,
+      "hit_rate_baseline": 0.532849,
+      "quintile_spread": 0.009748
+    }
   },
   "strategies": [
     {
@@ -37,11 +54,13 @@
       "metrics": {
         "ic": 0.126515,
         "rank_ic": 0.094294,
-        "r2": -273904877.118163,
-        "rmse": 1413.187191,
-        "direction_accuracy": 0.382353,
+        "oos_r2": 0.031819,
+        "mae": 0.057487,
+        "hit_rate": 0.539216,
+        "hit_rate_baseline": 0.532849,
         "quintile_spread": 0.024666
       },
+      "relative_ic": 0.048516,
       "selection_log": [
         {
           "step": 0,
@@ -96,33 +115,36 @@
       "metrics": {
         "ic": 0.125987,
         "rank_ic": 0.084428,
-        "r2": -271374766.94912,
-        "rmse": 1406.645112,
-        "direction_accuracy": 0.382353,
+        "oos_r2": 0.034317,
+        "mae": 0.057435,
+        "hit_rate": 0.539216,
+        "hit_rate_baseline": 0.532849,
         "quintile_spread": 0.027208
       },
+      "relative_ic": 0.03865,
       "selection_log": null
     },
     {
-      "name": "FinBERT Ensemble (7)",
+      "name": "FinBERT Ensemble (6)",
       "algo": "Ensemble",
       "added_finbert": [
-        "fb_sent_std_answers",
-        "fb_sent_gap",
-        "fb_neg_pct_answers",
-        "fb_pos_pct_answers",
-        "fb_sent_answers",
+        "fb_sent_answers_chg",
         "fb_n_sent_answers",
-        "fb_neg_pct_prepared"
+        "fb_pos_pct_prepared",
+        "fb_neg_pct_answers",
+        "fb_n_sent_prepared",
+        "fb_sent_gap"
       ],
       "metrics": {
-        "ic": 0.118522,
-        "rank_ic": 0.077534,
-        "r2": -275638928.484588,
-        "rmse": 1417.653473,
-        "direction_accuracy": 0.382353,
-        "quintile_spread": 0.018123
+        "ic": 0.11567,
+        "rank_ic": 0.071429,
+        "oos_r2": -0.744488,
+        "mae": 0.084093,
+        "hit_rate": 0.529412,
+        "hit_rate_baseline": 0.532849,
+        "quintile_spread": 0.012137
       },
+      "relative_ic": 0.025651,
       "selection_log": null
     },
     {
@@ -155,11 +177,13 @@
       "metrics": {
         "ic": 0.065716,
         "rank_ic": 0.045151,
-        "r2": -272011687.684021,
-        "rmse": 1408.294853,
-        "direction_accuracy": 0.382353,
+        "oos_r2": 0.024102,
+        "mae": 0.057831,
+        "hit_rate": 0.5,
+        "hit_rate_baseline": 0.532849,
         "quintile_spread": 0.024725
       },
+      "relative_ic": -0.000628,
       "selection_log": null
     }
   ],
@@ -175,10 +199,12 @@
     "metrics": {
       "ic": 0.126515,
       "rank_ic": 0.094294,
-      "r2": -273904877.118163,
-      "rmse": 1413.187191,
-      "direction_accuracy": 0.382353,
+      "oos_r2": 0.031819,
+      "mae": 0.057487,
+      "hit_rate": 0.539216,
+      "hit_rate_baseline": 0.532849,
       "quintile_spread": 0.024666
-    }
+    },
+    "relative_ic": 0.048516
   }
 }

@@ -1,6 +1,6 @@
 ======================================================================
 IT Sector — Model A + B — Option 1 (S&P 500 bench)
-Generated: 2026-11-23 20:58
+Generated: 2026-11-27 19:44
 Train: 2,892 (≤2023-12-31) | Test: 204 (>2023-12-31)
 Method: Time-series CV, ranked target, min Δ=0.0
 ======================================================================
@@ -25,8 +25,8 @@ All Ling + RidgeCV                  RidgeCV              Rank IC=-0.0274 Q5-Q1=+
 PCA(3) Linguistic                   RidgeCV              Rank IC=+0.0131 Q5-Q1=+0.0185 Δ=-0.0248
   features: ling_pc1, ling_pc2, ling_pc3
 
-Single Best (tone_prepared)         RidgeCV              Rank IC=+0.0374 Q5-Q1=+0.0236 Δ=-0.0005
-  features: tone_prepared
+Single-Feature Ensemble             Ensemble             Rank IC=+0.0289 Q5-Q1=+0.0169 Δ=-0.0090
+  features: tone_gap, tone_answers, tone_answers_chg, hedging_prepared
 
 --- FORWARD SELECTION LOG ---
  Step Added                           TS-CV Rank IC      Delta
@@ -38,13 +38,15 @@ Single Best (tone_prepared)         RidgeCV              Rank IC=+0.0374 Q5-Q1=+
     5 tone_prepared_chg                     +0.0377    +0.0033
     6 tone_prepared                         +0.0397    +0.0021
 
-Model B (best strategy): Single Best (tone_prepared)
-  Algo: RidgeCV
-  Features (17): sue, surprise_pct, vol_pre, car_-1_1, mom, bm, size, dispersion, avg_answer_words, words_prepared, words_questions, words_answers, n_questions, n_answers, n_analysts, prior_calls_with_target, tone_prepared
-  Rank IC: +0.0374
-  Q5-Q1: +0.0236
-  IC: +0.0720
-  Dir Acc: 0.520
+Model B (best strategy): Single-Feature Ensemble
+  Algo: Ensemble
+  Features (1): ensemble(tone_gap,tone_answers,tone_answers_chg,hedging_prepared)
+  Rank IC: +0.0289
+  Q5-Q1: +0.0169
+  IC: +0.0776
+  OOS R²: -0.840867
+  MAE: 0.086739
+  Hit Rate: 0.500 (baseline: 0.558)
 
 --- MODEL B*: All LM Features (Ridge regularised) ---
 LM features (9): tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
@@ -59,3 +61,4 @@ All algorithms:
   Ridge_a10           : Rank IC=-0.0474  Q5-Q1=+0.0088
   Ridge_a5            : Rank IC=-0.0485  Q5-Q1=+0.0088
   Ridge               : Rank IC=-0.0492  Q5-Q1=+0.0094
+  OLS                 : Rank IC=-0.0574  Q5-Q1=+0.0068

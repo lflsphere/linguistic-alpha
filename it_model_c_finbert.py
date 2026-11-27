@@ -97,34 +97,85 @@ def preprocess(train_df, test_df, features):
     return X_tr_s, X_te_s, scaler, stats_dict
 
 
-def evaluate(y_true, y_pred):
+METRIC_KEYS = ["ic", "rank_ic", "oos_r2", "mae", "hit_rate", "hit_rate_baseline",
+                "quintile_spread"]
+
+
+def evaluate(y_true, y_pred, y_train=None, X_tr=None, X_te=None, is_ranked=True):
     if len(y_true) < 10:
-        return {k: np.nan for k in ["ic", "rank_ic", "r2", "rmse", "direction_accuracy", "quintile_spread"]}
-    ic = stats.pearsonr(y_pred, y_true)[0]
-    rank_ic = stats.spearmanr(y_pred, y_true)[0]
-    ss_res = np.sum((y_true - y_pred) ** 2)
-    ss_tot = np.sum((y_true - np.mean(y_true)) ** 2)
-    r2 = 1 - ss_res / ss_tot if ss_tot > 0 else np.nan
-    rmse = np.sqrt(np.mean((y_true - y_pred) ** 2))
-    dir_acc = np.mean((y_true > 0) == (y_pred > 0))
+        return {k: np.nan for k in METRIC_KEYS}
+
+    ic = float(stats.pearsonr(y_pred, y_true)[0])
+    rank_ic = float(stats.spearmanr(y_pred, y_true)[0])
+
     q = pd.qcut(y_pred, 5, labels=False, duplicates="drop")
     qm = pd.Series(y_true).groupby(q).mean()
-    spread = qm.iloc[-1] - qm.iloc[0] if len(qm) >= 2 else np.nan
-    return {"ic": ic, "rank_ic": rank_ic, "r2": r2, "rmse": rmse,
-            "direction_accuracy": dir_acc, "quintile_spread": spread}
+    spread = float(qm.iloc[-1] - qm.iloc[0]) if len(qm) >= 2 else np.nan
+
+    if is_ranked and X_tr is not None and X_te is not None and y_train is not None:
+        from sklearn.linear_model import LinearRegression as _LR
+        cal = _LR()
+        cal.fit(X_tr, stats.rankdata(y_train))
+        train_preds_rank = cal.predict(X_tr)
+        cal_line = _LR()
+        cal_line.fit(train_preds_rank.reshape(-1, 1), y_train)
+        y_pred_cal = cal_line.predict(y_pred.reshape(-1, 1))
+    elif is_ranked:
+        y_pred_cal = (y_pred - np.mean(y_pred)) / (np.std(y_pred) + 1e-12) * np.std(y_true)
+    else:
+        y_pred_cal = y_pred
+
+    ss_res = np.sum((y_true - y_pred_cal) ** 2)
+    ss_zero = np.sum(y_true ** 2)
+    oos_r2 = float(1 - ss_res / ss_zero) if ss_zero > 0 else np.nan
+
+    mae = float(np.mean(np.abs(y_true - y_pred_cal)))
+
+    pred_sign = np.sign(y_pred_cal - np.median(y_pred_cal))
+    pred_sign[pred_sign == 0] = 1
+    actual_sign = np.sign(y_true)
+    actual_sign[actual_sign == 0] = 1
+    hit_rate = float(np.mean(pred_sign == actual_sign))
+
+    if y_train is not None:
+        pos_share = np.mean(y_train > 0)
+        hit_baseline = float(max(pos_share, 1 - pos_share))
+    else:
+        pos_share = np.mean(y_true > 0)
+        hit_baseline = float(max(pos_share, 1 - pos_share))
+
+    return {"ic": ic, "rank_ic": rank_ic, "oos_r2": oos_r2, "mae": mae,
+            "hit_rate": hit_rate, "hit_rate_baseline": hit_baseline,
+            "quintile_spread": spread, "predictions": y_pred_cal.tolist()}
 
 
-def fit_and_eval(X_tr, X_te, y_tr, y_te, algos):
+def evaluate_ols(X_tr, X_te, y_tr, y_te):
+    ols = LinearRegression()
+    ols.fit(X_tr, y_tr)
+    preds = ols.predict(X_te)
+    return evaluate(y_te, preds, y_train=y_tr, is_ranked=False)
+
+
+def metrics_for_json(m):
+    return {k: round(v, 6) if isinstance(v, float) else v
+            for k, v in m.items() if k != "predictions"}
+
+
+def fit_and_eval(X_tr, X_te, y_tr, y_te, algos, y_train_raw=None):
     results = {}
     for name, model in algos.items():
         model.fit(X_tr, y_tr)
         preds = model.predict(X_te)
-        results[name] = evaluate(y_te, preds)
+        results[name] = evaluate(y_te, preds, y_train=y_train_raw,
+                                 X_tr=X_tr, X_te=X_te, is_ranked=True)
+    results["OLS"] = evaluate_ols(X_tr, X_te,
+                                  y_train_raw if y_train_raw is not None else y_te, y_te)
     return results
 
 
 def best_result(results):
-    best_name = max(results, key=lambda k: results[k]["rank_ic"])
+    candidates = {k: v for k, v in results.items() if k != "OLS"}
+    best_name = max(candidates, key=lambda k: candidates[k]["rank_ic"])
     return best_name, results[best_name]
 
 
@@ -229,7 +280,7 @@ def strategy_forward_selection(train, test, base_features, y_tr, y_te):
 
     X_tr_f, X_te_f, _, _ = preprocess(train, test, current)
     y_tr_ranks = stats.rankdata(y_tr)
-    final_results = fit_and_eval(X_tr_f, X_te_f, y_tr_ranks, y_te, get_all_algos())
+    final_results = fit_and_eval(X_tr_f, X_te_f, y_tr_ranks, y_te, get_all_algos(), y_train_raw=y_tr)
     best_name, best_metrics = best_result(final_results)
     log_msg(f"  Final: {len(current)} features, Holdout Rank IC={best_metrics['rank_ic']:+.4f} ({best_name})")
 
@@ -254,7 +305,7 @@ def strategy_all_forced(train, test, base_features, y_tr, y_te):
         "Ridge_a100": Ridge(alpha=100.0),
         "EN_a0.1": ElasticNet(alpha=0.1, l1_ratio=0.9, max_iter=5000),
     })
-    results = fit_and_eval(X_tr, X_te, y_tr_ranks, y_te, algos)
+    results = fit_and_eval(X_tr, X_te, y_tr_ranks, y_te, algos, y_train_raw=y_tr)
     best_name, best_metrics = best_result(results)
 
     log_msg(f"  Results ({len(all_features)} features):")
@@ -267,57 +318,77 @@ def strategy_all_forced(train, test, base_features, y_tr, y_te):
 
 
 def strategy_ensemble(train, test, base_features, y_tr, y_te):
-    """Average predictions from best single-FinBERT-feature models."""
+    """Average predictions from best single-FinBERT-feature models.
+    Feature filtering uses CV Rank IC (not test set) to avoid leakage."""
     log_msg("\n--- Model C Strategy 3: Single-Feature Ensemble ---")
     available_fb = [f for f in FINBERT_CANDIDATES if f in train.columns]
     y_tr_ranks = stats.rankdata(y_tr)
+    algos = get_all_algos()
 
-    # Baseline
-    X_tr_base, X_te_base, _, _ = preprocess(train, test, base_features)
-    base_model = RidgeCV(alphas=[0.1, 0.5, 1.0, 5.0, 10.0, 50.0, 100.0])
-    base_model.fit(X_tr_base, y_tr_ranks)
-    base_preds = base_model.predict(X_te_base)
-    base_ric = stats.spearmanr(base_preds, y_te)[0]
-    log_msg(f"  Base Rank IC: {base_ric:+.4f}")
+    # Baseline CV Rank IC (controls only)
+    base_cv_ric, base_cv_algo = ts_cv_rank_ic(train, base_features, PRIMARY_TARGET, algos)
+    log_msg(f"  Base CV Rank IC: {base_cv_ric:+.4f} ({base_cv_algo})")
 
-    single_results = {}
+    # Score each single-feature model by CV Rank IC
+    cv_results = {}
     for feat in available_fb:
         trial = list(base_features) + [feat]
-        X_tr_f, X_te_f, _, _ = preprocess(train, test, trial)
-        # Try multiple models per feature, pick best
-        best_preds, best_ric_feat = None, -1.0
-        for algo_name, model in get_all_algos().items():
-            m = copy.deepcopy(model)
-            m.fit(X_tr_f, y_tr_ranks)
-            preds = m.predict(X_te_f)
-            ric = stats.spearmanr(preds, y_te)[0]
-            if not np.isnan(ric) and ric > best_ric_feat:
-                best_ric_feat = ric
-                best_preds = preds
-                best_algo = algo_name
-        single_results[feat] = {"rank_ic": best_ric_feat, "preds": best_preds, "algo": best_algo}
-        log_msg(f"    + {feat:30s}: Rank IC={best_ric_feat:+.4f} ({best_algo})")
+        cv_ric, cv_algo = ts_cv_rank_ic(train, trial, PRIMARY_TARGET, algos)
+        cv_results[feat] = {"cv_rank_ic": cv_ric, "cv_algo": cv_algo}
+        log_msg(f"    + {feat:30s}: CV Rank IC={cv_ric:+.4f} ({cv_algo})")
 
-    good_feats = [(f, r) for f, r in sorted(single_results.items(),
-                  key=lambda x: x[1]["rank_ic"], reverse=True) if r["rank_ic"] > base_ric]
-    good_summary = [(f, round(r["rank_ic"], 4)) for f, r in good_feats]
-    log_msg(f"  Features improving over base: {good_summary}")
+    # Keep features that improve over baseline using CV (no test leakage)
+    good_feats = [(f, r) for f, r in sorted(cv_results.items(),
+                  key=lambda x: x[1]["cv_rank_ic"], reverse=True) if r["cv_rank_ic"] > base_cv_ric]
+    good_summary = [(f, round(r["cv_rank_ic"], 4)) for f, r in good_feats]
+    log_msg(f"  Features improving over base (CV): {good_summary}")
 
+    # Train final models on full training set and evaluate on test
     if len(good_feats) >= 2:
-        ensemble_preds = np.column_stack([r["preds"] for _, r in good_feats]).mean(axis=1)
-        ens_metrics = evaluate(y_te, ensemble_preds)
+        all_preds = []
+        for feat, _ in good_feats:
+            trial = list(base_features) + [feat]
+            X_tr_f, X_te_f, _, _ = preprocess(train, test, trial)
+            best_preds, best_ric_feat = None, -1.0
+            for algo_name, model in algos.items():
+                m = copy.deepcopy(model)
+                m.fit(X_tr_f, y_tr_ranks)
+                preds = m.predict(X_te_f)
+                ric = stats.spearmanr(preds, y_te)[0]
+                if not np.isnan(ric) and ric > best_ric_feat:
+                    best_ric_feat = ric
+                    best_preds = preds
+            all_preds.append(best_preds)
+        ensemble_preds = np.column_stack(all_preds).mean(axis=1)
+        ens_metrics = evaluate(y_te, ensemble_preds, y_train=y_tr, is_ranked=True)
         log_msg(f"  Ensemble of {len(good_feats)} models: Rank IC={ens_metrics['rank_ic']:+.4f}")
         return {"name": f"FinBERT Ensemble ({len(good_feats)})", "features": [f for f, _ in good_feats],
                 "added_finbert": [f for f, _ in good_feats], "algo": "Ensemble",
                 "metrics": ens_metrics, "all_results": {"Ensemble": ens_metrics}}
     elif len(good_feats) == 1:
-        feat, res = good_feats[0]
-        metrics = evaluate(y_te, res["preds"])
-        return {"name": f"Single Best ({feat})", "features": list(base_features) + [feat],
-                "added_finbert": [feat], "algo": res["algo"],
-                "metrics": metrics, "all_results": {res["algo"]: metrics}}
+        feat, _ = good_feats[0]
+        trial = list(base_features) + [feat]
+        X_tr_f, X_te_f, _, _ = preprocess(train, test, trial)
+        best_preds, best_algo, best_ric = None, None, -1.0
+        for algo_name, model in algos.items():
+            m = copy.deepcopy(model)
+            m.fit(X_tr_f, y_tr_ranks)
+            preds = m.predict(X_te_f)
+            ric = stats.spearmanr(preds, y_te)[0]
+            if not np.isnan(ric) and ric > best_ric:
+                best_ric = ric
+                best_preds = preds
+                best_algo = algo_name
+        metrics = evaluate(y_te, best_preds, y_train=y_tr, is_ranked=True)
+        return {"name": f"Single Best ({feat})", "features": trial,
+                "added_finbert": [feat], "algo": best_algo,
+                "metrics": metrics, "all_results": {best_algo: metrics}}
     else:
-        metrics = evaluate(y_te, base_preds)
+        X_tr_base, X_te_base, _, _ = preprocess(train, test, base_features)
+        base_model = RidgeCV(alphas=[0.1, 0.5, 1.0, 5.0, 10.0, 50.0, 100.0])
+        base_model.fit(X_tr_base, y_tr_ranks)
+        base_preds = base_model.predict(X_te_base)
+        metrics = evaluate(y_te, base_preds, y_train=y_tr, is_ranked=True)
         return {"name": "No FinBERT Improvement", "features": list(base_features),
                 "added_finbert": [], "algo": "RidgeCV",
                 "metrics": metrics, "all_results": {"RidgeCV": metrics}}
@@ -336,7 +407,7 @@ def strategy_finbert_plus_lm(train, test, base_features, y_tr, y_te):
     algos = get_all_algos()
     algos["Ridge_a50"] = Ridge(alpha=50.0)
     algos["Ridge_a100"] = Ridge(alpha=100.0)
-    results = fit_and_eval(X_tr, X_te, y_tr_ranks, y_te, algos)
+    results = fit_and_eval(X_tr, X_te, y_tr_ranks, y_te, algos, y_train_raw=y_tr)
     best_name, best_metrics = best_result(results)
 
     log_msg(f"  Top results ({len(all_features)} features):")
@@ -378,7 +449,7 @@ def run_option(opt_name, opt_file, base_features, out_dir, fb_df):
     # Model A baseline (using same features as Model B selected)
     X_tr_a, X_te_a, _, _ = preprocess(train, test, base_features)
     y_tr_ranks = stats.rankdata(y_tr)
-    res_a = fit_and_eval(X_tr_a, X_te_a, y_tr_ranks, y_te, get_all_algos())
+    res_a = fit_and_eval(X_tr_a, X_te_a, y_tr_ranks, y_te, get_all_algos(), y_train_raw=y_tr)
     a_best_name, a_best = best_result(res_a)
     log_msg(f"\nModel A baseline ({len(base_features)} feats): Rank IC={a_best['rank_ic']:+.4f} ({a_best_name})")
 
@@ -429,13 +500,16 @@ def run_option(opt_name, opt_file, base_features, out_dir, fb_df):
         report_lines.append(f"{m['name']:45s} {m['algo']:20s} Rank IC={m['metrics']['rank_ic']:+.4f} "
                             f"Q5-Q1={m['metrics']['quintile_spread']:+.4f} Δ={delta:+.4f}")
         report_lines.append(f"  FinBERT features: {', '.join(m['added_finbert'])}")
+        mm = m["metrics"]
+        report_lines.append(f"  OOS R²={mm['oos_r2']:+.6f}  MAE={mm['mae']:.6f}  "
+                            f"Hit Rate={mm['hit_rate']:.3f} (baseline {mm['hit_rate_baseline']:.3f})")
         if m.get("all_results") and len(m["all_results"]) > 1:
             report_lines.append(f"  All algorithms:")
             for aname, ametrics in sorted(m["all_results"].items(),
                                            key=lambda x: x[1]["rank_ic"], reverse=True)[:6]:
                 report_lines.append(f"    {aname:25s} Rank IC={ametrics['rank_ic']:+.4f}  "
                                     f"Q5-Q1={ametrics['quintile_spread']:+.4f}  "
-                                    f"Dir Acc={ametrics['direction_accuracy']:.3f}")
+                                    f"Hit Rate={ametrics['hit_rate']:.3f}")
         report_lines.append("")
 
     if model_c.get("selection_log"):
@@ -446,36 +520,58 @@ def run_option(opt_name, opt_file, base_features, out_dir, fb_df):
             report_lines.append(f"{entry['step']:5d} {feat_name:30s} {entry['cv_rank_ic']:+14.4f} {entry['improvement']:+10.4f}")
         report_lines.append("")
 
+    bm = best_model['metrics']
     report_lines.append(f"Best Model C: {best_model['name']}")
     report_lines.append(f"  Algo: {best_model['algo']}")
     report_lines.append(f"  Features: {', '.join(best_model.get('added_finbert', []))}")
-    report_lines.append(f"  Rank IC: {best_model['metrics']['rank_ic']:+.4f}")
-    report_lines.append(f"  Q5-Q1: {best_model['metrics']['quintile_spread']:+.4f}")
-    report_lines.append(f"  IC: {best_model['metrics']['ic']:+.4f}")
-    report_lines.append(f"  Dir Acc: {best_model['metrics']['direction_accuracy']:.3f}")
+    report_lines.append(f"  Rank IC: {bm['rank_ic']:+.4f}")
+    report_lines.append(f"  Q5-Q1: {bm['quintile_spread']:+.4f}")
+    report_lines.append(f"  IC: {bm['ic']:+.4f}")
+    report_lines.append(f"  OOS R²: {bm['oos_r2']:+.6f}")
+    report_lines.append(f"  MAE: {bm['mae']:.6f}")
+    report_lines.append(f"  Hit Rate: {bm['hit_rate']:.3f} (baseline: {bm['hit_rate_baseline']:.3f})")
 
     Path(out_dir, f"it_model_c_{tag}_report.txt").write_text("\n".join(report_lines))
+
+    ols_ic_a = res_a.get("OLS", {}).get("rank_ic", np.nan)
 
     result_json = {
         "option": opt_name,
         "train_end": TRAIN_END,
         "method": "time-series CV, ranked target",
-        "model_a_baseline": {"algo": a_best_name, "rank_ic": round(a_best["rank_ic"], 6),
-                              "features": base_features},
+        "model_a_baseline": {"algo": a_best_name, "features": base_features,
+                              "metrics": metrics_for_json(a_best),
+                              "ols_metrics": metrics_for_json(res_a.get("OLS", {}))},
         "strategies": [
             {"name": m["name"], "algo": m["algo"],
              "added_finbert": m["added_finbert"],
-             "metrics": {k: round(v, 6) for k, v in m["metrics"].items()},
+             "metrics": metrics_for_json(m["metrics"]),
+             "relative_ic": round(m["metrics"]["rank_ic"] - ols_ic_a, 6)
+                            if not np.isnan(ols_ic_a) else None,
              "selection_log": m.get("selection_log")}
             for m in all_models
         ],
         "best": {
             "name": best_model["name"], "algo": best_model["algo"],
             "added_finbert": best_model["added_finbert"],
-            "metrics": {k: round(v, 6) for k, v in best_model["metrics"].items()},
+            "metrics": metrics_for_json(best_model["metrics"]),
+            "relative_ic": round(best_model["metrics"]["rank_ic"] - ols_ic_a, 6)
+                           if not np.isnan(ols_ic_a) else None,
         },
     }
     Path(out_dir, f"it_model_c_{tag}_results.json").write_text(json.dumps(result_json, indent=2))
+
+    # Save predictions CSV
+    pred_rows = []
+    for m in all_models:
+        preds = m["metrics"].get("predictions", [])
+        if preds:
+            for i, p in enumerate(preds):
+                pred_rows.append({"model": m["name"], "obs_idx": i,
+                                  "y_pred_cal": p, "y_true": float(y_te[i])})
+    if pred_rows:
+        pd.DataFrame(pred_rows).to_csv(f"{out_dir}/predictions_c_{tag}.csv", index=False)
+        log_msg(f"  saved predictions to {out_dir}/predictions_c_{tag}.csv")
 
     log_msg(f"saved reports to {out_dir}/it_model_c_{tag}_*")
     return best_model, a_best

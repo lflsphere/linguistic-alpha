@@ -1,6 +1,6 @@
 ======================================================================
 IT Sector — Model C (FinBERT) — Option 1 (S&P 500 bench)
-Generated: 2026-11-20 21:11
+Generated: 2026-11-27 19:49
 Train: 2,892 (≤2023-12-31) | Test: 204 (>2023-12-31)
 FinBERT coverage: 3558/3561 (99.9%)
 Model A baseline (16 feats): Rank IC=+0.0379 (EN_strong)
@@ -9,46 +9,52 @@ Method: Time-series CV, ranked target, min Δ=0.0
 
 Model C (FinBERT forward sel)                 RidgeCV              Rank IC=+0.0406 Q5-Q1=+0.0221 Δ=+0.0027
   FinBERT features: fb_n_sent_prepared
+  OOS R²=+0.010780  MAE=0.054217  Hit Rate=0.510 (baseline 0.558)
   All algorithms:
-    RidgeCV                   Rank IC=+0.0406  Q5-Q1=+0.0221  Dir Acc=0.520
-    EN_strong                 Rank IC=+0.0404  Q5-Q1=+0.0202  Dir Acc=0.520
-    Ridge                     Rank IC=+0.0401  Q5-Q1=+0.0167  Dir Acc=0.520
-    ElasticNet                Rank IC=+0.0398  Q5-Q1=+0.0167  Dir Acc=0.520
-    Ridge_a5                  Rank IC=+0.0397  Q5-Q1=+0.0167  Dir Acc=0.520
-    Ridge_a10                 Rank IC=+0.0396  Q5-Q1=+0.0167  Dir Acc=0.520
+    RidgeCV                   Rank IC=+0.0406  Q5-Q1=+0.0221  Hit Rate=0.510
+    EN_strong                 Rank IC=+0.0404  Q5-Q1=+0.0202  Hit Rate=0.520
+    Ridge                     Rank IC=+0.0401  Q5-Q1=+0.0167  Hit Rate=0.520
+    ElasticNet                Rank IC=+0.0398  Q5-Q1=+0.0167  Hit Rate=0.520
+    Ridge_a5                  Rank IC=+0.0397  Q5-Q1=+0.0167  Hit Rate=0.520
+    Ridge_a10                 Rank IC=+0.0396  Q5-Q1=+0.0167  Hit Rate=0.520
 
 Model C* (All FinBERT forced)                 EN_a0.1              Rank IC=+0.0424 Q5-Q1=-0.0051 Δ=+0.0045
   FinBERT features: fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg, fb_n_sent_prepared, fb_n_sent_answers
+  OOS R²=+0.011551  MAE=0.054323  Hit Rate=0.529 (baseline 0.558)
   All algorithms:
-    EN_a0.1                   Rank IC=+0.0424  Q5-Q1=-0.0051  Dir Acc=0.520
-    RidgeCV                   Rank IC=+0.0421  Q5-Q1=+0.0013  Dir Acc=0.520
-    Ridge_a100                Rank IC=+0.0421  Q5-Q1=+0.0013  Dir Acc=0.520
-    EN_strong                 Rank IC=+0.0410  Q5-Q1=-0.0044  Dir Acc=0.520
-    Ridge_a50                 Rank IC=+0.0408  Q5-Q1=-0.0069  Dir Acc=0.520
-    ElasticNet                Rank IC=+0.0396  Q5-Q1=-0.0047  Dir Acc=0.520
+    EN_a0.1                   Rank IC=+0.0424  Q5-Q1=-0.0051  Hit Rate=0.529
+    RidgeCV                   Rank IC=+0.0421  Q5-Q1=+0.0013  Hit Rate=0.539
+    Ridge_a100                Rank IC=+0.0421  Q5-Q1=+0.0013  Hit Rate=0.539
+    EN_strong                 Rank IC=+0.0410  Q5-Q1=-0.0044  Hit Rate=0.529
+    Ridge_a50                 Rank IC=+0.0408  Q5-Q1=-0.0069  Hit Rate=0.529
+    ElasticNet                Rank IC=+0.0396  Q5-Q1=-0.0047  Hit Rate=0.520
 
-FinBERT Ensemble (11)                         Ensemble             Rank IC=+0.0483 Q5-Q1=+0.0320 Δ=+0.0104
-  FinBERT features: fb_sent_std_answers, fb_pos_pct_answers, fb_sent_answers, fb_sent_prepared_chg, fb_sent_gap, fb_n_sent_prepared, fb_n_sent_answers, fb_neg_pct_prepared, fb_sent_std_prepared, fb_sent_answers_chg, fb_neg_pct_answers
+FinBERT Ensemble (13)                         Ensemble             Rank IC=+0.0482 Q5-Q1=+0.0311 Δ=+0.0103
+  FinBERT features: fb_n_sent_prepared, fb_pos_pct_prepared, fb_sent_prepared, fb_sent_prepared_chg, fb_sent_gap, fb_n_sent_answers, fb_pos_pct_answers, fb_sent_answers_chg, fb_neg_pct_prepared, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_answers
+  OOS R²=-0.839693  MAE=0.086123  Hit Rate=0.529 (baseline 0.558)
 
 FinBERT + LM Combined                         GradientBoosting     Rank IC=+0.0360 Q5-Q1=-0.0005 Δ=-0.0019
   FinBERT features: fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg, fb_n_sent_prepared, fb_n_sent_answers, tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
+  OOS R²=-0.006563  MAE=0.054134  Hit Rate=0.510 (baseline 0.558)
   All algorithms:
-    GradientBoosting          Rank IC=+0.0360  Q5-Q1=-0.0005  Dir Acc=0.520
-    RidgeCV                   Rank IC=-0.0157  Q5-Q1=+0.0082  Dir Acc=0.520
-    Ridge_a100                Rank IC=-0.0157  Q5-Q1=+0.0082  Dir Acc=0.520
-    Ridge_a50                 Rank IC=-0.0230  Q5-Q1=+0.0173  Dir Acc=0.520
-    EN_strong                 Rank IC=-0.0232  Q5-Q1=+0.0173  Dir Acc=0.520
-    RandomForest              Rank IC=-0.0269  Q5-Q1=-0.0050  Dir Acc=0.520
+    GradientBoosting          Rank IC=+0.0360  Q5-Q1=-0.0005  Hit Rate=0.510
+    RidgeCV                   Rank IC=-0.0157  Q5-Q1=+0.0082  Hit Rate=0.471
+    Ridge_a100                Rank IC=-0.0157  Q5-Q1=+0.0082  Hit Rate=0.471
+    Ridge_a50                 Rank IC=-0.0230  Q5-Q1=+0.0173  Hit Rate=0.471
+    EN_strong                 Rank IC=-0.0232  Q5-Q1=+0.0173  Hit Rate=0.471
+    RandomForest              Rank IC=-0.0269  Q5-Q1=-0.0050  Hit Rate=0.510
 
 --- FORWARD SELECTION LOG ---
  Step Added                           TS-CV Rank IC      Delta
     0 (baseline)                            +0.0073    +0.0000
     1 fb_n_sent_prepared                    +0.0186    +0.0113
 
-Best Model C: FinBERT Ensemble (11)
+Best Model C: FinBERT Ensemble (13)
   Algo: Ensemble
-  Features: fb_sent_std_answers, fb_pos_pct_answers, fb_sent_answers, fb_sent_prepared_chg, fb_sent_gap, fb_n_sent_prepared, fb_n_sent_answers, fb_neg_pct_prepared, fb_sent_std_prepared, fb_sent_answers_chg, fb_neg_pct_answers
-  Rank IC: +0.0483
-  Q5-Q1: +0.0320
-  IC: +0.0780
-  Dir Acc: 0.520
+  Features: fb_n_sent_prepared, fb_pos_pct_prepared, fb_sent_prepared, fb_sent_prepared_chg, fb_sent_gap, fb_n_sent_answers, fb_pos_pct_answers, fb_sent_answers_chg, fb_neg_pct_prepared, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_answers
+  Rank IC: +0.0482
+  Q5-Q1: +0.0311
+  IC: +0.0782
+  OOS R²: -0.839693
+  MAE: 0.086123
+  Hit Rate: 0.529 (baseline: 0.558)

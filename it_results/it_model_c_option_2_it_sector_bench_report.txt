@@ -1,6 +1,6 @@
 ======================================================================
 IT Sector — Model C (FinBERT) — Option 2 (IT sector bench)
-Generated: 2026-11-20 21:17
+Generated: 2026-11-27 19:56
 Train: 2,892 (≤2023-12-31) | Test: 204 (>2023-12-31)
 FinBERT coverage: 3558/3561 (99.9%)
 Model A baseline (16 feats): Rank IC=+0.0682 (RidgeCV)
@@ -9,36 +9,40 @@ Method: Time-series CV, ranked target, min Δ=0.0
 
 Model C (FinBERT forward sel)                 Ridge                Rank IC=+0.0943 Q5-Q1=+0.0247 Δ=+0.0261
   FinBERT features: fb_sent_answers_chg, fb_sent_gap, fb_pos_pct_answers, fb_sent_answers
+  OOS R²=+0.031819  MAE=0.057487  Hit Rate=0.539 (baseline 0.533)
   All algorithms:
-    Ridge                     Rank IC=+0.0943  Q5-Q1=+0.0247  Dir Acc=0.382
-    Ridge_a5                  Rank IC=+0.0937  Q5-Q1=+0.0247  Dir Acc=0.382
-    Ridge_a10                 Rank IC=+0.0926  Q5-Q1=+0.0247  Dir Acc=0.382
-    ElasticNet                Rank IC=+0.0921  Q5-Q1=+0.0247  Dir Acc=0.382
-    EN_strong                 Rank IC=+0.0907  Q5-Q1=+0.0247  Dir Acc=0.382
-    RidgeCV                   Rank IC=+0.0899  Q5-Q1=+0.0246  Dir Acc=0.382
+    Ridge                     Rank IC=+0.0943  Q5-Q1=+0.0247  Hit Rate=0.539
+    Ridge_a5                  Rank IC=+0.0937  Q5-Q1=+0.0247  Hit Rate=0.539
+    Ridge_a10                 Rank IC=+0.0926  Q5-Q1=+0.0247  Hit Rate=0.539
+    ElasticNet                Rank IC=+0.0921  Q5-Q1=+0.0247  Hit Rate=0.539
+    EN_strong                 Rank IC=+0.0907  Q5-Q1=+0.0247  Hit Rate=0.539
+    RidgeCV                   Rank IC=+0.0899  Q5-Q1=+0.0246  Hit Rate=0.549
 
 Model C* (All FinBERT forced)                 Ridge                Rank IC=+0.0844 Q5-Q1=+0.0272 Δ=+0.0162
   FinBERT features: fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg, fb_n_sent_prepared, fb_n_sent_answers
+  OOS R²=+0.034317  MAE=0.057435  Hit Rate=0.539 (baseline 0.533)
   All algorithms:
-    Ridge                     Rank IC=+0.0844  Q5-Q1=+0.0272  Dir Acc=0.382
-    Ridge_a5                  Rank IC=+0.0839  Q5-Q1=+0.0298  Dir Acc=0.382
-    Ridge_a10                 Rank IC=+0.0800  Q5-Q1=+0.0292  Dir Acc=0.382
-    ElasticNet                Rank IC=+0.0773  Q5-Q1=+0.0292  Dir Acc=0.382
-    RidgeCV                   Rank IC=+0.0756  Q5-Q1=+0.0233  Dir Acc=0.382
-    Ridge_a100                Rank IC=+0.0756  Q5-Q1=+0.0233  Dir Acc=0.382
+    Ridge                     Rank IC=+0.0844  Q5-Q1=+0.0272  Hit Rate=0.539
+    Ridge_a5                  Rank IC=+0.0839  Q5-Q1=+0.0298  Hit Rate=0.539
+    Ridge_a10                 Rank IC=+0.0800  Q5-Q1=+0.0292  Hit Rate=0.529
+    ElasticNet                Rank IC=+0.0773  Q5-Q1=+0.0292  Hit Rate=0.539
+    RidgeCV                   Rank IC=+0.0756  Q5-Q1=+0.0233  Hit Rate=0.529
+    Ridge_a100                Rank IC=+0.0756  Q5-Q1=+0.0233  Hit Rate=0.529
 
-FinBERT Ensemble (7)                          Ensemble             Rank IC=+0.0775 Q5-Q1=+0.0181 Δ=+0.0093
-  FinBERT features: fb_sent_std_answers, fb_sent_gap, fb_neg_pct_answers, fb_pos_pct_answers, fb_sent_answers, fb_n_sent_answers, fb_neg_pct_prepared
+FinBERT Ensemble (6)                          Ensemble             Rank IC=+0.0714 Q5-Q1=+0.0121 Δ=+0.0032
+  FinBERT features: fb_sent_answers_chg, fb_n_sent_answers, fb_pos_pct_prepared, fb_neg_pct_answers, fb_n_sent_prepared, fb_sent_gap
+  OOS R²=-0.744488  MAE=0.084093  Hit Rate=0.529 (baseline 0.533)
 
 FinBERT + LM Combined                         RidgeCV              Rank IC=+0.0452 Q5-Q1=+0.0247 Δ=-0.0230
   FinBERT features: fb_sent_prepared, fb_sent_answers, fb_pos_pct_prepared, fb_neg_pct_prepared, fb_pos_pct_answers, fb_neg_pct_answers, fb_sent_std_prepared, fb_sent_std_answers, fb_sent_gap, fb_sent_prepared_chg, fb_sent_answers_chg, fb_n_sent_prepared, fb_n_sent_answers, tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
+  OOS R²=+0.024102  MAE=0.057831  Hit Rate=0.500 (baseline 0.533)
   All algorithms:
-    RidgeCV                   Rank IC=+0.0452  Q5-Q1=+0.0247  Dir Acc=0.382
-    Ridge_a100                Rank IC=+0.0452  Q5-Q1=+0.0247  Dir Acc=0.382
-    Ridge                     Rank IC=+0.0438  Q5-Q1=+0.0213  Dir Acc=0.382
-    ElasticNet                Rank IC=+0.0430  Q5-Q1=+0.0205  Dir Acc=0.382
-    Ridge_a5                  Rank IC=+0.0427  Q5-Q1=+0.0216  Dir Acc=0.382
-    EN_strong                 Rank IC=+0.0417  Q5-Q1=+0.0268  Dir Acc=0.382
+    RidgeCV                   Rank IC=+0.0452  Q5-Q1=+0.0247  Hit Rate=0.500
+    Ridge_a100                Rank IC=+0.0452  Q5-Q1=+0.0247  Hit Rate=0.500
+    Ridge                     Rank IC=+0.0438  Q5-Q1=+0.0213  Hit Rate=0.490
+    ElasticNet                Rank IC=+0.0430  Q5-Q1=+0.0205  Hit Rate=0.490
+    Ridge_a5                  Rank IC=+0.0427  Q5-Q1=+0.0216  Hit Rate=0.490
+    EN_strong                 Rank IC=+0.0417  Q5-Q1=+0.0268  Hit Rate=0.490
 
 --- FORWARD SELECTION LOG ---
  Step Added                           TS-CV Rank IC      Delta
@@ -54,4 +58,6 @@ Best Model C: Model C (FinBERT forward sel)
   Rank IC: +0.0943
   Q5-Q1: +0.0247
   IC: +0.1265
-  Dir Acc: 0.382
+  OOS R²: +0.031819
+  MAE: 0.057487
+  Hit Rate: 0.539 (baseline: 0.533)
