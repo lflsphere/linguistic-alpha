@@ -1,0 +1,12 @@
+check,status,detail
+Delta features use only the previous calls of the same firm (gvkey); history from 2008,PASS,max |recomputed - stored| = 3.33e-16 on 26921 calls (TONE_M NaNs make the stored rolling mean NaN where the recomputed one is not: 0)
+NOVEL uses the previous call of the same firm only,PASS,367 calls with NaN NOVEL (first call of a gvkey since 2008)
+unsupervised text models fitted without holdout text,PASS,sentence-transformers/multi-qa-MiniLM-L6-cos-v1: pre-trained (no fit on this sample)
+label classifiers fitted on build-period labels only,PASS,"414 labels, 0 in the holdout; fit period call_date <= 2023-12-31"
+every labelled pair_id matches a full-source pair,PASS,"labels used {'EVADE_CLF': 414, 'NONANS_CLF': 414}; not matched {'EVADE_CLF': 0, 'NONANS_CLF': 0}"
+one call per firm and fiscal period (duplicate_calls: keep_first),PASS,111 duplicates dropped; 19 gvkey x fiscal-label repeats left are > 3 days apart (fiscal-year changes)
+firm key,PASS,gvkey (tickers change over time)
+lexicon,PASS,MasterDictionary.csv
+LLM look-ahead,WARN,no generative LLM scoring; the pre-trained encoder receives text with the call's own firm name and years masked (other firms' names are not masked)
+transcript text truncation,PASS,"none: texts come from the CIQ components, not Excel cells"
+"holdout coverage (scored, never used for fitting or distributions)",PASS,"5307 holdout calls (2024-2026), 90801 pairs"

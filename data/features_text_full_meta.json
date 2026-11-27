@@ -1,0 +1,127 @@
+{
+  "built_at": "2026-11-27T05:15:05+00:00",
+  "source": "full",
+  "label_source": "data/qa_labels.csv",
+  "n_labels": {
+    "EVADE_CLF": 414,
+    "NONANS_CLF": 414
+  },
+  "oof_auc": {
+    "EVADE_CLF": 0.6288023034412298,
+    "NONANS_CLF": 0.6735466116271069
+  },
+  "label_classifiers": {
+    "EVADE_CLF": {
+      "oof_auc": 0.6288023034412298,
+      "n_labels": 414,
+      "n_pos": 61,
+      "labels_not_in_pairs": 0,
+      "folds": 5,
+      "coef_std": {
+        "REL": -0.0437,
+        "REL_JAC": -0.4596,
+        "log_a_words": 0.1595,
+        "log_q_words": 0.3255,
+        "len_ratio": -0.8493,
+        "HEDGE_A": -0.1437,
+        "NONANS_RULE": 0.2509
+      }
+    },
+    "NONANS_CLF": {
+      "oof_auc": 0.6735466116271069,
+      "n_labels": 414,
+      "n_pos": 57,
+      "labels_not_in_pairs": 0,
+      "folds": 5,
+      "coef_std": {
+        "REL": 0.1848,
+        "REL_JAC": -0.3307,
+        "log_a_words": -0.0078,
+        "log_q_words": -0.0892,
+        "len_ratio": -0.4625,
+        "HEDGE_A": -0.1619,
+        "NONANS_RULE": 0.7955
+      }
+    }
+  },
+  "classifier_features": [
+    "REL",
+    "REL_JAC",
+    "log_a_words",
+    "log_q_words",
+    "len_ratio",
+    "HEDGE_A",
+    "NONANS_RULE"
+  ],
+  "classifier_fit_period": "call_date <= 2023-12-31",
+  "n_events": 29968,
+  "n_pairs": 654447,
+  "n_calls_history": 31974,
+  "sample": [
+    "2011-01-01",
+    "2026-08-31"
+  ],
+  "history_start": "2008-01-01",
+  "firm_key": "gvkey",
+  "duplicate_calls": "keep_first",
+  "n_duplicate_calls_dropped": 111,
+  "call_table_steps": [
+    {
+      "step": "Earnings calls (event type)",
+      "before": 44107,
+      "after": 44107
+    },
+    {
+      "step": "Call date 2008-01-01 to 2026-08-31",
+      "before": 44107,
+      "after": 44075
+    },
+    {
+      "step": "CIQ companyid -> gvkey (date-valid)",
+      "before": 44075,
+      "after": 44024
+    },
+    {
+      "step": "gvkey -> permno (CCM LU/LC, date-valid)",
+      "before": 44024,
+      "after": 43233
+    },
+    {
+      "step": "S&P 500 member on call date",
+      "before": 43233,
+      "after": 32085
+    },
+    {
+      "step": "One permno per call (share_class_rule)",
+      "before": 32085,
+      "after": 32085
+    },
+    {
+      "step": "One call per firm and fiscal period (duplicate_calls: keep_first)",
+      "before": 32085,
+      "after": 31974
+    },
+    {
+      "step": "Has call sections",
+      "before": 31974,
+      "after": 31974
+    }
+  ],
+  "call_table_notes": {
+    "calls_multi_permno": 190,
+    "calls_no_primary_link": 884,
+    "calls_mktcap_rule": 0,
+    "calls_missing_gsector": 32,
+    "calls_no_fiscal_label": 1,
+    "calls_time_placeholder": 95,
+    "same_label_outside_window": 19
+  },
+  "lexicon_source": "MasterDictionary.csv",
+  "embedding_backend": "st",
+  "embedding_model": "sentence-transformers/multi-qa-MiniLM-L6-cos-v1",
+  "embedding_fit_corpus": "pre-trained (no fit on this sample)",
+  "anonymization": "own-firm-name+year-v1",
+  "qa_truncated_calls": 0,
+  "prep_truncated_calls": 0,
+  "run_minutes": 193.7
+}

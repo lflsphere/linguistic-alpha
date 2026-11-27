@@ -8,6 +8,10 @@ Outputs
   data/features_meta.json  audit metadata: lexicon source, embedding backend, fit corpus, truncation stats
 
 Options
+  --source {panel,full}    panel (default) = the legacy data/panel.csv; full = the full-history S&P 500 pairs from
+                           `la transcripts` (data/interim), text features only, written to data/features_text_full.csv,
+                           data/qa_pairs_full.csv and data/features_text_full_meta.json (scripts/full_source.py;
+                           needs --embed st)
   --embed {auto,st,tfidf}  st = sentence-transformers (needs a local cache or Hugging Face access);
                            tfidf = TF-IDF / LSA fitted on development-period text only (offline fallback)
   --finbert                add FinBERT tone (TONE_P_FB, TONE_Q_FB) as an alternative tone measurement
@@ -460,7 +464,16 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--embed", choices=["auto", "st", "tfidf"], default="auto")
     ap.add_argument("--finbert", action="store_true")
+    ap.add_argument("--source", choices=["panel", "full"], default="panel")
+    ap.add_argument("--workers", type=int, default=None, help="--source full: lexical-feature processes")
     args = ap.parse_args()
+
+    if args.source == "full":
+        if args.finbert:
+            raise SystemExit("--finbert is not wired for --source full yet")
+        import full_source
+        full_source.run(embed=args.embed, workers=args.workers)
+        return
 
     df = pd.read_csv(C.PANEL_PATH, parse_dates=["call_date", "day0", "fiscal_period_end"])
     df = df.sort_values(["call_date", "ticker"]).reset_index(drop=True)

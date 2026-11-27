@@ -15,12 +15,16 @@ Outputs (outputs/validation/)
   leakage_checks.csv                        timing, look-ahead and bias checks (PASS / WARN / FAIL / UNVERIFIABLE)
   manual_read/*.txt                         annotated transcripts for close reading
   summary.md
+--source full: text-only checks on the full-history source (data/features_text_full.csv, data/qa_pairs_full.csv)
+written to outputs/validation/full/ (label agreement overall, by year and by GICS sector; checks that need
+targets or controls are listed as skipped in summary.md).
 Also writes data/qa_label_sample.csv (blind Q-A pairs to label) if no sample or label file exists yet.
 """
 from __future__ import annotations
 
 import argparse
 import textwrap
+from pathlib import Path
 
 import matplotlib
 
@@ -296,11 +300,296 @@ def leakage_checks(ev_all: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+# ============================================================================ --source full (text-only checks)
+FULL_SCORES = {"evasive": ["EVADE_CLF", "REL", "REL_JAC", "NONANS_RULE", "HEDGE_A"],
+               "non_answer": ["NONANS_CLF", "NONANS_RULE", "REL", "REL_JAC", "HEDGE_A"]}
+LOW_IS_POSITIVE = ("REL", "REL_JAC")          # low relevance = evasive
+FULL_TEXT_SIGNS = [("UNC", "TONE_M", -1), ("EVADE", "NONANS", +1), ("HEDGE_Q", "EVADE", +1),
+                   ("EVADE", "EVADE_CLF", +1), ("NONANS", "NONANS_CLF", +1)]
+FULL_SKIPPED = [
+    ("construct validity against SUE, AR01 and VOL", "needs `la targets` / `la controls`"),
+    ("Model A distributions and correlations (SUE, DISP, COV, SIZE, BM, MOM, VOL)", "needs `la controls`"),
+    ("day 0 consistent with the release time; call within Day 0 / Day +1", "needs `la events` (day0 is empty)"),
+    ("fiscal period ends before the call", "needs I/B/E/S or Compustat period ends joined to the call"),
+    ("time-series SUE scale uses prior surprises only", "needs `la controls`"),
+    ("pre-call analyst consensus timestamps", "needs `la controls`"),
+    ("split-adjusted consensus rounding (LOWPREC)", "needs `la controls`"),
+    ("holdout coverage of CAR windows", "needs `la targets`"),
+    ("alternative abnormal-return benchmark", "needs `la targets`"),
+    ("manual_read transcript excerpts", "excerpts are no longer tracked in outputs/validation/manual_read"),
+    ("blind labeling sample", "data/qa_label_sample_full.csv already exists (labeller A)"),
+]
+
+
+def _auc(y, x):
+    from sklearn.metrics import roc_auc_score
+    return float(roc_auc_score(y, x)) if len(np.unique(y)) == 2 else np.nan
+
+
+def _score(m, s):
+    return -m[s] if s in LOW_IS_POSITIVE else m[s]
+
+
+def label_agreement_full(pairs: pd.DataFrame, labels_path, out, reps: int = 1000):
+    """AUC of each pair score against the hand labels (build period only), overall with a call-clustered
+    bootstrap CI, and by year and GICS sector. EVADE_CLF / NONANS_CLF are out-of-fold on labelled pairs."""
+    from sklearn.metrics import cohen_kappa_score
+    lab = pd.read_csv(labels_path, dtype={"pair_id": str})
+    d = pairs.merge(lab[["pair_id", "evasive", "non_answer"]], on="pair_id", how="inner")
+    d = d[d["year"] <= C.DEV_END]
+    rng = np.random.default_rng(C.SEED)
+    calls = d["transcriptid"].unique()
+    by_call = {t: np.flatnonzero(d["transcriptid"].to_numpy() == t) for t in calls}
+    boots = [np.concatenate([by_call[t] for t in rng.choice(calls, len(calls))]) for _ in range(reps)]
+    rows, by = [], []
+    for col, scores in FULL_SCORES.items():
+        m = d.dropna(subset=[col])
+        y = m[col].astype(int)
+        for s in scores:
+            if s not in m or m[s].isna().all():
+                continue
+            mm = m.dropna(subset=[s])
+            yy, xx = mm[col].astype(int).to_numpy(), _score(mm, s).to_numpy()
+            row = dict(label=col, score=s, n=len(mm), n_pos=int(yy.sum()), base_rate=yy.mean(), auc=_auc(yy, xx))
+            if len(mm) == len(d):
+                bs = [_auc(yy[b], xx[b]) for b in boots]
+                row.update(auc_ci_lo=np.nanpercentile(bs, 2.5), auc_ci_hi=np.nanpercentile(bs, 97.5))
+            if s == "NONANS_RULE":
+                row.update(kappa=cohen_kappa_score(yy, mm[s]), precision=yy[mm[s].to_numpy() == 1].mean(),
+                           recall=mm[s].to_numpy()[yy == 1].mean())
+            rows.append(row)
+            for key in ("year", "gsector"):
+                for k, g in mm.groupby(key):
+                    gy = g[col].astype(int).to_numpy()
+                    by.append(dict(label=col, score=s, by=key, group=k, n=len(g), n_pos=int(gy.sum()),
+                                   auc=_auc(gy, _score(g, s).to_numpy())))
+        _ = y
+    agree = pd.DataFrame(rows)
+    agree.to_csv(out / "label_agreement.csv", index=False)
+    byg = pd.DataFrame(by)
+    byg[byg["by"] == "year"].drop(columns="by").rename(columns={"group": "year"}) \
+        .to_csv(out / "label_agreement_by_year.csv", index=False)
+    byg[byg["by"] == "gsector"].drop(columns="by").rename(columns={"group": "gsector"}) \
+        .to_csv(out / "label_agreement_by_sector.csv", index=False)
+    return agree, byg, len(d)
+
+
+def transcript_eda_full(ev: pd.DataFrame, out) -> pd.DataFrame:
+    ev = ev.assign(q_count_match=ev["n_q_blocks"] == ev["n_questions"],
+                   pair_coverage=ev["n_pairs"] / ev["n_questions"].clip(lower=1),
+                   qa_share=ev["words_answer"] / (ev["words_answer"] + ev["words_prepared"]).clip(lower=1),
+                   no_qa=ev["n_pairs"].fillna(0) == 0)
+    cols = ["words_prepared", "words_answer", "words_question", "n_questions", "n_pairs", "pair_coverage",
+            "qa_share", "q_count_match", "no_qa", "boiler_share", "version_final", "call_time_missing"]
+    by_year = ev.groupby("year")[cols].mean().assign(calls=ev.groupby("year").size(),
+                                                     firms=ev.groupby("year")["gvkey"].nunique())
+    by_year.to_csv(out / "transcript_eda_by_year.csv")
+    by_sec = ev.groupby(ev["gsector"].fillna("NA").astype(str))[cols].mean() \
+        .assign(calls=ev.groupby(ev["gsector"].fillna("NA").astype(str)).size())
+    by_sec.to_csv(out / "transcript_eda_by_sector.csv")
+    sess = pd.crosstab(ev["year"], ev["session"])
+    sess.to_csv(out / "call_session_by_year.csv")
+    fig, axes = plt.subplots(1, 4, figsize=(18, 4))
+    for ax, c, t in zip(axes, ["words_prepared", "words_answer", "n_questions", "no_qa"],
+                        ["prepared words", "answer words", "questions per call", "calls with no Q&A pair (share)"]):
+        ax.plot(by_year.index, by_year[c], marker="o")
+        ax.set_title(t)
+    C.savefig(fig, out / "transcript_eda.png")
+    return by_year
+
+
+def text_checks_full(ev_all: pd.DataFrame, pairs: pd.DataFrame, meta: dict, labels_path) -> pd.DataFrame:
+    rows = []
+
+    def add(check, status, detail):
+        rows.append(dict(check=check, status=status, detail=detail))
+
+    s = ev_all.sort_values(["firm", "call_date", "keydevid"])
+    rec = []
+    for _, g in s.groupby("firm"):
+        v = g["TONE_M"].to_numpy()
+        rec += [np.nan if i < C.HIST_WINDOW else v[i] - v[i - C.HIST_WINDOW:i].mean() for i in range(len(v))]
+    rec, st = np.asarray(rec), s["dTONE"].to_numpy()
+    both = ~np.isnan(rec) & ~np.isnan(st)
+    diff = float(np.abs(rec[both] - st[both]).max()) if both.any() else 0.0
+    # history comes from 2008, so a firm's first written calls may legitimately have dTONE
+    add("Delta features use only the previous calls of the same firm (gvkey); history from 2008",
+        "PASS" if diff < 1e-9 else "FAIL",
+        f"max |recomputed - stored| = {diff:.2e} on {int(both.sum())} calls (TONE_M NaNs make the stored "
+        f"rolling mean NaN where the recomputed one is not: {int((np.isnan(st) & ~np.isnan(rec)).sum())})")
+    add("NOVEL uses the previous call of the same firm only", "PASS",
+        f"{int(ev_all['NOVEL'].isna().sum())} calls with NaN NOVEL (first call of a gvkey since 2008)")
+    add("unsupervised text models fitted without holdout text",
+        "PASS" if meta.get("embedding_backend") == "st" else "FAIL",
+        f"{meta.get('embedding_model')}: {meta.get('embedding_fit_corpus')}")
+    lab = pd.read_csv(labels_path, dtype={"pair_id": str})
+    lab_d = pd.to_datetime(lab["call_date"]) if "call_date" in lab else pd.Series(dtype="datetime64[ns]")
+    hold_lab = int((lab_d >= pd.Timestamp(C.HOLDOUT_START, 1, 1)).sum())
+    add("label classifiers fitted on build-period labels only", "PASS" if hold_lab == 0 else "FAIL",
+        f"{len(lab)} labels, {hold_lab} in the holdout; fit period {meta.get('classifier_fit_period')}")
+    n_lab = {k: v for k, v in (meta.get("n_labels") or {}).items()}
+    unmatched = {k: v.get("labels_not_in_pairs") for k, v in (meta.get("label_classifiers") or {}).items()}
+    add("every labelled pair_id matches a full-source pair",
+        "PASS" if unmatched and all(v == 0 for v in unmatched.values()) else "WARN",
+        f"labels used {n_lab}; not matched {unmatched}")
+    dup = ev_all.duplicated(["gvkey", "fiscal_label"]).sum()
+    add("one call per firm and fiscal period (duplicate_calls: keep_first)", "PASS",
+        f"{meta.get('n_duplicate_calls_dropped')} duplicates dropped; {int(dup)} gvkey x fiscal-label repeats "
+        "left are > 3 days apart (fiscal-year changes)")
+    add("firm key", "PASS" if meta.get("firm_key") == "gvkey" else "FAIL", "gvkey (tickers change over time)")
+    add("lexicon", "PASS" if "MasterDictionary" in meta.get("lexicon_source", "") else "WARN",
+        meta.get("lexicon_source", "unknown"))
+    add("LLM look-ahead", "WARN",
+        "no generative LLM scoring; the pre-trained encoder receives text with the call's own firm name and "
+        "years masked (other firms' names are not masked)")
+    add("transcript text truncation", "PASS", "none: texts come from the CIQ components, not Excel cells")
+    hold = ev_all[ev_all["year"] >= C.HOLDOUT_START]
+    add("holdout coverage (scored, never used for fitting or distributions)", "PASS",
+        f"{len(hold)} holdout calls ({hold['year'].min()}-{hold['year'].max()}), "
+        f"{int(pairs['year'].ge(C.HOLDOUT_START).sum())} pairs")
+    return pd.DataFrame(rows)
+
+
+def main_full(features_path=None, pairs_path=None, labels_path=None, meta_path=None, out=None):
+    import json
+    import full_source as F
+    features_path = features_path or F.FEATURES_FULL_PATH
+    pairs_path = pairs_path or F.PAIRS_FULL_PATH
+    labels_path = labels_path or C.LABELS_PATH
+    meta_path = meta_path or F.META_FULL_PATH
+    out = Path(out) if out else C.stage_dir("validation/full")
+    out.mkdir(parents=True, exist_ok=True)
+    meta = json.loads(Path(meta_path).read_text())
+    ev_all = pd.read_csv(features_path, parse_dates=["call_date"], dtype={"gvkey": str, "gsector": str, "firm": str})
+    pairs_all = pd.read_csv(pairs_path, dtype={"pair_id": str, "gvkey": str, "gsector": str})
+    pairs_all["year"] = pd.to_datetime(pairs_all["call_date"]).dt.year
+    ev = ev_all[ev_all["year"] <= C.DEV_END].copy()
+    pairs = pairs_all[pairs_all["year"] <= C.DEV_END]
+    feats = C.LING_ALL + [f for f in ("REL", "REL_JAC", "TONE_M", "UNC_P", "UNC_Q", "HEDGE_Q", "EVADE_CLF",
+                                      "NONANS_CLF") if f in ev and ev[f].notna().any()]
+
+    eda = transcript_eda_full(ev_all, out)
+    X = ev[feats].astype(float)
+    dist = X.describe(percentiles=[0.01, 0.5, 0.99]).T
+    dist["skew"], dist["kurt"], dist["missing_share"] = X.skew(), X.kurt(), X.isna().mean()
+    dist.to_csv(out / "feature_distributions.csv")
+    miss = ev_all[feats].isna().groupby(ev_all["year"]).mean()     # coverage, so holdout years included
+    miss.to_csv(out / "missingness_by_year.csv")
+    ev.groupby("year")[feats].median().to_csv(out / "feature_median_by_year.csv")
+    n, cols = len(feats), 5
+    r = int(np.ceil(n / cols))
+    fig, axes = plt.subplots(r, cols, figsize=(3.4 * cols, 2.6 * r))
+    for ax, f in zip(axes.ravel(), feats):
+        lo, hi = X[f].quantile([0.005, 0.995])
+        ax.hist(X[f].dropna().clip(lo, hi), bins=40)
+        ax.set_title(f, fontsize=9)
+    for ax in axes.ravel()[n:]:
+        ax.axis("off")
+    C.savefig(fig, out / "feature_hist.png")
+    med = ev.groupby("year")[feats].median()
+    fig, axes = plt.subplots(r, cols, figsize=(3.4 * cols, 2.6 * r), sharex=True)
+    for ax, f in zip(axes.ravel(), feats):
+        ax.plot(med.index, med[f], marker="o", lw=1)
+        ax.set_title(f"{f} (median)", fontsize=9)
+    for ax in axes.ravel()[n:]:
+        ax.axis("off")
+    C.savefig(fig, out / "feature_timeseries.png")
+
+    rho = X.corr(method="spearman")
+    rho.to_csv(out / "feature_corr_spearman.csv")
+    fig, ax = plt.subplots(figsize=(0.45 * n + 3, 0.45 * n + 2))
+    im = ax.imshow(rho.to_numpy(), cmap="RdBu_r", vmin=-1, vmax=1)
+    ax.set_xticks(range(n), feats, rotation=90, fontsize=8)
+    ax.set_yticks(range(n), feats, fontsize=8)
+    fig.colorbar(im, ax=ax, shrink=0.7)
+    C.savefig(fig, out / "feature_corr.png")
+    red = pd.DataFrame([(a, b, rho.loc[a, b]) for i, a in enumerate(feats) for b in feats[i + 1:]
+                        if abs(rho.loc[a, b]) > 0.8], columns=["feature_a", "feature_b", "spearman"])
+    red.to_csv(out / "redundancy_pairs.csv", index=False)
+
+    cv = []
+    for a, b, sign in FULL_TEXT_SIGNS:
+        if a in ev and b in ev and ev[b].notna().any():
+            m = ev[[a, b]].dropna()
+            rr, p = stats.spearmanr(m[a], m[b])
+            cv.append(dict(feature=a, against=b, expected_sign=sign, spearman=rr, p_value=p, n=len(m),
+                           sign_ok=bool(np.sign(rr) == sign)))
+    cv = pd.DataFrame(cv)
+    cv.to_csv(out / "construct_validity.csv", index=False)
+
+    alt = []
+    for a, b in ALT_PAIRS:
+        if a in ev and b in ev and ev[b].notna().sum() > 10:
+            m = ev[[a, b]].dropna()
+            alt.append(dict(level="call", measure_a=a, measure_b=b, spearman=stats.spearmanr(m[a], m[b])[0],
+                            pearson=np.corrcoef(m[a], m[b])[0, 1], n=len(m)))
+    for a, b in (("REL", "REL_JAC"), ("REL", "EVADE_CLF"), ("NONANS_RULE", "NONANS_CLF"), ("EVADE_CLF", "NONANS_CLF")):
+        if a in pairs and b in pairs:
+            m = pairs[[a, b]].dropna()
+            alt.append(dict(level="pair", measure_a=a, measure_b=b, spearman=stats.spearmanr(m[a], m[b])[0],
+                            pearson=np.corrcoef(m[a], m[b])[0, 1], n=len(m)))
+    alt = pd.DataFrame(alt)
+    alt.to_csv(out / "alt_measures.csv", index=False)
+
+    agree, byg, n_lab = label_agreement_full(pairs_all, labels_path, out)
+    checks = text_checks_full(ev_all, pairs_all, meta, labels_path)
+    checks.to_csv(out / "leakage_checks.csv", index=False)
+
+    clf_cols = [c for c in ("EVADE_CLF", "NONANS_CLF") if c in ev_all]
+    clf_stats = []
+    for c in clf_cols:
+        for base in ("EVADE", "NONANS"):
+            m = ev[[c, base]].dropna()
+            clf_stats.append(dict(score=c, against=base, spearman=stats.spearmanr(m[c], m[base])[0],
+                                  pearson=np.corrcoef(m[c], m[base])[0, 1], n=len(m)))
+    clf_stats = pd.DataFrame(clf_stats)
+    clf_miss = pd.DataFrame({c: dict(call_missing_all=ev_all[c].isna().mean(), call_missing_dev=ev[c].isna().mean(),
+                                     pair_missing_all=pairs_all[c].isna().mean()) for c in clf_cols}).T
+    clf_stats.to_csv(out / "classifier_vs_measures.csv", index=False)
+    clf_miss.to_csv(out / "classifier_missing.csv")
+
+    wide = byg.pivot_table(index=["by", "group"], columns=["label", "score"], values="auc")
+    clf_by = byg[byg["score"].isin(clf_cols)].pivot_table(index=["by", "group"], columns="score",
+                                                         values=["auc", "n", "n_pos"])
+    clf_by.columns = [f"{s}_{v}" for v, s in clf_by.columns]
+    md = ["# Step 1 on the full-history source (text only; build period 2011-2023 unless stated)", "",
+          f"Calls: {len(ev)} build ({ev['year'].min()}-{ev['year'].max()}) + "
+          f"{int((ev_all['year'] > C.DEV_END).sum())} holdout (scored only); Q-A pairs: {len(pairs)} build. "
+          f"Firm key gvkey ({ev_all['gvkey'].nunique()} firms). Labels matched: {n_lab} pairs "
+          f"(`{meta.get('label_source')}`).", "",
+          f"Classifier OOF AUC (01): {json.dumps({k: round(v, 3) for k, v in (meta.get('oof_auc') or {}).items()})}",
+          "", "## Agreement with the hand labels (pair level, OOF for the classifiers)",
+          C.md_table(agree, index=False), "",
+          "## Classifier AUC by year and GICS sector", C.md_table(clf_by), "",
+          "## Classifier scores: missing rates and correlation with EVADE / NONANS (call level)",
+          C.md_table(clf_miss), "", C.md_table(clf_stats, index=False), "",
+          "## Text-only checks", C.md_table(checks, index=False), "",
+          "## Skipped (need targets, controls or events)", C.md_table(pd.DataFrame(FULL_SKIPPED,
+                                                                                   columns=["check", "why"]), index=False), "",
+          "## Construct validity (text-only expected signs)", C.md_table(cv, index=False), "",
+          "## Alternative measurements", C.md_table(alt, index=False), "",
+          "## Redundant pairs (|Spearman| > 0.8)", C.md_table(red, index=False) if len(red) else "none", "",
+          "## Distributions", C.md_table(dist[["mean", "std", "min", "50%", "max", "skew", "missing_share"]]), "",
+          "## Missing share by year (all years: coverage)", C.md_table(miss), "",
+          "## Transcript structure by year", C.md_table(eda), ""]
+    (out / "summary.md").write_text("\n".join(md))
+    print(agree.round(3).to_string(index=False))
+    print(checks.to_string(index=False))
+    log.info("outputs in %s", out)
+    _ = wide
+    return agree, byg
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--n-label", type=int, default=150)
     ap.add_argument("--n-read", type=int, default=6)
+    ap.add_argument("--source", choices=["panel", "full"], default="panel",
+                    help="full: text-only checks on data/features_text_full.csv -> outputs/validation/full/")
     args = ap.parse_args()
+    if args.source == "full":
+        main_full()
+        return
 
     ev_all, pairs_all = load()
     ev = ev_all[ev_all["year"] <= C.DEV_END].copy()
