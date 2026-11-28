@@ -1,0 +1,84 @@
+======================================================================
+IT Sector — Model C v2 — Option 2 (IT sector bench)
+Generated: 2026-11-28 16:42
+Train: 3,487 (≤2023-12-31) | Test: 204 (>2023-12-31)
+FinBERT coverage: 3501/4156 (84.2%)
+Model A baseline (16 feats): Rank IC=+0.0778 (RidgeCV)
+Model A CV Rank IC: +0.0004
+Method: Time-series CV, ranked target
+======================================================================
+
+Residualized FinBERT (quarter z-scored)            XGBoost              Rank IC=+0.0681 Q5-Q1=+0.0153 Δ=-0.0097
+  Added features: fb_sent_prepared_chg_resid, fb_n_sent_answers_resid, fb_sent_prepared_resid
+  OOS R²=+0.026623  MAE=0.057975  Hit Rate=0.529 (baseline 0.536)
+  CV Rank IC: +0.0183
+  All algorithms:
+    XGBoost                   Rank IC=+0.0681  Q5-Q1=+0.0153  Hit Rate=0.529
+    GradientBoosting          Rank IC=+0.0527  Q5-Q1=+0.0410  Hit Rate=0.520
+    RidgeCV                   Rank IC=+0.0476  Q5-Q1=+0.0267  Hit Rate=0.510
+    EN_strong                 Rank IC=+0.0456  Q5-Q1=+0.0256  Hit Rate=0.500
+    ElasticNet                Rank IC=+0.0447  Q5-Q1=+0.0218  Hit Rate=0.500
+    Ridge_a5                  Rank IC=+0.0431  Q5-Q1=+0.0218  Hit Rate=0.500
+  Selection log:
+    Step  0: (baseline)                          CV=+0.0004 Δ=+0.0000
+    Step  1: fb_sent_prepared_chg_resid          CV=+0.0107 Δ=+0.0103
+    Step  2: fb_n_sent_answers_resid             CV=+0.0157 Δ=+0.0050
+    Step  3: fb_sent_prepared_resid              CV=+0.0183 Δ=+0.0026
+
+FinBERT × Control Interactions                     RidgeCV              Rank IC=+0.0913 Q5-Q1=+0.0384 Δ=+0.0136 *** BEATS MODEL A
+  Added features: fb_neg_pct_answersxvol_pre, fb_sent_gapxvol_pre
+  OOS R²=+0.026566  MAE=0.057790  Hit Rate=0.539 (baseline 0.536)
+  CV Rank IC: +0.0282
+  All algorithms:
+    RidgeCV                   Rank IC=+0.0913  Q5-Q1=+0.0384  Hit Rate=0.539
+    EN_strong                 Rank IC=+0.0893  Q5-Q1=+0.0394  Hit Rate=0.539
+    ElasticNet                Rank IC=+0.0839  Q5-Q1=+0.0408  Hit Rate=0.549
+    Ridge_a10                 Rank IC=+0.0837  Q5-Q1=+0.0394  Hit Rate=0.549
+    Ridge_a5                  Rank IC=+0.0837  Q5-Q1=+0.0400  Hit Rate=0.549
+    Ridge                     Rank IC=+0.0830  Q5-Q1=+0.0400  Hit Rate=0.549
+  Selection log:
+    Step  0: (baseline)                          CV=+0.0004 Δ=+0.0000
+    Step  1: fb_neg_pct_answersxvol_pre          CV=+0.0103 Δ=+0.0100
+    Step  2: fb_sent_gapxvol_pre                 CV=+0.0282 Δ=+0.0179
+
+XGBoost Forward Sel (XGB_default)                  XGB_default          Rank IC=+0.0575 Q5-Q1=+0.0084 Δ=-0.0203
+  Added features: 
+  OOS R²=+0.023491  MAE=0.058099  Hit Rate=0.529 (baseline 0.536)
+  CV Rank IC: -0.0024
+  All algorithms:
+    RidgeCV                   Rank IC=+0.0778  Q5-Q1=+0.0210  Hit Rate=0.520
+    EN_strong                 Rank IC=+0.0750  Q5-Q1=+0.0208  Hit Rate=0.520
+    ElasticNet                Rank IC=+0.0725  Q5-Q1=+0.0179  Hit Rate=0.529
+    Ridge_a10                 Rank IC=+0.0706  Q5-Q1=+0.0242  Hit Rate=0.520
+    Ridge_a5                  Rank IC=+0.0699  Q5-Q1=+0.0242  Hit Rate=0.520
+    Ridge                     Rank IC=+0.0694  Q5-Q1=+0.0242  Hit Rate=0.520
+  Selection log:
+    Step  0: (baseline)                          CV=-0.0024 Δ=+0.0000
+  Best any algo: RidgeCV Rank IC=+0.0778
+
+Specific Candidates (no mean-sent)                 RidgeCV              Rank IC=+0.0846 Q5-Q1=+0.0316 Δ=+0.0068 *** BEATS MODEL A
+  Added features: fb_neg_pct_answers, fb_n_sent_prepared
+  OOS R²=+0.032414  MAE=0.057802  Hit Rate=0.549 (baseline 0.536)
+  CV Rank IC: +0.0089
+  All algorithms:
+    RidgeCV                   Rank IC=+0.0846  Q5-Q1=+0.0316  Hit Rate=0.549
+    EN_strong                 Rank IC=+0.0815  Q5-Q1=+0.0302  Hit Rate=0.549
+    ElasticNet                Rank IC=+0.0791  Q5-Q1=+0.0308  Hit Rate=0.559
+    Ridge_a5                  Rank IC=+0.0781  Q5-Q1=+0.0268  Hit Rate=0.559
+    Ridge                     Rank IC=+0.0780  Q5-Q1=+0.0248  Hit Rate=0.559
+    Ridge_a10                 Rank IC=+0.0780  Q5-Q1=+0.0268  Hit Rate=0.559
+  Selection log:
+    Step  0: (baseline)                          CV=+0.0004 Δ=+0.0000
+    Step  1: fb_neg_pct_answers                  CV=+0.0037 Δ=+0.0033
+    Step  2: fb_n_sent_prepared                  CV=+0.0089 Δ=+0.0052
+
+Meta-Ensemble (3 strategies)                       Ensemble-avg         Rank IC=+0.0915 Q5-Q1=+0.0314 Δ=+0.0137 *** BEATS MODEL A
+  Added features: Residualized FinBERT (quarter z-scored), FinBERT × Control Interactions, Specific Candidates (no mean-sent)
+  OOS R²=+0.029561  MAE=0.057822  Hit Rate=0.559 (baseline 0.536)
+  CV Rank IC: +0.0184
+
+COMMIT RECOMMENDATION: Meta-Ensemble (3 strategies)
+  Algo: Ensemble-avg
+  Features: Residualized FinBERT (quarter z-scored), FinBERT × Control Interactions, Specific Candidates (no mean-sent)
+  Rank IC: +0.0915
+  Δ vs Model A: +0.0137

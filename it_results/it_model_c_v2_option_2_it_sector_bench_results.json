@@ -1,0 +1,221 @@
+{
+  "option": "Option 2 (IT sector bench)",
+  "train_end": "2023-12-31",
+  "train_size": 3487,
+  "test_size": 204,
+  "model_a_baseline": {
+    "algo": "RidgeCV",
+    "features": [
+      "sue",
+      "surprise_pct",
+      "vol_pre",
+      "car_-1_1",
+      "mom",
+      "bm",
+      "size",
+      "dispersion",
+      "avg_answer_words",
+      "words_prepared",
+      "words_questions",
+      "words_answers",
+      "n_questions",
+      "n_answers",
+      "n_analysts",
+      "prior_calls_with_target"
+    ],
+    "rank_ic": 0.07775900940695875,
+    "cv_rank_ic": 0.00035057464702944324,
+    "metrics": {
+      "ic": 0.141261,
+      "rank_ic": 0.077759,
+      "oos_r2": 0.031129,
+      "mae": 0.057827,
+      "hit_rate": 0.519608,
+      "hit_rate_baseline": 0.535704,
+      "quintile_spread": 0.020999
+    }
+  },
+  "strategies": [
+    {
+      "name": "Residualized FinBERT (quarter z-scored)",
+      "algo": "XGBoost",
+      "added_finbert": [
+        "fb_sent_prepared_chg_resid",
+        "fb_n_sent_answers_resid",
+        "fb_sent_prepared_resid"
+      ],
+      "cv_rank_ic": 0.0182886884383953,
+      "metrics": {
+        "ic": 0.097893,
+        "rank_ic": 0.068068,
+        "oos_r2": 0.026623,
+        "mae": 0.057975,
+        "hit_rate": 0.529412,
+        "hit_rate_baseline": 0.535704,
+        "quintile_spread": 0.0153
+      },
+      "beats_model_a": false,
+      "selection_log": [
+        {
+          "step": 0,
+          "added": null,
+          "cv_rank_ic": 0.00035057464702944324,
+          "improvement": 0.0
+        },
+        {
+          "step": 1,
+          "added": "fb_sent_prepared_chg_resid",
+          "cv_rank_ic": 0.010667452569178013,
+          "improvement": 0.01031687792214857
+        },
+        {
+          "step": 2,
+          "added": "fb_n_sent_answers_resid",
+          "cv_rank_ic": 0.015678176608689802,
+          "improvement": 0.005010724039511789
+        },
+        {
+          "step": 3,
+          "added": "fb_sent_prepared_resid",
+          "cv_rank_ic": 0.0182886884383953,
+          "improvement": 0.002610511829705498
+        }
+      ]
+    },
+    {
+      "name": "FinBERT \u00d7 Control Interactions",
+      "algo": "RidgeCV",
+      "added_finbert": [
+        "fb_neg_pct_answersxvol_pre",
+        "fb_sent_gapxvol_pre"
+      ],
+      "cv_rank_ic": 0.02819940018119436,
+      "metrics": {
+        "ic": 0.113452,
+        "rank_ic": 0.091315,
+        "oos_r2": 0.026566,
+        "mae": 0.05779,
+        "hit_rate": 0.539216,
+        "hit_rate_baseline": 0.535704,
+        "quintile_spread": 0.038363
+      },
+      "beats_model_a": true,
+      "selection_log": [
+        {
+          "step": 0,
+          "added": null,
+          "cv_rank_ic": 0.00035057464702944324,
+          "improvement": 0.0
+        },
+        {
+          "step": 1,
+          "added": "fb_neg_pct_answersxvol_pre",
+          "cv_rank_ic": 0.010304631920756166,
+          "improvement": 0.009954057273726722
+        },
+        {
+          "step": 2,
+          "added": "fb_sent_gapxvol_pre",
+          "cv_rank_ic": 0.02819940018119436,
+          "improvement": 0.017894768260438197
+        }
+      ]
+    },
+    {
+      "name": "XGBoost Forward Sel (XGB_default)",
+      "algo": "XGB_default",
+      "added_finbert": [],
+      "cv_rank_ic": -0.0024416048971063107,
+      "metrics": {
+        "ic": 0.081479,
+        "rank_ic": 0.057459,
+        "oos_r2": 0.023491,
+        "mae": 0.058099,
+        "hit_rate": 0.529412,
+        "hit_rate_baseline": 0.535704,
+        "quintile_spread": 0.008364
+      },
+      "beats_model_a": false,
+      "selection_log": [
+        {
+          "step": 0,
+          "added": null,
+          "cv_rank_ic": -0.0024416048971063107,
+          "improvement": 0.0
+        }
+      ]
+    },
+    {
+      "name": "Specific Candidates (no mean-sent)",
+      "algo": "RidgeCV",
+      "added_finbert": [
+        "fb_neg_pct_answers",
+        "fb_n_sent_prepared"
+      ],
+      "cv_rank_ic": 0.008856686145955918,
+      "metrics": {
+        "ic": 0.149842,
+        "rank_ic": 0.084599,
+        "oos_r2": 0.032414,
+        "mae": 0.057802,
+        "hit_rate": 0.54902,
+        "hit_rate_baseline": 0.535704,
+        "quintile_spread": 0.031634
+      },
+      "beats_model_a": true,
+      "selection_log": [
+        {
+          "step": 0,
+          "added": null,
+          "cv_rank_ic": 0.00035057464702944324,
+          "improvement": 0.0
+        },
+        {
+          "step": 1,
+          "added": "fb_neg_pct_answers",
+          "cv_rank_ic": 0.003670795810329196,
+          "improvement": 0.0033202211632997526
+        },
+        {
+          "step": 2,
+          "added": "fb_n_sent_prepared",
+          "cv_rank_ic": 0.008856686145955918,
+          "improvement": 0.005185890335626723
+        }
+      ]
+    },
+    {
+      "name": "Meta-Ensemble (3 strategies)",
+      "algo": "Ensemble-avg",
+      "added_finbert": [
+        "Residualized FinBERT (quarter z-scored)",
+        "FinBERT \u00d7 Control Interactions",
+        "Specific Candidates (no mean-sent)"
+      ],
+      "cv_rank_ic": 0.01844825825518186,
+      "metrics": {
+        "ic": 0.130567,
+        "rank_ic": 0.091504,
+        "oos_r2": 0.029561,
+        "mae": 0.057822,
+        "hit_rate": 0.558824,
+        "hit_rate_baseline": 0.535704,
+        "quintile_spread": 0.031357
+      },
+      "beats_model_a": true,
+      "selection_log": null
+    }
+  ],
+  "has_winner": true,
+  "best_winner": {
+    "name": "Meta-Ensemble (3 strategies)",
+    "algo": "Ensemble-avg",
+    "added_finbert": [
+      "Residualized FinBERT (quarter z-scored)",
+      "FinBERT \u00d7 Control Interactions",
+      "Specific Candidates (no mean-sent)"
+    ],
+    "rank_ic": 0.09150405326133818,
+    "delta_vs_a": 0.013745043854379427
+  }
+}

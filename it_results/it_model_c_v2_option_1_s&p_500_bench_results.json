@@ -1,0 +1,222 @@
+{
+  "option": "Option 1 (S&P 500 bench)",
+  "train_end": "2023-12-31",
+  "train_size": 3487,
+  "test_size": 204,
+  "model_a_baseline": {
+    "algo": "XGBoost",
+    "features": [
+      "sue",
+      "surprise_pct",
+      "vol_pre",
+      "car_-1_1",
+      "mom",
+      "bm",
+      "size",
+      "dispersion",
+      "avg_answer_words",
+      "words_prepared",
+      "words_questions",
+      "words_answers",
+      "n_questions",
+      "n_answers",
+      "n_analysts",
+      "prior_calls_with_target"
+    ],
+    "rank_ic": 0.07246397297354602,
+    "cv_rank_ic": 0.00285643589242592,
+    "metrics": {
+      "ic": 0.077879,
+      "rank_ic": 0.072464,
+      "oos_r2": 0.010669,
+      "mae": 0.053911,
+      "hit_rate": 0.519608,
+      "hit_rate_baseline": 0.555779,
+      "quintile_spread": 0.023943
+    }
+  },
+  "strategies": [
+    {
+      "name": "Residualized FinBERT (quarter z-scored)",
+      "algo": "XGBoost",
+      "added_finbert": [
+        "fb_sent_prepared_chg_resid",
+        "fb_pos_pct_prepared_resid"
+      ],
+      "cv_rank_ic": 0.03665783262075834,
+      "metrics": {
+        "ic": 0.086663,
+        "rank_ic": 0.076854,
+        "oos_r2": 0.012082,
+        "mae": 0.053893,
+        "hit_rate": 0.519608,
+        "hit_rate_baseline": 0.555779,
+        "quintile_spread": 0.029773
+      },
+      "beats_model_a": true,
+      "selection_log": [
+        {
+          "step": 0,
+          "added": null,
+          "cv_rank_ic": 0.00285643589242592,
+          "improvement": 0.0
+        },
+        {
+          "step": 1,
+          "added": "fb_sent_prepared_chg_resid",
+          "cv_rank_ic": 0.02340973920968173,
+          "improvement": 0.02055330331725581
+        },
+        {
+          "step": 2,
+          "added": "fb_pos_pct_prepared_resid",
+          "cv_rank_ic": 0.03665783262075834,
+          "improvement": 0.013248093411076613
+        }
+      ]
+    },
+    {
+      "name": "FinBERT \u00d7 Control Interactions",
+      "algo": "RidgeCV",
+      "added_finbert": [
+        "fb_sent_std_preparedxvol_pre",
+        "fb_sent_gapxsue"
+      ],
+      "cv_rank_ic": 0.052833398898884575,
+      "metrics": {
+        "ic": 0.109471,
+        "rank_ic": 0.080846,
+        "oos_r2": 0.013159,
+        "mae": 0.05396,
+        "hit_rate": 0.529412,
+        "hit_rate_baseline": 0.555779,
+        "quintile_spread": 0.028157
+      },
+      "beats_model_a": true,
+      "selection_log": [
+        {
+          "step": 0,
+          "added": null,
+          "cv_rank_ic": 0.00285643589242592,
+          "improvement": 0.0
+        },
+        {
+          "step": 1,
+          "added": "fb_sent_std_preparedxvol_pre",
+          "cv_rank_ic": 0.03491187408510316,
+          "improvement": 0.03205543819267724
+        },
+        {
+          "step": 2,
+          "added": "fb_sent_gapxsue",
+          "cv_rank_ic": 0.052833398898884575,
+          "improvement": 0.01792152481378141
+        }
+      ]
+    },
+    {
+      "name": "XGBoost Forward Sel (XGB_deeper)",
+      "algo": "XGB_deeper",
+      "added_finbert": [
+        "fb_sent_gap"
+      ],
+      "cv_rank_ic": 0.025732251262646697,
+      "metrics": {
+        "ic": 0.015016,
+        "rank_ic": -0.029076,
+        "oos_r2": 0.000741,
+        "mae": 0.054429,
+        "hit_rate": 0.460784,
+        "hit_rate_baseline": 0.555779,
+        "quintile_spread": 0.002913
+      },
+      "beats_model_a": false,
+      "selection_log": [
+        {
+          "step": 0,
+          "added": null,
+          "cv_rank_ic": 0.01912068927028422,
+          "improvement": 0.0
+        },
+        {
+          "step": 1,
+          "added": "fb_sent_gap",
+          "cv_rank_ic": 0.025732251262646697,
+          "improvement": 0.006611561992362479
+        }
+      ]
+    },
+    {
+      "name": "Specific Candidates (no mean-sent)",
+      "algo": "RidgeCV",
+      "added_finbert": [
+        "fb_neg_pct_answers",
+        "fb_pos_pct_answers"
+      ],
+      "cv_rank_ic": 0.01990827433307109,
+      "metrics": {
+        "ic": 0.127115,
+        "rank_ic": 0.08035,
+        "oos_r2": 0.01541,
+        "mae": 0.054027,
+        "hit_rate": 0.539216,
+        "hit_rate_baseline": 0.555779,
+        "quintile_spread": 0.037937
+      },
+      "beats_model_a": true,
+      "selection_log": [
+        {
+          "step": 0,
+          "added": null,
+          "cv_rank_ic": 0.00285643589242592,
+          "improvement": 0.0
+        },
+        {
+          "step": 1,
+          "added": "fb_neg_pct_answers",
+          "cv_rank_ic": 0.010935752168391828,
+          "improvement": 0.008079316275965908
+        },
+        {
+          "step": 2,
+          "added": "fb_pos_pct_answers",
+          "cv_rank_ic": 0.01990827433307109,
+          "improvement": 0.008972522164679263
+        }
+      ]
+    },
+    {
+      "name": "Meta-Ensemble (4 strategies)",
+      "algo": "Ensemble-avg",
+      "added_finbert": [
+        "Residualized FinBERT (quarter z-scored)",
+        "FinBERT \u00d7 Control Interactions",
+        "XGBoost Forward Sel (XGB_deeper)",
+        "Specific Candidates (no mean-sent)"
+      ],
+      "cv_rank_ic": 0.03378293927884018,
+      "metrics": {
+        "ic": 0.087584,
+        "rank_ic": 0.068281,
+        "oos_r2": 0.011422,
+        "mae": 0.054009,
+        "hit_rate": 0.5,
+        "hit_rate_baseline": 0.555779,
+        "quintile_spread": 0.037502
+      },
+      "beats_model_a": false,
+      "selection_log": null
+    }
+  ],
+  "has_winner": true,
+  "best_winner": {
+    "name": "FinBERT \u00d7 Control Interactions",
+    "algo": "RidgeCV",
+    "added_finbert": [
+      "fb_sent_std_preparedxvol_pre",
+      "fb_sent_gapxsue"
+    ],
+    "rank_ic": 0.0808461315560707,
+    "delta_vs_a": 0.008382158582524682
+  }
+}
