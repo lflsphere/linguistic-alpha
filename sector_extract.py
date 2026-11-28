@@ -6,6 +6,11 @@ Option 2: CAR relative to sector value-weighted index — recomputed with correc
 
 Both options use assign_day0() (4pm ET cutoff) and car_-1_1 [-1,+1] EA window.
 
+Sector membership is point-in-time: a call is in the sample if the firm's GICS
+sector (comp.co_hgic, raw/company_hgic.parquet) on the call date matches, and a
+stock enters the sector index only on days it was both an S&P 500 member and in
+the sector. Today's comp.company sector is used only where co_hgic has no spell.
+
 Requires: ~/earnings_sp500/ with raw/ parquets and model_table.parquet (for non-CAR columns)
 Outputs:  ~/earnings_{sector}/
             model_table_opt1.parquet   (market-benchmarked CARs, sector only)
@@ -35,6 +40,40 @@ def to_dt(df, *cols):
             df[c] = pd.to_datetime(df[c], errors="coerce").astype("datetime64[ns]")
     return df
 
+def norm_gvkey(s):
+    return s.astype(str).str.split(".").str[0].str.zfill(6)
+
+def load_gics_history(raw):
+    """Point-in-time GICS spells from comp.co_hgic, plus today's sector from comp.company."""
+    path = f"{raw}/company_hgic.parquet"
+    if not os.path.exists(path):
+        sys.exit(f"missing {path}: run `python3 sp500_pipeline.py --stages pull` "
+                 "(only the new file is downloaded; existing raw files are kept)")
+    hgic = to_dt(pd.read_parquet(path), "indfrom", "indthru")
+    hgic["gvkey"] = norm_gvkey(hgic["gvkey"])
+    hgic["gsector"] = hgic["gsector"].astype(str).str[:2]
+    hgic["indthru"] = hgic["indthru"].fillna(pd.Timestamp("2099-12-31"))
+    comp = pd.read_parquet(f"{raw}/company.parquet")
+    current = dict(zip(norm_gvkey(comp["gvkey"]), comp["gsector"].astype(str).str[:2]))
+    return hgic[["gvkey", "gsector", "indfrom", "indthru"]], current
+
+def pit_gsector(df, date_col, hgic, current):
+    """2-digit GICS sector of each row's gvkey on df[date_col].
+
+    Falls back to today's sector only when co_hgic has no spell covering that date.
+    Returns (sector Series aligned to df.index, boolean fallback mask).
+    """
+    left = pd.DataFrame({"gvkey": norm_gvkey(df["gvkey"]).values,
+                         "d": df[date_col].values, "row": np.arange(len(df))})
+    m = left.merge(hgic, on="gvkey")
+    m = m[(m["d"] >= m["indfrom"]) & (m["d"] <= m["indthru"])]
+    m = m.sort_values("indfrom").drop_duplicates("row", keep="last")
+    out = np.full(len(df), None, dtype=object)
+    out[m["row"].values] = m["gsector"].values
+    fallback = pd.isna(out)
+    out[fallback] = left.loc[fallback, "gvkey"].map(current).values
+    return pd.Series(out, index=df.index), fallback
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--folder", default=os.path.expanduser("~/earnings_sp500"))
@@ -53,7 +92,17 @@ def main():
     log(f"full dataset: {len(mt):,} rows, {mt['permno'].nunique()} companies")
     log(f"sectors: {mt['sector'].value_counts().to_dict()}")
 
-    it = mt[mt["sector"] == sec.name].copy().reset_index(drop=True)
+    # Point-in-time sector of each call: the firm's GICS sector on the call date
+    hgic, current = load_gics_history(RAW)
+    mt_sec, mt_fb = pit_gsector(mt, "call_date", hgic, current)
+    in_sec = (mt_sec == sec.gics).values
+    log(f"PIT GICS: {mt_fb.sum():,} of {len(mt):,} calls fell back to today's sector (no co_hgic spell)")
+    log(f"{sec.short}: {in_sec.sum():,} calls point-in-time vs {(mt['sector'] == sec.name).sum():,} "
+        f"with today's GICS ({(in_sec & (mt['sector'] != sec.name).values).sum():,} added, "
+        f"{(~in_sec & (mt['sector'] == sec.name).values).sum():,} removed)")
+
+    it = mt[in_sec].copy().reset_index(drop=True)
+    it["sector"] = sec.name
     log(f"{sec.short} sector: {len(it):,} rows, {it['permno'].nunique()} companies")
 
     # --- Load raw CRSP for recomputing CARs with corrected day0 ---
@@ -69,13 +118,14 @@ def main():
     nd = len(days)
     crsp = crsp[crsp["date"].isin(spx["date"])]
 
-    # Identify sector permnos from company data
-    comp = pd.read_parquet(f"{RAW}/company.parquet")
-    it_gvkeys = set(comp[comp["gsector"].astype(str).str[:2] == sec.gics]["gvkey"].unique())
-    log(f"{sec.short} gvkeys: {len(it_gvkeys)}")
+    # Candidate gvkeys: in the sector at any point (PIT history) or today
+    it_gvkeys = set(hgic.loc[hgic["gsector"] == sec.gics, "gvkey"]) | \
+                {g for g, s in current.items() if s == sec.gics}
+    log(f"{sec.short} candidate gvkeys (ever in sector): {len(it_gvkeys)}")
 
     # gvkey -> permno mapping from CCM
     ccm = to_dt(pd.read_parquet(f"{RAW}/link_ccm.parquet"), "linkdt", "linkenddt")
+    ccm["gvkey"] = norm_gvkey(ccm["gvkey"])
     ccm["linkenddt"] = ccm["linkenddt"].fillna(pd.Timestamp("2099-12-31"))
     it_permnos_ccm = set(ccm[ccm["gvkey"].isin(it_gvkeys)]["permno"].unique())
 
@@ -100,6 +150,21 @@ def main():
                              (crsp_it_sp["date"] <= crsp_it_sp["ending"])]
     crsp_it_sp = crsp_it_sp.drop_duplicates(subset=["permno", "date"])
 
+    # Keep a stock in the index only on days its firm was in the sector (PIT GICS)
+    lk = crsp_it_sp[["permno", "date"]].reset_index().merge(
+        ccm[["permno", "gvkey", "linkdt", "linkenddt"]], on="permno")
+    lk = lk[(lk["date"] >= lk["linkdt"]) & (lk["date"] <= lk["linkenddt"])]
+    gv = lk.drop_duplicates("index").set_index("index")["gvkey"].reindex(crsp_it_sp.index)
+    # Secondary share classes (e.g. FOX vs FOXA) can lack a primary CCM link on the day;
+    # attribute them to the permno's most recent linked gvkey so their cap still counts.
+    last_gv = ccm.sort_values("linkdt").drop_duplicates("permno", keep="last").set_index("permno")["gvkey"]
+    gv = gv.fillna(crsp_it_sp["permno"].map(last_gv))
+    crsp_it_sp = crsp_it_sp.assign(gvkey=gv.values)
+    day_sec, _ = pit_gsector(crsp_it_sp, "date", hgic, current)
+    crsp_it_sp = crsp_it_sp[(day_sec == sec.gics).values]
+    log(f"{sec.short} index: {len(crsp_it_sp):,} stock-days, "
+        f"{crsp_it_sp['permno'].nunique()} stocks (S&P 500 member and in sector that day)")
+
     # Value-weighted return: weight by prior day's market cap (use same-day as proxy)
     daily_vw = (
         crsp_it_sp.groupby("date")
@@ -119,7 +184,8 @@ def main():
 
     # Build return grid for sector firms only (same approach as sp500_pipeline stage_targets)
     panel = to_dt(pd.read_parquet(f"{BASE}/event_panel.parquet"), "call_date")
-    panel_it = panel[panel["gvkey"].isin(it_gvkeys)].copy().reset_index(drop=True)
+    panel_sec, _ = pit_gsector(panel, "call_date", hgic, current)
+    panel_it = panel[(panel_sec == sec.gics).values].copy().reset_index(drop=True)
     log(f"{sec.short} event panel: {len(panel_it):,} calls")
 
     permnos = np.sort(panel_it["permno"].dropna().unique())

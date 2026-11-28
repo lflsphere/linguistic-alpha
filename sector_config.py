@@ -1,7 +1,7 @@
 """Sector definitions shared by the sector_*.py scripts.
 
-Sector membership uses today's Compustat GICS classification (`gsector`)
-applied to the whole history, not point-in-time.
+sector_extract.py assigns sector membership point-in-time from Compustat's GICS
+history (comp.co_hgic): each call uses the firm's sector on the call date.
 """
 import os
 from dataclasses import dataclass

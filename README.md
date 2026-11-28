@@ -211,7 +211,7 @@ python3 sector_finbert_features.py --sector it --sp500-folder ~/earnings_sp500
 python3 sector_model_c_finbert.py --sector it
 ```
 
-Sector membership uses today's Compustat GICS sector (`gsector`) applied to the whole history, not point-in-time. Sector definitions live in [`sector_config.py`](sector_config.py); to add a sector, add one entry there. Output files are prefixed with the sector key (e.g. `health_model_b_improved_*`). The existing IT results in `it_results/` were produced by the earlier `it_*` scripts and are unchanged.
+Sector membership is point-in-time: `sector_extract.py` uses each firm's GICS sector on the call date from Compustat's GICS history (`comp.co_hgic`, pulled to `raw/company_hgic.parquet`), and the sector index includes a stock only on days it was in the sector. If your raw folder predates this, run `python3 sp500_pipeline.py --stages pull` once to fetch the new file. Sector definitions live in [`sector_config.py`](sector_config.py); to add a sector, add one entry there. Output files are prefixed with the sector key (e.g. `health_model_b_improved_*`). The existing IT results in `it_results/` were produced by the earlier `it_*` scripts and are unchanged.
 
 | Script | Purpose |
 |--------|---------|
