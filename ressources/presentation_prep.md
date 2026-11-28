@@ -189,6 +189,14 @@ Together, this points toward richer context-aware features, which motivates the 
 - **Sponsor alignment:** agreement early in the semester on the primary benchmark, horizon and success metric.
 - **Expertise:** occasional guidance on realistic transaction-cost and capacity assumptions from a practitioner.
 
+
+18. How can the next cohort become productive quickly?
+
+1. Define priorities early on
+2. Request compute power (GPU)
+3. Define data scope
+
+
 19. Why should the sponsoring organization continue this project next semester?
 
 The expensive groundwork is done. A clean, validated, reusable dataset and evaluation framework now exist, and the research question has narrowed from "does language matter?" to "how much, in which sectors, and is it tradable?". The sector-level FinBERT results are consistent enough to justify a confirmatory test. The marginal cost of the next semester is low relative to what has been built, and the potential payoff, a differentiated signal, is high.
@@ -208,25 +216,37 @@ The project now has both rigorous infrastructure and a consistent lead: context-
 
 23. What are your five most important presentation visuals?
 
-23.1 Visual 1 and its single message
+One visual per section of the 15-minute talk.
 
-**Pipeline diagram:** WRDS sources → identity links → targets → text features → modeling table. *Message: we built a trustworthy, reproducible foundation.*
+23.1 Visual 1: Executive summary and sponsor objectives (2 minutes)
 
-23.1 Visual 2 and its single message
+**Question-to-answer slide:** the sponsor's question on the left; three headline numbers on the right (29,698 calls built; S&P 500: language adds 0 over controls' +0.047 Rank IC; IT +0.073 → +0.092 with FinBERT).
 
-**Full S&P 500 bar chart of test Rank IC for models A, B, B*, C and C*.** *Message: generic language features add nothing over controls across the whole market.*
+**Single message:** Earnings-call language does predict returns, but only within sectors, not across the whole market.
 
-23.1 Visual 3 and its single message
+23.2 Visual 2: Inherited work and this semester's approach (2 minutes)
 
-**IT and Healthcare: controls only versus FinBERT** (IT +0.073 → +0.092; Healthcare 21 of 24 settings positive). *Message: within sectors, FinBERT adds signal.*
+**"Started from zero" pipeline diagram:** empty starting point → WRDS sources → identity links → targets → text features → A/B/C model framework.
 
-23.1 Visual 4 and its single message
+**Single message:** We built the entire research foundation from scratch this semester, and the sponsor can trust it and reuse it.
 
-**Healthcare "how often language helped" plot,** showing the distribution of C−A and C−B deltas. *Message: the lift is broad in sign, not a single lucky result.*
+23.3 Visual 3: Accomplishments, findings, and validation (5 minutes)
 
-23.1 Visual 5 and its single message
+**Two-panel chart:** left, full S&P 500 test Rank IC for A, B, B*, C, C*; right, IT and Healthcare controls versus FinBERT (Healthcare 21 of 24 settings positive). Footer: train-only selection, paired bootstrap intervals.
 
-**Roadmap: done versus next** (confirmatory test → backtest → new features). *Message: a clear, low-cost path from signal to strategy.*
+**Single message:** Generic sentiment adds nothing market-wide, but FinBERT consistently improves return rankings within sectors.
+
+23.4 Visual 4: Failures, blockers, and lessons learned (2 minutes)
+
+**Three-column table: what failed → why → lesson** (dictionary features, forced features, trees, pooling, 67-call Comm Services holdout, data-build time).
+
+**Single message:** Every failure ruled something out and pointed us toward sector-specific, context-aware features.
+
+23.5 Visual 5: Next-semester opportunities and research plan (4 minutes)
+
+**Roadmap: done versus next** (confirmatory test → cost-aware backtest → new features), with success criteria and sponsor asks beneath.
+
+**Single message:** One more semester can turn a consistent lead into a confirmed, cost-tested trading signal.
 
 24. What challenging questions might the sponsor ask?
 

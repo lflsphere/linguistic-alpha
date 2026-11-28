@@ -18,5 +18,5 @@
     "prior_calls_with_target"
   ],
   "algo": "RidgeCV",
-  "rank_ic": 0.068199
+  "rank_ic": 0.077759
 }

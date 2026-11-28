@@ -172,6 +172,8 @@ def stage_pull():
                            f"where permno in ({permnos})")
     pull("link_ciq_gvkey", f"select * from ciq.wrds_gvkey where gvkey in ({gvkeys})")
     pull("company", f"select gvkey, conm, gsector, gind, sic from comp.company where gvkey in ({gvkeys})")
+    pull("company_hgic", f"""select gvkey, gsector, gind, indfrom, indthru from comp.co_hgic
+                             where gvkey in ({gvkeys})""")   # point-in-time GICS history
 
     # Returns (daily, one year per file) and the S&P 500 benchmark
     pull("sp500_index_daily", "select date, sprtrn from crsp.dsi where date >= %(d)s",

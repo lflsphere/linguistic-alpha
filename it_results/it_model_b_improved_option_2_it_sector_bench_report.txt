@@ -1,62 +1,61 @@
 ======================================================================
 IT Sector — Model A + B — Option 2 (IT sector bench)
-Generated: 2026-11-27 19:44
-Train: 2,892 (≤2023-12-31) | Test: 204 (>2023-12-31)
+Generated: 2026-11-28 04:50
+Train: 3,487 (≤2023-12-31) | Test: 204 (>2023-12-31)
 Method: Time-series CV, ranked target, min Δ=0.0
 ======================================================================
 
 --- MODEL A: All Controls (no selection) ---
 Features (16): sue, surprise_pct, vol_pre, car_-1_1, mom, bm, size, dispersion, avg_answer_words, words_prepared, words_questions, words_answers, n_questions, n_answers, n_analysts, prior_calls_with_target
-Holdout Rank IC=+0.0682 (RidgeCV)
+Holdout Rank IC=+0.0778 (RidgeCV)
 
 --- MODEL B STRATEGIES ---
-Forward Selection                   RidgeCV              Rank IC=+0.0518 Q5-Q1=+0.0154 Δ=-0.0164
-  features: tone_answers, hedging_prepared, tone_answers_chg, tone_prepared
+Forward Selection                   RidgeCV              Rank IC=+0.0564 Q5-Q1=+0.0160 Δ=-0.0214
+  features: hedging_prepared, tone_answers, tone_answers_chg
 
-Interactions (no raw ling)          EN_strong            Rank IC=+0.0140 Q5-Q1=+0.0143 Δ=-0.0542
+Interactions (no raw ling)          RidgeCV              Rank IC=+0.0099 Q5-Q1=+0.0399 Δ=-0.0679
   features: tone×sue, tone_chg×car01, tone_chg×sue, hedge×vol, gap×sue, tone_prep_chg×mom, uncert×vol, tone×size
 
-Residualized Tone                   EN_strong            Rank IC=+0.0592 Q5-Q1=+0.0152 Δ=-0.0090
+Residualized Tone                   RidgeCV              Rank IC=+0.0552 Q5-Q1=+0.0274 Δ=-0.0225
   features: tone_answers_resid, tone_prepared_resid, tone_answers_chg_resid, tone_prepared_chg_resid
 
-All Ling + RidgeCV                  Ridge_a100           Rank IC=+0.0401 Q5-Q1=+0.0007 Δ=-0.0281
+All Ling + RidgeCV                  RidgeCV              Rank IC=+0.0382 Q5-Q1=+0.0109 Δ=-0.0396
   features: tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
 
-PCA(2) Linguistic                   RidgeCV              Rank IC=+0.0649 Q5-Q1=+0.0101 Δ=-0.0033
-  features: ling_pc1, ling_pc2
+PCA(3) Linguistic                   RidgeCV              Rank IC=+0.0562 Q5-Q1=+0.0308 Δ=-0.0215
+  features: ling_pc1, ling_pc2, ling_pc3
 
-Single-Feature Ensemble             Ensemble             Rank IC=+0.0598 Q5-Q1=+0.0078 Δ=-0.0084
-  features: tone_answers, tone_gap, hedging_prepared
+Single-Feature Ensemble             Ensemble             Rank IC=+0.0712 Q5-Q1=+0.0267 Δ=-0.0066
+  features: hedging_prepared, tone_answers, tone_gap, tone_answers_chg
 
 --- FORWARD SELECTION LOG ---
  Step Added                           TS-CV Rank IC      Delta
-    0 (baseline)                            -0.0171    +0.0000
-    1 tone_answers                          -0.0027    +0.0144
-    2 hedging_prepared                      +0.0067    +0.0094
-    3 tone_answers_chg                      +0.0101    +0.0034
-    4 tone_prepared                         +0.0144    +0.0043
+    0 (baseline)                            +0.0004    +0.0000
+    1 hedging_prepared                      +0.0120    +0.0117
+    2 tone_answers                          +0.0215    +0.0094
+    3 tone_answers_chg                      +0.0274    +0.0059
 
-Model B (best strategy): PCA(2) Linguistic
-  Algo: RidgeCV
-  Features (18): sue, surprise_pct, vol_pre, car_-1_1, mom, bm, size, dispersion, avg_answer_words, words_prepared, words_questions, words_answers, n_questions, n_answers, n_analysts, prior_calls_with_target, ling_pc1, ling_pc2
-  Rank IC: +0.0649
-  Q5-Q1: +0.0101
-  IC: +0.0982
-  OOS R²: +0.026849
-  MAE: 0.057755
-  Hit Rate: 0.529 (baseline: 0.533)
+Model B (best strategy): Single-Feature Ensemble
+  Algo: Ensemble
+  Features (1): ensemble(hedging_prepared,tone_answers,tone_gap,tone_answers_chg)
+  Rank IC: +0.0712
+  Q5-Q1: +0.0267
+  IC: +0.1317
+  OOS R²: -0.713421
+  MAE: 0.084733
+  Hit Rate: 0.500 (baseline: 0.536)
 
 --- MODEL B*: All LM Features (Ridge regularised) ---
 LM features (9): tone_prepared, tone_answers, hedging_prepared, hedging_answers, uncertainty_answers, tone_gap, tone_prepared_chg, tone_answers_chg, hedging_answers_chg
 Algo: RidgeCV
-Holdout Rank IC=+0.0401  Q5-Q1=+0.0007  Δ=-0.0281
+Holdout Rank IC=+0.0305  Q5-Q1=+0.0090  Δ=-0.0473
 All algorithms:
-  RidgeCV             : Rank IC=+0.0401  Q5-Q1=+0.0007
-  Ridge_a100          : Rank IC=+0.0401  Q5-Q1=+0.0007
-  EN_strong           : Rank IC=+0.0375  Q5-Q1=+0.0029
-  Ridge_a50           : Rank IC=+0.0374  Q5-Q1=+0.0029
-  Ridge_a10           : Rank IC=+0.0362  Q5-Q1=+0.0029
-  ElasticNet          : Rank IC=+0.0356  Q5-Q1=+0.0029
-  Ridge_a5            : Rank IC=+0.0355  Q5-Q1=+0.0002
-  Ridge               : Rank IC=+0.0332  Q5-Q1=+0.0002
-  OLS                 : Rank IC=+0.0017  Q5-Q1=-0.0139
+  RidgeCV             : Rank IC=+0.0305  Q5-Q1=+0.0090
+  Ridge_a100          : Rank IC=+0.0305  Q5-Q1=+0.0090
+  EN_strong           : Rank IC=+0.0269  Q5-Q1=+0.0075
+  Ridge_a50           : Rank IC=+0.0269  Q5-Q1=+0.0075
+  ElasticNet          : Rank IC=+0.0228  Q5-Q1=+0.0075
+  Ridge_a10           : Rank IC=+0.0209  Q5-Q1=+0.0075
+  Ridge_a5            : Rank IC=+0.0185  Q5-Q1=+0.0075
+  Ridge               : Rank IC=+0.0159  Q5-Q1=+0.0056
+  OLS                 : Rank IC=-0.0091  Q5-Q1=-0.0253

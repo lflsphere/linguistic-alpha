@@ -23,74 +23,60 @@
       "prior_calls_with_target"
     ],
     "metrics": {
-      "ic": 0.115157,
-      "rank_ic": 0.068199,
-      "oos_r2": 0.029317,
-      "mae": 0.057691,
-      "hit_rate": 0.529412,
-      "hit_rate_baseline": 0.532849,
-      "quintile_spread": 0.014034
+      "ic": 0.141261,
+      "rank_ic": 0.077759,
+      "oos_r2": 0.031129,
+      "mae": 0.057827,
+      "hit_rate": 0.519608,
+      "hit_rate_baseline": 0.535704,
+      "quintile_spread": 0.020999
     },
     "ols_metrics": {
-      "ic": 0.096813,
-      "rank_ic": 0.045778,
-      "oos_r2": 0.027633,
-      "mae": 0.057745,
-      "hit_rate": 0.529412,
-      "hit_rate_baseline": 0.532849,
-      "quintile_spread": 0.009748
+      "ic": 0.120035,
+      "rank_ic": 0.045939,
+      "oos_r2": 0.029814,
+      "mae": 0.0579,
+      "hit_rate": 0.509804,
+      "hit_rate_baseline": 0.535704,
+      "quintile_spread": 0.010428
     }
   },
   "strategies": [
     {
       "name": "Model C (FinBERT forward sel)",
-      "algo": "Ridge",
+      "algo": "RidgeCV",
       "added_finbert": [
-        "fb_sent_answers_chg",
-        "fb_sent_gap",
-        "fb_pos_pct_answers",
-        "fb_sent_answers"
+        "fb_neg_pct_answers",
+        "fb_n_sent_prepared"
       ],
       "metrics": {
-        "ic": 0.126515,
-        "rank_ic": 0.094294,
-        "oos_r2": 0.031819,
-        "mae": 0.057487,
-        "hit_rate": 0.539216,
-        "hit_rate_baseline": 0.532849,
-        "quintile_spread": 0.024666
+        "ic": 0.149842,
+        "rank_ic": 0.084599,
+        "oos_r2": 0.032414,
+        "mae": 0.057802,
+        "hit_rate": 0.54902,
+        "hit_rate_baseline": 0.535704,
+        "quintile_spread": 0.031634
       },
-      "relative_ic": 0.048516,
+      "relative_ic": 0.03866,
       "selection_log": [
         {
           "step": 0,
           "added": null,
-          "cv_rank_ic": 0.006190580199303702,
+          "cv_rank_ic": 0.00035057464702944324,
           "improvement": 0.0
         },
         {
           "step": 1,
-          "added": "fb_sent_answers_chg",
-          "cv_rank_ic": 0.011204018819410825,
-          "improvement": 0.005013438620107123
+          "added": "fb_neg_pct_answers",
+          "cv_rank_ic": 0.003670795810329196,
+          "improvement": 0.0033202211632997526
         },
         {
           "step": 2,
-          "added": "fb_sent_gap",
-          "cv_rank_ic": 0.011275152769363812,
-          "improvement": 7.113394995298707e-05
-        },
-        {
-          "step": 3,
-          "added": "fb_pos_pct_answers",
-          "cv_rank_ic": 0.013776997920084383,
-          "improvement": 0.0025018451507205705
-        },
-        {
-          "step": 4,
-          "added": "fb_sent_answers",
-          "cv_rank_ic": 0.018701454423724843,
-          "improvement": 0.00492445650364046
+          "added": "fb_n_sent_prepared",
+          "cv_rank_ic": 0.008856686145955918,
+          "improvement": 0.005185890335626723
         }
       ]
     },
@@ -113,43 +99,39 @@
         "fb_n_sent_answers"
       ],
       "metrics": {
-        "ic": 0.125987,
-        "rank_ic": 0.084428,
-        "oos_r2": 0.034317,
-        "mae": 0.057435,
-        "hit_rate": 0.539216,
-        "hit_rate_baseline": 0.532849,
-        "quintile_spread": 0.027208
+        "ic": 0.136833,
+        "rank_ic": 0.064616,
+        "oos_r2": 0.034794,
+        "mae": 0.057655,
+        "hit_rate": 0.529412,
+        "hit_rate_baseline": 0.535704,
+        "quintile_spread": 0.027819
       },
-      "relative_ic": 0.03865,
+      "relative_ic": 0.018677,
       "selection_log": null
     },
     {
-      "name": "FinBERT Ensemble (6)",
+      "name": "FinBERT Ensemble (2)",
       "algo": "Ensemble",
       "added_finbert": [
-        "fb_sent_answers_chg",
-        "fb_n_sent_answers",
-        "fb_pos_pct_prepared",
         "fb_neg_pct_answers",
-        "fb_n_sent_prepared",
-        "fb_sent_gap"
+        "fb_sent_std_answers"
       ],
       "metrics": {
-        "ic": 0.11567,
-        "rank_ic": 0.071429,
-        "oos_r2": -0.744488,
-        "mae": 0.084093,
-        "hit_rate": 0.529412,
-        "hit_rate_baseline": 0.532849,
-        "quintile_spread": 0.012137
+        "ic": 0.150543,
+        "rank_ic": 0.082982,
+        "oos_r2": -0.676891,
+        "mae": 0.08363,
+        "hit_rate": 0.54902,
+        "hit_rate_baseline": 0.535704,
+        "quintile_spread": 0.027849
       },
-      "relative_ic": 0.025651,
+      "relative_ic": 0.037043,
       "selection_log": null
     },
     {
       "name": "FinBERT + LM Combined",
-      "algo": "RidgeCV",
+      "algo": "XGBoost",
       "added_finbert": [
         "fb_sent_prepared",
         "fb_sent_answers",
@@ -175,36 +157,34 @@
         "hedging_answers_chg"
       ],
       "metrics": {
-        "ic": 0.065716,
-        "rank_ic": 0.045151,
-        "oos_r2": 0.024102,
-        "mae": 0.057831,
-        "hit_rate": 0.5,
-        "hit_rate_baseline": 0.532849,
-        "quintile_spread": 0.024725
+        "ic": 0.031516,
+        "rank_ic": 0.0311,
+        "oos_r2": 0.012049,
+        "mae": 0.058104,
+        "hit_rate": 0.470588,
+        "hit_rate_baseline": 0.535704,
+        "quintile_spread": 0.0249
       },
-      "relative_ic": -0.000628,
+      "relative_ic": -0.014839,
       "selection_log": null
     }
   ],
   "best": {
     "name": "Model C (FinBERT forward sel)",
-    "algo": "Ridge",
+    "algo": "RidgeCV",
     "added_finbert": [
-      "fb_sent_answers_chg",
-      "fb_sent_gap",
-      "fb_pos_pct_answers",
-      "fb_sent_answers"
+      "fb_neg_pct_answers",
+      "fb_n_sent_prepared"
     ],
     "metrics": {
-      "ic": 0.126515,
-      "rank_ic": 0.094294,
-      "oos_r2": 0.031819,
-      "mae": 0.057487,
-      "hit_rate": 0.539216,
-      "hit_rate_baseline": 0.532849,
-      "quintile_spread": 0.024666
+      "ic": 0.149842,
+      "rank_ic": 0.084599,
+      "oos_r2": 0.032414,
+      "mae": 0.057802,
+      "hit_rate": 0.54902,
+      "hit_rate_baseline": 0.535704,
+      "quintile_spread": 0.031634
     },
-    "relative_ic": 0.048516
+    "relative_ic": 0.03866
   }
 }
