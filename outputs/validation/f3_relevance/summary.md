@@ -68,6 +68,29 @@ failed calls. `scripts/f3/eval_judge.py` scores them into `llm_judge_results_cla
 - Measured cost: $0.169 for the 414 pairs (CLI-reported list price), 1,739 input and 129 output tokens per
   pair. The input count includes the CLI's own overhead, so a direct API call should use fewer tokens.
 
+### Check against labeller B (2026-11-28, on the user's request)
+`scripts/f3/eval_vs_b.py` → `vs_labeller_b_claude-haiku-5-5.csv`. B labelled 90 of A's pairs (20 evasive,
+15 non_answer). **B is also an LLM labeller** (`docs/labeling_handoff_teammate.md`), and the human columns of
+`outputs/validation/label_human_check.csv` are still empty, so this compares one model rater with another.
+It is not yet a human check.
+
+| Score (90 shared pairs) | evasive vs B | evasive vs A | non_answer vs B | non_answer vs A |
+|---|---|---|---|---|
+| A's label (reference; binary) | 0.875 [0.775, 0.962] | – | 0.953 [0.878, 1.000] | – |
+| **Haiku judge** | **0.811 [0.713, 0.899]** | 0.874 | **0.943 [0.870, 0.989]** | 0.958 |
+| E1 rank-mean(C1, T3) (OOF) | 0.655 [0.512, 0.793] | 0.752 | – | – |
+| C1 rich pair features (OOF) | 0.621 [0.471, 0.769] | 0.700 | 0.831 [0.684, 0.952] | 0.834 |
+| C1+C2 combined (OOF) | – | – | 0.869 [0.756, 0.961] | 0.876 |
+
+- The judge's lower CI bound clears 0.7 on B for both labels. Its AUC drops by 0.06 on evasive and barely moves
+  on non_answer, so its score is not specific to A.
+- E1 drops by 0.10 on evasive (0.752 → 0.655), so the fitted evasive scores partly learned A's own habits.
+  C1 for non_answer is stable (0.83).
+- On evasive, the judge (0.81) comes close to how well A predicts B (0.875). B marks 5 more pairs evasive than
+  A does (`label_interrater.csv`: A0/B1 = 5).
+- Still to do: a human pass on the 27 rows of `label_human_check.csv` (7 disagreements + 20 random), then
+  score the judge against those labels.
+
 ## Recommendation (feature-based; see the update below for the LLM judge)
 - **NONANS_CLF → C1** (logit on the 7 current pair features plus the 33 rule features of
   `scripts/f3/pair_features.py`, C = 0.01–0.03): 0.774 [0.694, 0.849]. It was a pre-specified candidate and
