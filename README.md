@@ -564,8 +564,8 @@ should be more informative.
 
 ### IT Dataset
 
-3,561 earnings calls from ~106 IT firms (GICS 45), 2010–2026.
-Train: 2010–2023 (2,892 calls) | Test: 2024–2026 (204 calls).
+4,156 earnings calls from ~129 IT firms (GICS 45, point-in-time), 2010–2026.
+Train: 2010–2023 (3,487 calls) | Test: 2024–2026 (204 calls with realized CARs).
 
 ```mermaid
 gantt
@@ -619,7 +619,7 @@ Computed using the [Loughran-McDonald Master Dictionary](data/Loughran-McDonald_
 | `hedging_answers_chg` | Change in Q&A hedging vs prior 4-call average | A firm that suddenly hedges much more than usual may be facing new uncertainty. |
 | `uncertainty_answers` | LM Uncertainty words ("risk", "volatile", "unpredictable") per 1k words in Q&A | Direct uncertainty expressions in live responses. Could predict wider return dispersion or directional drift. |
 
-**IT finding:** No LM feature materially improves over controls. Model B's best strategy (Option 1: CV-filtered ensemble of 4 LM features; Option 2: PCA(2) compression) still falls short of Model A — bag-of-words tone is too coarse, counting words without context.
+**IT finding:** No LM feature materially improves over controls. Model B's best strategy (Option 1: CV-filtered ensemble of 6 LM features; Option 2: single-feature ensemble) still falls short of Model A — bag-of-words tone is too coarse, counting words without context.
 
 **FinBERT Features (Model C — 13 candidates)**
 
@@ -627,34 +627,34 @@ Computed using [ProsusAI/finbert](https://huggingface.co/ProsusAI/finbert), a BE
 
 | Feature | What it measures | Why it matters for PEAD |
 |---------|-----------------|------------------------|
-| `fb_sent_prepared` | Mean FinBERT sentiment score (−1 to +1) of prepared remarks | Contextual sentiment of the scripted section. FinBERT captures hedged optimism and understated negatives that word-counting misses. |
-| `fb_sent_answers` | Mean FinBERT sentiment of Q&A answers | **Selected (Opt 2).** Live Q&A sentiment — the most informative section. Captures nuance in how executives respond to probing questions. |
+| `fb_sent_prepared` | Mean FinBERT sentiment score (−1 to +1) of prepared remarks | **Selected (Opt 1).** Contextual sentiment of the scripted section. FinBERT captures hedged optimism and understated negatives that word-counting misses. |
+| `fb_sent_answers` | Mean FinBERT sentiment of Q&A answers | **Selected (Opt 1).** Live Q&A sentiment — the most informative section. Captures nuance in how executives respond to probing questions. |
 | `fb_pos_pct_prepared` | % of prepared-remarks sentences classified positive | High positive density in script may reflect genuine confidence or deliberate spin. |
 | `fb_neg_pct_prepared` | % of prepared-remarks sentences classified negative | Unusual negativity in script — management flagging headwinds they can't avoid disclosing. |
-| `fb_pos_pct_answers` | % of Q&A answers classified positive | **Selected (Opt 2).** A high share of positive answers under questioning signals confidence the market may underweight. |
-| `fb_neg_pct_answers` | % of Q&A answers classified negative | High negativity in live answers — executives struggling with difficult questions. |
+| `fb_pos_pct_answers` | % of Q&A answers classified positive | A high share of positive answers under questioning signals confidence the market may underweight. |
+| `fb_neg_pct_answers` | % of Q&A answers classified negative | **Selected (Opt 2).** High negativity in live answers — executives struggling with difficult questions. |
 | `fb_sent_std_prepared` | Std dev of sentence-level sentiment in prepared remarks | Sentiment consistency. Low std = uniform tone (scripted). High std = mixed messaging, potentially hiding bad news among good. |
 | `fb_sent_std_answers` | Std dev of sentence-level sentiment in Q&A answers | Sentiment volatility in live answers. High variance may indicate selective honesty across topics. |
-| `fb_sent_gap` | `fb_sent_answers` − `fb_sent_prepared` | **Selected (Opt 2).** The FinBERT version of the prepared-to-Q&A tone shift. A large negative gap = executives less positive when unscripted. FinBERT captures this more accurately than word-counting. |
+| `fb_sent_gap` | `fb_sent_answers` − `fb_sent_prepared` | The FinBERT version of the prepared-to-Q&A tone shift. A large negative gap = executives less positive when unscripted. FinBERT captures this more accurately than word-counting. |
 | `fb_sent_prepared_chg` | Change in prepared-remarks FinBERT sentiment vs prior call | Temporal shift in contextual sentiment — did this quarter's script turn more positive/negative than the firm's last call? |
-| `fb_sent_answers_chg` | Change in Q&A FinBERT sentiment vs prior call | **Selected (Opt 2).** Change in live-answer sentiment. A sudden drop may flag a turning point the market hasn't priced. |
-| `fb_n_sent_prepared` | Number of sentences in prepared remarks | Call length proxy. Unusually long/short scripts may indicate more/less to disclose. |
+| `fb_sent_answers_chg` | Change in Q&A FinBERT sentiment vs prior call | Change in live-answer sentiment. A sudden drop may flag a turning point the market hasn't priced. |
+| `fb_n_sent_prepared` | Number of sentences in prepared remarks | **Selected (Opt 2).** Call length proxy. Unusually long/short scripts may indicate more/less to disclose. |
 | `fb_n_sent_answers` | Number of sentences in Q&A answers | Longer answers may indicate executive engagement or complex topics requiring more explanation. |
 
-**IT finding:** Forward selection (Option 2) picked 4 FinBERT features: `fb_sent_answers`, `fb_pos_pct_answers`, `fb_sent_gap`, and `fb_sent_answers_chg`. All four relate to the Q&A section or the prepared-to-Q&A shift — confirming that the live, unscripted part of the call carries the linguistic alpha. The resulting Model C (Ridge, 16 controls + 4 FinBERT) achieves Rank IC +0.094, the strongest of any model.
+**IT finding:** Forward selection picked different FinBERT features per benchmark: Option 1 selected `fb_sent_prepared` and `fb_sent_answers` (mean sentiment); Option 2 selected `fb_neg_pct_answers` and `fb_n_sent_prepared` (negativity and call length). Model C (RidgeCV, 16 controls + 2 FinBERT) achieves Rank IC +0.085 on Option 2, a modest +0.007 improvement over Model A.
 
 ### Model Hierarchy & Results (Option 2 — IT Sector Bench)
 
 ```mermaid
 flowchart TD
-    A["<b>Model A</b>\n16 financial controls\nRidgeCV\n<b>Rank IC = +0.068</b>"]
-    B["<b>Model B</b>\nA + LM dictionary\n(tone, hedging)\nPCA(2) · RidgeCV\n<b>Rank IC = +0.065</b>\nworse than A"]
-    Bstar["<b>Model B*</b>\nA + all 9 LM forced\nRidgeCV\n<b>Rank IC = +0.040</b>\nmuch worse"]
-    C["<b>Model C (Best)</b>\nA + 4 FinBERT features\n(Q&A sentiment)\nRidge\n<b>Rank IC = +0.094</b>\n+38% vs A"]
+    A["<b>Model A</b>\n16 financial controls\nRidgeCV\n<b>Rank IC = +0.078</b>"]
+    B["<b>Model B</b>\nA + LM dictionary\n(tone, hedging)\nEnsemble\n<b>Rank IC = +0.071</b>\nworse than A"]
+    Bstar["<b>Model B*</b>\nA + all 9 LM forced\nRidgeCV\n<b>Rank IC = +0.031</b>\nmuch worse"]
+    C["<b>Model C (Best)</b>\nA + 2 FinBERT features\n(negativity + call length)\nRidgeCV\n<b>Rank IC = +0.085</b>\n+9% vs A"]
 
     A -->|"+9 LM features\n(bag-of-words)"| B
     A -->|"force all 9 LM"| Bstar
-    A -->|"+4 FinBERT features\n(contextual sentiment)"| C
+    A -->|"+2 FinBERT features\n(contextual sentiment)"| C
 
     style C fill:#d4edda,stroke:#28a745,stroke-width:2px
     style B fill:#fff3cd,stroke:#ffc107
@@ -665,84 +665,83 @@ flowchart TD
 
 ### Baseline vs Best Model
 
-**Best model: Model C (FinBERT forward selection) — Option 2, Ridge, 16 controls + 4 FinBERT features.**
+**Best model: Model C (FinBERT forward selection) — Option 2, RidgeCV, 16 controls + 2 FinBERT features.**
 
 | Metric | Model A (Baseline) | Model C (Best) | Δ |
 |--------|-------------------|----------------|---|
-| **Rank IC** | +0.0682 | **+0.0943** | +0.0261 (+38%) |
-| OOS R² | +0.0293 | **+0.0318** | +0.0025 |
-| MAE | 0.0577 | **0.0575** | −0.0002 |
-| Hit Rate | 52.9% | **53.9%** | +1.0pp |
-| Relative IC | +0.022 | **+0.049** | +0.027 |
+| **Rank IC** | +0.0778 | **+0.0846** | +0.0068 (+9%) |
+| OOS R² | +0.0311 | **+0.0324** | +0.0013 |
+| MAE | 0.0578 | **0.0578** | 0.0000 |
+| Hit Rate | 52.0% | **54.9%** | +2.9pp |
 
-Model C is the **only model** in the entire pipeline that beats the baseline on every metric.
+Model C remains the **only model** in the IT pipeline that beats the baseline on every metric, though the margin is smaller after PIT GICS correction.
 
-**The 4 selected FinBERT features (all Q&A-focused):**
+**The 2 selected FinBERT features (Option 2):**
 
 | Feature | What it measures | Why it was selected |
 |---------|-----------------|---------------------|
-| `fb_sent_answers_chg` | Change in Q&A FinBERT sentiment vs prior call | A sudden drop in live-answer sentiment flags a turning point the market hasn't priced. Added first — largest CV Rank IC lift. |
-| `fb_sent_gap` | `fb_sent_answers` − `fb_sent_prepared` (Q&A vs script sentiment gap) | A large negative gap means executives are less positive when unscripted — the FinBERT version captures hedged language that word-counting misses. |
-| `fb_pos_pct_answers` | % of Q&A answer sentences classified positive by FinBERT | A high share of positive answers under questioning signals confidence the market may underweight. |
-| `fb_sent_answers` | Mean FinBERT sentiment score (−1 to +1) of Q&A answers | The overall contextual sentiment of live responses — the most informative section of the call. |
+| `fb_neg_pct_answers` | % of Q&A answer sentences classified negative by FinBERT | High negativity in live answers — executives struggling with difficult questions. Added first — largest CV Rank IC lift. |
+| `fb_n_sent_prepared` | Number of sentences in prepared remarks | Call length proxy — unusually long/short scripts may indicate more/less to disclose. |
 
-All 4 features relate to the **Q&A section** or the prepared-to-Q&A shift — none from the scripted prepared remarks. This confirms that the live, unscripted part of the earnings call carries the linguistic alpha. Executives reveal more under analyst questioning than in rehearsed scripts.
+Unlike the pre-correction results (which selected 4 Q&A sentiment features), the PIT-corrected model picks one sentiment feature and one structural feature. The larger, more correct dataset (4,156 vs 3,561 calls) lets Model A's financial controls capture more signal, leaving less room for FinBERT to add.
 
 **Forward selection path (CV Rank IC at each step):**
 
 ```mermaid
 flowchart LR
-    S0["Baseline\n16 controls\nCV Rank IC\n+0.0062"] -->|"+fb_sent_answers_chg"| S1["Step 1\n17 features\nCV Rank IC\n+0.0112"]
-    S1 -->|"+fb_sent_gap"| S2["Step 2\n18 features\nCV Rank IC\n+0.0113"]
-    S2 -->|"+fb_pos_pct_answers"| S3["Step 3\n19 features\nCV Rank IC\n+0.0138"]
-    S3 -->|"+fb_sent_answers"| S4["Step 4\n20 features\nCV Rank IC\n<b>+0.0187</b>"]
-    S4 -.->|"no further\nimprovement"| STOP(("STOP\n4 features\nselected"))
+    S0["Baseline\n16 controls\nCV Rank IC\n+0.0004"] -->|"+fb_neg_pct_answers"| S1["Step 1\n17 features\nCV Rank IC\n+0.0037"]
+    S1 -->|"+fb_n_sent_prepared"| S2["Step 2\n18 features\nCV Rank IC\n<b>+0.0089</b>"]
+    S2 -.->|"no further\nimprovement"| STOP(("STOP\n2 features\nselected"))
 
-    style S4 fill:#d4edda,stroke:#28a745,stroke-width:2px
+    style S2 fill:#d4edda,stroke:#28a745,stroke-width:2px
     style STOP fill:#28a745,color:#fff,stroke:#28a745
 ```
 
-Each step tests all remaining FinBERT candidates and greedily adds the one that most improves expanding-window CV Rank IC. Selection stops when no candidate improves over the current best. The 9 prepared-remarks features were all tested and rejected — none improved CV Rank IC.
+Each step tests all remaining FinBERT candidates and greedily adds the one that most improves expanding-window CV Rank IC. Selection stops when no candidate improves over the current best.
 
 ### IT Results Summary
 
 **Option 1 — CAR vs. S&P 500:**
 
-| Model | Algorithm | Rank IC | Δ vs A | OOS R² | MAE | Hit Rate | Rel IC |
-|-------|-----------|---------|--------|--------|-----|----------|--------|
-| Model A (16 controls) | EN_strong | +0.0379 | — | +0.0104 | 0.0542 | 52.9% | +0.032 |
-| Model B (Ensemble, 4 LM) | Ensemble | +0.0289 | −0.0090 | −0.841 | 0.0867 | 50.0% | +0.023 |
-| Model B* (all 9 LM forced) | RidgeCV | −0.0401 | −0.0780 | +0.0017 | 0.0544 | 44.1% | −0.046 |
-| **Model C (FinBERT Ensemble, 13)** | **Ensemble** | **+0.0482** | **+0.0103** | −0.840 | 0.0861 | 52.9% | **+0.042** |
+| Model | Algorithm | Rank IC | Δ vs A | OOS R² | MAE | Hit Rate |
+|-------|-----------|---------|--------|--------|-----|----------|
+| Model A (16 controls) | RidgeCV | +0.0725 | — | +0.0146 | 0.0541 | 53.9% |
+| Model B (Ensemble, 6 LM) | Ensemble | +0.0704 | −0.0021 | −0.756 | 0.0857 | 52.0% |
+| Model B* (all 9 LM forced) | RidgeCV | +0.0042 | −0.0683 | +0.0071 | 0.0544 | 48.0% |
+| Model C (FinBERT fwd sel, 2 feats) | RidgeCV | +0.0719 | −0.0005 | +0.0138 | 0.0540 | 51.0% |
+| Model C* (all 13 FinBERT forced) | RidgeCV | +0.0565 | −0.0160 | +0.0148 | 0.0542 | 51.0% |
 
-Hit Rate baseline = 55.8%. OOS R² baseline = 0 (predict zero). Ensemble models' negative OOS R² is a calibration artifact of averaging rank predictions; Rank IC and Q5−Q1 remain the strongest.
+Hit Rate baseline = 55.6%. OOS R² baseline = 0 (predict zero). Ensemble models' negative OOS R² is a calibration artifact of averaging rank predictions.
 
 **Option 2 — CAR vs. IT Sector Index:**
 
-| Model | Algorithm | Rank IC | Δ vs A | OOS R² | MAE | Hit Rate | Rel IC |
-|-------|-----------|---------|--------|--------|-----|----------|--------|
-| Model A (16 controls) | RidgeCV | +0.0682 | — | +0.0293 | 0.0577 | 52.9% | +0.022 |
-| Model B (PCA(2) Linguistic) | RidgeCV | +0.0649 | −0.0033 | +0.0268 | 0.0578 | 52.9% | +0.019 |
-| Model B* (all 9 LM forced) | RidgeCV | +0.0401 | −0.0281 | +0.0218 | 0.0579 | 52.0% | −0.006 |
-| **Model C (FinBERT fwd sel, 4 feats)** | **Ridge** | **+0.0943** | **+0.0261** | **+0.0318** | **0.0575** | **53.9%** | **+0.049** |
+| Model | Algorithm | Rank IC | Δ vs A | OOS R² | MAE | Hit Rate |
+|-------|-----------|---------|--------|--------|-----|----------|
+| Model A (16 controls) | RidgeCV | +0.0778 | — | +0.0311 | 0.0578 | 52.0% |
+| Model B (Ensemble, LM) | Ensemble | +0.0712 | −0.0066 | −0.713 | 0.0847 | 50.0% |
+| Model B* (all 9 LM forced) | RidgeCV | +0.0305 | −0.0473 | +0.0241 | 0.0580 | 51.0% |
+| **Model C (FinBERT fwd sel, 2 feats)** | **RidgeCV** | **+0.0846** | **+0.0068** | **+0.0324** | **0.0578** | **54.9%** |
+| Model C* (all 13 FinBERT forced) | Ridge | +0.0646 | −0.0131 | +0.0348 | 0.0577 | 52.9% |
 
-Hit Rate baseline = 53.3%. Model C forward selection beats baseline on every metric.
+Hit Rate baseline = 53.6%. Model C forward selection beats baseline on Rank IC, OOS R², and Hit Rate.
 
-**Evaluation metrics:** Rank IC (M3) is the primary optimization metric. OOS R² (M1) uses Campbell–Thompson baseline ŷ=0 with Platt-calibrated predictions. MAE (M2) is mean absolute error of calibrated predictions. Hit Rate (M4) is direction accuracy vs majority-sign baseline. Relative IC (M7) = model Rank IC − OLS baseline Rank IC.
+**Evaluation metrics:** Rank IC (M3) is the primary optimization metric. OOS R² (M1) uses Campbell–Thompson baseline ŷ=0 with Platt-calibrated predictions. MAE (M2) is mean absolute error of calibrated predictions. Hit Rate (M4) is direction accuracy vs majority-sign baseline.
+
+**Result files:** [`model_table_opt1.parquet`](it_results/model_table_opt1.parquet) | [`model_table_opt2.parquet`](it_results/model_table_opt2.parquet) | [`predictions_b_option_1`](it_results/predictions_b_option_1_s%26p_500_bench.csv) | [`predictions_b_option_2`](it_results/predictions_b_option_2_it_sector_bench.csv) | [`predictions_c_option_1`](it_results/predictions_c_option_1_s%26p_500_bench.csv) | [`predictions_c_option_2`](it_results/predictions_c_option_2_it_sector_bench.csv) | [`Model A features (opt1)`](it_results/model_a_features_option_1_s%26p_500_bench.json) | [`Model A features (opt2)`](it_results/model_a_features_option_2_it_sector_bench.json) | [`Model B results (opt1)`](it_results/it_model_b_improved_option_1_s%26p_500_bench_results.json) | [`Model B results (opt2)`](it_results/it_model_b_improved_option_2_it_sector_bench_results.json) | [`Model C results (opt1)`](it_results/it_model_c_option_1_s%26p_500_bench_results.json) | [`Model C results (opt2)`](it_results/it_model_c_option_2_it_sector_bench_results.json) | [`Model B report (opt1)`](it_results/it_model_b_improved_option_1_s%26p_500_bench_report.txt) | [`Model B report (opt2)`](it_results/it_model_b_improved_option_2_it_sector_bench_report.txt) | [`Model C report (opt1)`](it_results/it_model_c_option_1_s%26p_500_bench_report.txt) | [`Model C report (opt2)`](it_results/it_model_c_option_2_it_sector_bench_report.txt) | [`FinBERT features`](it_results/finbert_features.parquet) | [`IT Sector PEAD Report (PDF)`](it_results/IT_Sector_PEAD_Report.pdf)
 
 ### Key Cross-Pipeline Findings
 
 1. **LM dictionary features don't help in either universe.** Model B ≈ Model A
    on both S&P 500 and IT sector. Bag-of-words tone adds no incremental signal.
 
-2. **FinBERT helps within IT but not across S&P 500.** Model C improves over
-   Model A by +0.0103 (Opt 1) and +0.0261 (Opt 2) in IT, but adds nothing on
-   the full S&P 500. This confirms the sector-specificity hypothesis for
-   transformer-based sentiment — context-aware features find signal within a
-   homogeneous sector that cross-sector pooling dilutes.
+2. **FinBERT shows modest improvement within IT (Option 2 only).** Model C
+   improves over Model A by +0.0068 (Opt 2) in IT, but not on Opt 1 or the
+   full S&P 500. The effect is smaller than pre-correction (+0.026) — PIT GICS
+   correction added ~600 calls and strengthened Model A, leaving less room
+   for FinBERT. The sector-specificity hypothesis holds but the effect is modest.
 
 3. **Linear models beat trees on the smaller IT sample.** Ridge/ElasticNet
-   dominate IT (~2,900 train obs), while GradientBoosting wins on full S&P 500
+   dominate IT (~3,500 train obs), while GradientBoosting wins on full S&P 500
    (~21,000 train obs). Sample size determines model complexity.
 
 4. **The sector benchmark (Option 2) isolates stronger signal.** Stripping
@@ -766,8 +765,8 @@ Full details, feature descriptions, and strategy comparisons:
 | 8 | Evaluation: OOS R², MAE, Hit Rate, Relative IC (M1/M2/M4/M7) | **done** (IT sector) |
 | 9 | Long-short backtest net of costs | pending |
 
-Done: full pipeline, GCP VM, data validation, Model A baseline, LM linguistic features (Model B), FinBERT sentiment (Model C), IT sector subsample analysis, proper evaluation metrics with Platt calibration.
-Finding: Model A (controls only) achieves +0.047 test Rank IC on the full S&P 500. Neither LM bag-of-words (Model B) nor FinBERT contextual sentiment (Model C) improve over controls alone. However, FinBERT **does** improve prediction within the IT sector (+0.0943 vs +0.0682 on the sector-benchmarked CAR), confirming that linguistic signal is sector-specific. Model C (forward selection, 4 FinBERT features) beats baseline on every diagnostic metric: OOS R² +0.032, Hit Rate 53.9% (vs 53.3% baseline), Relative IC +0.049.
+Done: full pipeline, GCP VM, data validation, Model A baseline, LM linguistic features (Model B), FinBERT sentiment (Model C), IT sector subsample analysis, proper evaluation metrics with Platt calibration, point-in-time GICS correction.
+Finding: Model A (controls only) achieves +0.047 test Rank IC on the full S&P 500. Neither LM bag-of-words (Model B) nor FinBERT contextual sentiment (Model C) improve over controls alone. Within IT (PIT GICS, 4,156 calls / 129 firms), FinBERT shows a modest improvement on the sector-benchmarked CAR: Model C +0.0846 vs Model A +0.0778 (Δ = +0.0068). The effect is smaller than pre-PIT-correction estimates, as the corrected dataset strengthened the baseline. Model C (forward selection, 2 FinBERT features) beats baseline on Rank IC, OOS R² +0.032, and Hit Rate 54.9% (vs 53.6% baseline).
 
 ## Obstacles and proposed solutions
 

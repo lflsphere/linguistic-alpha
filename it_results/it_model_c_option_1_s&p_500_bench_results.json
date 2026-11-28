@@ -3,7 +3,7 @@
   "train_end": "2023-12-31",
   "method": "time-series CV, ranked target",
   "model_a_baseline": {
-    "algo": "EN_strong",
+    "algo": "XGBoost",
     "features": [
       "sue",
       "surprise_pct",
@@ -23,22 +23,22 @@
       "prior_calls_with_target"
     ],
     "metrics": {
-      "ic": 0.084205,
-      "rank_ic": 0.037908,
-      "oos_r2": 0.010391,
-      "mae": 0.054205,
-      "hit_rate": 0.529412,
-      "hit_rate_baseline": 0.557746,
-      "quintile_spread": 0.009939
+      "ic": 0.077879,
+      "rank_ic": 0.072464,
+      "oos_r2": 0.010669,
+      "mae": 0.053911,
+      "hit_rate": 0.519608,
+      "hit_rate_baseline": 0.555779,
+      "quintile_spread": 0.023943
     },
     "ols_metrics": {
-      "ic": 0.04495,
-      "rank_ic": 0.005771,
-      "oos_r2": 0.006322,
-      "mae": 0.054283,
-      "hit_rate": 0.509804,
-      "hit_rate_baseline": 0.557746,
-      "quintile_spread": 0.014037
+      "ic": 0.080881,
+      "rank_ic": 0.034182,
+      "oos_r2": 0.010849,
+      "mae": 0.054164,
+      "hit_rate": 0.519608,
+      "hit_rate_baseline": 0.555779,
+      "quintile_spread": 0.025256
     }
   },
   "strategies": [
@@ -46,36 +46,43 @@
       "name": "Model C (FinBERT forward sel)",
       "algo": "RidgeCV",
       "added_finbert": [
-        "fb_n_sent_prepared"
+        "fb_sent_prepared",
+        "fb_sent_answers"
       ],
       "metrics": {
-        "ic": 0.088651,
-        "rank_ic": 0.040575,
-        "oos_r2": 0.01078,
-        "mae": 0.054217,
+        "ic": 0.11288,
+        "rank_ic": 0.071944,
+        "oos_r2": 0.013756,
+        "mae": 0.054031,
         "hit_rate": 0.509804,
-        "hit_rate_baseline": 0.557746,
-        "quintile_spread": 0.022083
+        "hit_rate_baseline": 0.555779,
+        "quintile_spread": 0.020056
       },
-      "relative_ic": 0.034804,
+      "relative_ic": 0.037762,
       "selection_log": [
         {
           "step": 0,
           "added": null,
-          "cv_rank_ic": 0.007275613825873966,
+          "cv_rank_ic": 0.00285643589242592,
           "improvement": 0.0
         },
         {
           "step": 1,
-          "added": "fb_n_sent_prepared",
-          "cv_rank_ic": 0.018599338360228593,
-          "improvement": 0.011323724534354627
+          "added": "fb_sent_prepared",
+          "cv_rank_ic": 0.01887361947370448,
+          "improvement": 0.01601718358127856
+        },
+        {
+          "step": 2,
+          "added": "fb_sent_answers",
+          "cv_rank_ic": 0.023131408509511925,
+          "improvement": 0.004257789035807445
         }
       ]
     },
     {
       "name": "Model C* (All FinBERT forced)",
-      "algo": "EN_a0.1",
+      "algo": "RidgeCV",
       "added_finbert": [
         "fb_sent_prepared",
         "fb_sent_answers",
@@ -92,45 +99,43 @@
         "fb_n_sent_answers"
       ],
       "metrics": {
-        "ic": 0.087579,
-        "rank_ic": 0.042365,
-        "oos_r2": 0.011551,
-        "mae": 0.054323,
-        "hit_rate": 0.529412,
-        "hit_rate_baseline": 0.557746,
-        "quintile_spread": -0.005075
+        "ic": 0.113125,
+        "rank_ic": 0.056476,
+        "oos_r2": 0.014805,
+        "mae": 0.054227,
+        "hit_rate": 0.509804,
+        "hit_rate_baseline": 0.555779,
+        "quintile_spread": 0.011738
       },
-      "relative_ic": 0.036593,
+      "relative_ic": 0.022294,
       "selection_log": null
     },
     {
-      "name": "FinBERT Ensemble (13)",
+      "name": "FinBERT Ensemble (11)",
       "algo": "Ensemble",
       "added_finbert": [
-        "fb_n_sent_prepared",
-        "fb_pos_pct_prepared",
         "fb_sent_prepared",
-        "fb_sent_prepared_chg",
-        "fb_sent_gap",
-        "fb_n_sent_answers",
-        "fb_pos_pct_answers",
-        "fb_sent_answers_chg",
-        "fb_neg_pct_prepared",
         "fb_neg_pct_answers",
+        "fb_n_sent_prepared",
+        "fb_sent_prepared_chg",
+        "fb_pos_pct_prepared",
+        "fb_pos_pct_answers",
         "fb_sent_std_prepared",
         "fb_sent_std_answers",
+        "fb_sent_gap",
+        "fb_n_sent_answers",
         "fb_sent_answers"
       ],
       "metrics": {
-        "ic": 0.078164,
-        "rank_ic": 0.048171,
-        "oos_r2": -0.839693,
-        "mae": 0.086123,
-        "hit_rate": 0.529412,
-        "hit_rate_baseline": 0.557746,
-        "quintile_spread": 0.031136
+        "ic": 0.04593,
+        "rank_ic": 0.039976,
+        "oos_r2": -0.903856,
+        "mae": 0.086383,
+        "hit_rate": 0.519608,
+        "hit_rate_baseline": 0.555779,
+        "quintile_spread": 0.002617
       },
-      "relative_ic": 0.0424,
+      "relative_ic": 0.005794,
       "selection_log": null
     },
     {
@@ -161,45 +166,34 @@
         "hedging_answers_chg"
       ],
       "metrics": {
-        "ic": -0.024987,
-        "rank_ic": 0.036045,
-        "oos_r2": -0.006563,
-        "mae": 0.054134,
-        "hit_rate": 0.509804,
-        "hit_rate_baseline": 0.557746,
-        "quintile_spread": -0.000548
+        "ic": -0.044168,
+        "rank_ic": 0.013614,
+        "oos_r2": -0.007927,
+        "mae": 0.054057,
+        "hit_rate": 0.490196,
+        "hit_rate_baseline": 0.555779,
+        "quintile_spread": -0.002315
       },
-      "relative_ic": 0.030273,
+      "relative_ic": -0.020568,
       "selection_log": null
     }
   ],
   "best": {
-    "name": "FinBERT Ensemble (13)",
-    "algo": "Ensemble",
+    "name": "Model C (FinBERT forward sel)",
+    "algo": "RidgeCV",
     "added_finbert": [
-      "fb_n_sent_prepared",
-      "fb_pos_pct_prepared",
       "fb_sent_prepared",
-      "fb_sent_prepared_chg",
-      "fb_sent_gap",
-      "fb_n_sent_answers",
-      "fb_pos_pct_answers",
-      "fb_sent_answers_chg",
-      "fb_neg_pct_prepared",
-      "fb_neg_pct_answers",
-      "fb_sent_std_prepared",
-      "fb_sent_std_answers",
       "fb_sent_answers"
     ],
     "metrics": {
-      "ic": 0.078164,
-      "rank_ic": 0.048171,
-      "oos_r2": -0.839693,
-      "mae": 0.086123,
-      "hit_rate": 0.529412,
-      "hit_rate_baseline": 0.557746,
-      "quintile_spread": 0.031136
+      "ic": 0.11288,
+      "rank_ic": 0.071944,
+      "oos_r2": 0.013756,
+      "mae": 0.054031,
+      "hit_rate": 0.509804,
+      "hit_rate_baseline": 0.555779,
+      "quintile_spread": 0.020056
     },
-    "relative_ic": 0.0424
+    "relative_ic": 0.037762
   }
 }

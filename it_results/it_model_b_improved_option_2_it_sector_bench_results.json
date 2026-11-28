@@ -23,62 +23,47 @@
     ],
     "algo": "RidgeCV",
     "metrics": {
-      "ic": 0.115157,
-      "rank_ic": 0.068199,
-      "oos_r2": 0.029317,
-      "mae": 0.057691,
-      "hit_rate": 0.529412,
-      "hit_rate_baseline": 0.532849,
-      "quintile_spread": 0.014034
+      "ic": 0.141261,
+      "rank_ic": 0.077759,
+      "oos_r2": 0.031129,
+      "mae": 0.057827,
+      "hit_rate": 0.519608,
+      "hit_rate_baseline": 0.535704,
+      "quintile_spread": 0.020999
     },
     "ols_metrics": {
-      "ic": 0.096813,
-      "rank_ic": 0.045778,
-      "oos_r2": 0.027633,
-      "mae": 0.057745,
-      "hit_rate": 0.529412,
-      "hit_rate_baseline": 0.532849,
-      "quintile_spread": 0.009748
+      "ic": 0.120035,
+      "rank_ic": 0.045939,
+      "oos_r2": 0.029814,
+      "mae": 0.0579,
+      "hit_rate": 0.509804,
+      "hit_rate_baseline": 0.535704,
+      "quintile_spread": 0.010428
     },
     "selection_log": []
   },
   "model_b": {
-    "strategy": "PCA(2) Linguistic",
-    "algo": "RidgeCV",
+    "strategy": "Single-Feature Ensemble",
+    "algo": "Ensemble",
     "features": [
-      "sue",
-      "surprise_pct",
-      "vol_pre",
-      "car_-1_1",
-      "mom",
-      "bm",
-      "size",
-      "dispersion",
-      "avg_answer_words",
-      "words_prepared",
-      "words_questions",
-      "words_answers",
-      "n_questions",
-      "n_answers",
-      "n_analysts",
-      "prior_calls_with_target",
-      "ling_pc1",
-      "ling_pc2"
+      "ensemble(hedging_prepared,tone_answers,tone_gap,tone_answers_chg)"
     ],
     "added_ling": [
-      "ling_pc1",
-      "ling_pc2"
+      "hedging_prepared",
+      "tone_answers",
+      "tone_gap",
+      "tone_answers_chg"
     ],
     "metrics": {
-      "ic": 0.098173,
-      "rank_ic": 0.0649,
-      "oos_r2": 0.026849,
-      "mae": 0.057755,
-      "hit_rate": 0.529412,
-      "hit_rate_baseline": 0.532849,
-      "quintile_spread": 0.010128
+      "ic": 0.131684,
+      "rank_ic": 0.071206,
+      "oos_r2": -0.713421,
+      "mae": 0.084733,
+      "hit_rate": 0.5,
+      "hit_rate_baseline": 0.535704,
+      "quintile_spread": 0.026699
     },
-    "relative_ic": 0.019122
+    "relative_ic": 0.025267
   },
   "model_b_star": {
     "name": "Model B* (all LM)",
@@ -122,100 +107,100 @@
       "hedging_answers_chg"
     ],
     "metrics": {
-      "ic": 0.058894,
-      "rank_ic": 0.040069,
-      "oos_r2": 0.021776,
-      "mae": 0.057913,
-      "hit_rate": 0.519608,
-      "hit_rate_baseline": 0.532849,
-      "quintile_spread": 0.00075
+      "ic": 0.086195,
+      "rank_ic": 0.030463,
+      "oos_r2": 0.024065,
+      "mae": 0.058032,
+      "hit_rate": 0.509804,
+      "hit_rate_baseline": 0.535704,
+      "quintile_spread": 0.009022
     },
-    "relative_ic": -0.005709
+    "relative_ic": -0.015477
   },
   "all_strategies": [
     {
       "name": "Forward Selection",
       "algo": "RidgeCV",
       "metrics": {
-        "ic": 0.068144,
-        "rank_ic": 0.051803,
-        "oos_r2": 0.022602,
-        "mae": 0.057856,
-        "hit_rate": 0.519608,
-        "hit_rate_baseline": 0.532849,
-        "quintile_spread": 0.015428
+        "ic": 0.112632,
+        "rank_ic": 0.05636,
+        "oos_r2": 0.027622,
+        "mae": 0.057858,
+        "hit_rate": 0.5,
+        "hit_rate_baseline": 0.535704,
+        "quintile_spread": 0.016031
       },
-      "relative_ic": 0.006024
+      "relative_ic": 0.01042
     },
     {
       "name": "Interactions (no raw ling)",
-      "algo": "EN_strong",
+      "algo": "RidgeCV",
       "metrics": {
-        "ic": 0.124756,
-        "rank_ic": 0.013964,
-        "oos_r2": 0.03281,
-        "mae": 0.057829,
+        "ic": 0.147229,
+        "rank_ic": 0.009876,
+        "oos_r2": 0.03399,
+        "mae": 0.057962,
         "hit_rate": 0.490196,
-        "hit_rate_baseline": 0.532849,
-        "quintile_spread": 0.014281
+        "hit_rate_baseline": 0.535704,
+        "quintile_spread": 0.039898
       },
-      "relative_ic": -0.031814
+      "relative_ic": -0.036063
     },
     {
       "name": "Residualized Tone",
-      "algo": "EN_strong",
+      "algo": "RidgeCV",
       "metrics": {
-        "ic": 0.081492,
-        "rank_ic": 0.059205,
-        "oos_r2": 0.024761,
-        "mae": 0.057914,
-        "hit_rate": 0.529412,
-        "hit_rate_baseline": 0.532849,
-        "quintile_spread": 0.015151
+        "ic": 0.105019,
+        "rank_ic": 0.055218,
+        "oos_r2": 0.026161,
+        "mae": 0.058037,
+        "hit_rate": 0.490196,
+        "hit_rate_baseline": 0.535704,
+        "quintile_spread": 0.027427
       },
-      "relative_ic": 0.013427
+      "relative_ic": 0.009278
     },
     {
       "name": "All Ling + RidgeCV",
-      "algo": "Ridge_a100",
-      "metrics": {
-        "ic": 0.058894,
-        "rank_ic": 0.040069,
-        "oos_r2": 0.021776,
-        "mae": 0.057913,
-        "hit_rate": 0.519608,
-        "hit_rate_baseline": 0.532849,
-        "quintile_spread": 0.00075
-      },
-      "relative_ic": -0.005709
-    },
-    {
-      "name": "PCA(2) Linguistic",
       "algo": "RidgeCV",
       "metrics": {
-        "ic": 0.098173,
-        "rank_ic": 0.0649,
-        "oos_r2": 0.026849,
-        "mae": 0.057755,
-        "hit_rate": 0.529412,
-        "hit_rate_baseline": 0.532849,
-        "quintile_spread": 0.010128
+        "ic": 0.096185,
+        "rank_ic": 0.038176,
+        "oos_r2": 0.024704,
+        "mae": 0.058005,
+        "hit_rate": 0.509804,
+        "hit_rate_baseline": 0.535704,
+        "quintile_spread": 0.010889
       },
-      "relative_ic": 0.019122
+      "relative_ic": -0.007763
+    },
+    {
+      "name": "PCA(3) Linguistic",
+      "algo": "RidgeCV",
+      "metrics": {
+        "ic": 0.121642,
+        "rank_ic": 0.05625,
+        "oos_r2": 0.028515,
+        "mae": 0.05789,
+        "hit_rate": 0.490196,
+        "hit_rate_baseline": 0.535704,
+        "quintile_spread": 0.030766
+      },
+      "relative_ic": 0.01031
     },
     {
       "name": "Single-Feature Ensemble",
       "algo": "Ensemble",
       "metrics": {
-        "ic": 0.102636,
-        "rank_ic": 0.059834,
-        "oos_r2": -0.769737,
-        "mae": 0.084966,
-        "hit_rate": 0.529412,
-        "hit_rate_baseline": 0.532849,
-        "quintile_spread": 0.007812
+        "ic": 0.131684,
+        "rank_ic": 0.071206,
+        "oos_r2": -0.713421,
+        "mae": 0.084733,
+        "hit_rate": 0.5,
+        "hit_rate_baseline": 0.535704,
+        "quintile_spread": 0.026699
       },
-      "relative_ic": 0.014056
+      "relative_ic": 0.025267
     }
   ]
 }

@@ -21,24 +21,24 @@
       "n_analysts",
       "prior_calls_with_target"
     ],
-    "algo": "EN_strong",
+    "algo": "RidgeCV",
     "metrics": {
-      "ic": 0.084205,
-      "rank_ic": 0.037908,
-      "oos_r2": 0.010391,
-      "mae": 0.054205,
-      "hit_rate": 0.529412,
-      "hit_rate_baseline": 0.557746,
-      "quintile_spread": 0.009939
+      "ic": 0.120087,
+      "rank_ic": 0.072458,
+      "oos_r2": 0.014582,
+      "mae": 0.054055,
+      "hit_rate": 0.539216,
+      "hit_rate_baseline": 0.555779,
+      "quintile_spread": 0.030241
     },
     "ols_metrics": {
-      "ic": 0.04495,
-      "rank_ic": 0.005771,
-      "oos_r2": 0.006322,
-      "mae": 0.054283,
-      "hit_rate": 0.509804,
-      "hit_rate_baseline": 0.557746,
-      "quintile_spread": 0.014037
+      "ic": 0.080881,
+      "rank_ic": 0.034182,
+      "oos_r2": 0.010849,
+      "mae": 0.054164,
+      "hit_rate": 0.519608,
+      "hit_rate_baseline": 0.555779,
+      "quintile_spread": 0.025256
     },
     "selection_log": []
   },
@@ -46,24 +46,26 @@
     "strategy": "Single-Feature Ensemble",
     "algo": "Ensemble",
     "features": [
-      "ensemble(tone_gap,tone_answers,tone_answers_chg,hedging_prepared)"
+      "ensemble(tone_answers,tone_gap,hedging_prepared,tone_answers_chg,hedging_answers,uncertainty_answers)"
     ],
     "added_ling": [
-      "tone_gap",
       "tone_answers",
+      "tone_gap",
+      "hedging_prepared",
       "tone_answers_chg",
-      "hedging_prepared"
+      "hedging_answers",
+      "uncertainty_answers"
     ],
     "metrics": {
-      "ic": 0.077574,
-      "rank_ic": 0.028858,
-      "oos_r2": -0.840867,
-      "mae": 0.086739,
-      "hit_rate": 0.5,
-      "hit_rate_baseline": 0.557746,
-      "quintile_spread": 0.016904
+      "ic": 0.120211,
+      "rank_ic": 0.070433,
+      "oos_r2": -0.755996,
+      "mae": 0.085749,
+      "hit_rate": 0.519608,
+      "hit_rate_baseline": 0.555779,
+      "quintile_spread": 0.031814
     },
-    "relative_ic": 0.023087
+    "relative_ic": 0.036251
   },
   "model_b_star": {
     "name": "Model B* (all LM)",
@@ -107,100 +109,100 @@
       "hedging_answers_chg"
     ],
     "metrics": {
-      "ic": 0.008852,
-      "rank_ic": -0.040065,
-      "oos_r2": 0.001734,
-      "mae": 0.054437,
-      "hit_rate": 0.441176,
-      "hit_rate_baseline": 0.557746,
-      "quintile_spread": 0.008798
+      "ic": 0.052103,
+      "rank_ic": 0.004192,
+      "oos_r2": 0.007103,
+      "mae": 0.054378,
+      "hit_rate": 0.480392,
+      "hit_rate_baseline": 0.555779,
+      "quintile_spread": 0.01903
     },
-    "relative_ic": -0.045836
+    "relative_ic": -0.029989
   },
   "all_strategies": [
     {
       "name": "Forward Selection",
       "algo": "RidgeCV",
       "metrics": {
-        "ic": 0.015891,
-        "rank_ic": -0.018403,
-        "oos_r2": 0.002649,
-        "mae": 0.054349,
-        "hit_rate": 0.441176,
-        "hit_rate_baseline": 0.557746,
-        "quintile_spread": 0.016101
+        "ic": 0.048747,
+        "rank_ic": 0.012671,
+        "oos_r2": 0.006727,
+        "mae": 0.054272,
+        "hit_rate": 0.470588,
+        "hit_rate_baseline": 0.555779,
+        "quintile_spread": 0.014581
       },
-      "relative_ic": -0.024174
+      "relative_ic": -0.021511
     },
     {
       "name": "Interactions (no raw ling)",
-      "algo": "EN_strong",
+      "algo": "RidgeCV",
       "metrics": {
-        "ic": 0.092513,
-        "rank_ic": -0.021138,
-        "oos_r2": 0.012676,
-        "mae": 0.054639,
+        "ic": 0.111456,
+        "rank_ic": 0.001397,
+        "oos_r2": 0.016072,
+        "mae": 0.054627,
         "hit_rate": 0.5,
-        "hit_rate_baseline": 0.557746,
-        "quintile_spread": 0.016226
+        "hit_rate_baseline": 0.555779,
+        "quintile_spread": 0.026408
       },
-      "relative_ic": -0.026909
+      "relative_ic": -0.032785
     },
     {
       "name": "Residualized Tone",
       "algo": "RidgeCV",
       "metrics": {
-        "ic": 0.032251,
-        "rank_ic": -0.009981,
-        "oos_r2": 0.004909,
-        "mae": 0.05429,
-        "hit_rate": 0.490196,
-        "hit_rate_baseline": 0.557746,
-        "quintile_spread": 0.004693
+        "ic": 0.067572,
+        "rank_ic": 0.03282,
+        "oos_r2": 0.008951,
+        "mae": 0.054198,
+        "hit_rate": 0.5,
+        "hit_rate_baseline": 0.555779,
+        "quintile_spread": 0.014031
       },
-      "relative_ic": -0.015752
+      "relative_ic": -0.001361
     },
     {
       "name": "All Ling + RidgeCV",
       "algo": "RidgeCV",
       "metrics": {
-        "ic": 0.022979,
-        "rank_ic": -0.02735,
-        "oos_r2": 0.004169,
-        "mae": 0.054278,
-        "hit_rate": 0.441176,
-        "hit_rate_baseline": 0.557746,
-        "quintile_spread": 0.013411
+        "ic": 0.067507,
+        "rank_ic": 0.019754,
+        "oos_r2": 0.008922,
+        "mae": 0.054226,
+        "hit_rate": 0.490196,
+        "hit_rate_baseline": 0.555779,
+        "quintile_spread": 0.02767
       },
-      "relative_ic": -0.033122
+      "relative_ic": -0.014428
     },
     {
-      "name": "PCA(3) Linguistic",
+      "name": "PCA(2) Linguistic",
       "algo": "RidgeCV",
       "metrics": {
-        "ic": 0.07219,
-        "rank_ic": 0.013113,
-        "oos_r2": 0.009163,
-        "mae": 0.054162,
-        "hit_rate": 0.480392,
-        "hit_rate_baseline": 0.557746,
-        "quintile_spread": 0.018472
+        "ic": 0.105951,
+        "rank_ic": 0.049106,
+        "oos_r2": 0.013056,
+        "mae": 0.054089,
+        "hit_rate": 0.490196,
+        "hit_rate_baseline": 0.555779,
+        "quintile_spread": 0.034987
       },
-      "relative_ic": 0.007342
+      "relative_ic": 0.014924
     },
     {
       "name": "Single-Feature Ensemble",
       "algo": "Ensemble",
       "metrics": {
-        "ic": 0.077574,
-        "rank_ic": 0.028858,
-        "oos_r2": -0.840867,
-        "mae": 0.086739,
-        "hit_rate": 0.5,
-        "hit_rate_baseline": 0.557746,
-        "quintile_spread": 0.016904
+        "ic": 0.120211,
+        "rank_ic": 0.070433,
+        "oos_r2": -0.755996,
+        "mae": 0.085749,
+        "hit_rate": 0.519608,
+        "hit_rate_baseline": 0.555779,
+        "quintile_spread": 0.031814
       },
-      "relative_ic": 0.023087
+      "relative_ic": 0.036251
     }
   ]
 }
