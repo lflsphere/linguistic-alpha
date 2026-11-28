@@ -504,7 +504,7 @@ pairs) is not labelled.
     scores. `notes` gives a reason for every 1 and marks borderline cases.
 - **Sample:** about 450 pairs, build period only (2011 Q1 – 2023 Q4, never the holdout).
   Pairs are stratified by year × GICS sector (about 3 per cell), with at most 1 call per firm
-  per year and 2 pairs per call, seed 42. Calls are S&P 500 members on the call date, biotech
+  per year and 2 pairs per call, seed 42. Calls are S&P 500 members on the call date (standing in for Day 0 until `la events` is built), one permno per call (`share_class_rule`), biotech
   included (team decision 2026-11-17), using the latest transcript version. The sample is
   `data/qa_label_sample_full.csv` and the labels are `data/qa_labels.csv`. This replaces the
   legacy 150-pair, 3-firm sample.
