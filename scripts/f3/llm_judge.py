@@ -1,7 +1,8 @@
 """Candidate 3: LLM judge on anonymised Q&A pairs, with labeller A's rules (docs/labeling_handoff.md) as prompt.
 
     .venv/bin/python scripts/f3/llm_judge.py estimate          # token / cost estimate for all pairs, no API call
-    .venv/bin/python scripts/f3/llm_judge.py run [--model M]    # the 414 labelled pairs only
+    .venv/bin/python scripts/f3/llm_judge.py run [--model M]    # the 414 labelled pairs only, via the SDK
+    .venv/bin/python scripts/f3/llm_judge.py run --backend cli  # same, via the logged-in `claude -p` CLI
 
 `run` needs the `anthropic` SDK and a credential already in the environment; without one it exits and
 does nothing (agent G's brief: never ask for or store a key). Answers are cached per pair_id in
@@ -98,21 +99,73 @@ def run(model=DEFAULT_MODEL):
                                      out_tok=resp.usage.output_tokens)) + "\n")
 
 
+def _cli_one(model, q, a, cwd):
+    """One judge call through `claude -p` (the user's own Claude login; no key handled here)."""
+    import subprocess
+    cmd = ["claude", "-p", "--model", model, "--system-prompt", SYSTEM, "--tools", "", "--strict-mcp-config",
+           "--setting-sources", "", "--no-session-persistence", "--effort", "low", "--output-format", "json",
+           USER.format(q=q, a=a)]
+    r = subprocess.run(cmd, capture_output=True, text=True, cwd=cwd, timeout=180)
+    j = json.loads(r.stdout)
+    u = j.get("usage", {})
+    return (j.get("result", ""), j.get("stop_reason"),
+            u.get("input_tokens", 0) + u.get("cache_creation_input_tokens", 0) + u.get("cache_read_input_tokens", 0),
+            u.get("output_tokens", 0), j.get("total_cost_usd", 0.0))
+
+
+def run_cli(model=DEFAULT_MODEL, workers=6):
+    import shutil
+    import tempfile
+    from concurrent.futures import ThreadPoolExecutor
+    if not shutil.which("claude"):
+        sys.exit("no `claude` CLI on PATH: LLM judge skipped")
+    d = pd.read_pickle(G.CACHE / "labelled.pkl") if (G.CACHE / "labelled.pkl").exists() else G.load_labelled()
+    out = G.CACHE / f"llm_judge_{model}.jsonl"
+    done = set()
+    if out.exists():   # failed rows (nan) are retried on a rerun; load() keeps the last row per pair
+        done = {j["pair_id"] for j in map(json.loads, filter(str.strip, out.read_text().splitlines()))
+                if j["p_evasive"] == j["p_evasive"]}
+    todo = [r for r in d.itertuples() if r.pair_id not in done]
+    cwd = tempfile.mkdtemp(prefix="f3_judge_")      # empty dir: no project CLAUDE.md in the judge's context
+
+    def one(r):
+        try:
+            text, stop, tin, tout, cost = _cli_one(model, r.q_anon, r.a_anon, cwd)
+            pe, pn, why = _parse(text)
+        except Exception as e:  # noqa: BLE001 - record and move on; a rerun retries nothing parsed as nan
+            text, stop, tin, tout, cost = "", "error", 0, 0, 0.0
+            pe = pn = np.nan
+            why = f"unparsed: {type(e).__name__}"
+        return dict(pair_id=r.pair_id, p_evasive=pe, p_non_answer=pn, reason=why, stop=stop,
+                    in_tok=tin, out_tok=tout, cost_usd=cost)
+
+    with out.open("a") as fh, ThreadPoolExecutor(workers) as ex:
+        for i, row in enumerate(ex.map(one, todo), 1):
+            fh.write(json.dumps(row) + "\n")
+            fh.flush()
+            if i % 50 == 0:
+                print(f"{i}/{len(todo)}", flush=True)
+
+
 def load(model=DEFAULT_MODEL):
     f = G.CACHE / f"llm_judge_{model}.jsonl"
     if not f.exists():
         return None
-    return pd.DataFrame([json.loads(l) for l in f.read_text().splitlines() if l.strip()])
+    df = pd.DataFrame([json.loads(l) for l in f.read_text().splitlines() if l.strip()])
+    return df.drop_duplicates("pair_id", keep="last")
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("mode", choices=["estimate", "run"])
     ap.add_argument("--model", default=DEFAULT_MODEL)
+    ap.add_argument("--backend", choices=["sdk", "cli"], default="sdk")
     a = ap.parse_args()
     if a.mode == "estimate":
         t, mean_in = estimate()
         print(t.round(2).to_string(index=False))
         print(f"mean input tokens per pair ~{mean_in:.0f}")
+    elif a.backend == "cli":
+        run_cli(a.model)
     else:
         run(a.model)

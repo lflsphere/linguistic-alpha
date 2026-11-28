@@ -75,3 +75,13 @@ def test_llm_judge_estimate_and_no_key(tmp_path, monkeypatch):
     with pytest.raises(SystemExit):
         J.run()
     assert J._parse('x {"p_evasive": 0.2, "p_non_answer": 0.9, "reason": "r"} y')[:2] == (0.2, 0.9)
+
+
+def test_llm_judge_load_keeps_last_row(tmp_path, monkeypatch):
+    import json
+    monkeypatch.setattr(J.G, "CACHE", tmp_path)
+    rows = [dict(pair_id="a", p_evasive=float("nan"), p_non_answer=float("nan")),
+            dict(pair_id="a", p_evasive=0.3, p_non_answer=0.1), dict(pair_id="b", p_evasive=0.9, p_non_answer=0.8)]
+    (tmp_path / "llm_judge_m.jsonl").write_text("\n".join(json.dumps(r) for r in rows) + "\n")
+    df = J.load("m").set_index("pair_id")
+    assert len(df) == 2 and df.loc["a", "p_evasive"] == 0.3
