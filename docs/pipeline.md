@@ -264,6 +264,13 @@ one per firm (75 `NS`, the first day of a new security such as a spin-off).
 - **Reaction window** CAR[-1, +1]: any null day sets the control to missing.
 - **Target windows:** missing when valid days are below `targets.min_window_coverage` (0.8);
   the coverage share is stored per event.
+- **Delisting inside a target window** (approved by the user 2026-11-27): `dlyret` on the
+  delisting date already holds the delisting return. On later sessions the proceeds are held
+  in the benchmark, so AR = 0 and the day counts as valid. Dropping these events would remove
+  mostly cash mergers (33 events on the 2026-11-27 run, 6 inside [+2, +20]; `delist_rel` in
+  `processed/targets`). Volatility treats those sessions as missing.
+- **Windows past the data end:** a target window that runs past the last CRSP session
+  (2026-09-30) is missing whatever its coverage, so `car_2_60` is missing for Day 0 from July 2026.
 - **Lookback features** (momentum, `vol_pre`, beta): same 80% valid-day minimum, else missing.
 
 ## Release metrics and interactions
