@@ -1,0 +1,27 @@
+by,cell,target,candidate,n,n_pos,auc
+year,2011,evasive,"E4 rank-mean(L1, T3) (post hoc)",30,4,0.7307692307692307
+year,2012,evasive,"E4 rank-mean(L1, T3) (post hoc)",30,2,0.8214285714285714
+year,2013,evasive,"E4 rank-mean(L1, T3) (post hoc)",30,2,0.7142857142857143
+year,2014,evasive,"E4 rank-mean(L1, T3) (post hoc)",30,3,0.8024691358024691
+year,2015,evasive,"E4 rank-mean(L1, T3) (post hoc)",30,5,0.6599999999999999
+year,2016,evasive,"E4 rank-mean(L1, T3) (post hoc)",33,7,0.7939560439560439
+year,2017,evasive,"E4 rank-mean(L1, T3) (post hoc)",33,7,0.7527472527472527
+year,2018,evasive,"E4 rank-mean(L1, T3) (post hoc)",33,8,0.705
+year,2019,evasive,"E4 rank-mean(L1, T3) (post hoc)",33,4,0.6896551724137931
+year,2020,evasive,"E4 rank-mean(L1, T3) (post hoc)",33,5,0.6714285714285715
+year,2021,evasive,"E4 rank-mean(L1, T3) (post hoc)",33,9,0.8287037037037037
+year,2022,evasive,"E4 rank-mean(L1, T3) (post hoc)",33,5,0.8642857142857143
+year,2023,evasive,"E4 rank-mean(L1, T3) (post hoc)",33,0,
+year,2011,non_answer,C1+C2 combined,30,6,0.9652777777777778
+year,2012,non_answer,C1+C2 combined,30,4,0.798076923076923
+year,2013,non_answer,C1+C2 combined,30,4,0.8846153846153847
+year,2014,non_answer,C1+C2 combined,30,5,0.8880000000000001
+year,2015,non_answer,C1+C2 combined,30,3,1.0
+year,2016,non_answer,C1+C2 combined,33,5,0.7785714285714287
+year,2017,non_answer,C1+C2 combined,33,3,0.9555555555555556
+year,2018,non_answer,C1+C2 combined,33,4,0.7155172413793103
+year,2019,non_answer,C1+C2 combined,33,3,0.8444444444444446
+year,2020,non_answer,C1+C2 combined,33,2,0.8870967741935484
+year,2021,non_answer,C1+C2 combined,33,11,0.7727272727272728
+year,2022,non_answer,C1+C2 combined,33,4,0.9741379310344828
+year,2023,non_answer,C1+C2 combined,33,3,0.07777777777777775

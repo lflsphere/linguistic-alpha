@@ -1,0 +1,23 @@
+by,cell,target,candidate,n,n_pos,auc
+gsector,10,evasive,"E4 rank-mean(L1, T3) (post hoc)",39,1,0.8947368421052632
+gsector,15,evasive,"E4 rank-mean(L1, T3) (post hoc)",39,2,0.7972972972972974
+gsector,20,evasive,"E4 rank-mean(L1, T3) (post hoc)",39,5,0.7
+gsector,25,evasive,"E4 rank-mean(L1, T3) (post hoc)",39,12,0.6358024691358025
+gsector,30,evasive,"E4 rank-mean(L1, T3) (post hoc)",39,4,0.9035714285714287
+gsector,35,evasive,"E4 rank-mean(L1, T3) (post hoc)",39,10,0.603448275862069
+gsector,40,evasive,"E4 rank-mean(L1, T3) (post hoc)",39,4,0.8142857142857143
+gsector,45,evasive,"E4 rank-mean(L1, T3) (post hoc)",39,7,0.7901785714285714
+gsector,50,evasive,"E4 rank-mean(L1, T3) (post hoc)",39,9,0.8
+gsector,55,evasive,"E4 rank-mean(L1, T3) (post hoc)",39,4,0.4857142857142857
+gsector,60,evasive,"E4 rank-mean(L1, T3) (post hoc)",24,3,0.9365079365079365
+gsector,10,non_answer,C1+C2 combined,39,2,0.9594594594594594
+gsector,15,non_answer,C1+C2 combined,39,3,0.9814814814814815
+gsector,20,non_answer,C1+C2 combined,39,7,0.7812499999999999
+gsector,25,non_answer,C1+C2 combined,39,9,0.8296296296296296
+gsector,30,non_answer,C1+C2 combined,39,4,0.7285714285714285
+gsector,35,non_answer,C1+C2 combined,39,8,0.8830645161290323
+gsector,40,non_answer,C1+C2 combined,39,6,0.6969696969696969
+gsector,45,non_answer,C1+C2 combined,39,3,0.75
+gsector,50,non_answer,C1+C2 combined,39,7,0.9196428571428571
+gsector,55,non_answer,C1+C2 combined,39,4,0.6000000000000001
+gsector,60,non_answer,C1+C2 combined,24,4,0.9249999999999999

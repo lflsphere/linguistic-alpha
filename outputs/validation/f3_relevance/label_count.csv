@@ -1,0 +1,5 @@
+target,base_rate,criterion,se_target,n_total_hanley,n_total_bootstrap_scaled,n_more_hanley,n_more_bootstrap,positives_at_n
+evasive,0.1473429951690821,"0.65 vs 0.70, one-sided 5%, 80% power",0.020108586366378446,1600,1168,1186,754,236
+evasive,0.1473429951690821,95% CI half-width 0.05,0.025510204081632654,1000,726,586,312,147
+non_answer,0.13768115942028986,"0.65 vs 0.70, one-sided 5%, 80% power",0.020108586366378446,1700,1593,1286,1179,234
+non_answer,0.13768115942028986,95% CI half-width 0.05,0.025510204081632654,1060,990,646,576,146

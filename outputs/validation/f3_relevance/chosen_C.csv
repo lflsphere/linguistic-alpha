@@ -1,0 +1,25 @@
+,C_by_outer_fold
+"C0 base logit (PAIR_CLF_FEATS, inner-CV C)|evasive","[1.0, 1.0, 1.0, 0.1, 1.0]"
+C1 rich pair features|evasive,"[0.03, 0.3, 0.03, 0.3, 0.1]"
+C2 cross-encoder + NLI scores|evasive,"[0.01, 1.0, 0.1, 1.0, 1.0]"
+C1+C2 combined|evasive,"[0.01, 0.3, 0.03, 1.0, 0.01]"
+L1 rich + NLI decline/number (post hoc)|evasive,"[0.03, 0.1, 0.01, 0.01, 0.03]"
+T1 TF-IDF answer logit|evasive,"[1.0, 3.0, 0.3, 1.0, 0.3]"
+T2 TF-IDF question||answer logit|evasive,"[0.3, 0.3, 3.0, 1.0, 0.3]"
+"T3 MiniLM vectors [Q,A,Q*A,|Q-A|] logit|evasive","[0.001, 0.01, 0.003, 0.01, 0.003]"
+"E1 rank-mean(C1, T3)|evasive",None
+"E2 rank-mean(C1+C2, T3)|evasive",None
+"E3 rank-mean(C1, T1, T3)|evasive",None
+"E4 rank-mean(L1, T3) (post hoc)|evasive",None
+"C0 base logit (PAIR_CLF_FEATS, inner-CV C)|non_answer","[0.3, 0.1, 1.0, 1.0, 1.0]"
+C1 rich pair features|non_answer,"[0.01, 0.01, 0.03, 0.03, 0.03]"
+C2 cross-encoder + NLI scores|non_answer,"[0.01, 0.01, 0.03, 0.01, 0.01]"
+C1+C2 combined|non_answer,"[0.01, 0.01, 0.01, 0.01, 0.01]"
+L1 rich + NLI decline/number (post hoc)|non_answer,"[0.01, 0.03, 0.03, 0.03, 0.01]"
+T1 TF-IDF answer logit|non_answer,"[1.0, 10.0, 10.0, 1.0, 10.0]"
+T2 TF-IDF question||answer logit|non_answer,"[10.0, 10.0, 10.0, 10.0, 10.0]"
+"T3 MiniLM vectors [Q,A,Q*A,|Q-A|] logit|non_answer","[0.003, 0.01, 0.01, 0.003, 0.003]"
+"E1 rank-mean(C1, T3)|non_answer",None
+"E2 rank-mean(C1+C2, T3)|non_answer",None
+"E3 rank-mean(C1, T1, T3)|non_answer",None
+"E4 rank-mean(L1, T3) (post hoc)|non_answer",None
